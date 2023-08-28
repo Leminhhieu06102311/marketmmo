@@ -28,7 +28,7 @@ export default function register() {
 
   return (
     <div className="flex flex-row items-stretch truncate h-screen	 ">
-      <section className="w-450px grow-0 max-lg:hidden  max-md:hidden max-sm:hidden">
+      <section className="w-450px grow-0 max-lg:w-300px max-md:hidden max-sm:hidden">
         <div className="h-full flex flex-col justify-between ">
           <video
             playsInline
@@ -41,12 +41,14 @@ export default function register() {
         </div>
       </section>
       <section className="flex flex-col flex-1 overflow-auto w-full ">
-        <div className=" flex justify-start items-center grow m-0 p-0 m-0 pt-8 pr-16 pl-16 max-sm:pl-0">
+        <div className=" flex justify-start items-center grow m-0 p-0 m-0 pt-8 pr-16 pl-16 max-sm:pl-0 max-md:pl-0 max-lg:pl-10">
           <div className="ml-28  w-full max-w-440 max-sm:max-w-max ">
-            <h2 className="font-bold text-2xl mb-10">Sign up to Market MMO</h2>
+            <h2 className="font-bold text-2xl mb-10 max-sm:text-base">
+              Sign up to Market MMO
+            </h2>
             <div id="content">
               <div className="flex m-0 w-full">
-                <button className="inline-flex items-center justify-center border rounded-lg w-full p-2 h-16 font-normal cursor-pointer bg-black text-white">
+                <button className="inline-flex items-center justify-center border rounded-lg w-full p-2 h-16 font-normal cursor-pointer bg-black text-white max-sm:text-sm">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="18"
@@ -89,7 +91,7 @@ export default function register() {
                 or
                 <hr className="w-5/12" />
               </div>
-              <div className="flex m-0 w-full">
+              <div className="flex m-0 w-full max-sm:text-sm">
                 <button
                   className="inline-flex items-center justify-center border rounded-lg w-full p-2 h-16 font-normal cursor-pointer"
                   onClick={() => {
@@ -102,7 +104,7 @@ export default function register() {
             </div>
             {show && <Modal onClose={() => setShow(false)} />}
 
-            <p className="font-normal text-center mt-5">
+            <p className="font-normal text-center mt-5 max-sm:text-sm">
               Already have an account?{" "}
               <a href="#" className="underline">
                 Sign in

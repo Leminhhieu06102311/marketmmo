@@ -7,7 +7,7 @@ function Modal({ onClose }: ModalProps) {
     <section className="flex flex-col flex-1 overflow-auto w-full truncate ">
       <div className="">
         <button
-          className="flex items-center justify-evenly border rounded-lg text-base w-1/6 h-10 font-bold max-sm:text-sm max-sm:w-1/5"
+          className="flex items-center justify-evenly border rounded-lg text-base w-1/6 h-10 font-bold max-sm:text-xs max-sm:w-1/4  max-lg:w-1/4"
           onClick={() => onClose()}
         >
           <svg
@@ -25,7 +25,7 @@ function Modal({ onClose }: ModalProps) {
           <div className="sm:col-span-3">
             <label
               htmlFor="first-name"
-              className="block text-lg font-bold leading-6 text-gray-900"
+              className="block text-lg font-bold leading-6 text-gray-900 max-sm:text-sm"
             >
               Name
             </label>
@@ -43,7 +43,7 @@ function Modal({ onClose }: ModalProps) {
           <div className="sm:col-span-3">
             <label
               htmlFor="last-name"
-              className="block text-lg font-bold leading-6 text-gray-900"
+              className="block text-lg font-bold leading-6 text-gray-900 max-sm:text-sm"
             >
               User name
             </label>
@@ -61,7 +61,7 @@ function Modal({ onClose }: ModalProps) {
           <div className="sm:col-span-6">
             <label
               htmlFor="email"
-              className="block text-lg font-bold leading-6 text-gray-900"
+              className="block text-lg font-bold leading-6 text-gray-90 max-sm:text-sm"
             >
               Email
             </label>
@@ -78,7 +78,7 @@ function Modal({ onClose }: ModalProps) {
           <div className="sm:col-span-6">
             <label
               htmlFor="password"
-              className="block text-lg font-bold leading-6 text-gray-900"
+              className="block text-lg font-bold leading-6 text-gray-900 max-sm:text-sm"
             >
               Password
             </label>
@@ -91,15 +91,15 @@ function Modal({ onClose }: ModalProps) {
               />
             </div>
           </div>
-          <div className="sm:col-span-6 max-sm:hidden">
-            <div className="mt-2 flex items-stretch justify-around w-full">
+          <div className="sm:col-span-6 ">
+            <div className="mt-2 flex items-stretch justify-around w-full max-sm:max-w-28  ">
               <input
                 id="checkbox"
                 name="checkbox"
                 type="checkbox"
                 className=" h-6 w-6 focus:ring-indigo-600 mt-1.5"
               />{" "}
-              <p className="p-0 m-0 ">
+              <p className="p-0 m-0 whitespace-pre-line w-10/12 ">
                 I agree with{" "}
                 <a href="#" className="underline">
                   Terms of Service
@@ -108,8 +108,7 @@ function Modal({ onClose }: ModalProps) {
                 <a href="#" className="underline">
                   Privacy Policy
                 </a>
-                , and <br />
-                default{" "}
+                , and default{" "}
                 <a href="#" className="underline">
                   Notification Settings
                 </a>
@@ -118,7 +117,7 @@ function Modal({ onClose }: ModalProps) {
             </div>
           </div>
           <div className="sm:col-span-6">
-            <button className="inline-flex items-center justify-center border rounded-lg w-full p-2 h-16 text-base font-normal cursor-pointer bg-black text-white">
+            <button className="inline-flex items-center justify-center border rounded-lg w-full p-2 h-16 text-base font-normal cursor-pointer bg-black text-white max-sm:text-sm">
               Create Account
             </button>
           </div>

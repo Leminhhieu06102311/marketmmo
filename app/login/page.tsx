@@ -1,11 +1,11 @@
 export default function login() {
   return (
     <div className="flex flex-row items-stretch truncate h-screen	 ">
-      <section className="w-450px grow-0 max-lg:hidden  max-md:hidden max-sm:hidden">
+      <section className="w-450px grow-0  max-lg:w-300px max-md:hidden max-sm:hidden">
         <div className="h-full flex flex-col justify-between ">
           <video
             playsInline
-            className="w-full h-full object-cover overflow-clip"
+            className="w-full h-full object-cover overflow-clip "
             src="https://cdn.dribbble.com/uploads/48226/original/b8bd4e4273cceae2889d9d259b04f732.mp4?1689028949"
             autoPlay
             loop
@@ -14,11 +14,13 @@ export default function login() {
         </div>
       </section>
       <section className="flex flex-col flex-1 overflow-auto w-full ">
-        <div className=" flex justify-start items-center grow m-0 p-0 m-0 pt-8 pr-16 pl-16 max-sm:pl-0">
+        <div className=" flex justify-start items-center grow m-0 p-0 m-0 pt-8 pr-16 pl-16 max-sm:pl-0 max-lg:pl-0">
           <div className="ml-28  w-full max-w-440 ">
-            <h2 className="font-bold text-2xl mb-10">Sign in to Market MMO</h2>
-            <div className="flex m-0 w-full">
-              <button className="inline-flex items-center justify-center border rounded-lg w-full p-2 h-16 font-medium cursor-pointer">
+            <h2 className="font-bold text-2xl mb-10 max-sm:text-base">
+              Sign in to Market MMO
+            </h2>
+            <div className="flex m-0 w-full ">
+              <button className="inline-flex items-center justify-center border rounded-lg w-full p-2 h-16 font-medium cursor-pointer max-sm:text-sm max-sm:h-14">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="18"
@@ -56,7 +58,7 @@ export default function login() {
                 Sign in with Google
               </button>
             </div>
-            <div className="flex items-center justify-between mt-6 mb-6 text-zinc-400">
+            <div className="flex items-center justify-between mt-6 mb-6 text-zinc-400 max-sm:text-sm">
               <hr className="w-1/4 " />
               or sign in with email
               <hr className="w-1/4" />
@@ -64,7 +66,10 @@ export default function login() {
             <div>
               <div>
                 <fieldset className="flex flex-col mb-4">
-                  <label htmlFor="" className="mt-3.5 mb-1 font-bold text-base">
+                  <label
+                    htmlFor=""
+                    className="mt-3.5 mb-1 font-bold text-base max-sm:text-sm"
+                  >
                     Username or Email
                   </label>
                   <input
@@ -77,10 +82,13 @@ export default function login() {
                 <fieldset className="flex flex-col mb-4">
                   <label
                     htmlFor=""
-                    className=" flex justify-between mt-3.5 mb-1 font-bold text-base"
+                    className=" flex justify-between mt-3.5 mb-1 font-bold text-base max-sm:text-sm"
                   >
                     Password
-                    <a href="#" className="font-normal underline">
+                    <a
+                      href="#"
+                      className="font-normal underline max-sm:text-sm"
+                    >
                       Forgot?
                     </a>
                   </label>
@@ -94,14 +102,14 @@ export default function login() {
               </div>
               <input
                 type="submit"
-                className="rounded-lg bg-black text-white font-medium w-full h-16 text-base mt-5"
+                className="rounded-lg bg-black text-white font-medium w-full h-16 text-base mt-5 max-sm:text-sm max-sm:h-14"
                 value={"Sign In"}
                 name=""
                 id=""
               />
-              <p className="font-normal text-center mt-5">
+              <p className="font-normal text-center mt-5 max-sm:text-sm">
                 Don't have account?{" "}
-                <a href="#" className="underline">
+                <a href="#" className="underline ">
                   Sign up
                 </a>
               </p>
