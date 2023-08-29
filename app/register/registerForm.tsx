@@ -117,7 +117,7 @@ function Modal({ onClose }: ModalProps) {
             </div>
           </div>
           <div className="sm:col-span-6">
-            <button className="inline-flex items-center justify-center border rounded-lg w-full p-2 h-16 text-base font-normal cursor-pointer bg-black text-white max-sm:text-sm">
+            <button className="inline-flex items-center justify-center border rounded-lg w-full p-2 h-16 text-base font-normal cursor-pointer bg-grn text-white max-sm:text-sm">
               Create Account
             </button>
           </div>

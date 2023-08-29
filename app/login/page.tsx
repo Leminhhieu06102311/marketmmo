@@ -102,7 +102,7 @@ export default function login() {
               </div>
               <input
                 type="submit"
-                className="rounded-lg bg-black text-white font-medium w-full h-16 text-base mt-5 max-sm:text-sm max-sm:h-14"
+                className="rounded-lg bg-grn text-white font-medium w-full h-16 text-base mt-5 max-sm:text-sm max-sm:h-14"
                 value={"Sign In"}
                 name=""
                 id=""

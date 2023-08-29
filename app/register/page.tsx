@@ -48,7 +48,7 @@ export default function register() {
             </h2>
             <div id="content">
               <div className="flex m-0 w-full">
-                <button className="inline-flex items-center justify-center border rounded-lg w-full p-2 h-16 font-normal cursor-pointer bg-black text-white max-sm:text-sm">
+                <button className="inline-flex items-center justify-center border rounded-lg w-full p-2 h-16 font-normal cursor-pointer bg-grn text-white max-sm:text-sm">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="18"
