@@ -14,10 +14,10 @@ const config: Config = {
       },
       maxWidth: {
         "440": "440px",
+        xxs: "23rem",
       },
       colors: {
         primary: "#3861fb",
-        grn: "#21bf73",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

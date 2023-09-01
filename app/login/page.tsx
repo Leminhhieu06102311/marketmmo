@@ -1,11 +1,11 @@
 export default function login() {
   return (
-    <div className="flex flex-row items-stretch truncate h-screen	 ">
-      <section className="w-450px grow-0  max-lg:w-300px max-md:hidden max-sm:hidden">
-        <div className="h-full flex flex-col justify-between ">
+    <div className="flex flex-row lg:m-0 lg:items-stretch truncate lg:h-screen lg:max-w-7xl md:max-w-3xl md:m-auto max-w-xxs mx-auto">
+      <section className="hidden lg:w-450px lg:grow-0 lg:block  ">
+        <div className="lg:h-full lg:flex lg:flex-col lg:justify-between ">
           <video
             playsInline
-            className="w-full h-full object-cover overflow-clip "
+            className="lg:w-full lg:h-full lg:object-cover lg:overflow-clip "
             src="https://cdn.dribbble.com/uploads/48226/original/b8bd4e4273cceae2889d9d259b04f732.mp4?1689028949"
             autoPlay
             loop
@@ -13,14 +13,14 @@ export default function login() {
           ></video>
         </div>
       </section>
-      <section className="flex flex-col flex-1 overflow-auto w-full ">
-        <div className=" flex justify-start items-center grow m-0 p-0 m-0 pt-8 pr-16 pl-16 max-sm:pl-0 max-lg:pl-0">
-          <div className="ml-28  w-full max-w-440 ">
-            <h2 className="font-bold text-2xl mb-10 max-sm:text-base">
-              Sign in to Market MMO
+      <section className="flex flex-col flex-1 overflow-auto w-full  ">
+        <div className=" flex justify-center items-center grow m-0 p-0 m-0 pt-8  ">
+          <div className="lg:ml-28  w-full max-w-440 ">
+            <h2 className="font-bold md:text-2xl mb-10 text-base">
+              Đăng nhập Market MMO
             </h2>
             <div className="flex m-0 w-full ">
-              <button className="inline-flex items-center justify-center border rounded-lg w-full p-2 h-16 font-medium cursor-pointer max-sm:text-sm max-sm:h-14">
+              <button className="inline-flex items-center justify-center border rounded-full w-full pt-2 pb-2 md:h-16 md:text-base font-medium cursor-pointer text-sm h-14">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="18"
@@ -55,22 +55,22 @@ export default function login() {
                     fill="#EA4335"
                   ></path>
                 </svg>
-                Sign in with Google
+                Đăng nhập với Google
               </button>
             </div>
-            <div className="flex items-center justify-between mt-6 mb-6 text-zinc-400 max-sm:text-sm">
-              <hr className="w-1/4 " />
-              or sign in with email
-              <hr className="w-1/4" />
+            <div className="flex items-center font-light justify-between mt-6 mb-6 text-zinc-400 text-sm md:text-base">
+              <hr className="w-1/5 " />
+              hoặc đăng nhập với Email
+              <hr className="w-1/5" />
             </div>
             <div>
               <div>
                 <fieldset className="flex flex-col mb-4">
                   <label
                     htmlFor=""
-                    className="mt-3.5 mb-1 font-bold text-base max-sm:text-sm"
+                    className="mt-3.5 mb-1 font-semibold md:text-base text-sm"
                   >
-                    Username or Email
+                    Email
                   </label>
                   <input
                     type="text"
@@ -82,14 +82,11 @@ export default function login() {
                 <fieldset className="flex flex-col mb-4">
                   <label
                     htmlFor=""
-                    className=" flex justify-between mt-3.5 mb-1 font-bold text-base max-sm:text-sm"
+                    className=" flex justify-between mt-3.5 mb-1 md:text-base text-sm font-semibold"
                   >
-                    Password
-                    <a
-                      href="#"
-                      className="font-normal underline max-sm:text-sm"
-                    >
-                      Forgot?
+                    Mật khẩu
+                    <a href="#" className="font-normal underline text-sm">
+                      Quên mật khẩu?
                     </a>
                   </label>
                   <input
@@ -102,15 +99,15 @@ export default function login() {
               </div>
               <input
                 type="submit"
-                className="rounded-lg bg-grn text-white font-medium w-full h-16 text-base mt-5 max-sm:text-sm max-sm:h-14"
-                value={"Sign In"}
+                className="rounded-full bg-primary text-white font-medium w-full md:h-16 md:text-base mt-5 text-sm h-14"
+                value={"Đăng nhập"}
                 name=""
                 id=""
               />
-              <p className="font-normal text-center mt-5 max-sm:text-sm">
-                Don't have account?{" "}
+              <p className="font-normal text-center mt-5 text-sm">
+                Chưa có tài khoản?{" "}
                 <a href="#" className="underline ">
-                  Sign up
+                  Đăng ký ngay
                 </a>
               </p>
             </div>

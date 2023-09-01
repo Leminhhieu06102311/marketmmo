@@ -27,12 +27,12 @@ export default function register() {
   }, [show]);
 
   return (
-    <div className="flex flex-row items-stretch truncate h-screen	 ">
-      <section className="w-450px grow-0 max-lg:w-300px max-md:hidden max-sm:hidden">
-        <div className="h-full flex flex-col justify-between ">
+    <div className="flex flex-row items-stretch truncate h-screen	lg:max-w-7xl md:max-w-3xl md:m-auto max-w-xxs mx-auto lg:m-0">
+      <section className="lg:w-450px lg:grow-0 hidden lg:block">
+        <div className="lg:h-full lg:flex lg:flex-col lg:justify-between ">
           <video
             playsInline
-            className="w-full h-full object-cover overflow-clip"
+            className="lg:w-full lg:h-full lg:object-cover lg:overflow-clip"
             src="https://cdn.dribbble.com/uploads/48292/original/30fd1f7b63806eff4db0d4276eb1ac45.mp4?1689187515"
             autoPlay
             loop
@@ -41,14 +41,14 @@ export default function register() {
         </div>
       </section>
       <section className="flex flex-col flex-1 overflow-auto w-full ">
-        <div className=" flex justify-start items-center grow m-0 p-0 m-0 pt-8 pr-16 pl-16 max-sm:pl-0 max-md:pl-0 max-lg:pl-10">
-          <div className="ml-28  w-full max-w-440 max-sm:max-w-max ">
-            <h2 className="font-bold text-2xl mb-10 max-sm:text-base">
-              Sign up to Market MMO
+        <div className=" flex justify-center items-center grow m-0 p-0 m-0 pt-8 lg:pl-10 ">
+          <div className="lg:ml-28  w-full max-w-440  ">
+            <h2 className="font-bold md:text-2xl mb-4 text-base">
+              Đăng ký Market MMO
             </h2>
             <div id="content">
-              <div className="flex m-0 w-full">
-                <button className="inline-flex items-center justify-center border rounded-lg w-full p-2 h-16 font-normal cursor-pointer bg-grn text-white max-sm:text-sm">
+              <div className="flex m-0 w-full justify-center mt-8">
+                <button className="inline-flex items-center justify-center border rounded-full w-full  p-2 h-16 font-medium cursor-pointer bg-primary text-white text-sm md:text-base">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="18"
@@ -83,31 +83,31 @@ export default function register() {
                       fill="#EA4335"
                     ></path>
                   </svg>
-                  Sign up with Google
+                  Đăng ký với Google
                 </button>
               </div>
-              <div className="flex items-center justify-between mt-6 mb-6 text-zinc-400">
+              <div className="flex items-center font-light justify-between mt-6 mb-6 text-zinc-400 w-10/12 m-auto md:w-full">
                 <hr className="w-5/12 " />
-                or
+                hoặc
                 <hr className="w-5/12" />
               </div>
-              <div className="flex m-0 w-full max-sm:text-sm">
+              <div className="flex m-0 w-full justify-center text-sm md:text-base">
                 <button
-                  className="inline-flex items-center justify-center border rounded-lg w-full p-2 h-16 font-normal cursor-pointer"
+                  className="inline-flex items-center justify-center border rounded-full w-full  p-2 h-16 font-medium cursor-pointer"
                   onClick={() => {
                     handleShow();
                   }}
                 >
-                  Continue with email
+                  Tiếp tục với Email
                 </button>
               </div>
             </div>
             {show && <Modal onClose={() => setShow(false)} />}
 
-            <p className="font-normal text-center mt-5 max-sm:text-sm">
-              Already have an account?{" "}
+            <p className="font-normal text-center mt-5 text-sm md:text-base">
+              Đã có tài khoản?{" "}
               <a href="#" className="underline">
-                Sign in
+                Đăng nhập
               </a>
             </p>
           </div>
