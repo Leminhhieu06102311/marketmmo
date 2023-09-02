@@ -28,13 +28,13 @@ function Modal({ onClose }: ModalProps) {
             >
               Tên tài khoản
             </label>
-            <div className="mt-2">
+            <div className="mt-2 pl-0.5 pr-0.5">
               <input
                 type="text"
                 name="last-name"
                 id="last-name"
                 autoComplete="family-name"
-                className="block w-full rounded-lg h-10 bg-gray-100 hover:bg-white hover:border hover:transition hover:duration-30 hover:shadow-xl hover:shadow-slate-100 focus:shadow-xl focus:shadow-slate-100 focus:outline-none pl-4 focus:bg-white focus:border "
+                className="block rounded-lg w-full h-14 hover:bg-white border border-2 hover:transition hover:duration-300 hover:ring hover:ring-pink-100 focus:ring focus:ring-pink-100 focus:outline-none pl-4 focus:bg-white "
               />
             </div>
           </div>
@@ -46,45 +46,45 @@ function Modal({ onClose }: ModalProps) {
             >
               Email
             </label>
-            <div className="mt-2">
+            <div className="mt-2 pl-0.5 pr-0.5">
               <input
                 id="email"
                 name="email"
                 type="email"
                 autoComplete="email"
-                className="block w-full rounded-lg h-10 bg-gray-100 hover:bg-white hover:border hover:transition hover:duration-30 hover:shadow-xl hover:shadow-slate-100 focus:shadow-xl focus:shadow-slate-100 focus:outline-none pl-4 focus:bg-white focus:border "
+                className="block rounded-lg w-full h-14 hover:bg-white border border-2 hover:transition hover:duration-300 hover:ring hover:ring-pink-100 focus:ring focus:ring-pink-100 focus:outline-none pl-4 focus:bg-white "
               />
             </div>
           </div>
-          <div className="col-span-6">
+          <div className="col-span-3">
             <label
               htmlFor="password"
               className="block md:text-base font-semibold leading-6 text-gray-900 text-sm"
             >
               Mật khẩu
             </label>
-            <div className="mt-2">
+            <div className="mt-2 pl-0.5 pr-0.5">
               <input
                 id="password"
                 name="password"
                 type="password"
-                className="block w-full rounded-lg h-10 bg-gray-100 hover:bg-white hover:border hover:transition hover:duration-30 hover:shadow-xl hover:shadow-slate-100 focus:shadow-xl focus:shadow-slate-100 focus:outline-none pl-4 focus:bg-white focus:border "
+                className="block rounded-lg w-full h-14 hover:bg-white border border-2 hover:transition hover:duration-300 hover:ring hover:ring-pink-100 focus:ring focus:ring-pink-100 focus:outline-none pl-4 focus:bg-white "
               />
             </div>
           </div>
-          <div className="col-span-6">
+          <div className="col-span-3">
             <label
               htmlFor="password"
               className="block md:text-base font-semibold leading-6 text-gray-900 text-sm"
             >
               Nhập lại mật khẩu
             </label>
-            <div className="mt-2">
+            <div className="mt-2 pl-0.5 pr-0.5">
               <input
                 id="password"
                 name="password"
                 type="password"
-                className="block w-full rounded-lg h-10 bg-gray-100 hover:bg-white hover:border hover:transition hover:duration-30 hover:shadow-xl hover:shadow-slate-100 focus:shadow-xl focus:shadow-slate-100 focus:outline-none pl-4 focus:bg-white focus:border "
+                className="block rounded-lg w-full h-14 hover:bg-white border border-2 hover:transition hover:duration-300 hover:ring hover:ring-pink-100 focus:ring focus:ring-pink-100 focus:outline-none pl-4 focus:bg-white "
               />
             </div>
           </div>
@@ -110,7 +110,7 @@ function Modal({ onClose }: ModalProps) {
             </div>
           </div>
           <div className="col-span-6">
-            <button className="inline-flex items-center justify-center border rounded-full w-full p-2 h-16 md:text-base font-medium cursor-pointer bg-primary text-white text-sm">
+            <button className="inline-flex items-center justify-center border rounded-full w-full p-2 h-16 md:text-base font-medium cursor-pointer bg-primary text-white text-sm hover:bg-blue-500">
               Tạo tài khoản
             </button>
           </div>

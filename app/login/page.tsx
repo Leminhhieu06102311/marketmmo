@@ -20,7 +20,7 @@ export default function login() {
               Đăng nhập Market MMO
             </h2>
             <div className="flex m-0 w-full ">
-              <button className="inline-flex items-center justify-center border rounded-full w-full pt-2 pb-2 md:h-16 md:text-base font-medium cursor-pointer text-sm h-14">
+              <button className="inline-flex items-center justify-center border rounded-full w-full pt-2 pb-2  md:text-base font-medium cursor-pointer text-sm h-14 ">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="18"
@@ -74,7 +74,7 @@ export default function login() {
                   </label>
                   <input
                     type="text"
-                    className="rounded-lg h-10 bg-gray-100 hover:bg-white hover:border hover:transition hover:duration-30 hover:shadow-xl hover:shadow-slate-100 focus:shadow-xl focus:shadow-slate-100 focus:outline-none pl-4 focus:bg-white focus:border   "
+                    className="rounded-lg h-14  hover:bg-white border border-2 hover:transition hover:duration-30 hover:ring hover:ring-pink-100 focus:ring focus:ring-pink-100 focus:outline-none pl-4     "
                     name=""
                     id=""
                   />
@@ -91,7 +91,7 @@ export default function login() {
                   </label>
                   <input
                     type="text"
-                    className="rounded-lg h-10 bg-gray-100 hover:bg-white hover:border hover:transition hover:duration-30 hover:shadow-xl hover:shadow-slate-100 focus:shadow-xl focus:shadow-slate-100 focus:outline-none pl-4 focus:bg-white focus:border   "
+                    className="rounded-lg h-14  hover:bg-white border border-2 hover:transition hover:duration-30 hover:ring hover:ring-pink-100 focus:ring focus:ring-pink-100 focus:outline-none pl-4     "
                     name=""
                     id=""
                   />
@@ -99,7 +99,7 @@ export default function login() {
               </div>
               <input
                 type="submit"
-                className="rounded-full bg-primary text-white font-medium w-full md:h-16 md:text-base mt-5 text-sm h-14"
+                className="rounded-full bg-primary text-white font-medium w-full md:text-base mt-5 text-sm h-14  hover:bg-blue-500"
                 value={"Đăng nhập"}
                 name=""
                 id=""

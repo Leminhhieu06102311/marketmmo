@@ -41,14 +41,14 @@ export default function register() {
         </div>
       </section>
       <section className="flex flex-col flex-1 overflow-auto w-full ">
-        <div className=" flex justify-center items-center grow m-0 p-0 m-0 pt-8 lg:pl-10 ">
-          <div className="lg:ml-28  w-full max-w-440  ">
+        <div className=" flex justify-center items-center grow m-0 p-0 m-0 pt-8 lg:pl-10">
+          <div className="lg:ml-28  w-full max-w-440 ">
             <h2 className="font-bold md:text-2xl mb-4 text-base">
               Đăng ký Market MMO
             </h2>
             <div id="content">
               <div className="flex m-0 w-full justify-center mt-8">
-                <button className="inline-flex items-center justify-center border rounded-full w-full  p-2 h-16 font-medium cursor-pointer bg-primary text-white text-sm md:text-base">
+                <button className="inline-flex items-center justify-center rounded-full w-full  pl-2 pr-2 h-14 font-medium cursor-pointer bg-primary text-white text-sm md:text-base  hover:bg-blue-500">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="18"
@@ -93,7 +93,7 @@ export default function register() {
               </div>
               <div className="flex m-0 w-full justify-center text-sm md:text-base">
                 <button
-                  className="inline-flex items-center justify-center border rounded-full w-full  p-2 h-16 font-medium cursor-pointer"
+                  className="inline-flex items-center justify-center border rounded-full w-full  pl-2 pr-2 h-14 font-medium cursor-pointer"
                   onClick={() => {
                     handleShow();
                   }}
