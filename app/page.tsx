@@ -88,7 +88,7 @@ export default function Home() {
           >
             <SwiperSlide>
               <div className="flex justify-between items-center">
-                <h2 className="text-lg font-bold">🔥 Danh sách sản phẩm</h2>
+                <h2 className="text-lg font-bold"><span className="text-2xl">🔥</span> Danh sách sản phẩm</h2>
                 <p className="text-primary text-xs font-bold">
                   <span>More</span> <FontAwesomeIcon icon={faCaretRight} />
                 </p>
@@ -96,7 +96,7 @@ export default function Home() {
               <ul className="ml-5">
                 <li className="font-medium text-base justify-between py-2 flex items-center">
                   <div className="gap-3 flex items-center">
-                    <span className="text-slate-500">1</span>
+                    <span className="text-slate-500 text-sm">1</span>
                     <div>
                       <Image
                         src="/images/slide/lt.png"
@@ -114,7 +114,7 @@ export default function Home() {
                 </li>
                 <li className="font-medium text-base justify-between py-2 flex items-center">
                   <div className="gap-3 flex items-center">
-                    <span className="text-slate-500">2</span>
+                    <span className="text-slate-500 text-sm">2</span>
                     <div>
                       <Image
                         src="/images/slide/btc.png"
@@ -132,7 +132,7 @@ export default function Home() {
                 </li>
                 <li className="font-medium text-base justify-between py-2 flex items-center">
                   <div className="gap-3 flex items-center">
-                    <span className="text-slate-500">3</span>
+                    <span className="text-slate-500 text-sm">3</span>
                     <div>
                       <Image
                         src="/images/slide/bnb.png"
@@ -153,7 +153,7 @@ export default function Home() {
             </SwiperSlide>
             <SwiperSlide>
               <div className="flex justify-between items-center">
-                <h2 className="text-lg font-bold">🔥 Danh sách dịch vụ</h2>
+                <h2 className="text-lg font-bold"><span className="text-2xl">⭐️</span> Danh sách dịch vụ</h2>
                 <p className="text-primary text-xs font-bold">
                   <span>More</span> <FontAwesomeIcon icon={faCaretRight} />
                 </p>
@@ -161,7 +161,7 @@ export default function Home() {
               <ul className="ml-5">
                 <li className="font-medium text-base justify-between py-2 flex items-center">
                   <div className="gap-3 flex items-center">
-                    <span className="text-slate-500">1</span>
+                    <span className="text-slate-500 text-sm">1</span>
                     <div>
                       <Image
                         src="/images/slide/lt.png"
@@ -179,7 +179,7 @@ export default function Home() {
                 </li>
                 <li className="font-medium text-base justify-between py-2 flex items-center">
                   <div className="gap-3 flex items-center">
-                    <span className="text-slate-500">2</span>
+                    <span className="text-slate-500 text-sm">2</span>
                     <div>
                       <Image
                         src="/images/slide/btc.png"
@@ -197,7 +197,7 @@ export default function Home() {
                 </li>
                 <li className="font-medium text-base justify-between py-2 flex items-center">
                   <div className="gap-3 flex items-center">
-                    <span className="text-slate-500">3</span>
+                    <span className="text-slate-500 text-sm">3</span>
                     <div>
                       <Image
                         src="/images/slide/bnb.png"
@@ -221,7 +221,7 @@ export default function Home() {
         <div className="gap-3 hidden md:flex lg:flex w-full">
           <div className="p-2 box-shadow bg-white rounded-md w-full">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-bold">🔥 Danh sách sản phẩm</h2>
+              <h2 className="text-lg font-bold"><span className="text-2xl">🔥</span> Danh sách sản phẩm</h2>
               <p className="text-primary text-xs font-bold">
                 <span>More</span> <FontAwesomeIcon icon={faCaretRight} />
               </p>
@@ -229,7 +229,7 @@ export default function Home() {
             <ul className="ml-5">
               <li className="font-medium text-base justify-between py-2 flex items-center">
                 <div className="gap-3 flex items-center">
-                  <span className="text-slate-500">1</span>
+                  <span className="text-slate-500 text-sm">1</span>
                   <div>
                     <Image
                       src="/images/slide/lt.png"
@@ -247,7 +247,7 @@ export default function Home() {
               </li>
               <li className="font-medium text-base justify-between py-2 flex items-center">
                 <div className="gap-3 flex items-center">
-                  <span className="text-slate-500">2</span>
+                  <span className="text-slate-500 text-sm">2</span>
                   <div>
                     <Image
                       src="/images/slide/btc.png"
@@ -265,7 +265,7 @@ export default function Home() {
               </li>
               <li className="font-medium text-base justify-between py-2 flex items-center">
                 <div className="gap-3 flex items-center">
-                  <span className="text-slate-500">3</span>
+                  <span className="text-slate-500 text-sm">3</span>
                   <div>
                     <Image
                       src="/images/slide/bnb.png"
@@ -285,7 +285,7 @@ export default function Home() {
           </div>
           <div className="p-2 box-shadow bg-white rounded-md w-full">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-bold">🔥 Danh sách sản phẩm</h2>
+              <h2 className="text-lg font-bold"><span className="text-2xl">⭐️</span> Danh sách dịch vụ</h2>
               <p className="text-primary text-xs font-bold">
                 <span>More</span> <FontAwesomeIcon icon={faCaretRight} />
               </p>
@@ -293,7 +293,7 @@ export default function Home() {
             <ul className="ml-5">
               <li className="font-medium text-base justify-between py-2 flex items-center">
                 <div className="gap-3 flex items-center">
-                  <span className="text-slate-500">1</span>
+                  <span className="text-slate-500 text-sm">1</span>
                   <div>
                     <Image
                       src="/images/slide/lt.png"
@@ -303,7 +303,7 @@ export default function Home() {
                       className="rounded-full"
                     />
                   </div>
-                  <p className="text-sm font-bold">Tài khoản</p>
+                  <p className="text-sm font-bold">Giao dịch trung gian</p>
                 </div>
                 <button className="py-2 px-3 bg-[#eff2f5] rounded-md text-xs font-bold">
                   Xem ngay
@@ -311,7 +311,7 @@ export default function Home() {
               </li>
               <li className="font-medium text-base justify-between py-2 flex items-center">
                 <div className="gap-3 flex items-center">
-                  <span className="text-slate-500">2</span>
+                  <span className="text-slate-500 text-sm">2</span>
                   <div>
                     <Image
                       src="/images/slide/btc.png"
@@ -321,7 +321,7 @@ export default function Home() {
                       className="rounded-full"
                     />
                   </div>
-                  <p className="text-sm font-bold">Phần mềm</p>
+                  <p className="text-sm font-bold">Mạng xã hội</p>
                 </div>
                 <button className="py-2 px-3 bg-[#eff2f5] rounded-md text-xs font-bold">
                   Xem ngay
@@ -329,7 +329,7 @@ export default function Home() {
               </li>
               <li className="font-medium text-base justify-between py-2 flex items-center">
                 <div className="gap-3 flex items-center">
-                  <span className="text-slate-500">3</span>
+                  <span className="text-slate-500 text-sm">3</span>
                   <div>
                     <Image
                       src="/images/slide/bnb.png"
@@ -396,499 +396,15 @@ export default function Home() {
             </div>
           </div>
           {/* Products */}
-          <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 ">
+          <div className="grid xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-3 ">
             <Link href="">
-              <div className="transition ease-in-out delay-150 m-2 rounded-xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-300 ">
+              <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl box-shadow-product hover:-translate-y-3 hover:shadow-hover  duration-300 ">
                 <Image
-                  src="/images/detail-category/1.png"
+                  src="/images/product/1.webp"
                   alt=""
                   width={0}
                   height={0}
-                  className="w-full rounded-t-xl"
-                  sizes="100vh"
-                ></Image>
-                <div className="p-3">
-                  <div className=" w-full line-clamp-1 overflow-hidden">
-                    <p className="w-full font-bold">
-                      ArtBlocks: Lorem ipsum dolor sit amet, consectetur
-                      adipisicing elit. Hic, atque.
-                    </p>
-                  </div>
-                  <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                    <span className="mr-1 text-gray-900">
-                      <FontAwesomeIcon
-                        icon={faFontAwesome}
-                        width={12}
-                        height={12}
-                      />
-                    </span>
-                    <span>Etherium</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <div className="my-1">
-                      <h4 className="text-xs font-bold text-gray-500">
-                        Starts
-                      </h4>
-                      <span className="my-2 text-base font-bold">Aug 22</span>
-                    </div>
-                    <div className="my-1">
-                      <h4 className=" text-xs font-bold text-gray-500">
-                        Mint Price
-                      </h4>
-                      <span className="my-2 text-base font-bold">0.01 ETH</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            <Link href="">
-              <div className="transition ease-in-out delay-150 m-2 rounded-xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-300 ">
-                <Image
-                  src="/images/detail-category/1.png"
-                  alt=""
-                  width={0}
-                  height={0}
-                  className="w-full rounded-t-xl"
-                  sizes="100vh"
-                ></Image>
-                <div className="p-3">
-                  <div className=" w-full line-clamp-1 overflow-hidden">
-                    <p className="w-full font-bold">
-                      ArtBlocks: Lorem ipsum dolor sit amet, consectetur
-                      adipisicing elit. Hic, atque.
-                    </p>
-                  </div>
-                  <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                    <span className="mr-1 text-gray-900">
-                      <FontAwesomeIcon
-                        icon={faFontAwesome}
-                        width={12}
-                        height={12}
-                      />
-                    </span>
-                    <span>Etherium</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <div className="my-1">
-                      <h4 className="text-xs font-bold text-gray-500">
-                        Starts
-                      </h4>
-                      <span className="my-2 text-base font-bold">Aug 22</span>
-                    </div>
-                    <div className="my-1">
-                      <h4 className=" text-xs font-bold text-gray-500">
-                        Mint Price
-                      </h4>
-                      <span className="my-2 text-base font-bold">0.01 ETH</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            <Link href="">
-              <div className="transition ease-in-out delay-150 m-2 rounded-xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-300 ">
-                <Image
-                  src="/images/detail-category/1.png"
-                  alt=""
-                  width={0}
-                  height={0}
-                  className="w-full rounded-t-xl"
-                  sizes="100vh"
-                ></Image>
-                <div className="p-3">
-                  <div className=" w-full line-clamp-1 overflow-hidden">
-                    <p className="w-full font-bold">
-                      ArtBlocks: Lorem ipsum dolor sit amet, consectetur
-                      adipisicing elit. Hic, atque.
-                    </p>
-                  </div>
-                  <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                    <span className="mr-1 text-gray-900">
-                      <FontAwesomeIcon
-                        icon={faFontAwesome}
-                        width={12}
-                        height={12}
-                      />
-                    </span>
-                    <span>Etherium</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <div className="my-1">
-                      <h4 className="text-xs font-bold text-gray-500">
-                        Starts
-                      </h4>
-                      <span className="my-2 text-base font-bold">Aug 22</span>
-                    </div>
-                    <div className="my-1">
-                      <h4 className=" text-xs font-bold text-gray-500">
-                        Mint Price
-                      </h4>
-                      <span className="my-2 text-base font-bold">0.01 ETH</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            <Link href="">
-              <div className="transition ease-in-out delay-150 m-2 rounded-xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-300 ">
-                <Image
-                  src="/images/detail-category/1.png"
-                  alt=""
-                  width={0}
-                  height={0}
-                  className="w-full rounded-t-xl"
-                  sizes="100vh"
-                ></Image>
-                <div className="p-3">
-                  <div className=" w-full line-clamp-1 overflow-hidden">
-                    <p className="w-full font-bold">
-                      ArtBlocks: Lorem ipsum dolor sit amet, consectetur
-                      adipisicing elit. Hic, atque.
-                    </p>
-                  </div>
-                  <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                    <span className="mr-1 text-gray-900">
-                      <FontAwesomeIcon
-                        icon={faFontAwesome}
-                        width={12}
-                        height={12}
-                      />
-                    </span>
-                    <span>Etherium</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <div className="my-1">
-                      <h4 className="text-xs font-bold text-gray-500">
-                        Starts
-                      </h4>
-                      <span className="my-2 text-base font-bold">Aug 22</span>
-                    </div>
-                    <div className="my-1">
-                      <h4 className=" text-xs font-bold text-gray-500">
-                        Mint Price
-                      </h4>
-                      <span className="my-2 text-base font-bold">0.01 ETH</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            <Link href="">
-              <div className="transition ease-in-out delay-150 m-2 rounded-xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-300 ">
-                <Image
-                  src="/images/detail-category/1.png"
-                  alt=""
-                  width={0}
-                  height={0}
-                  className="w-full rounded-t-xl"
-                  sizes="100vh"
-                ></Image>
-                <div className="p-3">
-                  <div className=" w-full line-clamp-1 overflow-hidden">
-                    <p className="w-full font-bold">
-                      ArtBlocks: Lorem ipsum dolor sit amet, consectetur
-                      adipisicing elit. Hic, atque.
-                    </p>
-                  </div>
-                  <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                    <span className="mr-1 text-gray-900">
-                      <FontAwesomeIcon
-                        icon={faFontAwesome}
-                        width={12}
-                        height={12}
-                      />
-                    </span>
-                    <span>Etherium</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <div className="my-1">
-                      <h4 className="text-xs font-bold text-gray-500">
-                        Starts
-                      </h4>
-                      <span className="my-2 text-base font-bold">Aug 22</span>
-                    </div>
-                    <div className="my-1">
-                      <h4 className=" text-xs font-bold text-gray-500">
-                        Mint Price
-                      </h4>
-                      <span className="my-2 text-base font-bold">0.01 ETH</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            <Link href="">
-              <div className="transition ease-in-out delay-150 m-2 rounded-xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-300 ">
-                <Image
-                  src="/images/detail-category/1.png"
-                  alt=""
-                  width={0}
-                  height={0}
-                  className="w-full rounded-t-xl"
-                  sizes="100vh"
-                ></Image>
-                <div className="p-3">
-                  <div className=" w-full line-clamp-1 overflow-hidden">
-                    <p className="w-full font-bold">
-                      ArtBlocks: Lorem ipsum dolor sit amet, consectetur
-                      adipisicing elit. Hic, atque.
-                    </p>
-                  </div>
-                  <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                    <span className="mr-1 text-gray-900">
-                      <FontAwesomeIcon
-                        icon={faFontAwesome}
-                        width={12}
-                        height={12}
-                      />
-                    </span>
-                    <span>Etherium</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <div className="my-1">
-                      <h4 className="text-xs font-bold text-gray-500">
-                        Starts
-                      </h4>
-                      <span className="my-2 text-base font-bold">Aug 22</span>
-                    </div>
-                    <div className="my-1">
-                      <h4 className=" text-xs font-bold text-gray-500">
-                        Mint Price
-                      </h4>
-                      <span className="my-2 text-base font-bold">0.01 ETH</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            <Link href="">
-              <div className="transition ease-in-out delay-150 m-2 rounded-xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-300 ">
-                <Image
-                  src="/images/detail-category/1.png"
-                  alt=""
-                  width={0}
-                  height={0}
-                  className="w-full rounded-t-xl"
-                  sizes="100vh"
-                ></Image>
-                <div className="p-3">
-                  <div className=" w-full line-clamp-1 overflow-hidden">
-                    <p className="w-full font-bold">
-                      ArtBlocks: Lorem ipsum dolor sit amet, consectetur
-                      adipisicing elit. Hic, atque.
-                    </p>
-                  </div>
-                  <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                    <span className="mr-1 text-gray-900">
-                      <FontAwesomeIcon
-                        icon={faFontAwesome}
-                        width={12}
-                        height={12}
-                      />
-                    </span>
-                    <span>Etherium</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <div className="my-1">
-                      <h4 className="text-xs font-bold text-gray-500">
-                        Starts
-                      </h4>
-                      <span className="my-2 text-base font-bold">Aug 22</span>
-                    </div>
-                    <div className="my-1">
-                      <h4 className=" text-xs font-bold text-gray-500">
-                        Mint Price
-                      </h4>
-                      <span className="my-2 text-base font-bold">0.01 ETH</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            <Link href="">
-              <div className="transition ease-in-out delay-150 m-2 rounded-xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-300 ">
-                <Image
-                  src="/images/detail-category/1.png"
-                  alt=""
-                  width={0}
-                  height={0}
-                  className="w-full rounded-t-xl"
-                  sizes="100vh"
-                ></Image>
-                <div className="p-3">
-                  <div className=" w-full line-clamp-1 overflow-hidden">
-                    <p className="w-full font-bold">
-                      ArtBlocks: Lorem ipsum dolor sit amet, consectetur
-                      adipisicing elit. Hic, atque.
-                    </p>
-                  </div>
-                  <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                    <span className="mr-1 text-gray-900">
-                      <FontAwesomeIcon
-                        icon={faFontAwesome}
-                        width={12}
-                        height={12}
-                      />
-                    </span>
-                    <span>Etherium</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <div className="my-1">
-                      <h4 className="text-xs font-bold text-gray-500">
-                        Starts
-                      </h4>
-                      <span className="my-2 text-base font-bold">Aug 22</span>
-                    </div>
-                    <div className="my-1">
-                      <h4 className=" text-xs font-bold text-gray-500">
-                        Mint Price
-                      </h4>
-                      <span className="my-2 text-base font-bold">0.01 ETH</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            <Link href="">
-              <div className="transition ease-in-out delay-150 m-2 rounded-xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-300 ">
-                <Image
-                  src="/images/detail-category/1.png"
-                  alt=""
-                  width={0}
-                  height={0}
-                  className="w-full rounded-t-xl"
-                  sizes="100vh"
-                ></Image>
-                <div className="p-3">
-                  <div className=" w-full line-clamp-1 overflow-hidden">
-                    <p className="w-full font-bold">
-                      ArtBlocks: Lorem ipsum dolor sit amet, consectetur
-                      adipisicing elit. Hic, atque.
-                    </p>
-                  </div>
-                  <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                    <span className="mr-1 text-gray-900">
-                      <FontAwesomeIcon
-                        icon={faFontAwesome}
-                        width={12}
-                        height={12}
-                      />
-                    </span>
-                    <span>Etherium</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <div className="my-1">
-                      <h4 className="text-xs font-bold text-gray-500">
-                        Starts
-                      </h4>
-                      <span className="my-2 text-base font-bold">Aug 22</span>
-                    </div>
-                    <div className="my-1">
-                      <h4 className=" text-xs font-bold text-gray-500">
-                        Mint Price
-                      </h4>
-                      <span className="my-2 text-base font-bold">0.01 ETH</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            <Link href="">
-              <div className="transition ease-in-out delay-150 m-2 rounded-xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-300 ">
-                <Image
-                  src="/images/detail-category/1.png"
-                  alt=""
-                  width={0}
-                  height={0}
-                  className="w-full rounded-t-xl"
-                  sizes="100vh"
-                ></Image>
-                <div className="p-3">
-                  <div className=" w-full line-clamp-1 overflow-hidden">
-                    <p className="w-full font-bold">
-                      ArtBlocks: Lorem ipsum dolor sit amet, consectetur
-                      adipisicing elit. Hic, atque.
-                    </p>
-                  </div>
-                  <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                    <span className="mr-1 text-gray-900">
-                      <FontAwesomeIcon
-                        icon={faFontAwesome}
-                        width={12}
-                        height={12}
-                      />
-                    </span>
-                    <span>Etherium</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <div className="my-1">
-                      <h4 className="text-xs font-bold text-gray-500">
-                        Starts
-                      </h4>
-                      <span className="my-2 text-base font-bold">Aug 22</span>
-                    </div>
-                    <div className="my-1">
-                      <h4 className=" text-xs font-bold text-gray-500">
-                        Mint Price
-                      </h4>
-                      <span className="my-2 text-base font-bold">0.01 ETH</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            <Link href="">
-              <div className="transition ease-in-out delay-150 m-2 rounded-xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-300 ">
-                <Image
-                  src="/images/detail-category/1.png"
-                  alt=""
-                  width={0}
-                  height={0}
-                  className="w-full rounded-t-xl"
-                  sizes="100vh"
-                ></Image>
-                <div className="p-3">
-                  <div className=" w-full line-clamp-1 overflow-hidden">
-                    <p className="w-full font-bold">
-                      ArtBlocks: Lorem ipsum dolor sit amet, consectetur
-                      adipisicing elit. Hic, atque.
-                    </p>
-                  </div>
-                  <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                    <span className="mr-1 text-gray-900">
-                      <FontAwesomeIcon
-                        icon={faFontAwesome}
-                        width={12}
-                        height={12}
-                      />
-                    </span>
-                    <span>Etherium</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <div className="my-1">
-                      <h4 className="text-xs font-bold text-gray-500">
-                        Starts
-                      </h4>
-                      <span className="my-2 text-base font-bold">Aug 22</span>
-                    </div>
-                    <div className="my-1">
-                      <h4 className=" text-xs font-bold text-gray-500">
-                        Mint Price
-                      </h4>
-                      <span className="my-2 text-base font-bold">0.01 ETH</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            <Link href="">
-              <div className="transition ease-in-out delay-150 m-2 rounded-xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-300 ">
-                <Image
-                  src="/images/detail-category/1.png"
-                  alt=""
-                  width={0}
-                  height={0}
-                  className="w-full rounded-t-xl"
+                  className="w-full h-[175px] object-cover rounded-t-2xl"
                   sizes="100vh"
                 ></Image>
                 <div className="p-3">

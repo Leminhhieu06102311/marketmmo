@@ -12,6 +12,7 @@ const config: Config = {
         "xxs": '23rem'
       },
       colors: {
+        'hover': 'box-shadow: rgba(128, 138, 157, 0.24) 0px 8px 32px 0px, rgba(128, 138, 157, 0.12) 0px 1px 2px',
         'primary': '#3861fb'
       },
       backgroundImage: {
