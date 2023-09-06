@@ -1,6 +1,7 @@
 export default function login() {
   return (
-    <div className="flex flex-row lg:m-0 lg:items-stretch truncate lg:h-screen lg:max-w-7xl md:max-w-3xl md:m-auto max-w-xxs mx-auto">
+   <div className="fixed top-0 bottom-0 right-0 left-0 z-10 bg-white">
+     <div className="flex flex-row max-w-xxs mx-auto items-center h-full lg:m-0 lg:items-stretch truncate lg:h-screen lg:max-w-7xl md:max-w-3xl md:m-auto">
       <section className="hidden lg:w-450px lg:grow-0 lg:block  ">
         <div className="lg:h-full lg:flex lg:flex-col lg:justify-between ">
           <video
@@ -14,9 +15,9 @@ export default function login() {
         </div>
       </section>
       <section className="flex flex-col flex-1 overflow-auto w-full  ">
-        <div className=" flex justify-center items-center grow m-0 p-0 m-0 pt-8  ">
+        <div className=" flex justify-center items-center grow m-0 p-0  pt-8  ">
           <div className="lg:ml-28  w-full max-w-440 ">
-            <h2 className="font-bold md:text-2xl mb-10 text-base">
+            <h2 className="font-bold md:text-2xl mb-10 text-2xl">
               Đăng nhập Market MMO
             </h2>
             <div className="flex m-0 w-full ">
@@ -115,5 +116,6 @@ export default function login() {
         </div>
       </section>
     </div>
+   </div>
   );
 }
