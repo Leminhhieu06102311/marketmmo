@@ -8,6 +8,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
+     
       colors: {
         'primary': '#3861fb'
       },
@@ -16,6 +17,14 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      maxWidth: {
+        "xxs": '23rem',
+        "8xl": '1402px'
+      },
+      width: {
+        "71": "17.3rem",
+        "category-mobile": "22.5rem"
+      }
     },
   },
   plugins: [],
