@@ -8,13 +8,8 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      width: {
-        "450px": "450px",
-        "300px": "300px",
-      },
       maxWidth: {
-        "440": "440px",
-        xxs: "21rem",
+        xxs: "23rem",
       },
       colors: {
         primary: "#3861fb",

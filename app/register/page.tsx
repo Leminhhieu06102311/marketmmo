@@ -29,7 +29,7 @@ export default function register() {
   return (
     <div className="fixed top-0 bottom-0 right-0 left-0 z-10 bg-white">
     <div className="flex flex-row items-stretch truncate h-screen	lg:max-w-7xl md:max-w-3xl md:m-auto max-w-xxs mx-auto lg:m-0">
-      <section className="lg:w-450px lg:grow-0 hidden lg:block">
+      <section className="lg:w-[450px] lg:grow-0 hidden lg:block">
         <div className="lg:h-full lg:flex lg:flex-col lg:justify-between ">
           <video
             playsInline
@@ -43,7 +43,7 @@ export default function register() {
       </section>
       <section className="flex flex-col flex-1 overflow-auto w-full ">
         <div className=" flex justify-center items-center grow m-0 p-0 m-0 pt-8 lg:pl-10">
-          <div className="lg:ml-28  w-full max-w-440 ">
+          <div className="lg:ml-28  w-full max-w-[440px] ">
             <h2 className="font-bold md:text-2xl mb-10 text-2xl lg:text-3xl">
               Đăng ký Market MMO
             </h2>
