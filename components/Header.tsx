@@ -74,7 +74,7 @@ export default function Header() {
               <li className="font-semibold text-sm relative">
                 Sản phẩm
                 <div className="absolute w-64 rounded-xl mt-5 bg-white dropdown-boxshadown before:content-[''] before:w-0 before:h-0 before:border-solid before:border-[10px] before:border-white before:top-[-20px] before:border-l-transparent before:border-r-transparent before:border-t-transparent before:absolute before:left-[16px]">
-                  <div className="p-3 flex items-center gap-3 ">
+                  <div className="p-3 flex items-center gap-3 hidden ">
                     <div className="bg-primary rounded-full p-2 inline-block">
                       <FontAwesomeIcon
                         icon={faEnvelope}
