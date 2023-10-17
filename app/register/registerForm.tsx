@@ -1,22 +1,61 @@
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { SetStateAction, useEffect, useState } from "react";
+
 interface ModalProps {
   onClose: () => void; // This indicates that onClose is a function that takes no arguments and returns void.
 }
 
 function Modal({ onClose }: ModalProps) {
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState(false);
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errorPassword, setErrorPassword] = useState(false);
+
+  const handleEmailChange = (e: { target: { value: any } }) => {
+    const value = e.target.value;
+    setEmail(value);
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setError(!emailRegex.test(value));
+  };
+
+  const handlePasswordChange = (e: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setPassword(e.target.value);
+  };
+
+  const handleConfirmPasswordChange = (e: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setConfirmPassword(e.target.value);
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const toggleShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
+  useEffect(() => {
+    setErrorPassword(password !== confirmPassword);
+  }, [password, confirmPassword]);
+
   return (
     <section className="flex flex-col flex-1 overflow-auto w-full truncate ">
       <div className="">
         <button
-          className="flex items-center justify-evenly border rounded-full md:text-base w-1/12 h-8 font-semibold text-xs "
+          className="flex items-center justify-evenly  rounded-full md:text-base w-1/12 h-8 font-normal text-xs pl-5 gap-x-2 underline"
           onClick={() => onClose()}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="1em"
-            viewBox="0 0 320 512"
-          >
-            <path d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z" />
-          </svg>
+          <FontAwesomeIcon icon={faChevronLeft} /> Back
         </button>
       </div>
       <div className="">
@@ -28,13 +67,13 @@ function Modal({ onClose }: ModalProps) {
             >
               Tên tài khoản
             </label>
-            <div className="mt-2 pl-0.5 pr-0.5">
+            <div className="mt-2 pl-1 pr-1">
               <input
                 type="text"
                 name="last-name"
                 id="last-name"
                 autoComplete="family-name"
-                className="block rounded-lg w-full h-14 hover:bg-white border border-2 hover:transition hover:duration-300 hover:ring hover:ring-pink-100 focus:ring focus:ring-pink-100 focus:outline-none pl-4 focus:bg-white "
+                className="block rounded-lg w-full h-14 hover:bg-white border  hover:transition hover:duration-300 hover:ring hover:ring-blue-100 hover:border-blue-500 focus:border-blue-500 focus:ring focus:ring-blue-100 focus:outline-none pl-4 focus:bg-white "
               />
             </div>
           </div>
@@ -42,18 +81,28 @@ function Modal({ onClose }: ModalProps) {
           <div className="col-span-6">
             <label
               htmlFor="email"
-              className="block md:text-base font-semibold leading-6 text-gray-90 :text-sm"
+              className="block md:text-base font-semibold leading-6 text-gray-90 text-sm"
             >
               Email
             </label>
-            <div className="mt-2 pl-0.5 pr-0.5">
+            <div className="mt-2 pl-1 pr-1">
               <input
                 id="email"
                 name="email"
                 type="email"
                 autoComplete="email"
-                className="block rounded-lg w-full h-14 hover:bg-white border border-2 hover:transition hover:duration-300 hover:ring hover:ring-pink-100 focus:ring focus:ring-pink-100 focus:outline-none pl-4 focus:bg-white "
+                className={`block rounded-lg w-full h-14 focus:outline-none ${
+                  error
+                    ? "border border-red-500 focus:ring-red-100"
+                    : "hover:bg-white border hover:border-blue-500 hover:ring hover:ring-blue-100 focus:ring focus:ring-blue-100 focus:border-blue-500"
+                } pl-4 focus:bg-white `}
+                onChange={handleEmailChange}
               />
+              {error && (
+                <p className="text-red-500 text-sm mt-1">
+                  Vui lòng nhập đúng định dạng email
+                </p>
+              )}
             </div>
           </div>
           <div className="col-span-3">
@@ -63,38 +112,67 @@ function Modal({ onClose }: ModalProps) {
             >
               Mật khẩu
             </label>
-            <div className="mt-2 pl-0.5 pr-0.5">
+            <div className="mt-2 pl-1 pr-1 relative">
               <input
                 id="password"
                 name="password"
-                type="password"
-                className="block rounded-lg w-full h-14 hover:bg-white border border-2 hover:transition hover:duration-300 hover:ring hover:ring-pink-100 focus:ring focus:ring-pink-100 focus:outline-none pl-4 focus:bg-white "
+                type={showPassword ? "text" : "password"}
+                className="appearance-none rounded-lg w-full h-14 hover:bg-white border hover:border-blue-500 focus:border-blue-500 hover:transition hover:duration-300 hover:ring hover:ring-blue-100 focus:ring focus:ring-blue-100 focus:outline-none pl-4 pr-10 focus:bg-white"
+                onChange={handlePasswordChange}
+                value={password}
               />
+              {password && (
+                <div
+                  className="absolute top-3 right-1 px-2 py-1 cursor-pointer"
+                  onClick={toggleShowPassword}
+                >
+                  <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                </div>
+              )}
             </div>
           </div>
-          <div className="col-span-3">
+          <div className="col-span-3 relative">
             <label
-              htmlFor="password"
+              htmlFor="confirmPassword"
               className="block md:text-base font-semibold leading-6 text-gray-900 text-sm"
             >
               Nhập lại mật khẩu
             </label>
-            <div className="mt-2 pl-0.5 pr-0.5">
+            <div className="mt-2 pl-1 pr-1 relative">
               <input
-                id="password"
-                name="password"
-                type="password"
-                className="block rounded-lg w-full h-14 hover:bg-white border border-2 hover:transition hover:duration-300 hover:ring hover:ring-pink-100 focus:ring focus:ring-pink-100 focus:outline-none pl-4 focus:bg-white "
+                id="confirmPassword"
+                name="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                className={`block rounded-lg w-full h-14 focus:outline-none appearance-none ${
+                  errorPassword
+                    ? "border border-red-500 focus:ring-red-100"
+                    : "hover:bg-white border hover:border-blue-500 hover:ring hover:border hover:ring-blue-100 focus:ring focus:ring-blue-100 "
+                } pl-4 pr-10 focus:bg-white`}
+                onChange={handleConfirmPasswordChange}
+                value={confirmPassword}
               />
+              {confirmPassword && (
+                <div
+                  className="absolute top-3 right-1 px-2 py-1 cursor-pointer"
+                  onClick={toggleShowConfirmPassword}
+                >
+                  <FontAwesomeIcon
+                    icon={showConfirmPassword ? faEyeSlash : faEye}
+                  />
+                </div>
+              )}
+              {errorPassword && (
+                <p className="text-red-500 text-sm mt-1">Mật khẩu không khớp</p>
+              )}
             </div>
           </div>
           <div className="col-span-6 ">
-            <div className="mt-2 flex gap-x-6 w-full max-w-28 md:max-w-max ">
+            <div className="mt-2 flex pl-2 gap-x-6 w-full max-w-28 md:max-w-max ">
               <input
-                id="checkbox"
+                id="checkbox "
                 name="checkbox"
                 type="checkbox"
-                className=" h-6 w-6 focus:ring-indigo-600 mt-1.5"
+                className=" h-6 w-6 shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
               />{" "}
               <p className="p-0 m-0 whitespace-pre-line w-10/12  text-sm md:text-base">
                 Tôi đồng ý với{" "}
