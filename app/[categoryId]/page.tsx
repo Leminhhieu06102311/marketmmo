@@ -70,8 +70,6 @@ export default function detailCategory() {
     setSortOrder(order);
     setActiveButton('price');
   };
-  // Button Active
-
   // Preline Library
   useEffect(() => {
     import('preline')
