@@ -52,11 +52,11 @@ export default function detailCategory() {
       setFilteredProducts(filtered);
     }
     setFilterStatus(status);
-    setActiveButton(status); // Cập nhật activeButton với giá trị status
+    setActiveButton(status);
   };
   //Sort Product
   const sortProductsByPrice = (order: string) => {
-    const sortedProducts = [...filteredProducts];
+    let sortedProducts = [...products];
 
     sortedProducts.sort((a, b) => {
       if (order === 'asc') {
@@ -68,7 +68,7 @@ export default function detailCategory() {
 
     setFilteredProducts(sortedProducts);
     setSortOrder(order);
-    setActiveButton('price'); // Cập nhật activeButton với giá trị 'price'
+    setActiveButton('price');
   };
   // Button Active
 
