@@ -163,7 +163,7 @@ export default function DetailProduct({productId}: {productId: Number}) {
             </div>
           </div>
         </div>
-        <div className="w-full bg-white  lg:bg-[#F9F3EF] rounded-3xl mt-10 mb-5 mx-auto flex-wrap max-w-xxs md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl p-3 lg:p-10 gap-5 flex">
+        <div className="w-full bg-white  lg:bg-[#F9F3EF] rounded-3xl mt-10 mb-5 mx-auto flex-wrap max-w-xxs md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl p-3 lg:p-10 gap-5 flex lg:flex-nowrap">
           <div className="w-full lg:w-1/2 flex gap-5 flex-col">
             <div className=" rounded-2xl w-full">
               <Swiper
@@ -450,6 +450,7 @@ export default function DetailProduct({productId}: {productId: Number}) {
                   
                
               </div>
+              <div className="block">
               <div className="flex-wrap gap-2 pt-2 py-5 inline-flex items-center border border-b-gray-300 border-l-0 border-r-0 border-t-0 ">
                 <div className=" flex gap-2">
                   <div className="gap-2 flex">
@@ -619,6 +620,8 @@ export default function DetailProduct({productId}: {productId: Number}) {
                   <span className="h-5 w-[1px] bg-gray-300 mx-2"></span>
                 </div>
                 <p>khiếu nại 0.0%</p>
+              </div>
+
               </div>
               <br />
               <div className="pt-2 py-5 inline-flex flex-col border border-b-gray-300 border-l-0 border-r-0 border-t-0 ">
