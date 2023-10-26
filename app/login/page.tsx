@@ -2,14 +2,20 @@
 
 import { faEyeSlash, faEye } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function login() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [errorPassword, setErrorPassword] = useState(false);
+  const [errorLogin, setErrorLogin] = useState(false);
+  const [notification, setNotification] = useState(false);
+
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const handleEmailChange = (e: { target: { value: any } }) => {
     const value = e.target.value;
@@ -25,6 +31,47 @@ export default function login() {
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleLogin = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "https://fancy-cemetery-production.up.railway.app/auth/login",
+        {
+          email: email,
+          password: password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setShowSuccessPopup(true);
+      setTimeout(() => {
+        setShowSuccessPopup(false);
+      }, 5000);
+      router.push("/");
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        // Lỗi 401 có nghĩa là "Sai tài khoản hoặc mật khẩu"
+        setErrorLogin(true);
+        setNotification(true);
+        setTimeout(() => {
+          setErrorLogin(false);
+        }, 5000);
+        console.log(error);
+      } else {
+        setErrorLogin(true);
+        setNotification(true);
+        setTimeout(() => {
+          setErrorLogin(false);
+        }, 5000);
+        console.error("Lỗi đăng nhập:", error);
+      }
+    }
   };
 
   return (
@@ -44,6 +91,34 @@ export default function login() {
         </section>
         <section className="flex flex-col flex-1 overflow-auto w-full  ">
           <div className=" flex justify-center items-center grow m-0 p-0  pt-8  ">
+            {showSuccessPopup && (
+              <div className="fixed top-4 right-4 bg-blue-500 text-white p-4 rounded shadow-lg">
+                <div className="font-bold text-lg mb-2 mr-2">
+                  Đăng nhập thành công
+                </div>
+                <p className="text-sm">Chào mừng bạn trở lại</p>
+                <button
+                  className="close-button absolute top-2 right-3 pr-4 text-lg cursor-pointer"
+                  onClick={() => setShowSuccessPopup(!showSuccessPopup)}
+                >
+                  x
+                </button>
+              </div>
+            )}
+            {errorLogin && (
+              <div className="fixed top-4 right-4 bg-red-500 text-white p-4 rounded shadow-lg">
+                <div className="font-bold text-lg mb-2 pr-8">
+                  Đăng nhập Thất bại
+                </div>
+                <p className="text-sm ">Vui lòng Thử lại</p>
+                <button
+                  className="close-button absolute top-2 right-3 text-lg cursor-pointer"
+                  onClick={() => setErrorLogin(!errorLogin)}
+                >
+                  x
+                </button>
+              </div>
+            )}
             <div className="lg:ml-28  w-full max-w-[440px] ">
               <h2 className="font-bold md:text-2xl mb-10 text-2xl lg:text-3xl">
                 Đăng nhập Market MMO
@@ -93,75 +168,92 @@ export default function login() {
                 <hr className="w-1/5" />
               </div>
               <div>
-                <div>
-                  <fieldset className="flex flex-col mb-4">
-                    <label
-                      htmlFor=""
-                      className="mt-3.5 mb-1 font-semibold md:text-base text-sm"
-                    >
-                      Email
-                    </label>
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      className={`block rounded-lg w-full h-14 focus:outline-none ${
-                        error
-                          ? "border border-red-500 focus:ring-red-100"
-                          : "hover:bg-white border hover:border-blue-500 hover:ring hover:ring-blue-100 focus:ring focus:ring-blue-100 focus:border-blue-500"
-                      } pl-4 focus:bg-white `}
-                      onChange={handleEmailChange}
-                    />
-                    {error && (
-                      <p className="text-red-500 text-sm mt-1">
-                        Vui lòng nhập đúng định dạng email
-                      </p>
-                    )}
-                  </fieldset>
-                  <fieldset className="flex flex-col mb-4 relative">
-                    <label
-                      htmlFor=""
-                      className=" flex justify-between mt-3.5 mb-1 md:text-base text-sm font-semibold"
-                    >
-                      Mật khẩu
-                      <a href="#" className="font-normal underline text-sm">
-                        Quên mật khẩu?
-                      </a>
-                    </label>
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      className="rounded-lg h-14 pr-10 hover:bg-white border  hover:border-blue-500 focus:border-blue-500 hover:transition hover:duration-30 hover:ring hover:ring-blue-100 focus:ring focus:ring-blue-100 focus:outline-none pl-4     "
-                      name=""
-                      id=""
-                      onChange={handlePasswordChange}
-                      value={password}
-                    />
-                    {password && (
-                      <div
-                        className="absolute top-14 right-2 px-2 py-1 cursor-pointer"
-                        onClick={toggleShowPassword}
+                <form action="">
+                  <div>
+                    <fieldset className="flex flex-col mb-4">
+                      <label
+                        htmlFor=""
+                        className="mt-1 mb-1 font-semibold md:text-base text-sm"
                       >
-                        <FontAwesomeIcon
-                          icon={showPassword ? faEyeSlash : faEye}
-                        />
-                      </div>
-                    )}
-                  </fieldset>
-                </div>
-                <input
-                  type="submit"
-                  className="rounded-full bg-primary text-white font-medium w-full md:text-base mt-5 text-sm h-14  hover:bg-blue-500"
-                  value={"Đăng nhập"}
-                  name=""
-                  id=""
-                />
-                <p className="font-normal text-center mt-5 text-sm">
-                  Chưa có tài khoản?{" "}
-                  <a href="#" className="underline ">
-                    Đăng ký ngay
-                  </a>
-                </p>
+                        Email
+                      </label>
+                      {notification && (
+                        <div className="pb-2">
+                          <p className="text-sm text-red-500">
+                            Sai tài khoản hoặc mật khẩu
+                          </p>
+                        </div>
+                      )}
+                      <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        required
+                        className={`block rounded-lg w-full h-14 focus:outline-none ${
+                          error
+                            ? "border border-red-500 focus:ring-red-100"
+                            : "hover:bg-white border hover:border-blue-500 hover:ring hover:ring-blue-100 focus:ring focus:ring-blue-100 focus:border-blue-500"
+                        } pl-4 focus:bg-white `}
+                        onChange={handleEmailChange}
+                        value={email}
+                      />
+                      {error && (
+                        <p className="text-red-500 text-sm mt-1">
+                          Vui lòng nhập đúng định dạng email
+                        </p>
+                      )}
+                    </fieldset>
+                    <fieldset className="flex flex-col mb-4 relative">
+                      <label
+                        htmlFor=""
+                        className=" flex justify-between mt-3.5 mb-1 md:text-base text-sm font-semibold"
+                      >
+                        Mật khẩu
+                        <a
+                          href="/recove"
+                          className="font-normal underline text-sm"
+                        >
+                          Quên mật khẩu?
+                        </a>
+                      </label>
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        className="rounded-lg h-14 pr-10 hover:bg-white border  hover:border-blue-500 focus:border-blue-500 hover:transition hover:duration-30 hover:ring hover:ring-blue-100 focus:ring focus:ring-blue-100 focus:outline-none pl-4     "
+                        name=""
+                        id=""
+                        onChange={handlePasswordChange}
+                        value={password}
+                        required
+                      />
+                      {password && (
+                        <div
+                          className="absolute top-14 right-2 px-2 py-1 cursor-pointer"
+                          onClick={toggleShowPassword}
+                        >
+                          <FontAwesomeIcon
+                            icon={showPassword ? faEyeSlash : faEye}
+                          />
+                        </div>
+                      )}
+                    </fieldset>
+                  </div>
+                  <button
+                    type="submit"
+                    className="rounded-full bg-primary text-white font-medium w-full md:text-base mt-5 text-sm h-14  hover:bg-blue-500"
+                    name=""
+                    onClick={handleLogin}
+                    id=""
+                  >
+                    Đăng nhập
+                  </button>
+                  <p className="font-normal text-center mt-5 text-sm">
+                    Chưa có tài khoản?{" "}
+                    <a href="/register" className="underline ">
+                      Đăng ký ngay
+                    </a>
+                  </p>
+                </form>
               </div>
             </div>
           </div>
