@@ -1,3 +1,4 @@
+
 'use client'
 import Header from '@/components/Header/Header'
 import './globals.css'
@@ -6,7 +7,7 @@ import { Inter } from 'next/font/google'
 import Footer from '@/components/Footer/Footer'
 import { createContext, useState } from 'react'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,7 +18,7 @@ export const ProductContext= createContext({})
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   
   const [productId, setProductId] = useState<Number>(0);
@@ -41,5 +42,5 @@ export default function RootLayout({
       </body>
 
     </html>
-  )
+  );
 }
