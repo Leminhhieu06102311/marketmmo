@@ -25,7 +25,7 @@ export default function Home() {
   const navigationSellingPrevRef = useRef(null);
   const navigationSellingNextRef = useRef(null);
   const { productId, handleClickProduct } = useContext(ProductContext);
-
+  console.log('ok')
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchProduct = async () => {
