@@ -479,11 +479,11 @@ const Seller = () => {
                 Sản phẩm đang bán
               </Link>
               <div className="mt-[30px]">
-                <div className="block md:flex lg:flex items-center gap-x-4">
+                <div className="block md:block lg:flex items-center gap-x-4">
                   <p className="mb-4 justify-center text-[#58667E] font-bold text-[14px] leading-20 md:m-0 lg:m-0">
                     9,655 sản phẩm
                   </p>
-                  <div className="flex transition ease-in-out  mb-4 rounded-[9px] border border-[#ececec] px-3 py-1 md:w-[38%] md:m-0 lg:m-0  lg:w-[59%] hover:border-[#c8c8c8bb]">
+                  <div className="flex mt-0 transition ease-in-out  mb-4 rounded-[9px] border border-[#ececec] px-3 py-1 md:mt-2 md:w-[100%] md:m-0 lg:mt-0 lg:m-0  lg:w-[59%] hover:border-[#c8c8c8bb]">
                     <button className="items-center">
                       <svg
                         width="17"
@@ -504,11 +504,11 @@ const Seller = () => {
                       placeholder="Tìm kiếm sản phẩm"
                     />
                   </div>
-                  <div className="flex gap-4">
+                  <div className="flex justify-start gap-4 mt-0 items-center md:mt-3 lg:mt-0 md:justify-end">
                     <div className="relative">
                       <button
                         onClick={handleSort}
-                        className="flex px-5 py-2.5 items-center rounded-[9px] border border-[#ececec] gap-2 font-semibold hover:border-[#c8c8c8bb]"
+                        className="flex px-2.5 py-2.5 items-center rounded-[9px] border border-[#ececec] gap-2 font-semibold hover:border-[#c8c8c8bb] lg:px-5"
                       >
                         Sắp xếp theo
                         <svg
@@ -542,7 +542,7 @@ const Seller = () => {
                     <div className="relative">
                       <button
                         onClick={handleGenre}
-                        className="flex px-5 py-2.5 items-center rounded-[9px] border border-[#ececec] gap-2 font-semibold hover:border-[#c8c8c8bb]"
+                        className="flex px-2.5 py-2.5 items-center rounded-[9px] border border-[#ececec] gap-2 font-semibold hover:border-[#c8c8c8bb]"
                       >
                         Tất cả
                         <svg
