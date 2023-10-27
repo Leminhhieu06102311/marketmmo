@@ -1,0 +1,57 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Chấu Hoàng Luân",
+      "username": "chauhoangluan",
+      "password": "123",
+      "avatar": "https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/369038383_1361113118088562_8993987260558909402_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=aBUplvVWrMoAX-pYSHQ&_nc_ht=scontent.fsgn2-4.fna&oh=00_AfAEcp0EvkggZ6Me1ZoSwK5M0YPjNVAKi_bEkDU7xLJNaw&oe=652E380C",
+      "phone": "0586635295",
+      "isSocial": "none",
+      "isFlag": 2,
+      "address": "To A ap 2 Phuong Trung My Tay TP.HCM",
+      "activeTime": 2,
+      "tokenFCM": "string",
+      "wallet": {
+        "following": 1234,
+        "follower": 548
+      }
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "category": "Twitter",
+      "creator": "11/1/2023",
+      "accepter": "22/2/2023",
+      "code": "f2AK3",
+      "name": "Gmail NEW iOS Us và Ngoại. Chỉ bán min 30 cái",
+      "description": {
+        "detailDescription": {
+          "detailDescription1": "Steam Wallet Code không còn lạ lẫm gì nữa với cộng đồng game thủ nữa khi nó ngày một được ưa chuộng và thịnh hành hơn so với nạp card Steam Wallet bởi khả năng nạp nhanh, cơ hội được chiết khấu lớn và đặc biệt là không cần phải chờ đợi ship hàng. Sau khi mua code xong bạn sẽ nhận được ngay lập tức mã code để nạp vào tài khoản Steam của mình.",
+          "detailDescription2": "Steam Wallet Code là dạng mã thẻ Steam Wallet dưới dạng code online dùng để nạp tiền mua game Steam hoặc mua đồ trong game online như DOTA 2, CSGO, GTA, PUBG, v.v.v. Cũng giống như kiểu nạp thẻ điện thoại mà chỉ cần nạp mã thẻ cào thôi ấy mà, khỏi cần phải mua thẻ giấy mà vẫn được nạp tiền một cách nhanh chóng tiện lợi.",
+          "detailDescription3": "Các bạn nạp Code Steam Wallet vào tài khoản và tài khoản sẽ có số dư được tính bằng VND."
+        },
+        "warrantyPolicy": {
+          "warrantyPeriod": {
+            "warrantyPeriod1": "12 tháng",
+            "warrantyPeriod2": "Không bảo hành trong trường hợp khách sử dụng tài khoản vi phạm chính sách của OpenAI (liên quan đến những nội dung bạo lực, sexual...)"
+          },
+          "": ""
+        }
+      },
+      "isFlag": 2,
+      "address": "To A ap 2 Phuong Trung My Tay TP.HCM",
+      "activeTime": 2,
+      "tokenFCM": "string",
+      "wallet": {
+        "following": 1234,
+        "follower": 548
+      }
+    }
+  ],
+  "posts": [
+    { "id": 1, "title": "Post 1" },
+    { "id": 2, "title": "Post 2" }
+  ]
+}
