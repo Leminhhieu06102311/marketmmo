@@ -46,3 +46,21 @@ html {
 ::-webkit-scrollbar-thumb:hover {
     background: #cfd6e4;
 }
+
+/* Ẩn nút hiển thị mật khẩu */
+input[type="password"]::-webkit-contacts-auto-fill-button,
+input[type="password"]::-webkit-credentials-auto-fill-button {
+    display: none !important;
+}
+
+/* Firefox */
+input[type="password"] {
+    /* Ẩn biểu tượng mắt trong Firefox */
+    -moz-appearance: none;
+}
+
+/* Microsoft Edge */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none !important;
+}
