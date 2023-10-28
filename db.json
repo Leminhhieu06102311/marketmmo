@@ -1,4 +1,5 @@
 {
+
   "Products": [
     {
       "id": 1,
@@ -183,4 +184,62 @@
       "type": "Product"
     }
   ]
+}
+  "product": {
+      "totalItem": 2,
+      "totalPage": 1,
+      "limit": 10,
+      "currentPage": 1,
+      "result": [
+        {
+          "numberHasSeller": 0,
+          "statsSale": false,
+          "_id": "651aaff8cba201eb9bef3af1",
+          "quantity": 0,
+          "code": "EECEDC",
+          "name": "SSM",
+          "description": "string",
+          "price": 0,
+          "pictures": [],
+          "status": "UPCOMING",
+          "deletedAt": null,
+          "createdAt": "2023-10-02T11:56:40.428Z",
+          "updatedAt": "2023-10-02T11:56:40.428Z",
+          "__v": 0,
+          "rating": {
+            "count": 0,
+            "value": 0
+          },
+          "seller": {
+            "count": 0,
+            "value": 0
+          }
+        },
+        {
+          "numberHasSeller": 0,
+          "statsSale": false,
+          "_id": "651aafefcba201eb9bef3aef",
+          "quantity": 0,
+          "code": "DEFFCE",
+          "name": "SSM",
+          "description": "string",
+          "price": 0,
+          "pictures": [],
+          "status": "UPCOMING",
+          "deletedAt": null,
+          "createdAt": "2023-10-02T11:56:31.748Z",
+          "updatedAt": "2023-10-02T11:56:31.748Z",
+          "__v": 0,
+          "rating": {
+            "count": 3,
+            "value": 4
+          },
+          "seller": {
+            "count": 0,
+            "value": 0
+          }
+        }
+      ]
+    }
+  
 }
