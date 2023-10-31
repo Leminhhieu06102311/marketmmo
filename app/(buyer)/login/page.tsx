@@ -3,6 +3,7 @@
 import { faEyeSlash, faEye } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -249,9 +250,9 @@ export default function login() {
                   </button>
                   <p className="font-normal text-center mt-5 text-sm">
                     Chưa có tài khoản?{" "}
-                    <a href="/register" className="underline ">
+                    <Link href="/register" className="underline ">
                       Đăng ký ngay
-                    </a>
+                    </Link>
                   </p>
                 </form>
               </div>

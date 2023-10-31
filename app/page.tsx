@@ -162,9 +162,9 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
-                <button className="bg-[#1212120a] rounded-xl px-3 text-sm hover:bg-[#12121214] transition-all py-1 text-[#121212] flex items-center gap-2">
+                <Link href="/gmail" className="bg-[#1212120a] rounded-xl px-3 text-sm hover:bg-[#12121214] transition-all py-1 text-[#121212] flex items-center gap-2">
                   <FontAwesomeIcon icon={faLocationArrow} />
-                </button>
+                </Link>
               </li>
               <li className="font-medium text-base gap-5 py-4 px-3 rounded-md flex items-center hover:bg-[#1212120a] my-1 justify-between">
                 <div className="gap-5 flex items-center">

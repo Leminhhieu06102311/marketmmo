@@ -3,6 +3,7 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Modal from "./registerForm";
+import Link from "next/link";
 
 export default function register() {
   const [show, setShow] = useState(false);
@@ -108,9 +109,9 @@ export default function register() {
 
               <p className="font-normal text-center mt-5 text-sm md:text-base">
                 Đã có tài khoản?{" "}
-                <a href="/login" className="underline">
+                <Link href="/login" className="underline">
                   Đăng nhập
-                </a>
+                </Link>
               </p>
             </div>
           </div>

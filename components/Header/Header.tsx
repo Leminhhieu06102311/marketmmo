@@ -48,9 +48,9 @@ export default function Header() {
       </div>
       <div className="flex justify-between mx-auto items-center max-w-xxs py-3 md:max-w-3xl  md:py-4 lg:max-w-full lg:py-4 lg:px-10 ">
         <div className="flex md:gap-x-2 lg:gap-x-5 ">
-          <div>
+          <Link href="/">
             <h2 className="font-bold text-xl">Market MMO</h2>
-          </div>
+          </Link>
           <div className="hidden md:flex items-center">
               <span className="h-8 w-[1px] bg-[#eff2f5] mx-2"></span>
             </div>
@@ -96,9 +96,9 @@ export default function Header() {
         <div className=" flex lg:flex gap-5">
           <div className=" lg:flex ">
             <div className="flex gap-2 items-center">
-              <button className="bg-[#1212120a] hidden rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:flex items-center gap-2">
+              <Link href="/login"  className="bg-[#1212120a] hidden rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:flex items-center gap-2">
               <FontAwesomeIcon icon={faWallet} /> Đăng nhập
-              </button>
+              </Link >
               <button className=" group hidden md:block bg-[#1212120a] rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212] relative">
                 <FontAwesomeIcon icon={faCircleUser} />
                 <ul className="group-hover:block absolute w-60 p-2 hidden bg-white right-0 z-10 top-14 rounded-lg shadow-modal before:absolute before:w-full before:h-4 before:bg-transparent before:right-0 before:-top-2  ">

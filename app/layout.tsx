@@ -34,9 +34,8 @@ export default function RootLayout({
       <body className={inter.className}>
         <ProductContext.Provider value={{productId,handleClickProduct}} >
           <main>
-            <Header />
+            
             {children}
-            <Footer />
           </main>
         </ProductContext.Provider>
       </body>
