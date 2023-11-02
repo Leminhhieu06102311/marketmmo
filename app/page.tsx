@@ -20,24 +20,30 @@ import Product from "@/interfaces/product";
 import ProductLoader from "@/components/Skeleton/ProductLoader";
 import { ProductContext } from "./layout";
 import ProductItem from "@/components/Product/ProductItem";
+import Footer from "@/components/Footer/Footer";
+import Header from "@/components/Header/Header";
 export default function Home() {
   const [sellingProduct, setSellingProduct] = useState<Product[]>([]);
   const navigationSellingPrevRef = useRef(null);
   const navigationSellingNextRef = useRef(null);
   const { productId, handleClickProduct } = useContext(ProductContext);
   console.log('ok')
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    import('preline')
+  })
   useEffect(() => {
     const fetchProduct = async () => {
       const data: Product[] = await getSellingProduct();
       setSellingProduct(data);
       setLoading(false);
     };
-    fetchProduct();
+    // fetchProduct();
   }, []);
 
   return (
     <>
+      <Header />
       <section className="max-w-xxs mx-auto mt-3 md:max-w-3xl  lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl lg:mt-7">
         <h1 className="font-bold text-base md:text-2xl lg:text-4xl">Make Money Online</h1>
       </section>
@@ -571,6 +577,7 @@ export default function Home() {
         </div>
       </section>
       <DetailProduct productId={productId} />
+      <Footer />
     </>
   );
 }

@@ -3,7 +3,7 @@ import { faHeart, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { Pagination } from "swiper/modules";
 import { SwiperSlide, Swiper } from "swiper/react";
 
@@ -27,6 +27,9 @@ export default function DetailProduct({productId}: {productId: Number}) {
       setSelectQuantity((pre) => pre - 1);
     }
   };
+  useEffect(() => {
+    import('preline')
+  })
 
   return (
     <div id="modal-detail-product" className="hs-overlay hs-overlay-open:translate-y-0 translate-y-full fixed bottom-0 inset-x-0 transition-all duration-300 transform  h-full w-full z-[60] border-b  hidden" >
