@@ -12,6 +12,12 @@ interface Product {
     deletedAt: string | null;
     createdAt: string;
     updatedAt: string;
+    type: [
+      {
+        name: string,
+        price: number
+      }
+    ]
     __v: number;
     rating: {
       count: number;

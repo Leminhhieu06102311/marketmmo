@@ -5,3 +5,9 @@ export async function getSellingProduct() {
     const { result } = res.data
     return result
 }
+export async function getDetailProduct(productId: string) {
+    const res = await api.get(`/product?_id=${productId}`)
+    const data = res.data
+    return data
+    
+}
