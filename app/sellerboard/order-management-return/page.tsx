@@ -97,11 +97,10 @@ export default function login() {
                   <div>
                     <div className="p-4 bg-white rounded">
                       <div className="flex flex-col">
-                        <div className="flex gap-x-12">
+                        <div className="flex gap-x-12 flex-wrap gap-y-4 md:flex-nowrap">
                           <div
-                            className={`flex flex-col items-center cursor-pointer px-6 ${
-                              activeTab === "all" ? "active" : ""
-                            }`}
+                            className={`flex flex-col items-center cursor-pointer px-6 ${activeTab === "all" ? "active" : ""
+                              }`}
                             onClick={() => handleTabClick("all")}
                             data-target="all"
                           >
@@ -109,15 +108,13 @@ export default function login() {
                               Tất cả
                             </div>
                             <div
-                              className={`h-0.5 w-full bg-brand-normal rounded relative top-1 bg-primary transition-transform duration-300 ease-in-out origin-left transform ${
-                                activeTab === "all" ? "scale-x-1" : "scale-x-0"
-                              }`}
+                              className={`h-0.5 w-full bg-brand-normal rounded relative top-1 bg-primary transition-transform duration-300 ease-in-out origin-left transform ${activeTab === "all" ? "scale-x-1" : "scale-x-0"
+                                }`}
                             ></div>
                           </div>
                           <div
-                            className={`flex flex-col items-center cursor-pointer px-6 ${
-                              activeTab === "handle" ? "active" : ""
-                            }`}
+                            className={`flex flex-col items-center cursor-pointer px-6 ${activeTab === "handle" ? "active" : ""
+                              }`}
                             onClick={() => handleTabClick("handle")}
                             data-target="handle"
                           >
@@ -125,17 +122,15 @@ export default function login() {
                               Đang chờ xử lý
                             </div>
                             <div
-                              className={`h-0.5 w-full bg-brand-normal rounded relative top-1 bg-primary transition-transform duration-300 ease-in-out origin-left transform ${
-                                activeTab === "handle"
-                                  ? "scale-x-1"
-                                  : "scale-x-0"
-                              }`}
+                              className={`h-0.5 w-full bg-brand-normal rounded relative top-1 bg-primary transition-transform duration-300 ease-in-out origin-left transform ${activeTab === "handle"
+                                ? "scale-x-1"
+                                : "scale-x-0"
+                                }`}
                             ></div>
                           </div>
                           <div
-                            className={`flex flex-col items-center cursor-pointer px-6 ${
-                              activeTab === "success" ? "active" : ""
-                            }`}
+                            className={`flex flex-col items-center cursor-pointer px-6 ${activeTab === "success" ? "active" : ""
+                              }`}
                             onClick={() => handleTabClick("success")}
                             data-target="success"
                           >
@@ -143,17 +138,15 @@ export default function login() {
                               Đã hoàn tất
                             </div>
                             <div
-                              className={`h-0.5 w-full bg-brand-normal rounded relative top-1 bg-primary transition-transform duration-300 ease-in-out origin-left transform ${
-                                activeTab === "success"
-                                  ? "scale-x-1"
-                                  : "scale-x-0"
-                              }`}
+                              className={`h-0.5 w-full bg-brand-normal rounded relative top-1 bg-primary transition-transform duration-300 ease-in-out origin-left transform ${activeTab === "success"
+                                ? "scale-x-1"
+                                : "scale-x-0"
+                                }`}
                             ></div>
                           </div>
                           <div
-                            className={`flex flex-col items-center cursor-pointer px-6 ${
-                              activeTab === "closed" ? "active" : ""
-                            }`}
+                            className={`flex flex-col items-center cursor-pointer px-6 ${activeTab === "closed" ? "active" : ""
+                              }`}
                             onClick={() => handleTabClick("closed")}
                             data-target="closed"
                           >
@@ -161,11 +154,10 @@ export default function login() {
                               Đã có tranh chấp
                             </div>
                             <div
-                              className={`h-0.5 w-full bg-brand-normal rounded relative top-1 bg-primary transition-transform duration-300 ease-in-out origin-left transform ${
-                                activeTab === "closed"
-                                  ? "scale-x-1"
-                                  : "scale-x-0"
-                              }`}
+                              className={`h-0.5 w-full bg-brand-normal rounded relative top-1 bg-primary transition-transform duration-300 ease-in-out origin-left transform ${activeTab === "closed"
+                                ? "scale-x-1"
+                                : "scale-x-0"
+                                }`}
                             ></div>
                           </div>
                         </div>
@@ -173,30 +165,27 @@ export default function login() {
                       </div>
                       <div className="" id="tab-content">
                         <div
-                          className={` tab-pane ${
-                            activeTab === "all" ? "" : "hidden"
-                          }`}
+                          className={` tab-pane ${activeTab === "all" ? "" : "hidden"
+                            }`}
                           id="all"
                         >
                           <div className="flex flex-col border-solid gap-y-4">
                             <div className="border-solid gap-y-12 ">
-                              <div className="flex boder-solid gap-x-2">
+                              <div className="flex boder-solid gap-x-2 flex-wrap md:flex-nowrap">
                                 <div className="text-sm font-medium flex items-center flex-shrink-0 h-7">
                                   Nền tảng đã can thiệp
                                 </div>
                                 <div className="mx-2 inline-flex flex-wrap items-center">
                                   <div>
                                     <div
-                                      className={`inline-flex items-center justify-center text-gray-500 h-7 py-1 px-2 font-medium text-sm border rounded cursor-pointer box-border leading-5 transition-all duration-100 ease-linear  ${
-                                        checkedBox
-                                          ? "border-primary text-primary bg-transparent"
-                                          : ""
-                                      }`}
+                                      className={`inline-flex items-center justify-center text-gray-500 h-7 py-1 px-2 font-medium text-sm border rounded cursor-pointer box-border leading-5 transition-all duration-100 ease-linear  ${checkedBox
+                                        ? "border-primary text-primary bg-transparent"
+                                        : ""
+                                        }`}
                                       onClick={handleCheckedBox}
                                     >
-                                      <span className="flex-1 overflow-hidden overflow-ellipsis whitespace-nowrap">
+                                      <span className="flex-1 mt-2 md:mt-0 overflow-hidden overflow-ellipsis whitespace-nowrap">
                                         <span className="flex items-center">
-                                          {" "}
                                           Nền tảng đã tự động phê duyệt
                                         </span>
                                       </span>
@@ -208,9 +197,8 @@ export default function login() {
                           </div>
                         </div>
                         <div
-                          className={`border-solid gap-y-12 tab-pane ${
-                            activeTab === "success" ? "" : "hidden"
-                          }`}
+                          className={`border-solid gap-y-12 tab-pane ${activeTab === "success" ? "" : "hidden"
+                            }`}
                           id="success"
                         >
                           <div className="flex flex-col border-solid gap-y-4">
@@ -224,11 +212,10 @@ export default function login() {
                                     {successBoxes.map((successBoxes) => (
                                       <div
                                         key={successBoxes.id}
-                                        className={`mr-4 inline-flex items-center justify-center text-gray-500 h-7 py-1 px-2 font-medium text-sm border rounded cursor-pointer box-border leading-5 transition-all duration-100 ease-linear ${
-                                          successBoxes.checked
-                                            ? "border-primary text-primary bg-transparent"
-                                            : ""
-                                        }`}
+                                        className={`mr-4 inline-flex items-center justify-center text-gray-500 h-7 py-1 px-2 font-medium text-sm border rounded cursor-pointer box-border leading-5 transition-all duration-100 ease-linear ${successBoxes.checked
+                                          ? "border-primary text-primary bg-transparent"
+                                          : ""
+                                          }`}
                                         onClick={() =>
                                           handleCheckedBoxSuccess(
                                             successBoxes.id
@@ -249,9 +236,8 @@ export default function login() {
                           </div>
                         </div>
                         <div
-                          className={`border-solid gap-y-3 tab-pane ${
-                            activeTab === "handle" ? "" : "hidden"
-                          }`}
+                          className={`border-solid gap-y-3 tab-pane ${activeTab === "handle" ? "" : "hidden"
+                            }`}
                           id="handle"
                         >
                           <div className="flex flex-col border-solid gap-y-4">
@@ -265,14 +251,13 @@ export default function login() {
                                     {boxes.map((box) => (
                                       <div
                                         key={box.id}
-                                        className={`mr-2 inline-flex items-center mb-2 justify-center text-gray-500 h-7 py-1 px-2 font-medium text-sm border rounded cursor-pointer box-border leading-5 transition-all duration-100 ease-linear ${
-                                          box.checked
-                                            ? "border-primary text-primary bg-transparent"
-                                            : ""
-                                        }`}
+                                        className={`mr-2 inline-flex items-center mb-2 justify-center text-gray-500 md:h-7 h-12 py-1 px-2 font-medium text-sm border rounded cursor-pointer box-border leading-5 transition-all duration-100 ease-linear ${box.checked
+                                          ? "border-primary text-primary bg-transparent"
+                                          : ""
+                                          }`}
                                         onClick={() => handleBoxClick(box.id)}
                                       >
-                                        <span className="flex-1 overflow-hidden overflow-ellipsis whitespace-nowrap">
+                                        <span className="flex-1 overflow-hidden overflow-ellipsis md:whitespace-nowrap">
                                           <span className="flex items-center">
                                             {box.text}
                                           </span>
@@ -289,11 +274,10 @@ export default function login() {
                                 <div className="mx-2 inline-flex flex-wrap items-center">
                                   <div>
                                     <div
-                                      className={`inline-flex items-center justify-center text-gray-500 h-7 py-1 px-2 font-medium text-sm border rounded cursor-pointer box-border leading-5 transition-all duration-100 ease-linear  ${
-                                        checkedBox
-                                          ? "border-primary text-primary bg-transparent"
-                                          : ""
-                                      }`}
+                                      className={`inline-flex items-center justify-center text-gray-500 h-7 py-1 px-2 font-medium text-sm border rounded cursor-pointer box-border leading-5 transition-all duration-100 ease-linear  ${checkedBox
+                                        ? "border-primary text-primary bg-transparent"
+                                        : ""
+                                        }`}
                                       onClick={handleCheckedBox}
                                     >
                                       <span className="flex-1 overflow-hidden overflow-ellipsis whitespace-nowrap">
@@ -309,25 +293,23 @@ export default function login() {
                           </div>
                         </div>
                         <div
-                          className={`border-solid gap-y-12 tab-pane ${
-                            activeTab === "closed" ? "" : "hidden"
-                          }`}
+                          className={`border-solid gap-y-12 tab-pane ${activeTab === "closed" ? "" : "hidden"
+                            }`}
                           id="closed"
                         >
                           <div className="flex boder-solid gap-x-2">
                             <div className="text-sm font-medium flex items-center flex-shrink-0 h-7">
                               Trạng thái tranh chấp
                             </div>
-                            <div className="mx-2 inline-flex flex-wrap items-center">
-                              <div>
+                            <div className="mx-2 inline-flex flex-wrap items-center ">
+                              <div className="flex gap-y-2 flex-wrap">
                                 {successBoxes.map((successBoxes) => (
                                   <div
                                     key={successBoxes.id}
-                                    className={`mr-4 inline-flex items-center justify-center text-gray-500 h-7 py-1 px-2 font-medium text-sm border rounded cursor-pointer box-border leading-5 transition-all duration-100 ease-linear ${
-                                      successBoxes.checked
-                                        ? "border-primary text-primary bg-transparent"
-                                        : ""
-                                    }`}
+                                    className={`mr-4 inline-flex items-center justify-center text-gray-500 h-7 py-1 px-2 font-medium text-sm border rounded cursor-pointer box-border leading-5 transition-all duration-100 ease-linear  ${successBoxes.checked
+                                      ? "border-primary text-primary bg-transparent"
+                                      : ""
+                                      }`}
                                     onClick={() =>
                                       handleCheckedBoxSuccess(successBoxes.id)
                                     }
@@ -346,7 +328,7 @@ export default function login() {
                         <div></div>
                       </div>
                       <div>
-                        <div className="flex items-center gap-x-2 relative">
+                        <div className="flex items-center gap-x-2 relative flex-wrap md:flex-nowrap">
                           <div className="flex-1">
                             <div className="flex-1">
                               <div>
@@ -470,7 +452,7 @@ export default function login() {
                   </div>
                 </div>
               </div>
-              <div className="w-full lg:h-[58px] bg-white px-4 mt-2  rounded flex justify-between items-center">
+              <div className="w-full lg:h-[58px] bg-white px-4 mt-2 pb-2 rounded flex justify-between items-center">
                 <div className="flex gap-x-2 items-center">
                   <div className="flex gap-x-2 ">
                     <span className="font-semibold">0</span>
