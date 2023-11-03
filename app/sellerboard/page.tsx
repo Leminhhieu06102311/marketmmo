@@ -67,23 +67,23 @@ export default function DashboardSeller() {
   return (
     <div>
       <div className="lg:w-[calc(100%-220px)] lg:ml-[220px] lg:min-w-[1037px] flex  items-center flex-col h-full relative z-0 border-solid antialiased bg-[#00000] text-base overflow-overlay">
-        <main className="flex flex-1 relative lg:w-[81%] mt-5 md:w-full">
+        <main className="flex flex-1 relative lg:w-[81%] w-full mt-5 ">
           <div className="w-full">
             <div>
-              <div className="pb-4 min-h-full relative gap-x-4 flex">
-                <div className="w-3/5 bg-white ">
-                  <div className="flex justify-between mb-2">
+              <div className="pb-4 min-h-full relative gap-x-4 flex flex-wrap md:flex-nowrap">
+                <div className="md:w-3/5 w-full bg-white ">
+                  <div className="flex md:justify-between mb-2 flex-col md:flex-row">
                     <div
                       className="font-semibold ml-8"
                       onClick={regenerateData}
                     >
                       Tổng quan doanh số bán hàng{" "}
                     </div>
-                    <div className="">
+                    <div className="ml-8 md:ml-0 mt-2 md:mt-0 ">
                       <div>
                         <button
                           onClick={toggleMenu}
-                          className="inline-flex text-sm justify-center h-9 gap-x-1.5 rounded bg-white p-2 pb-3 pr-3 text-sm font-semibold text-gray-500  border hover:bg-gray-50"
+                          className="inline-flex md:text-sm text-xs justify-center h-9 gap-x-1.5 rounded bg-white p-2 pb-3 pr-3 text-sm font-semibold text-gray-500  border hover:bg-gray-50"
                         >
                           Sắp xếp theo
                           <svg
@@ -142,7 +142,6 @@ export default function DashboardSeller() {
                       <XAxis dataKey="ngày" name={getXAxisLabel(dataFormat)} />
                       <YAxis />
                       <Tooltip />
-                      <Legend />
                       <Line
                         type="monotone"
                         dataKey="value1"
@@ -158,15 +157,15 @@ export default function DashboardSeller() {
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
-                <div className="w-2/5 flex flex-wrap gap-x-2">
-                  <div className="w-[48%] h-[150px] relative border-2 rounded-xl flex flex-col pl-4 pt-2 gap-y-2">
-                    <div className="text-primary border rounded-2xl w-[50px] flex justify-center h-[50px] items-center       bg-slate-200">
+                <div className="md:w-2/5 w-full flex flex-wrap gap-x-2 gap-y-2 justify-center ">
+                  <div className="w-[48%] h-[150px] relative border rounded-xl flex flex-col pl-4 pt-2 gap-y-2">
+                    <div className="text-primary border rounded-2xl w-[50px] flex justify-center h-[50px] items-center  bg-slate-200">
                       <FontAwesomeIcon icon={faSackDollar} size="xl" />
                     </div>
                     <div className="  text-zinc-600 text-xs font-normal font-['Product Sans'] tracking-tight">
                       Tổng doanh thu
                     </div>
-                    <div className=" text-black text-[22.40px] font-bold font-['Product Sans'] tracking-tight">
+                    <div className=" text-black  font-bold font-['Product Sans'] tracking-tight  lg:text-[22.40px] md:text-[18px]">
                       $108,560.93
                     </div>
                     <div className="w-full h-[13px]  flex">
@@ -186,7 +185,7 @@ export default function DashboardSeller() {
                     <div className="  text-zinc-600 text-xs font-normal font-['Product Sans'] tracking-tight">
                       Tổng doanh thu
                     </div>
-                    <div className=" text-black text-[22.40px] font-bold font-['Product Sans'] tracking-tight">
+                    <div className=" text-black font-bold font-['Product Sans'] tracking-tight lg:text-[22.40px] md:text-[18px]">
                       $108,560.93
                     </div>
                     <div className="w-full h-[13px]  flex">
@@ -206,7 +205,7 @@ export default function DashboardSeller() {
                     <div className="  text-zinc-600 text-xs font-normal font-['Product Sans'] tracking-tight">
                       Tổng doanh thu
                     </div>
-                    <div className=" text-black text-[22.40px] font-bold font-['Product Sans'] tracking-tight">
+                    <div className=" text-black font-bold font-['Product Sans'] tracking-tight  lg:text-[22.40px] md:text-[18px]">
                       $108,560.93
                     </div>
                     <div className="w-full h-[13px]  flex">
@@ -226,7 +225,7 @@ export default function DashboardSeller() {
                     <div className="  text-zinc-600 text-xs font-normal font-['Product Sans'] tracking-tight">
                       Tổng doanh thu
                     </div>
-                    <div className=" text-black text-[22.40px] font-bold font-['Product Sans'] tracking-tight">
+                    <div className=" text-black font-bold font-['Product Sans'] tracking-tight  lg:text-[22.40px] md:text-[18px]">
                       $108,560.93
                     </div>
                     <div className="w-full h-[13px]  flex">
@@ -241,8 +240,8 @@ export default function DashboardSeller() {
                   </div>
                 </div>
               </div>
-              <div className=" relative  flex gap-x-2 mb-2">
-                <div className="w-4/5 border-2 rounded-lg">
+              <div className=" relative  flex gap-x-2 mb-2 flex-wrap md:flex-nowrap">
+                <div className="md:w-4/5 w-full border-2 rounded-lg">
                   <table className="text-left border-collapse border-border-color pb-4 text-indent-0 w-full">
                     <colgroup>
                       <col className="max-w-[55%] min-w-[55%] w-[55%]" />
@@ -250,37 +249,37 @@ export default function DashboardSeller() {
                       <col className="max-w-[15%] min-w-[15%] w-[15%]" />
                       <col className="max-w-[15%] min-w-[15%] w-[15%]" />
                     </colgroup>
-                    <thead className="lg:h-[60px]">
+                    <thead className="lg:h-[60px] sm:h-[60px] border-b">
                       <tr>
-                        <th className="pl-4 text-sm">Sản phẩm đang bán </th>
+                        <th className="pl-4 pt-4 pb-2 text-sm">Sản phẩm đang bán </th>
                       </tr>
-                      <tr>
-                        <th className="font-semibold pl-4 pr-3 text-xs text-gray-500">
+                      <tr className="">
+                        <th className="font-semibold pl-4 pb-2 pr-3 text-xs text-gray-500">
                           Tên sản phẩm
                         </th>
-                        <th className="font-semibold pl-4 pr-3 text-xs text-gray-500">
+                        <th className="font-semibold pl-4 pb-2 pr-3 text-xs text-gray-500">
                           Giá
                         </th>
-                        <th className="font-semibold pl-4 pr-3 text-xs text-gray-500">
+                        <th className="font-semibold pl-4 pb-2 pr-3 text-xs text-gray-500">
                           Đã bán
                         </th>
-                        <th className="font-semibold pl-4 pr-3 text-xs text-gray-500">
+                        <th className="font-semibold pl-4 pb-2 pr-3 text-xs text-gray-500">
                           Trạng thái
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white">
+                    <tbody className="bg-white ">
                       <tr className="lg:h-[40px]">
-                        <th className="font-semibold pl-4 flex gap-x-2 items-center pr-3 text-xs ">
+                        <th className="font-semibold pl-4 flex gap-x-2 items-center pr-3 pt-2 text-xs ">
                           <AiFillTwitterCircle className="text-[33px] text-primary" /> 5000 tài khoản Twitter
                         </th>
-                        <th className="font-semibold pl-4 pr-3 text-xs ">
+                        <th className="font-semibold pl-4 pr-3 text-xs pt-2">
                           500.000vnđ
                         </th>
-                        <th className="font-semibold pl-4 pr-3 text-xs ">
+                        <th className="font-semibold pl-4 pr-3 text-xs pt-2">
                           15
                         </th>
-                        <th className="font-semibold pl-4 pr-3 text-xs flex gap-x-2 items-center ">
+                        <th className="font-semibold pl-4 pr-3 text-xs flex gap-x-2 items-center pt-2 ">
                           <div className="flex gap-x-2 items-center">
                             <div className="w-2.5 h-2.5 bg-green-500 rounded-full" /> Còn hàng
                           </div>
@@ -306,7 +305,7 @@ export default function DashboardSeller() {
                   </table>
                 </div>
 
-                <div className="w-1/5 border-2 rounded-lg pl-4 pt-4 pb-4">
+                <div className="md:w-1/5 w-full mt-2 md:mt-0 border rounded-lg pl-4 pt-4 pb-4">
                   <div className="text-sm font-semibold pb-4">Loại sản phẩm bán chạy</div>
                   <div className="flex flex-col gap-y-2">
                     <div className="text-sm font-normal flex items-center gap-x-4">
