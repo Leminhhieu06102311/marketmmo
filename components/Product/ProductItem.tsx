@@ -1,12 +1,15 @@
+import { Context } from "@/app/layout";
 import { faFontAwesome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
+import { useContext } from "react";
 
-export default function ProductItem({handleClickProduct}: {handleClickProduct : Function}) {
+export default function ProductItem({productId} : {productId : string}) {
+  const { handleClickProduct } = useContext(Context);
   return (
     <button
       data-hs-overlay="#modal-detail-product"
-      onClick={() => handleClickProduct(2)}
+      onClick={() => handleClickProduct(productId)}
     >
       <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl box-shadow-product hover:-translate-y-3 hover:shadow-hover  duration-300 ">
         <Image

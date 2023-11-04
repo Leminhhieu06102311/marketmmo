@@ -18,15 +18,19 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { getSellingProduct } from "@/services/product";
 import Product from "@/interfaces/product";
 import ProductLoader from "@/components/Skeleton/ProductLoader";
-import { ProductContext } from "./layout";
+import { Context } from "./layout";
 import ProductItem from "@/components/Product/ProductItem";
+import Footer from "@/components/Footer/Footer";
+import Header from "@/components/Header/Header";
 export default function Home() {
   const [sellingProduct, setSellingProduct] = useState<Product[]>([]);
   const navigationSellingPrevRef = useRef(null);
   const navigationSellingNextRef = useRef(null);
-  const { productId, handleClickProduct } = useContext(ProductContext);
-  console.log('ok')
+  const { productId } = useContext(Context);
   const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    import('preline')
+  })
   useEffect(() => {
     const fetchProduct = async () => {
       const data: Product[] = await getSellingProduct();
@@ -38,6 +42,7 @@ export default function Home() {
 
   return (
     <>
+      <Header />
       <section className="max-w-xxs mx-auto mt-3 md:max-w-3xl  lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl lg:mt-7">
         <h1 className="font-bold text-base md:text-2xl lg:text-4xl">Make Money Online</h1>
       </section>
@@ -45,10 +50,10 @@ export default function Home() {
         <Swiper
           spaceBetween={20}
           slidesPerView={"auto"}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[Pagination]}
+          // pagination={{
+          //   clickable: true,
+          // }}
+          // modules={[Pagination]}
         >
           <SwiperSlide className="!w-5/6 md:!w-full">
             <div className="w-full relative group rounded-lg overflow-hidden">
@@ -384,35 +389,12 @@ export default function Home() {
                  
                 >
                   <SwiperSlide className="">
-                    <ProductItem handleClickProduct={handleClickProduct} />
+                    <ProductItem productId="651aaff8cba201eb9bef3af1" />
                   </SwiperSlide>
                   <SwiperSlide className="">
-                    <ProductItem handleClickProduct={handleClickProduct} />
+                    <ProductItem productId="651aaff8cba201eb9bef3af2" />
                   </SwiperSlide>
-                  <SwiperSlide className="">
-                    <ProductItem handleClickProduct={handleClickProduct} />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem handleClickProduct={handleClickProduct} />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem handleClickProduct={handleClickProduct} />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem handleClickProduct={handleClickProduct} />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem handleClickProduct={handleClickProduct} />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem handleClickProduct={handleClickProduct} />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem handleClickProduct={handleClickProduct} />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem handleClickProduct={handleClickProduct} />
-                  </SwiperSlide>
+                 
                   <button
                     ref={navigationSellingPrevRef}
                     className=" z-10 hover:bg-white left-0 shadow-sm top-[50%] group backdrop-blur-md rounded-xl px-5 absolute  bg-[rgba(255,255,255,0.4)] group-hover:bg-white  group-hover:text-[#121212] transition-all py-4 text-white flex items-center gap-2 font-bold"
@@ -482,21 +464,21 @@ export default function Home() {
                   }}
                  
                 >
-                  <SwiperSlide className="">
-                    <ProductItem handleClickProduct={handleClickProduct} />
+                  {/* <SwiperSlide className="">
+                    <ProductItem />
                   </SwiperSlide>
                   <SwiperSlide className="">
-                    <ProductItem handleClickProduct={handleClickProduct} />
+                    <ProductItem />
                   </SwiperSlide>
                   <SwiperSlide className="">
-                    <ProductItem handleClickProduct={handleClickProduct} />
+                    <ProductItem />
                   </SwiperSlide>
                   <SwiperSlide>
-                    <ProductItem handleClickProduct={handleClickProduct} />
+                    <ProductItem />
                   </SwiperSlide>
                   <SwiperSlide>
-                    <ProductItem handleClickProduct={handleClickProduct} />
-                  </SwiperSlide>
+                    <ProductItem />
+                  </SwiperSlide> */}
                 </Swiper>
               </>
             )}
@@ -549,21 +531,21 @@ export default function Home() {
                   }}
                  
                 >
-                  <SwiperSlide className="">
-                    <ProductItem handleClickProduct={handleClickProduct} />
+                  {/* <SwiperSlide className="">
+                    <ProductItem />
                   </SwiperSlide>
                   <SwiperSlide className="">
-                    <ProductItem handleClickProduct={handleClickProduct} />
+                    <ProductItem />
                   </SwiperSlide>
                   <SwiperSlide className="">
-                    <ProductItem handleClickProduct={handleClickProduct} />
+                    <ProductItem />
                   </SwiperSlide>
                   <SwiperSlide>
-                    <ProductItem handleClickProduct={handleClickProduct} />
+                    <ProductItem />
                   </SwiperSlide>
                   <SwiperSlide>
-                    <ProductItem handleClickProduct={handleClickProduct} />
-                  </SwiperSlide>
+                    <ProductItem />
+                  </SwiperSlide> */}
                 </Swiper>
               </>
             )}
@@ -571,6 +553,7 @@ export default function Home() {
         </div>
       </section>
       <DetailProduct productId={productId} />
+      <Footer />
     </>
   );
 }

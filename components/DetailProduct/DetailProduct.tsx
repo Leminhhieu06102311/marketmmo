@@ -3,17 +3,22 @@ import { faHeart, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useContext, useEffect, useState } from "react";
 import { Pagination } from "swiper/modules";
 import { SwiperSlide, Swiper } from "swiper/react";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
+import { getDetailProduct } from "@/services/product";
+import Product from "@/interfaces/product";
+import Cart from "@/interfaces/cart";
+import { Context } from "@/app/layout";
 
-export default function DetailProduct({productId}: {productId: Number}) {
-  console.log(productId)
-  const [selectType, setSelectType] = useState<Number>(1);
+export default function DetailProduct({productId}: {productId: string}) {
+  const {statusAddToCart} = useContext(Context)
+  const [dataProduct, setDataProduct] = useState<Product>()
+  const [selectType, setSelectType] = useState<number>(0);
   const [selectQuantity, setSelectQuantity] = useState(1);
   const hanldeSelectType = (event: MouseEvent<HTMLButtonElement>) => {
     const element = event.target as HTMLElement;
@@ -27,6 +32,27 @@ export default function DetailProduct({productId}: {productId: Number}) {
       setSelectQuantity((pre) => pre - 1);
     }
   };
+  const hanldeAddToCart = () => {
+    statusAddToCart()
+    if (dataProduct) {
+      const cart : Cart = {
+        type: selectType,
+        quantity: selectQuantity,
+        product: dataProduct
+      }
+      localStorage.setItem("product", JSON.stringify(cart))
+    }
+  }
+  useEffect(() => {
+    const getDataProduct = async () => {
+      const dataDetailProduct: [Product] = await getDetailProduct(productId)
+      setDataProduct(dataDetailProduct[0])
+    }
+    getDataProduct()
+  },[productId])
+  useEffect(() => {
+    import('preline')
+  })
 
   return (
     <div id="modal-detail-product" className="hs-overlay hs-overlay-open:translate-y-0 translate-y-full fixed bottom-0 inset-x-0 transition-all duration-300 transform  h-full w-full z-[60] border-b  hidden" >
@@ -38,7 +64,10 @@ export default function DetailProduct({productId}: {productId: Number}) {
           />
         </button>
       </div>
-      <div className="bg-white rounded-l-lg w-full top-9   absolute bottom-0 left-0 right-0  pb-52 overflow-y-scroll">
+      {
+        dataProduct ? (
+          <>
+          <div className="bg-white rounded-l-lg w-full top-9   absolute bottom-0 left-0 right-0  pb-52 overflow-y-scroll">
         <div className="w-full h-10  mt-10 mb-5 mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl flex justify-around">
           <div className="flex gap-3">
             <div className="inline-block h-[2.875rem] w-[2.875rem] rounded-full ring-2 ring-white dark:ring-gray-800 bg-pink-400 "></div>
@@ -174,17 +203,12 @@ export default function DetailProduct({productId}: {productId: Number}) {
                 className="mySwiper"
               >
                 <SwiperSlide>
-                  <img
-                    className="rounded-2xl object-cover"
-                    src="https://images.pexels.com/photos/16852355/pexels-photo-16852355/free-photo-of-iphone-di-n-tho-i-thong-minh-may-tinh-xach-tay-internet.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    alt=""
-                  />
-                </SwiperSlide>
-
-                <SwiperSlide>
-                  <img
-                    className="rounded-2xl object-cover"
-                    src="https://media.istockphoto.com/id/1496920504/vi/anh/d%E1%BA%A5u-ki%E1%BB%83m-m%C3%A0u-xanh-lam-tr%C3%AAn-n%E1%BB%81n-xanh-lam.jpg?s=2048x2048&w=is&k=20&c=ngYgYRNa5be9_iYGk2Q_P3GGHXgZl6BOnOpT2W-m_WE="
+                  <Image
+                    className="rounded-2xl object-cover w-full h-full"
+                    src={dataProduct?.pictures[0]}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
                     alt=""
                   />
                 </SwiperSlide>
@@ -446,7 +470,7 @@ export default function DetailProduct({productId}: {productId: Number}) {
                   >
                     Sản phẩm
                   </span>
-                  <span className=" text-2xl text-primary font-bold">Gmail NEW iOS Us và Ngoại. Chỉ bán min 30 cái Chỉ bán min 30</span>
+                  <span className=" text-2xl text-primary font-bold">{dataProduct?.name}</span>
                   
                
               </div>
@@ -627,16 +651,16 @@ export default function DetailProduct({productId}: {productId: Number}) {
               <div className="pt-2 py-5 inline-flex flex-col border border-b-gray-300 border-l-0 border-r-0 border-t-0 ">
                 <p>Thể loại :</p>
                 <p>
-                  Số lượng : <b className="text-primary">1050</b>
+                  Số lượng : <b className="text-primary">{dataProduct?.quantity}</b>
                 </p>
                 <div className="mt-4">
-                  <h2 className="text-2xl font-bold">5.000 VND</h2>
+                  <h2 className="text-2xl font-bold">{dataProduct?.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</h2>
                   <div className="flex gap-2 items-center">
                     <h3
                       className="text-lg font-semibold text-[#616E85] "
                       style={{ textDecoration: "line-through" }}
                     >
-                      10.000 VND
+                      {dataProduct?.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                     </h3>
                     <div className="bg-red-600 text-sm inline px-3 py-2 text-white rounded-lg">
                       -50%
@@ -647,28 +671,20 @@ export default function DetailProduct({productId}: {productId: Number}) {
               <div className="flex gap-2 flex-col my-2">
                 <p>Chọn gói sản phẩm</p>
                 <div className="inline-flex flex-wrap gap-2">
-                  <button
-                    data-type="1"
+                  
+                  {dataProduct?.type.map((item,index) => (
+                    <button
+                    data-type={index}
                     onClick={(event) => hanldeSelectType(event)}
                     className={`${
-                      selectType === 1
+                      selectType === index
                         ? "bg-primary text-white border-transparent"
                         : "text-black bg-white border-gray-200"
                     } p-2 rounded-lg text-sm inline cursor-pointer border`}
                   >
-                    Gmail random IP
+                    {item.name}
                   </button>
-                  <button
-                    data-type="2"
-                    onClick={(event) => hanldeSelectType(event)}
-                    className={`${
-                      selectType === 2
-                        ? "bg-primary text-white border-transparent"
-                        : "text-black bg-white border-gray-200"
-                    } p-2 rounded-lg  text-sm inline cursor-pointer border`}
-                  >
-                    Gmail random I
-                  </button>
+                  ))}
                 </div>
               </div>
             </div>
@@ -733,6 +749,7 @@ export default function DetailProduct({productId}: {productId: Number}) {
                   </button>
                 </div>
                 <button
+                  onClick={() => hanldeAddToCart()}
                   data-hs-overlay="#cart-modal"
                   type="button"
                   className="py-3 flex-1 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
@@ -791,6 +808,12 @@ export default function DetailProduct({productId}: {productId: Number}) {
           </div>
         </div>
       </div>
+          </>
+        ) : (
+          <>
+          </>
+        )
+      }
     </div>
 
   );

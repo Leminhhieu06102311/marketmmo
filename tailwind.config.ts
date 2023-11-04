@@ -19,7 +19,7 @@ const config: Config = {
         'showCart': 'slideIn .5s ease',
       },
       backgroundColor: {
-        'overlay': 'rgba(0,0,0,0.5)'
+        'overlay': 'rgba(0,0,0,0.3)'
       },
       boxShadow: {
         'modal': 'rgba(0, 0, 0, 0.2) 0px 6px 32px'
