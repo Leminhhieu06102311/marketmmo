@@ -1,4 +1,5 @@
 "use client";
+import {AiOutlineDoubleLeft, AiOutlineDoubleRight} from 'react-icons/ai'
 import {
   faAngleLeft,
   faAngleRight,
@@ -15,7 +16,7 @@ import Image from "next/image";
 import Link from "next/link";
 import DetailProduct from "@/components/DetailProduct/DetailProduct";
 import { useContext, useEffect, useRef, useState } from "react";
-import { getSellingProduct } from "@/services/product";
+import { getAccountTrending, getSellingProduct, getSoftwareTrending } from "@/services/product";
 import Product from "@/interfaces/product";
 import ProductLoader from "@/components/Skeleton/ProductLoader";
 import { Context } from "./layout";
@@ -24,6 +25,8 @@ import Footer from "@/components/Footer/Footer";
 import Header from "@/components/Header/Header";
 export default function Home() {
   const [sellingProduct, setSellingProduct] = useState<Product[]>([]);
+  const [accountTrendingProduct, setAccountTrendingProduct] = useState<Product[]>([])
+  const [softwareTrendingProduct, setSoftwareTrendingProduct] = useState<Product[]>([])
   const navigationSellingPrevRef = useRef(null);
   const navigationSellingNextRef = useRef(null);
   const { productId } = useContext(Context);
@@ -33,12 +36,17 @@ export default function Home() {
   })
   useEffect(() => {
     const fetchProduct = async () => {
-      const data: Product[] = await getSellingProduct();
-      setSellingProduct(data);
+      const sellingProduct: Product[] = await getSellingProduct();
+      const accountTrendingProduct : Product[] = await getAccountTrending()
+      const softwareTrendingProduct : Product[] = await getSoftwareTrending()
+      setSoftwareTrendingProduct(softwareTrendingProduct)
+      setAccountTrendingProduct(accountTrendingProduct)
+      setSellingProduct(sellingProduct);
       setLoading(false);
     };
     fetchProduct();
   }, []);
+  
 
   return (
     <>
@@ -50,10 +58,6 @@ export default function Home() {
         <Swiper
           spaceBetween={20}
           slidesPerView={"auto"}
-          // pagination={{
-          //   clickable: true,
-          // }}
-          // modules={[Pagination]}
         >
           <SwiperSlide className="!w-5/6 md:!w-full">
             <div className="w-full relative group rounded-lg overflow-hidden">
@@ -383,36 +387,34 @@ export default function Home() {
                       slidesPerView: 3,
                     },
                     1024: {
+                      spaceBetween: 20,
                       slidesPerView: 5,
                     },
                   }}
                  
                 >
-                  <SwiperSlide className="">
-                    <ProductItem productId="651aaff8cba201eb9bef3af1" />
-                  </SwiperSlide>
-                  <SwiperSlide className="">
-                    <ProductItem productId="651aaff8cba201eb9bef3af2" />
-                  </SwiperSlide>
+                  {sellingProduct.map((item) => (
+                    <SwiperSlide className="" key={item._id}>
+                      <ProductItem productId={item._id} product={item} />
+                    </SwiperSlide>
+                  ))}
                  
                   <button
                     ref={navigationSellingPrevRef}
-                    className=" z-10 hover:bg-white left-0 shadow-sm top-[50%] group backdrop-blur-md rounded-xl px-5 absolute  bg-[rgba(255,255,255,0.4)] group-hover:bg-white  group-hover:text-[#121212] transition-all py-4 text-white flex items-center gap-2 font-bold"
+                    className=" cursor-pointer z-10 hover:bg-white left-0 shadow-sm top-[50%] group backdrop-blur-md rounded-xl px-5 absolute  bg-[rgba(255,255,255,0.4)] group-hover:bg-white  group-hover:text-[#121212] transition-all py-4 text-white flex items-center gap-2 font-bold"
                     style={{ transform: "translateY(-50%)" }}
                   >
-                    <FontAwesomeIcon
-                      icon={faAngleLeft}
-                      className="group-hover:text-black text-3xl"
+                    <AiOutlineDoubleLeft
+                      className="text-black  text-3xl"
                     />
                   </button>
                   <button
                     ref={navigationSellingNextRef}
-                    className="next z-10 hover:bg-white right-0 shadow-sm top-[50%] group backdrop-blur-md rounded-xl px-5 absolute  bg-[rgba(255,255,255,0.4)] group-hover:bg-white  group-hover:text-[#121212] transition-all py-4 text-white flex items-center gap-2 font-bold"
+                    className="cursor-pointer next z-10 hover:bg-white right-0 shadow-sm top-[50%] group backdrop-blur-md rounded-xl px-5 absolute  bg-[rgba(255,255,255,0.4)] group-hover:bg-white  group-hover:text-[#121212] transition-all py-4 text-white flex items-center gap-2 font-bold"
                     style={{ transform: "translateY(-50%)" }}
                   >
-                    <FontAwesomeIcon
-                      icon={faAngleRight}
-                      className="group-hover:text-black text-3xl"
+                    <AiOutlineDoubleRight
+                      className="text-black text-3xl"
                     />
                   </button>
                 </Swiper>
@@ -430,9 +432,11 @@ export default function Home() {
                 <h2 className="font-bold text-xl md:text-2xl text-[#121212] ">
                   Tài khoản xu hướng
                 </h2>
-                <button className="bg-[#1212120a] rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212] flex items-center gap-2 font-bold text-sm">
-                  Xem danh mục
-                </button>
+                <Link href="/Youtube">
+                  <button className="bg-[#1212120a] rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212] flex items-center gap-2 font-bold text-sm">
+                    Xem danh mục
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -459,26 +463,17 @@ export default function Home() {
                       slidesPerView: 3,
                     },
                     1024: {
+                      spaceBetween: 20,
                       slidesPerView: 5,
                     },
                   }}
                  
                 >
-                  {/* <SwiperSlide className="">
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide className="">
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide className="">
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide> */}
+                   {accountTrendingProduct.map((item) => (
+                    <SwiperSlide className="" key={item._id}>
+                      <ProductItem productId={item._id} product={item} />
+                    </SwiperSlide>
+                  ))}
                 </Swiper>
               </>
             )}
@@ -497,9 +492,11 @@ export default function Home() {
                   <span className="hidden md:block">
                   Tools xu hướng</span>
                 </h2>
-                <button className="bg-[#1212120a] rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212] flex items-center gap-2 font-bold text-sm">
-                  Xem danh mục
-                </button>
+                <Link href="/Gmail">
+                  <button className="bg-[#1212120a] rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212] flex items-center gap-2 font-bold text-sm">
+                    Xem danh mục
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -531,21 +528,11 @@ export default function Home() {
                   }}
                  
                 >
-                  {/* <SwiperSlide className="">
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide className="">
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide className="">
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide> */}
+                  {softwareTrendingProduct.map((item) => (
+                    <SwiperSlide className="" key={item._id}>
+                      <ProductItem productId={item._id} product={item} />
+                    </SwiperSlide>
+                  ))}
                 </Swiper>
               </>
             )}

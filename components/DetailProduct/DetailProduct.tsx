@@ -16,6 +16,7 @@ import Cart from "@/interfaces/cart";
 import { Context } from "@/app/layout";
 
 export default function DetailProduct({productId}: {productId: string}) {
+  console.log(productId)
   const {statusAddToCart} = useContext(Context)
   const [dataProduct, setDataProduct] = useState<Product>()
   const [selectType, setSelectType] = useState<number>(0);
@@ -45,8 +46,14 @@ export default function DetailProduct({productId}: {productId: string}) {
   }
   useEffect(() => {
     const getDataProduct = async () => {
-      const dataDetailProduct: [Product] = await getDetailProduct(productId)
-      setDataProduct(dataDetailProduct[0])
+      try {
+      const dataDetailProduct: Product = await getDetailProduct(productId)
+      setDataProduct(dataDetailProduct)
+        
+      } catch (error) {
+        
+        console.log(error)
+      }
     }
     getDataProduct()
   },[productId])
@@ -70,10 +77,13 @@ export default function DetailProduct({productId}: {productId: string}) {
           <div className="bg-white rounded-l-lg w-full top-9   absolute bottom-0 left-0 right-0  pb-52 overflow-y-scroll">
         <div className="w-full h-10  mt-10 mb-5 mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl flex justify-around">
           <div className="flex gap-3">
-            <div className="inline-block h-[2.875rem] w-[2.875rem] rounded-full ring-2 ring-white dark:ring-gray-800 bg-pink-400 "></div>
+            <div className="inline-block h-[2.875rem] w-[2.875rem] object-cover rounded-full ring-2 ring-white dark:ring-gray-800 border border-gray-200 overflow-hidden">
+
+              <Image src={dataProduct.creator.avatar} width={200} height={200} alt="avatar" className="w-full h-full object-contain" />
+            </div>
             <div>
-              <h4 className="font-medium">Le Minh Hieu</h4>
-              <p className="text-sm">@leminhhieu</p>
+              <h4 className="font-medium">{dataProduct.creator.name}</h4>
+              <p className="text-sm">@{dataProduct.creator.username}</p>
             </div>
           </div>
           <div className="flex gap-3">
@@ -672,8 +682,8 @@ export default function DetailProduct({productId}: {productId: string}) {
                 <p>Chọn gói sản phẩm</p>
                 <div className="inline-flex flex-wrap gap-2">
                   
-                  {dataProduct?.type.map((item,index) => (
-                    <button
+                  {/* {dataProduct?.type.map((item,index) => (
+                    <button key={index}
                     data-type={index}
                     onClick={(event) => hanldeSelectType(event)}
                     className={`${
@@ -684,7 +694,7 @@ export default function DetailProduct({productId}: {productId: string}) {
                   >
                     {item.name}
                   </button>
-                  ))}
+                  ))} */}
                 </div>
               </div>
             </div>

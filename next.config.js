@@ -11,6 +11,11 @@ const nextConfig = {
               protocol: 'https',
               hostname: 'api.qrserver.com',
               port: '',
+            },
+            {
+              protocol: 'https',
+              hostname: 'robohash.org',
+              port: '',
             }
           ],
     }
