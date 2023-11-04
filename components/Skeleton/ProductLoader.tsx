@@ -6,7 +6,7 @@ export default function ProductLoader({
     const skeletonItems = [];
     for (let i = 0; i < quantityProduct; i++) {
         skeletonItems.push(
-            <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl box-shadow-product hover:-translate-y-3 hover:shadow-hover  duration-300 ">
+            <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl box-shadow-product hover:-translate-y-3 hover:shadow-hover  duration-300 " key={i}>
             <div className="h-[175px] w-full bg-gray-200 animate-pulse rounded-2xl"></div>
             <div className="p-3">
               <div className=" w-full line-clamp-1 overflow-hidden">

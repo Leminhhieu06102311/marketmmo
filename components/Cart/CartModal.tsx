@@ -18,7 +18,6 @@ export default function CartModal() {
       } else {
         setCart(undefined)
       }
-      console.log('re-render', cart)
     };
     getCart();
   }, [isAddToCart]);
