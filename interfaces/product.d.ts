@@ -29,6 +29,7 @@ interface Product {
     name: string;
     description: string;
   };
+  status: string;
   quantity: number;
   code: string;
   name: string;

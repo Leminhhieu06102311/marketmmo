@@ -28,15 +28,18 @@ export default function ProductItem({productId,product} : {productId : string, p
              {product.name}
             </p>
           </div>
+          <div className="w-full flex">
           <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
             <span className="mr-1 text-gray-900">
               <FontAwesomeIcon icon={faFontAwesome} width={12} height={12} />
             </span>
             <span>{product.code}</span>
           </div>
+
+          </div>
           <div className="flex justify-between">
             <div className="my-1">
-              <h4 className="text-xs font-bold text-gray-500">Lượt mua</h4>
+              <h4 className="text-xs font-bold text-gray-500">Đánh giá</h4>
               <span className="my-2 text-base font-bold">{product.numberHasSeller}</span>
             </div>
             <div className="my-1">

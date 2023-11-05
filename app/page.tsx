@@ -432,7 +432,7 @@ export default function Home() {
                 <h2 className="font-bold text-xl md:text-2xl text-[#121212] ">
                   Tài khoản xu hướng
                 </h2>
-                <Link href="/Youtube">
+                <Link href="/6544c5879d85a36c1ddbc645">
                   <button className="bg-[#1212120a] rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212] flex items-center gap-2 font-bold text-sm">
                     Xem danh mục
                   </button>
@@ -492,7 +492,7 @@ export default function Home() {
                   <span className="hidden md:block">
                   Tools xu hướng</span>
                 </h2>
-                <Link href="/Gmail">
+                <Link href="/6544c5879d85a36c1ddbc643">
                   <button className="bg-[#1212120a] rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212] flex items-center gap-2 font-bold text-sm">
                     Xem danh mục
                   </button>
