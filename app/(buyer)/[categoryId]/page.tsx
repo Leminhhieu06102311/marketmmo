@@ -1,4 +1,8 @@
 "use client";
+import ProductItem from "@/components/Product/ProductItem";
+import ProductLoader from "@/components/Skeleton/ProductLoader";
+import Product from "@/interfaces/product";
+import { getProductFromCategory } from "@/services/product";
 import {
   faAngleDown,
   faArrowDownShortWide,
@@ -15,27 +19,33 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 
-import {useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-export default function detailCategory() {
+export default function DetailCategory({
+  params,
+}: {
+  params: { categoryId: string };
+}) {
   // Render Product
-  const [products, setProducts] = useState<any[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
-  const [filterStatus, setFilterStatus] = useState<string>('all');
-  const [sortOrder, setSortOrder] = useState('asc');
-  const [activeButton, setActiveButton] = useState('all');
+  const { categoryId } = params;
+  const [products, setProducts] = useState<Product[]>();
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>();
+  const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [activeButton, setActiveButton] = useState("all");
 
   // Render Product from Json-sv
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/Products'); // Link to JSON Server
-        let data = await response.json();
-        data = data.sort((a: { sold: number }, b: { sold: number }) => b.sold - a.sold);
+        let data = await getProductFromCategory(categoryId); // Link to JSON Server
+        data = data.sort(
+          (a: { sold: number }, b: { sold: number }) => b.sold - a.sold
+        );
         setProducts(data);
         setFilteredProducts(data);
       } catch (error) {
-        console.error('Error fetching data', error);
+        console.error("Error fetching data", error);
       }
     };
 
@@ -43,10 +53,10 @@ export default function detailCategory() {
   }, []);
   // Filter Product
   const filterProducts = (status: string) => {
-    if (status === 'all') {
+    if (status === "all") {
       setFilteredProducts(products);
     } else {
-      const filtered = products.filter((product) => product.status === status);
+      const filtered = products?.filter((product) => product.status === status);
       setFilteredProducts(filtered);
     }
     setFilterStatus(status);
@@ -54,27 +64,29 @@ export default function detailCategory() {
   };
   //Sort Product
   const sortProductsByPrice = (order: string) => {
-    let sortedProducts = [...products];
+    if (products) {
+      let sortedProducts = [...products];
 
-    sortedProducts.sort((a, b) => {
-      if (order === 'asc') {
-        return a.price - b.price;
-      } else {
-        return b.price - a.price;
-      }
-    });
+      sortedProducts.sort((a, b) => {
+        if (order === "asc") {
+          return a.price - b.price;
+        } else {
+          return b.price - a.price;
+        }
+      });
 
-    setFilteredProducts(sortedProducts);
-    setSortOrder(order);
-    setActiveButton('price');
+      setFilteredProducts(sortedProducts);
+      setSortOrder(order);
+      setActiveButton("price");
+    }
   };
   // Preline Library
   useEffect(() => {
-    import('preline')
-  }, [])
+    import("preline");
+  }, []);
   return (
     <>
-      <div className="mx-auto max-w-xxs  md:max-w-3xl lg:max-w-8xl">
+      <div className="max-w-xxs mx-auto mt-3 md:max-w-3xl lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
         <div className="mt-10">
           <h3 className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
             Gian hàng{" "}
@@ -84,7 +96,8 @@ export default function detailCategory() {
             dành cho bạn
           </h3>
           <p className="text-base font-normal text-gray-500 md:text-base lg:text-lg dark:text-gray-400">
-            Tất cả những sản phẩm liên quan đến gmail có tất cả ở bên dưới mời bạn lựa chọn
+            Tất cả những sản phẩm liên quan đến gmail có tất cả ở bên dưới mời
+            bạn lựa chọn
           </p>
         </div>
         <div className="flex w-full">
@@ -320,40 +333,46 @@ export default function detailCategory() {
                   <ul className="lg:mr-2 md:mr-2 inline-flex items-center bg-gray-100 rounded-lg">
                     <li className="">
                       <button
-                        onClick={() => filterProducts('all')}
-                        className={`px-4 py-2 m-1 rounded-md ${activeButton === 'all' ? 'bg-white' : 'text-gray-500'
-                          }`}
+                        onClick={() => filterProducts("all")}
+                        className={`px-4 py-2 m-1 rounded-md ${
+                          activeButton === "all" ? "bg-white" : "text-gray-500"
+                        }`}
                       >
                         Tất cả
                       </button>
                     </li>
                     <li className="">
                       <button
-                        onClick={() => filterProducts('sale')}
-                        className={`px-4 py-2 m-1 text-gray-500 rounded-md ${activeButton === 'sale' ? 'bg-white' : ''
-                          }`}
+                        onClick={() => filterProducts("sale")}
+                        className={`px-4 py-2 m-1 text-gray-500 rounded-md ${
+                          activeButton === "sale" ? "bg-white" : ""
+                        }`}
                       >
                         Giảm giá
                       </button>
                     </li>
                     <li className="">
                       <button
-                        className={`px-4 py-2 m-1 text-gray-500 rounded-md ${activeButton === 'price' ? 'bg-white' : ''
-                          }`}
+                        className={`px-4 py-2 m-1 text-gray-500 rounded-md ${
+                          activeButton === "price" ? "bg-white" : ""
+                        }`}
                         onClick={() => {
-                          const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+                          const newSortOrder =
+                            sortOrder === "asc" ? "desc" : "asc";
                           sortProductsByPrice(newSortOrder);
                           setSortOrder(newSortOrder);
-                          setActiveButton('price'); // Cập nhật activeButton với 'price'
+                          setActiveButton("price"); // Cập nhật activeButton với 'price'
                         }}
                       >
-                        {sortOrder === 'asc' ? (
+                        {sortOrder === "asc" ? (
                           <>
-                            Giá thấp đến cao <FontAwesomeIcon icon={faArrowUpWideShort} />
+                            Giá thấp đến cao{" "}
+                            <FontAwesomeIcon icon={faArrowUpWideShort} />
                           </>
                         ) : (
                           <>
-                            Giá cao đến thấp <FontAwesomeIcon icon={faArrowUpShortWide} />
+                            Giá cao đến thấp{" "}
+                            <FontAwesomeIcon icon={faArrowUpShortWide} />
                           </>
                         )}
                       </button>
@@ -361,95 +380,87 @@ export default function detailCategory() {
                   </ul>
                 </div>
                 <div className="w-full my-2 hover:bg-white text-gray-600 md:w-32 lg:w-32">
-                  
                   <div className="w-full h-full  hs-dropdown relative inline-flex">
-                    <button id="hs-dropdown-with-icons" type="button" className="w-full  px-4 py-2 bg-gray-100 hs-dropdown-toggle inline-flex justify-between items-center gap-2 rounded-md  outline-none text-xs font-semibold text-gray-500 align-middle focus:outline-none focus:ring-0 transition-all ">
+                    <button
+                      id="hs-dropdown-with-icons"
+                      type="button"
+                      className="w-full  px-4 py-2 bg-gray-100 hs-dropdown-toggle inline-flex justify-between items-center gap-2 rounded-md  outline-none text-xs font-semibold text-gray-500 align-middle focus:outline-none focus:ring-0 transition-all "
+                    >
                       Danh mục
-                      <svg className="hs-dropdown-open:rotate-180 w-2.5 h-2.5 text-gray-600" width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5" stroke="currentColor" strokeWidth={2} strokeLinecap="round" />
+                      <svg
+                        className="hs-dropdown-open:rotate-180 w-2.5 h-2.5 text-gray-600"
+                        width={16}
+                        height={16}
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                          strokeLinecap="round"
+                        />
                       </svg>
                     </button>
-                    <div className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[15rem] bg-white shadow-md rounded-lg p-2 mt-2 divide-y divide-gray-200 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700" aria-labelledby="hs-dropdown-with-icons">
+                    <div
+                      className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[15rem] bg-white shadow-md rounded-lg p-2 mt-2 divide-y divide-gray-200 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700"
+                      aria-labelledby="hs-dropdown-with-icons"
+                    >
                       <div className="py-2 first:pt-0 last:pb-0">
-                        <a className="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-gray-300 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="#">
+                        <a
+                          className="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-gray-300 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                          href="#"
+                        >
                           Youtube
                         </a>
-                        <a className="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-gray-300 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="#">
+                        <a
+                          className="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-gray-300 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                          href="#"
+                        >
                           Twitter
                         </a>
-                        <a className="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-gray-300 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="#">
+                        <a
+                          className="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-gray-300 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                          href="#"
+                        >
                           Tiktok
                         </a>
-                        <a className="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-gray-300 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="#">
+                        <a
+                          className="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-gray-300 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                          href="#"
+                        >
                           Instagram
                         </a>
                       </div>
                     </div>
                   </div>
                 </div>
-
+              </div>
+            </div>
+            {/* Products */}
+            {filteredProducts ? (
+             <>
+              <div className="grid xl:grid-cols-5 md:grid-cols-3 gap-x-5 gap-y-2">
+                {filteredProducts.map((product) => (
+                  <ProductItem product={product} productId={product._id} />
+                ))}
+              </div>
+              <div className="flex w-full justify-center my-4">
+              <button className="bg-primary text-white px-6 py-3 rounded-md font-semibold text-sm">
+                Xem thêm
+              </button>
 
               </div>
-            </div >
-            {/* Products */}
-            <div className="grid xl:grid-cols-5 md:grid-cols-3 " >
-              {filteredProducts.map((product) => (
-                <Link key={product.id} href="">
-                  <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-200 ">
-                    <Image
-                      src={product.pictures}
-                      alt=""
-                      width={0}
-                      height={0}
-                      className="w-full object-cover rounded-t-2xl max-w"
-                      sizes="100vh"
-                      style={{ minHeight: '170px', maxHeight: '170px' }}
-                    ></Image>
-                    <div className="p-3">
-                      <div className=" w-full  line-clamp-1 overflow-hidden">
-                        <p className="w-full font-bold">
-                          {product.name}
-                        </p>
-                      </div>
-                      <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                        <span className="mr-1 text-gray-900">
-                          <FontAwesomeIcon
-                            icon={faFontAwesome}
-                            width={12}
-                            height={12}
-                          />
-                        </span>
-                        <span>Gmail</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <div className="my-1">
-                          <h4 className="text-xs font-semibold text-gray-500">
-                            Đánh giá
-                          </h4>
-                          <span className="my-2 text-base font-bold text-orange-400">
-                            <FontAwesomeIcon icon={faStar} />
-                            <FontAwesomeIcon icon={faStar} />
-                            <FontAwesomeIcon icon={faStar} />
-                            <FontAwesomeIcon icon={faStarHalfAlt} />
-                          </span>
-                        </div>
-                        <div className="my-1">
-                          <h4 className="text-right text-xs font-semibold text-gray-500">
-                            Giá
-                          </h4>
-                          <span className="my-2 text-base font-semibold">
-                            {product.price.toLocaleString()}₫
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div >
-          </div >
-        </div >
-      </div >
+              </>
+            ) : (
+              <div className="grid xl:grid-cols-5 md:grid-cols-3">
+                <ProductLoader quantityProduct={15} />
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </>
   );
 }

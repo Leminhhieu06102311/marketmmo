@@ -21,3 +21,8 @@ export async function getSoftwareTrending() {
     const { result } = res.data.data
     return result
 }
+export async function getProductFromCategory(categoryId : string) {
+    const res = await api.get(`/product?limit=15&page=1&categoryId=${categoryId}&sort=RATING_DESC`)
+    const { result } = res.data.data
+    return result
+}
