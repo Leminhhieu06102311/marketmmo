@@ -119,7 +119,7 @@ export default function sellerProfile() {
           </div>
         </div>
         <div>
-          <button className='w-full bg-primary py-2 rounded-lg mt-4 text-white font-semibold' onClick={handleNext}>Tiếp tục</button>
+          <button className='w-full bg-primary hover:bg-[#3459e7] py-2 rounded-lg mt-4 text-white font-semibold' onClick={handleNext}>Tiếp tục</button>
         </div>
       </div>
     );
@@ -176,7 +176,7 @@ export default function sellerProfile() {
         </div>
         <div className='flex justify-between items-center mt-4'>
           <button className='w-full mr-2 py-2 text-black font-semibold rounded-lg bg-[#EFF2F5]' onClick={handlePrevious}>Trở về</button>
-          <button className='w-full ml-2 py-2 text-white font-semibold rounded-lg bg-primary' onClick={handleNext}>Tiếp tục</button>
+          <button className='w-full ml-2 py-2 text-white font-semibold rounded-lg bg-primary hover:bg-[#3459e7]' onClick={handleNext}>Tiếp tục</button>
         </div>
       </div>
     );
@@ -229,7 +229,7 @@ export default function sellerProfile() {
         </div>
         <div className='flex justify-between items-center mt-4'>
           <button className='w-full mr-2 py-2 text-black font-semibold rounded-lg bg-[#EFF2F5]' onClick={handlePrevious}>Trở về</button>
-          <button className='w-full ml-2 py-2 text-white font-semibold rounded-lg bg-primary' onClick={handleNext}>Tiếp tục</button>
+          <button className='w-full ml-2 py-2 text-white font-semibold rounded-lg bg-primary hover:bg-[#3459e7]' onClick={handleNext}>Tiếp tục</button>
         </div>
       </div>
     );
@@ -269,7 +269,7 @@ export default function sellerProfile() {
           <div className='mb-10'>
             <div className='w-full mb-5'>
               <div className='text-sm font-semibold mb-2'>Nhập mã xác minh gửi về email</div>
-              <div className='w-full p-2 rounded-lg relative flex items-center border'>
+              <div className='w-full p-2 rounded-lg relative flex items-center border hover:border-[#a6b0c3]'>
                 <input className='w-full px-1 max-w-full focus:outline-none mr-1' type="text" maxLength={6} />
                 <span className='relative w-20 text-sm font-semibold cursor-pointer bg-[#EFF2F5] rounded-lg p-2 text-center'>Lấy mã</span>
               </div>
@@ -277,14 +277,14 @@ export default function sellerProfile() {
             </div>
             <div className='w-ful mb-5'>
               <div className='text-sm font-semibold mb-2'>Nhập mã xác minh Authenticator</div>
-              <input className='rounded-lg w-full px-2 py-3 border focus:outline-none mr-1' type="text" maxLength={6} />
+              <input className='rounded-lg w-full px-2 py-3 border focus:outline-none mr-1 hover:border-[#a6b0c3]' type="text" maxLength={6} />
               <div className='text-gray-500 text-xs font-semibold mt-3'>Mở Google Authenticator để lấy mã gồm 6 chữ số này.</div>
             </div>
           </div>
         </div>
         <div className='flex justify-between items-center mt-4'>
           <button className='w-full mr-2 py-2 text-black font-semibold rounded-lg bg-[#EFF2F5]' onClick={handlePrevious}>Trở về</button>
-          <button className='w-full ml-2 py-2 text-white font-semibold rounded-lg bg-primary' onClick={handleNext}>Tiếp tục</button>
+          <button className='w-full ml-2 py-2 text-white font-semibold rounded-lg bg-primary hover:bg-[#3459e7]' onClick={handleNext}>Tiếp tục</button>
         </div>
       </div>
     );
@@ -365,14 +365,14 @@ export default function sellerProfile() {
           </div>
           <div className='mb-4'>
             <label className='text-sm font-semibold'>Nhập mã xác minh</label>
-            <div className='w-full flex items-center px-2 border rounded-lg mt-1'>
+            <div className='w-full flex items-center px-2 border rounded-lg mt-1 hover:border-[#a6b0c3]'>
               <input type="text" className='w-full py-[10px] focus:outline-none  text-sm' placeholder='Nhập mã xác minh...' />
               <button className='whitespace-nowrap text-sm text-primary font-semibold'>Gửi mã</button>
             </div>
           </div>
         </div>
         <div className='flex justify-end items-center'>
-          <button onClick={handleNext} className='bg-primary text-white text-sm font-semibold py-2 px-4 rounded-lg'>Tiếp tục</button>
+          <button onClick={handleNext} className='bg-primary hover:bg-[#3459e7] text-white text-sm font-semibold py-2 px-4 rounded-lg'>Tiếp tục</button>
         </div>
       </div>
     );
@@ -399,21 +399,21 @@ export default function sellerProfile() {
         <div>
           <div className='mb-2'>
             <label className='text-sm font-semibold'>Số điện thoại mới</label>
-            <div className='w-full flex items-center px-2 border rounded-lg   mt-1'>
+            <div className='w-full flex items-center px-2 border rounded-lg  mt-1 hover:border-[#a6b0c3]'>
               <input type="text" className='w-full py-[10px] focus:outline-none  text-sm text-[#9ca3af] ' placeholder='Nhập số điện thoại mới...' />
             </div>
           </div>
           <div className='mb-4'>
             <label className='text-sm font-semibold'>Nhập mã xác minh</label>
-            <div className='w-full flex items-center px-2 border rounded-lg mt-1'>
+            <div className='w-full flex items-center px-2 border rounded-lg mt-1 hover:border-[#a6b0c3]'>
               <input type="text" className='w-full py-[10px] focus:outline-none  text-sm' placeholder='Nhập mã xác minh...' />
               <button className='whitespace-nowrap text-sm text-primary font-semibold'>Gửi mã</button>
             </div>
           </div>
         </div>
         <div className='flex justify-end items-center'>
-          <button onClick={handlePrevious} className=' text-black text-sm font-semibold py-2 px-4 border rounded-lg mr-2'>Trở về</button>
-          <button onClick={handleNext} className='bg-primary text-white text-sm font-semibold py-2 px-4 rounded-lg'>Tiếp tục</button>
+          <button onClick={handlePrevious} className=' text-black text-sm font-semibold py-2 px-4 border rounded-lg mr-2 hover:bg-[#f8fafd]'>Trở về</button>
+          <button onClick={handleNext} className='bg-primary hover:bg-[#3459e7] text-white text-sm font-semibold py-2 px-4 rounded-lg'>Tiếp tục</button>
         </div>
       </div>
     );
@@ -432,7 +432,7 @@ export default function sellerProfile() {
                 <div className='flex flex-row items-center justify-center px-1 w-full md:flex-col md:px-0 lg:flex-col lg:px-0'>
                   <div> <Image src="/images/security/noavatar.png" alt='' width={109} height={109}></Image></div>
                   <div className='mt-2 inline-flex w-full justify-end md:justify-center lg:justify-center'>
-                    <button onClick={() => openModal('modal1')} className='bg-primary text-white text-sm font-medium py-2 px-3 rounded-lg'>Chỉnh sửa</button>
+                    <button onClick={() => openModal('modal1')} className='bg-primary hover:bg-[#3459e7] font-semibold text-white text-sm py-2 px-3 rounded-lg'>Chỉnh sửa</button>
                     {modals.includes('modal1') && (
                       <div className="modal">
                         <div className="modal-content">
@@ -455,7 +455,7 @@ export default function sellerProfile() {
                                         style={{ display: 'none' }}
                                         onChange={handleFileChange}
                                       />
-                                      <button onClick={handleFileSelect} className='bg-primary text-white px-4 py-3 rounded-lg text-sm font-semibold'><span className='mr-2'><FontAwesomeIcon icon={faUpload} /></span> Upload</button>
+                                      <button onClick={handleFileSelect} className='bg-primary hover:bg-[#3459e7] text-white px-4 py-3 rounded-lg text-sm font-semibold'><span className='mr-2'><FontAwesomeIcon icon={faUpload} /></span> Upload</button>
                                     </div>
                                   </div>
                                   <div className='mb-5'>
@@ -471,7 +471,7 @@ export default function sellerProfile() {
                                       </li>
                                     </ul>
                                   </div>
-                                  <button className='bg-primary w-full rounded-lg text-white font-semibold  py-2'>Lưu</button>
+                                  <button className='bg-primary hover:bg-[#3459e7] w-full rounded-lg text-white font-semibold  py-2'>Lưu</button>
                                 </div>
                               </div>
                             </div>
@@ -508,7 +508,7 @@ export default function sellerProfile() {
                   <span className='text-sm font-semibold text-black'>Tên cửa hàng</span>
                   <div className='flex items-center'>
                     <span className='font-semibold text-[#9ca3af] mr-2'>Đồ xinhhhh đayy</span>
-                    <button onClick={() => openModal('modalinf1')} className='text-sm text-primary font-semibold'>Thay đổi</button>
+                    <button onClick={() => openModal('modalinf1')} className='text-sm text-primary hover:text-[#3459e7] font-semibold'>Thay đổi</button>
                     {modals.includes('modalinf1') && (
                       <div className="modal">
                         <div className="modal-content">
@@ -521,12 +521,12 @@ export default function sellerProfile() {
                               </div>
                               <div className="">
                                 <div>
-                                  <input type="text" placeholder='Nhập tên cửa hàng của bạn' className='w-full rounded-lg border px-4 py-3 focus:outline-none mb-1 text-base ' />
+                                  <input type="text" placeholder='Nhập tên cửa hàng của bạn' className='w-full rounded-lg border px-4 py-3 focus:outline-none mb-1 text-base hover:border-[#a6b0c3]' />
                                   <span className='text-xs font-normal'><FontAwesomeIcon icon={faTriangleExclamation} className='text-yellow-400 text-sm' /> Bạn có thể đổi tên cửa hàng 1 lần trong 1 tháng</span>
                                 </div>
                                 <div className='flex justify-end items-center'>
-                                  <button onClick={() => closeModal('modalinf1')} className='border text-sm font-medium py-2 px-4 rounded-lg mr-3'>Huỷ</button>
-                                  <button className='bg-primary text-white text-sm font-semibold py-2 px-4 rounded-lg'>Lưu</button>
+                                  <button onClick={() => closeModal('modalinf1')} className='border text-sm font-medium py-2 px-4 rounded-lg mr-3 hover:bg-[#f8fafd]'>Huỷ</button>
+                                  <button className='bg-primary hover:bg-[#3459e7] text-white text-sm font-semibold py-2 px-4 rounded-lg'>Lưu</button>
                                 </div>
                               </div>
                             </div>
@@ -540,7 +540,7 @@ export default function sellerProfile() {
                   <span className='text-sm font-semibold text-black'>Số điện thoại</span>
                   <div className='flex items-center'>
                     <span className='font-semibold text-[#9ca3af] mr-2'>+84****6505</span>
-                    <button onClick={() => openModal('modalinf2')} className='text-sm text-primary font-semibold'>Thay đổi</button>
+                    <button onClick={() => openModal('modalinf2')} className='text-sm text-primary hover:text-[#3459e7] font-semibold'>Thay đổi</button>
                     {modals.includes('modalinf2') && (
                       <div className="modal">
                         <div className="modal-content">
@@ -565,7 +565,7 @@ export default function sellerProfile() {
                   <span className='text-sm font-semibold text-black'>Email</span>
                   <div className='flex items-center'>
                     <span className='font-semibold text-[#9ca3af] mr-2'>--</span>
-                    <button onClick={() => openModal('modalinf3')} className='text-sm text-primary font-semibold'>Thay đổi</button>
+                    <button onClick={() => openModal('modalinf3')} className='text-sm text-primary hover:text-[#3459e7] font-semibold'>Thay đổi</button>
                     {modals.includes('modalinf3') && (
                       <div className="modal">
                         <div className="modal-content">
@@ -579,26 +579,26 @@ export default function sellerProfile() {
                               <div className="">
                                 <div className='mb-4'>
                                   <label className='text-sm font-semibold mb-1'>Nhập địa chỉ email cũ</label>
-                                  <div className='w-full flex items-center px-2 border rounded-lg'>
+                                  <div className='w-full flex items-center px-2 border rounded-lg hover:border-[#a6b0c3]'>
                                     <input type="text" className='w-full py-[10px] focus:outline-none  text-sm' placeholder='pg***15@gmail.com' />
                                   </div>
                                 </div>
                                 <div className='mb-4'>
                                   <label className='text-sm font-semibold mb-1'>Địa chỉ email mới</label>
-                                  <div className='w-full flex items-center px-2 border rounded-lg'>
+                                  <div className='w-full flex items-center px-2 border rounded-lg hover:border-[#a6b0c3]'>
                                     <input type="text" className='w-full py-[10px] focus:outline-none  text-sm' placeholder='Nhập địa chỉ email...' />
                                   </div>
                                 </div>
                                 <div className='mb-4'>
                                   <label className='text-sm font-semibold mb-1'>Mã xác minh</label>
-                                  <div className='w-full flex items-center px-2 border rounded-lg'>
+                                  <div className='w-full flex items-center px-2 border rounded-lg hover:border-[#a6b0c3]'>
                                     <input type="text" className='w-full py-[10px] focus:outline-none  text-sm' placeholder='Nhập mã xác minh...' />
                                     <button className='whitespace-nowrap text-sm text-primary font-semibold'>Gửi mã</button>
                                   </div>
                                 </div>
                                 <div className='flex justify-end items-center'>
-                                  <button onClick={() => closeModal('modalinf3')} className='border text-sm font-medium py-2 px-4 rounded-lg mr-3'>Huỷ</button>
-                                  <button className='bg-primary text-white text-sm font-semibold py-2 px-4 rounded-lg'>Lưu</button>
+                                  <button onClick={() => closeModal('modalinf3')} className='border text-sm font-medium py-2 px-4 rounded-lg mr-3 hover:bg-[#f8fafd]'>Huỷ</button>
+                                  <button className='bg-primary hover:bg-[#3459e7] text-white text-sm font-semibold py-2 px-4 rounded-lg'>Lưu</button>
                                 </div>
                               </div>
                             </div>
@@ -619,7 +619,7 @@ export default function sellerProfile() {
                 <div className='flex flex-col justify-between md:flex-col lg:flex-row'>
                   <span className='text-gray-400 font-semibold text-sm mr-2 mb-2'>Sử dụng Authenticator để nhận mã xác minh nhằm bảo mật tốt hơn.</span>
                   <div className='flex justify-end'>
-                    <button onClick={() => openModal('modal2')} className='bg-primary px-4 rounded-lg text-white font-semibold text-sm py-2'>Cho phép</button>
+                    <button onClick={() => openModal('modal2')} className='bg-primary hover:bg-[#3459e7] px-4 rounded-lg text-white font-semibold text-sm py-2'>Cho phép</button>
                     <div>
                       {modals.includes('modal2') && (
                         <div className="modal">
@@ -643,18 +643,11 @@ export default function sellerProfile() {
                 </div>
               </div>
               <div className='mb-2'>
-                <h1 className='text-base font-semibold mb-2'>Xác minh địa chỉ email (2FA)+</h1>
-                <div className='flex flex-col justify-between md:flex-col lg:flex-row'>
-                  <span className='text-gray-400 font-semibold text-sm mr-2 mb-2'>Sử dụng Authenticator để nhận mã xác minh nhằm bảo mật tốt hơn.</span>
-                  <div className='flex justify-end'><button className='bg-primary px-4 rounded-lg text-white font-semibold text-sm py-2'>Cho phép</button></div>
-                </div>
-              </div>
-              <div className='mb-2'>
                 <h1 className='text-base font-semibold mb-2'>Mật khẩu</h1>
                 <div className='flex flex-col justify-between md:flex-row lg:flex-row'>
                   <span className='text-gray-400 font-semibold text-sm mr-2 mb-2'>Đặt mật khẩu duy nhất để bảo vệ tốt hơn</span>
                   <div className='flex justify-end'>
-                    <button onClick={() => openModal('modal3')} className='bg-white border border-gray-300 px-4 rounded-lg font-semibold text-sm py-2'>Đặt lại mật khẩu</button>
+                    <button onClick={() => openModal('modal3')} className='bg-white border border-gray-300 px-4 rounded-lg font-semibold text-sm py-2 hover:bg-[#f8fafd]'>Đặt lại mật khẩu</button>
                     <div>
                       {modals.includes('modal3') && (
                         <div className="modal">
@@ -670,7 +663,7 @@ export default function sellerProfile() {
                                   <div className='text-gray-500 font-semibold text-sm mb-3'>Bạn sẽ nhận được hướng dẫn qua e-mail về cách đặt lại mật khẩu của mình.</div>
                                   <input className='py-4 px-4 cursor-not-allowed focus:outline-none text-sm bg-slate-100 w-full border rounded-lg' type="text" placeholder='yu***st@gmail.com' disabled />
                                 </div>
-                                <button className='w-full rounded-lg p-3 text-white font-semibold  bg-primary'>Gửi hướng dẫn</button>
+                                <button className='w-full rounded-lg p-3 text-white font-semibold  bg-primary hover:bg-[#3459e7]'>Gửi hướng dẫn</button>
                               </div>
                             </div>
                           </div>
@@ -693,14 +686,15 @@ export default function sellerProfile() {
                 </div>
                 <div className='flex justify-between' >
                   <div className='block p-2 text-sm font-semibold rounded-lg bg-[#EFF2F5] lg:hidden'>Đang sử dụng: Chrome 17</div>
-                  <button className='bg-white border border-gray-300 rounded-lg font-semibold text-sm px-6 py-2'>Quản lý</button></div>
+                  <Link href='/seller-settings/account-activity' className='bg-white border text-center border-gray-300 rounded-lg font-semibold text-sm px-6 py-3 hover:bg-[#f8fafd]'>Quản lý</Link>
+                </div>
               </div>
             </div>
             <div>
               <h1 className='text-base font-semibold mb-2'>Hoạt động tài khoản</h1>
               <div className='flex justify-between flex-col md:flex-row lg:flex-row'>
                 <span className='text-gray-400 font-semibold text-sm mr-2 mb-2'>Kiểm tra hoạt động đăng nhập gần đây của tài khoản</span>
-                <button className='bg-white border border-gray-300 px-4 rounded-lg font-semibold text-sm py-2'>Xem thêm</button>
+                <Link href='/seller-settings/device-management' className='bg-white border text-center border-gray-300 px-4 rounded-lg font-semibold text-sm py-2 hover:bg-[#f8fafd]'>Xem thêm</Link>
               </div>
             </div>
           </div>

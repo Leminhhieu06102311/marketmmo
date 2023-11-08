@@ -13,16 +13,18 @@ export default function deviceManagement() {
                     {/* NAV */}
                     <div className='w-64 hidden md:block lg:block'>
                         <ul className='w-52 sticky top-5 mt-7 mb-7'>
-                            <li className='mb-1'><Link href='' className='flex justify-left items-center p-4 text-sm rounded-lg '><FontAwesomeIcon className="mr-3" icon={faUser} width={20} height={20} /> Hồ sơ</Link></li>
-                            <li className='mb-1'><Link href='' className='flex justify-left items-center p-4 text-sm rounded-lg font-semibold  bg-[#EFF2F5] '><FontAwesomeIcon className="mr-3" icon={faShieldAlt} width={20} height={20} />Bảo mật tài khoản</Link></li>
+                            <li className='mb-1'><Link href='/settings' className='flex justify-left items-center p-4 text-sm font-semibold rounded-lg  hover:bg-[#EFF2F5]'><FontAwesomeIcon className="mr-3" icon={faUser} width={20} height={20} /> Hồ sơ</Link></li>
+                            <li className='mb-1'><Link href='/settings/account-security' className='flex justify-left items-center p-4 text-sm rounded-lg bg-[#EFF2F5] hover:bg-[#EFF2F5] '><FontAwesomeIcon className="mr-3" icon={faShieldAlt} width={20} height={20} />Bảo mật tài khoản</Link></li>
                         </ul>
                     </div>
                     {/* Items */}
                     <div className='w-full mb:w-full p-6 lg:w-10/12'>
-                        <div className="flex items-center border-b border-gray-200 w-full mb-10">
-                            <span className="text-2xl"><FontAwesomeIcon icon={faArrowLeft} width={25} height={25} /></span>
-                            <h1 className='mx-8 py-4  text-2xl font-semibold'>Quản lý thiết bị</h1>
-                        </div>
+                        <Link href='/settings/account-security'>
+                            <div className="flex items-center border-b border-gray-200 w-full mb-10">
+                                <span className="text-2xl"><FontAwesomeIcon icon={faArrowLeft} width={25} height={25} /></span>
+                                <h1 className='mx-8 py-4  text-2xl font-semibold'>Quản lý thiết bị</h1>
+                            </div>
+                        </Link>
                         <div className="w-full">
                             <table className="w-full">
                                 <thead>
@@ -69,14 +71,14 @@ export default function deviceManagement() {
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    {/* <tr className="border-y border-gray-200 hover:bg-gray-50">
                                         <td className="p-2 text-center"><span className="text-xs font-semibold">1</span></td>
                                         <td className="p-2"><span className="text-xs font-semibold" >Phạm Gia Kiện</span></td>
                                         <td className="p-2"><span className="text-xs font-semibold" >11/12/2023</span></td>
                                         <td className="p-2"><span className="text-xs font-semibold" >Hồ Chí Minh</span></td>
                                         <td className="p-2"><span className="text-xs font-semibold" >152.262.12</span></td>
                                         <td className="p-2"><span className="text-xs font-semibold" >Thay đổi mật khẩu</span></td>
-                                    </tr>
+                                    </tr> */}
                                 </tbody>
                             </table>
                         </div>
