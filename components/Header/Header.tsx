@@ -1,30 +1,35 @@
 "use client";
-import {
-  faMagnifyingGlass,
-  faEnvelope,
-  faFileInvoice,
-  faBookmark,
-  faWallet,
-  faUser,
-  faCircleUser,
-  faCartShopping,
-  faPaperPlane,
-  faGear,
-  faClockRotateLeft,
-  faArrowRightFromBracket,
-  faArrowRightArrowLeft,
-  faBars,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { BiSearch } from "react-icons/bi";
+import { AiOutlineHistory, AiOutlineLogin } from "react-icons/ai";
+import { HiOutlineUserCircle } from "react-icons/hi";
+import { IoPaperPlaneOutline, IoSettingsOutline } from "react-icons/io5";
+import { IoIosLogOut } from "react-icons/io";
+import { BsCart3 } from "react-icons/bs";
+import { TbArrowsExchange } from "react-icons/tb";
+import { FaBars } from "react-icons/fa";
 import Link from "next/link";
 import { useEffect } from "react";
 import CartModal from "../Cart/CartModal";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { logout } from "@/redux/userSlice";
+import { hide, show } from "@/redux/notiSlice";
+import Notification from "../Notification";
+import { status } from "../Notification/Notification";
 
 export default function Header() {
+  const {isLogin} = useAppSelector((state) => state.user);
+  const { isNoti } = useAppSelector((state) => state.noti);
+  const dispatch = useAppDispatch();
+  const hanldeLogout = () => {
+    dispatch(logout());
+    dispatch(show());
+    setTimeout(() => {
+      dispatch(hide());
+    }, 3000);
+  };
   useEffect(() => {
-    import('preline')
-  }, [])
+    import("preline");
+  }, []);
   return (
     <>
       <div className=" bg-primary hidden md:block mx-auto md:py-1 lg:flex lg:py-2 lg:px-5 lg:justify-center">
@@ -52,24 +57,22 @@ export default function Header() {
             <h2 className="font-bold text-xl">Market MMO</h2>
           </Link>
           <div className="hidden md:flex items-center">
-              <span className="h-8 w-[1px] bg-[#eff2f5] mx-2"></span>
-            </div>
+            <span className="h-8 w-[1px] bg-[#eff2f5] mx-2"></span>
+          </div>
           <div className="hidden md:flex lg:flex items-center ">
             <ul className="flex md:gap-x-4 gap-x-7">
               <li className="font-semibold text-base relative group">
                 Sản phẩm
-                
                 <ul className="absolute w-60 p-2  bg-white  z-10 top-10 rounded-lg shadow-modal after:content-[''] after:w-full after:absolute after:h-[50px] after:bg-transparent after:top-[-30px] hidden group-hover:block ">
                   <li className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">
-                  <span className="font-medium block">Tài khoản</span>
+                    <span className="font-medium block">Tài khoản</span>
                   </li>
                   <li className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">
-                  <span className="font-medium block">Phầm mềm</span>
+                    <span className="font-medium block">Phầm mềm</span>
                   </li>
                   <li className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">
-                  <span className="font-medium block">Blockchain</span>
+                    <span className="font-medium block">Blockchain</span>
                   </li>
-                  
                 </ul>
               </li>
               <li className="font-semibold text-base">Dịch vụ</li>
@@ -78,78 +81,86 @@ export default function Header() {
           </div>
         </div>
         <div className="md:hidden lg:flex items-center bg-[#1212120a] rounded-xl px-3 hidden hover:bg-[#12121214] transition-all">
-            <FontAwesomeIcon
-              icon={faMagnifyingGlass}
-              width={15}
-              height={15}
-              className="text-[#121212]"
-            />
-            <input
-              type="text"
-              placeholder="Tìm kiếm"
-              className="pl-2 bg-transparent text-base py-3 outline-none w-96"
-            />
-            <div className="px-2 py-1 bg-[#12121214] rounded-md text-xs">
-              /
-            </div>
+          <BiSearch className="text-[#121212] w-5 h-5" />
+          <input
+            type="text"
+            placeholder="Tìm kiếm"
+            className="pl-2 bg-transparent text-base py-3 outline-none w-96"
+          />
+          <div className="px-2 py-1 bg-[#12121214] rounded-md text-xs">/</div>
         </div>
         <div className=" flex lg:flex gap-5">
           <div className=" lg:flex ">
             <div className="flex gap-2 items-center">
-              <Link href="/login"  className="bg-[#1212120a] hidden rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:flex items-center gap-2">
-              <FontAwesomeIcon icon={faWallet} /> Đăng nhập
-              </Link >
+              {!isLogin ? (
+                <Link
+                  href="/login"
+                  className="bg-[#1212120a] hidden rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:flex items-center gap-2"
+                >
+                  <AiOutlineLogin className="w-5 h-5" /> Đăng nhập
+                </Link>
+              ) : (
+                <></>
+              )}
               <button className=" group hidden md:block bg-[#1212120a] rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212] relative">
-                <FontAwesomeIcon icon={faCircleUser} />
-                <ul className="group-hover:block absolute w-60 p-2 hidden bg-white right-0 z-10 top-14 rounded-lg shadow-modal before:absolute before:w-full before:h-4 before:bg-transparent before:right-0 before:-top-2  ">
-
+                <HiOutlineUserCircle className="w-5 h-5" />
+                <ul className="group-hover:block absolute w-60 p-2 hidden bg-white right-0 z-10 top-14 rounded-lg shadow-modal before:absolute before:w-full before:h-6 before:bg-transparent before:right-0 before:-top-3  ">
                   <li className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">
-                  <FontAwesomeIcon icon={faUser} />
-                  <span className="font-medium block">Trang cá nhân</span>
+                    <HiOutlineUserCircle className="w-5 h-5" />
+                    <span className="font-medium block">Trang cá nhân</span>
                   </li>
                   <li className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">
-                  <FontAwesomeIcon icon={faPaperPlane} />
-                  <span className="font-medium block">Đơn hàng đã mua</span>
+                    <IoPaperPlaneOutline className="w-5 h-5" />
+                    <span className="font-medium block">Đơn hàng đã mua</span>
                   </li>
                   <span className="block w-full h-[2px] my-2 bg-gray-100"></span>
                   <li className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">
-                  <FontAwesomeIcon icon={faClockRotateLeft} />
-                  <span className="font-medium block">Lịch sử giao dịch</span>
+                    <AiOutlineHistory className="w-5 h-5" />
+                    <span className="font-medium block">Lịch sử giao dịch</span>
+                  </li>
+                  <li>
+                    <Link
+                      className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer"
+                      href="/recover/change-password"
+                    >
+                      <TbArrowsExchange className="w-5 h-5" />
+                      <span className="font-medium block">Đổi mật khẩu</span>
+                    </Link>
                   </li>
                   <li className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">
-                  <FontAwesomeIcon icon={faArrowRightArrowLeft} />
-                  <span className="font-medium block">Đổi mật khẩu</span>
+                    <IoSettingsOutline className="w-5 h-5" />
+                    <span className="font-medium block">Cài đặt</span>
                   </li>
-                  <li className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">
-                  <FontAwesomeIcon icon={faGear} />
-                  <span className="font-medium block">Cài đặt</span>
-                  </li>
-                  <li className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">
-                  <FontAwesomeIcon icon={faArrowRightFromBracket} />
-                  <span className="font-medium block">Đăng suất</span>
+                  <li
+                    className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer"
+                    onClick={() => hanldeLogout()}
+                  >
+                    <IoIosLogOut className="w-5 h-5" />
+                    <span className="font-medium block">Đăng suất</span>
+                    {isNoti ?? (
+                      <Notification message="Đăng suất thành công" status={status.success} />
+                    )}
                   </li>
                 </ul>
               </button>
               {/* start responsive mobile */}
+              <button className=" rounded-xl px-2 transition-all md:py-3 text-[#121212] flex items-center gap-2 md:hidden"></button>
               <button className=" rounded-xl px-2 transition-all md:py-3 text-[#121212] flex items-center gap-2 md:hidden">
-              <FontAwesomeIcon className="h-5 w-5" icon={faSearch} />
-              </button>
-              <button className=" rounded-xl px-2 transition-all md:py-3 text-[#121212] flex items-center gap-2 md:hidden">
-              <FontAwesomeIcon  className="h-5 w-5" icon={faBars} />
+                <FaBars className="h-5 w-5" />
               </button>
               {/* end  responsive mobile */}
-              <button className="bg-[#1212120a] hidden md:block rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212]" data-hs-overlay="#cart-modal">
-              <FontAwesomeIcon icon={faCartShopping} />
+              <button
+                className="bg-[#1212120a] hidden md:block rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212]"
+                data-hs-overlay="#cart-modal"
+              >
+                <BsCart3 className="w-5 h-5" />
               </button>
-              
             </div>
           </div>
-       
         </div>
       </div>
       <div className="w-full h-[1px] bg-[#eff2f5]"></div>
       <CartModal />
-
     </>
   );
 }

@@ -14,6 +14,9 @@ import { getDetailProduct } from "@/services/product";
 import Product from "@/interfaces/product";
 import Cart from "@/interfaces/cart";
 import { Context } from "@/app/layout";
+import { AiOutlineHeart } from "react-icons/ai";
+import { HiOutlineDuplicate } from "react-icons/hi";
+import { FaRegComment } from "react-icons/fa";
 
 export default function DetailProduct({productId}: {productId: string}) {
   console.log(productId)
@@ -95,110 +98,14 @@ export default function DetailProduct({productId}: {productId: string}) {
                   Thích
                 </div>
               </div>
-              <svg
-                className="w-5 h-5"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g id="SVGRepo_bgCarrier" strokeWidth={0} />
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <g id="SVGRepo_iconCarrier">
-                  {" "}
-                  <path
-                    d="M8.96173 18.9109L9.42605 18.3219L8.96173 18.9109ZM12 5.50063L11.4596 6.02073C11.601 6.16763 11.7961 6.25063 12 6.25063C12.2039 6.25063 12.399 6.16763 12.5404 6.02073L12 5.50063ZM15.0383 18.9109L15.5026 19.4999L15.0383 18.9109ZM9.42605 18.3219C7.91039 17.1271 6.25307 15.9603 4.93829 14.4798C3.64922 13.0282 2.75 11.3345 2.75 9.1371H1.25C1.25 11.8026 2.3605 13.8361 3.81672 15.4758C5.24723 17.0866 7.07077 18.3752 8.49742 19.4999L9.42605 18.3219ZM2.75 9.1371C2.75 6.98623 3.96537 5.18252 5.62436 4.42419C7.23607 3.68748 9.40166 3.88258 11.4596 6.02073L12.5404 4.98053C10.0985 2.44352 7.26409 2.02539 5.00076 3.05996C2.78471 4.07292 1.25 6.42503 1.25 9.1371H2.75ZM8.49742 19.4999C9.00965 19.9037 9.55954 20.3343 10.1168 20.6599C10.6739 20.9854 11.3096 21.25 12 21.25V19.75C11.6904 19.75 11.3261 19.6293 10.8736 19.3648C10.4213 19.1005 9.95208 18.7366 9.42605 18.3219L8.49742 19.4999ZM15.5026 19.4999C16.9292 18.3752 18.7528 17.0866 20.1833 15.4758C21.6395 13.8361 22.75 11.8026 22.75 9.1371H21.25C21.25 11.3345 20.3508 13.0282 19.0617 14.4798C17.7469 15.9603 16.0896 17.1271 14.574 18.3219L15.5026 19.4999ZM22.75 9.1371C22.75 6.42503 21.2153 4.07292 18.9992 3.05996C16.7359 2.02539 13.9015 2.44352 11.4596 4.98053L12.5404 6.02073C14.5983 3.88258 16.7639 3.68748 18.3756 4.42419C20.0346 5.18252 21.25 6.98623 21.25 9.1371H22.75ZM14.574 18.3219C14.0479 18.7366 13.5787 19.1005 13.1264 19.3648C12.6739 19.6293 12.3096 19.75 12 19.75V21.25C12.6904 21.25 13.3261 20.9854 13.8832 20.6599C14.4405 20.3343 14.9903 19.9037 15.5026 19.4999L14.574 18.3219Z"
-                    fill="#1C274C"
-                  />{" "}
-                </g>
-              </svg>
+              <AiOutlineHeart className="w-5 h-5" />
+              
             </div>
             <div className="border cursor-pointer border-gray-300 rounded-full w-10 h-10 flex items-center justify-center">
-              <svg
-                className="w-5 h-5"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g id="SVGRepo_bgCarrier" strokeWidth={0} />
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <g id="SVGRepo_iconCarrier">
-                  {" "}
-                  <path
-                    d="M12.89 5.87988H5.10999C3.39999 5.87988 2 7.27987 2 8.98987V20.3499C2 21.7999 3.04 22.4199 4.31 21.7099L8.23999 19.5199C8.65999 19.2899 9.34 19.2899 9.75 19.5199L13.68 21.7099C14.95 22.4199 15.99 21.7999 15.99 20.3499V8.98987C16 7.27987 14.6 5.87988 12.89 5.87988Z"
-                    stroke="#292D32"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />{" "}
-                  <path
-                    d="M16 8.98987V20.3499C16 21.7999 14.96 22.4099 13.69 21.7099L9.76001 19.5199C9.34001 19.2899 8.65999 19.2899 8.23999 19.5199L4.31 21.7099C3.04 22.4099 2 21.7999 2 20.3499V8.98987C2 7.27987 3.39999 5.87988 5.10999 5.87988H12.89C14.6 5.87988 16 7.27987 16 8.98987Z"
-                    stroke="#292D32"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />{" "}
-                  <path
-                    opacity="0.4"
-                    d="M22 5.10999V16.47C22 17.92 20.96 18.53 19.69 17.83L16 15.77V8.98999C16 7.27999 14.6 5.88 12.89 5.88H8V5.10999C8 3.39999 9.39999 2 11.11 2H18.89C20.6 2 22 3.39999 22 5.10999Z"
-                    stroke="#292D32"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />{" "}
-                </g>
-              </svg>
+              <FaRegComment className="w-5 h-5" />
             </div>
             <div className="border cursor-pointer border-gray-300 rounded-full w-10 h-10 flex items-center justify-center">
-              <svg
-                className="w-5 h-5"
-                viewBox="0 0 32 32"
-                version="1.1"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlnsXlink="http://www.w3.org/1999/xlink"
-                fill="#000000"
-              >
-                <g id="SVGRepo_bgCarrier" strokeWidth={0} />
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <g id="SVGRepo_iconCarrier">
-                  {" "}
-                  <title>comment-1</title>{" "}
-                  <desc>Created with Sketch Beta.</desc> <defs> </defs>{" "}
-                  <g
-                    id="Page-1"
-                    stroke="none"
-                    strokeWidth={1}
-                    fill="none"
-                    fillRule="evenodd"
-                  >
-                    {" "}
-                    <g
-                      id="Icon-Set"
-                      transform="translate(-100.000000, -255.000000)"
-                      fill="#121212"
-                    >
-                      {" "}
-                      <path
-                        d="M116,281 C114.832,281 113.704,280.864 112.62,280.633 L107.912,283.463 L107.975,278.824 C104.366,276.654 102,273.066 102,269 C102,262.373 108.268,257 116,257 C123.732,257 130,262.373 130,269 C130,275.628 123.732,281 116,281 L116,281 Z M116,255 C107.164,255 100,261.269 100,269 C100,273.419 102.345,277.354 106,279.919 L106,287 L113.009,282.747 C113.979,282.907 114.977,283 116,283 C124.836,283 132,276.732 132,269 C132,261.269 124.836,255 116,255 L116,255 Z"
-                        id="comment-1"
-                      >
-                        {" "}
-                      </path>{" "}
-                    </g>{" "}
-                  </g>{" "}
-                </g>
-              </svg>
+              <HiOutlineDuplicate className="w-5 h-5" />
             </div>
           </div>
         </div>
@@ -214,7 +121,7 @@ export default function DetailProduct({productId}: {productId: string}) {
               >
                 <SwiperSlide>
                   <Image
-                    className="rounded-2xl object-cover w-full h-full"
+                    className="rounded-2xl object-cover w-full h-[500px]"
                     src={dataProduct?.pictures[0]}
                     width={0}
                     height={0}
@@ -682,7 +589,7 @@ export default function DetailProduct({productId}: {productId: string}) {
                 <p>Chọn gói sản phẩm</p>
                 <div className="inline-flex flex-wrap gap-2">
                   
-                  {/* {dataProduct?.type.map((item,index) => (
+                  {dataProduct?.accompanyingProducts.map((item,index) => (
                     <button key={index}
                     data-type={index}
                     onClick={(event) => hanldeSelectType(event)}
@@ -692,9 +599,9 @@ export default function DetailProduct({productId}: {productId: string}) {
                         : "text-black bg-white border-gray-200"
                     } p-2 rounded-lg text-sm inline cursor-pointer border`}
                   >
-                    {item.name}
+                    {/* {item?.name} */}
                   </button>
-                  ))} */}
+                  ))}
                 </div>
               </div>
             </div>

@@ -29,6 +29,10 @@ interface Product {
     name: string;
     description: string;
   };
+  accompanyingProducts: [
+    name: string,
+    price: number
+  ]
   status: string;
   quantity: number;
   code: string;

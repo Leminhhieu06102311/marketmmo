@@ -1,17 +1,17 @@
-import { Context } from "@/app/layout";
 import Product from "@/interfaces/product";
+import { useAppDispatch } from "@/redux/hooks";
+import { PopupDetailProduct } from "@/redux/productSlice";
 import { faFontAwesome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import { useContext } from "react";
 
-export default function ProductItem({productId,product} : {productId : string, product: Product}) {
-  const { handleClickProduct } = useContext(Context);
+export default function ProductItem({product} : {product: Product}) {
+  const dispatch = useAppDispatch()
   return (
     <button
       data-hs-overlay="#modal-detail-product"
       className="w-full"
-      onClick={() => handleClickProduct(productId)}
+      onClick={() => dispatch(PopupDetailProduct(product._id))}
     >
       <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl box-shadow-product hover:-translate-y-3 hover:shadow-hover  duration-300 w-full">
         <Image
