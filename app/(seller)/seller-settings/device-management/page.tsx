@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 
 
-export default function deviceManagement() {
+export default function sellerDeviceManagement() {
 
     return (
         <>
@@ -12,10 +12,12 @@ export default function deviceManagement() {
                 <div className='w-full m-auto  flex md:max-w-3xl lg:max-w-8xl'>
                     {/* Items */}
                     <div className='w-full mb:w-full p-6 lg:w-10/12'>
-                        <div className="flex items-center border-b border-gray-200 w-full mb-10">
-                            <span className="text-2xl"><FontAwesomeIcon icon={faArrowLeft} width={25} height={25} /></span>
-                            <h1 className='mx-8 py-4  text-2xl font-semibold'>Quản lý thiết bị</h1>
-                        </div>
+                        <Link href='/seller-settings'>
+                            <div className="flex items-center border-b border-gray-200 w-full mb-10">
+                                <span className="text-2xl"><FontAwesomeIcon icon={faArrowLeft} width={25} height={25} /></span>
+                                <h1 className='mx-8 py-4  text-2xl font-semibold'>Quản lý thiết bị</h1>
+                            </div>
+                        </Link>
                         <div className="w-full">
                             <table className="w-full">
                                 <thead>
@@ -62,14 +64,14 @@ export default function deviceManagement() {
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    {/* <tr className="border-y border-gray-200 hover:bg-gray-50">
                                         <td className="p-2 text-center"><span className="text-xs font-semibold">1</span></td>
                                         <td className="p-2"><span className="text-xs font-semibold" >Phạm Gia Kiện</span></td>
                                         <td className="p-2"><span className="text-xs font-semibold" >11/12/2023</span></td>
                                         <td className="p-2"><span className="text-xs font-semibold" >Hồ Chí Minh</span></td>
                                         <td className="p-2"><span className="text-xs font-semibold" >152.262.12</span></td>
                                         <td className="p-2"><span className="text-xs font-semibold" >Thay đổi mật khẩu</span></td>
-                                    </tr>
+                                    </tr> */}
                                 </tbody>
                             </table>
                         </div>

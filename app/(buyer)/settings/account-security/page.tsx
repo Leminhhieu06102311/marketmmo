@@ -102,7 +102,7 @@ export default function Profile() {
                     </div>
                 </div>
                 <div>
-                    <button className='w-full bg-primary py-2 rounded-lg mt-4 text-white font-semibold' onClick={handleNext}>Tiếp tục</button>
+                    <button className='w-full bg-primary py-2 rounded-lg mt-4 text-white font-semibold hover:bg-[#3459e7]' onClick={handleNext}>Tiếp tục</button>
                 </div>
             </div>
         );
@@ -159,8 +159,8 @@ export default function Profile() {
                     <div className='text-gray-500 text-center w-full text-sm'>Quét mã QR này bằng ứng dụng Google Authenticator hoặc nhập mã ở trên theo cách thủ công.</div>
                 </div>
                 <div className='flex justify-between items-center mt-4'>
-                    <button className='w-full mr-2 py-2 text-black font-semibold rounded-lg bg-[#EFF2F5]' onClick={handlePrevious}>Trở về</button>
-                    <button className='w-full ml-2 py-2 text-white font-semibold rounded-lg bg-primary' onClick={handleNext}>Tiếp tục</button>
+                    <button className='w-full mr-2 py-2 text-black font-semibold rounded-lg bg-[#EFF2F5] ' onClick={handlePrevious}>Trở về</button>
+                    <button className='w-full ml-2 py-2 text-white font-semibold rounded-lg bg-primary hover:bg-[#3459e7]' onClick={handleNext}>Tiếp tục</button>
                 </div>
             </div>
         );
@@ -198,7 +198,7 @@ export default function Profile() {
                 </div>
                 <h2 className="text-center mt-5 mb-5 font-bold text-lg">Lưu Key dự phòng này ở một vị trí an toàn</h2>
                 <div className='flex justify-center flex-col items-center'>
-                    <div className='flex items-center text-center mb-5 w-14 h-14 rounded-full bg-[#EFF2F5]'>
+                    <div className='flex items-center text-center mb-5 w-14 h-14 rounded-full bg-[#EFF2F5] '>
                         <FontAwesomeIcon icon={faLock} className='w-full' color='#808a9d' />
                     </div>
                     <div className='w-full text-center mb-3'>
@@ -214,7 +214,7 @@ export default function Profile() {
                 </div>
                 <div className='flex justify-between items-center mt-4'>
                     <button className='w-full mr-2 py-2 text-black font-semibold rounded-lg bg-[#EFF2F5]' onClick={handlePrevious}>Trở về</button>
-                    <button className='w-full ml-2 py-2 text-white font-semibold rounded-lg bg-primary' onClick={handleNext}>Tiếp tục</button>
+                    <button className='w-full ml-2 py-2 text-white font-semibold rounded-lg bg-primary hover:bg-[#3459e7]' onClick={handleNext}>Tiếp tục</button>
                 </div>
             </div>
         );
@@ -254,22 +254,22 @@ export default function Profile() {
                     <div className='mb-10'>
                         <div className='w-full mb-5'>
                             <div className='text-sm font-semibold mb-2'>Nhập mã xác minh gửi về email</div>
-                            <div className='w-full p-2 rounded-lg relative flex items-center border'>
+                            <div className='w-full p-2 rounded-lg relative flex items-center border hover:border-[#A6B0C3]'>
                                 <input className='w-full px-1 max-w-full focus:outline-none mr-1' type="text" maxLength={6} />
                                 <span className='relative w-20 text-sm font-semibold cursor-pointer bg-[#EFF2F5] rounded-lg p-2 text-center'>Lấy mã</span>
                             </div>
                             <div className='text-gray-500 text-xs font-semibold mt-3'>Một mã gồm 6 chữ số đã được gửi tới yut...ust@gmail.com</div>
                         </div>
                         <div className='w-ful mb-5'>
-                            <div className='text-sm font-semibold mb-2'>Nhập mã xác minh Authenticator</div>
-                            <input className='rounded-lg w-full px-2 py-3 border focus:outline-none mr-1' type="text" maxLength={6} />
+                            <div className='text-sm font-semibold mb-2 '>Nhập mã xác minh Authenticator</div>
+                            <input className='rounded-lg w-full px-2 py-3 border focus:outline-none mr-1 hover:border-[#A6B0C3]' type="text" maxLength={6} />
                             <div className='text-gray-500 text-xs font-semibold mt-3'>Mở Google Authenticator để lấy mã gồm 6 chữ số này.</div>
                         </div>
                     </div>
                 </div>
                 <div className='flex justify-between items-center mt-4'>
                     <button className='w-full mr-2 py-2 text-black font-semibold rounded-lg bg-[#EFF2F5]' onClick={handlePrevious}>Trở về</button>
-                    <button className='w-full ml-2 py-2 text-white font-semibold rounded-lg bg-primary' onClick={handleNext}>Tiếp tục</button>
+                    <button className='w-full ml-2 py-2 text-white font-semibold rounded-lg bg-primary hover:bg-[#3459e7]' onClick={handleNext}>Tiếp tục</button>
                 </div>
             </div>
         );
@@ -317,8 +317,8 @@ export default function Profile() {
             <div className='w-full m-auto  lg:max-w-8xl flex'>
                 <div className='w-64 hidden md:block lg:block'>
                     <ul className='w-52 sticky top-5 mt-7 mb-7'>
-                        <li className='mb-1'><Link href='' className='flex justify-left items-center p-4 text-sm rounded-lg '><FontAwesomeIcon className="mr-3" icon={faUser} width={20} height={20} /> Hồ sơ</Link></li>
-                        <li className='mb-1'><Link href='' className='flex justify-left items-center p-4 text-sm rounded-lg font-semibold  bg-[#EFF2F5] '><FontAwesomeIcon className="mr-3" icon={faShieldAlt} width={20} height={20} />Bảo mật tài khoản</Link></li>
+                        <li className='mb-1'><Link href='/settings' className='flex justify-left items-center p-4 text-sm font-semibold rounded-lg  hover:bg-[#EFF2F5]'><FontAwesomeIcon className="mr-3" icon={faUser} width={20} height={20} /> Hồ sơ</Link></li>
+                        <li className='mb-1'><Link href='/settings/account-security' className='flex justify-left items-center p-4 text-sm rounded-lg bg-[#EFF2F5] hover:bg-[#EFF2F5] '><FontAwesomeIcon className="mr-3" icon={faShieldAlt} width={20} height={20} />Bảo mật tài khoản</Link></li>
                     </ul>
                 </div>
                 <div className='w-full mb:w-full lg:w-10/12'>
@@ -342,14 +342,14 @@ export default function Profile() {
                                     <div className='flex flex-col justify-between md:flex-col lg:flex-row'>
                                         <span className='text-gray-400 font-semibold text-sm mr-2 mb-2'>Sử dụng Authenticator để nhận mã xác minh nhằm bảo mật tốt hơn.</span>
                                         <div className='flex justify-end'>
-                                            <button onClick={() => openModal('modal1')} className='bg-primary px-4 rounded-lg text-white font-semibold text-sm py-2'>Cho phép</button>
+                                            <button onClick={() => openModal('modal1')} className='bg-primary px-4 rounded-lg text-white font-semibold text-sm py-2 hover:bg-[#3459e7]'>Cho phép</button>
                                             <div>
                                                 {modals.includes('modal1') && (
                                                     <div className="modal">
                                                         <div className="modal-content">
                                                             <div className="fixed inset-0 flex items-center justify-center z-50">
-                                                                <div className="fixed inset-0 bg-black opacity-50" onClick={() => closeModal('modal1')}></div>
-                                                                <div className="bg-white p-4 z-50 w-full h-full md:h-auto  md:w-3/6 md:rounded-xl  lg:h-auto lg:rounded-xl lg:w-528" >
+                                                                <div className="fixed inset-0 bg-[#0a1e4266] opacity-50" onClick={() => closeModal('modal1')}></div>
+                                                                <div className="bg-white p-4 z-50 w-full h-full md:h-auto  md:w-3/6 md:rounded-xl  lg:h-auto lg:rounded-xl lg:w-[528px]" >
                                                                     <div className="flex justify-end mb-1">
                                                                         <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal1')}>  <FontAwesomeIcon icon={faTimes} /></button>
                                                                     </div>
@@ -365,26 +365,26 @@ export default function Profile() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className='mb-2'>
+                                {/* <div className='mb-2'>
                                     <h1 className='text-base font-semibold mb-2'>Xác minh địa chỉ email (2FA)+</h1>
                                     <div className='flex flex-col justify-between md:flex-col lg:flex-row'>
                                         <span className='text-gray-400 font-semibold text-sm mr-2 mb-2'>Sử dụng Authenticator để nhận mã xác minh nhằm bảo mật tốt hơn.</span>
-                                        <div className='flex justify-end'><button className='bg-primary px-4 rounded-lg text-white font-semibold text-sm py-2'>Cho phép</button></div>
+                                        <div className='flex justify-end'><button className='bg-primary px-4 rounded-lg text-white font-semibold text-sm py-2 hover:bg-[#3459e7]'>Cho phép</button></div>
                                     </div>
-                                </div>
+                                </div> */}
                                 <div className='mb-2'>
                                     <h1 className='text-base font-semibold mb-2'>Mật khẩu</h1>
                                     <div className='flex flex-col justify-between md:flex-row lg:flex-row'>
                                         <span className='text-gray-400 font-semibold text-sm mr-2 mb-2'>Đặt mật khẩu duy nhất để bảo vệ tốt hơn</span>
                                         <div className='flex justify-end'>
-                                            <button onClick={() => openModal('modal2')} className='bg-white border border-gray-300 px-4 rounded-lg font-semibold text-sm py-2'>Đặt lại mật khẩu</button>
+                                            <button onClick={() => openModal('modal2')} className='bg-white border border-gray-300 px-4 rounded-lg font-semibold text-sm py-2 hover:bg-[#f8fafd]'>Đặt lại mật khẩu</button>
                                             <div>
                                                 {modals.includes('modal2') && (
                                                     <div className="modal">
                                                         <div className="modal-content">
                                                             <div className="fixed inset-0 flex items-center justify-center z-50">
-                                                                <div className="fixed inset-0 bg-black opacity-50" onClick={() => closeModal('modal2')}></div>
-                                                                <div className="bg-white p-4 z-50 w-full h-full md:w-400 md:h-auto md:rounded-xl lg:w-[400px] lg:h-auto lg:rounded-xl">
+                                                                <div className="fixed inset-0 bg-[#0a1e4266] opacity-50" onClick={() => closeModal('modal2')}></div>
+                                                                <div className="bg-white p-4 z-50 w-full h-full md:w-[400px] md:h-auto md:rounded-xl lg:w-[400px] lg:h-auto lg:rounded-xl">
                                                                     <div className="flex justify-between items-center mb-3">
                                                                         <h1 className='font-semibold text-xl'>Đặt lại mật khẩu</h1>
                                                                         <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal2')}>  <FontAwesomeIcon icon={faTimes} /></button>
@@ -393,7 +393,7 @@ export default function Profile() {
                                                                         <div className='text-gray-500 font-semibold text-sm mb-3'>Bạn sẽ nhận được hướng dẫn qua e-mail về cách đặt lại mật khẩu của mình.</div>
                                                                         <input className='py-4 px-4 cursor-not-allowed focus:outline-none text-sm bg-slate-100 w-full border rounded-lg' type="text" placeholder='yu***st@gmail.com' disabled />
                                                                     </div>
-                                                                    <button className='w-full rounded-lg p-3 text-white font-semibold  bg-primary'>Gửi hướng dẫn</button>
+                                                                    <button className='w-full rounded-lg p-3 text-white font-semibold  bg-primary hover:bg-[#3459e7]'>Gửi hướng dẫn</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -416,14 +416,15 @@ export default function Profile() {
                                     </div>
                                     <div className='flex justify-between' >
                                         <div className='block p-2 text-sm font-semibold rounded-lg bg-[#EFF2F5] lg:hidden'>Đang sử dụng: Chrome 17</div>
-                                        <button className='bg-white border border-gray-300 rounded-lg font-semibold text-sm px-6 py-2'>Quản lý</button></div>
+                                        <Link href='/settings/account-security/account-activity' className='bg-white border text-center border-gray-300 rounded-lg font-semibold text-sm px-6 py-3 hover:bg-[#f8fafd]'>Quản lý</Link>
+                                    </div>
                                 </div>
                             </div>
                             <div>
                                 <h1 className='text-base font-semibold mb-2'>Hoạt động tài khoản</h1>
                                 <div className='flex justify-between flex-col md:flex-row lg:flex-row'>
                                     <span className='text-gray-400 font-semibold text-sm mr-2 mb-2'>Kiểm tra hoạt động đăng nhập gần đây của tài khoản</span>
-                                    <button className='bg-white border border-gray-300 px-4 rounded-lg font-semibold text-sm py-2'>Xem thêm</button>
+                                    <Link href='/settings/account-security/device-management' className='bg-white border text-center border-gray-300 px-4 rounded-lg font-semibold text-sm py-2 hover:bg-[#f8fafd]'>Xem thêm</Link>
                                 </div>
                             </div>
                         </div>
