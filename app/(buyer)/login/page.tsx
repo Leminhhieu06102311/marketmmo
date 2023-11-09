@@ -1,23 +1,27 @@
 "use client";
 
+import Notification from "@/components/Notification";
+import { status } from "@/components/Notification/Notification";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { hide, show } from "@/redux/notiSlice";
+import { loginSuccess } from "@/redux/userSlice";
+import api from "@/services/api";
 import { faEyeSlash, faEye } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function login() {
   const router = useRouter();
+  const isNoti = useAppSelector((state) => state.noti.isNoti)
+  const dispatch = useAppDispatch()
   const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errorLogin, setErrorLogin] = useState(false);
   const [notification, setNotification] = useState(false);
-
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
-
   const handleEmailChange = (e: { target: { value: any } }) => {
     const value = e.target.value;
     setEmail(value);
@@ -38,8 +42,7 @@ export default function login() {
     event.preventDefault();
 
     try {
-      const response = await axios.post(
-        "https://fancy-cemetery-production.up.railway.app/auth/login",
+      const response = await api.post("/auth/login",
         {
           email: email,
           password: password,
@@ -50,10 +53,13 @@ export default function login() {
           },
         }
       );
-      setShowSuccessPopup(true);
+      const {access_token} = response.data.data
+      localStorage.setItem('access_token',`${access_token}`)
+      dispatch(loginSuccess())
+      dispatch(show())
       setTimeout(() => {
-        setShowSuccessPopup(false);
-      }, 5000);
+        dispatch(hide())
+      }, 3000);
       router.push("/");
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
@@ -92,33 +98,12 @@ export default function login() {
         </section>
         <section className="flex flex-col flex-1 overflow-auto w-full  ">
           <div className=" flex justify-center items-center grow m-0 p-0  pt-8  ">
-            {showSuccessPopup && (
-              <div className="fixed top-4 right-4 bg-blue-500 text-white p-4 rounded shadow-lg">
-                <div className="font-bold text-lg mb-2 mr-2">
-                  Đăng nhập thành công
-                </div>
-                <p className="text-sm">Chào mừng bạn trở lại</p>
-                <button
-                  className="close-button absolute top-2 right-3 pr-4 text-lg cursor-pointer"
-                  onClick={() => setShowSuccessPopup(!showSuccessPopup)}
-                >
-                  x
-                </button>
-              </div>
+            {isNoti && (
+             <Notification message="Đăng nhập thành công" status={status.success} />
             )}
             {errorLogin && (
-              <div className="fixed top-4 right-4 bg-red-500 text-white p-4 rounded shadow-lg">
-                <div className="font-bold text-lg mb-2 pr-8">
-                  Đăng nhập Thất bại
-                </div>
-                <p className="text-sm ">Vui lòng Thử lại</p>
-                <button
-                  className="close-button absolute top-2 right-3 text-lg cursor-pointer"
-                  onClick={() => setErrorLogin(!errorLogin)}
-                >
-                  x
-                </button>
-              </div>
+              <Notification message="Đăng nhập thất bại" status={status.error} />
+
             )}
             <div className="lg:ml-28  w-full max-w-[440px] ">
               <h2 className="font-bold md:text-2xl mb-10 text-2xl lg:text-3xl">

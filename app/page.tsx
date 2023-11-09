@@ -1,36 +1,33 @@
 "use client";
 import {AiOutlineDoubleLeft, AiOutlineDoubleRight} from 'react-icons/ai'
 import {
-  faAngleLeft,
-  faAngleRight,
-  faFontAwesome,
   faLocationArrow,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/pagination";
 import Image from "next/image";
 import Link from "next/link";
 import DetailProduct from "@/components/DetailProduct/DetailProduct";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getAccountTrending, getSellingProduct, getSoftwareTrending } from "@/services/product";
 import Product from "@/interfaces/product";
 import ProductLoader from "@/components/Skeleton/ProductLoader";
-import { Context } from "./layout";
 import ProductItem from "@/components/Product/ProductItem";
 import Footer from "@/components/Footer/Footer";
 import Header from "@/components/Header/Header";
+import {  useAppSelector } from '@/redux/hooks';
 export default function Home() {
+  const [loading, setLoading] = useState(true);
   const [sellingProduct, setSellingProduct] = useState<Product[]>([]);
   const [accountTrendingProduct, setAccountTrendingProduct] = useState<Product[]>([])
   const [softwareTrendingProduct, setSoftwareTrendingProduct] = useState<Product[]>([])
   const navigationSellingPrevRef = useRef(null);
   const navigationSellingNextRef = useRef(null);
-  const { productId } = useContext(Context);
-  const [loading, setLoading] = useState(true);
+  const {productId} = useAppSelector((state) => state.product)
   useEffect(() => {
     import('preline')
   })
@@ -395,12 +392,12 @@ export default function Home() {
                 >
                   {sellingProduct.map((item) => (
                     <SwiperSlide className="" key={item._id}>
-                      <ProductItem productId={item._id} product={item} />
+                      <ProductItem product={item} />
                     </SwiperSlide>
                   ))}
                  
                   <button
-                    ref={navigationSellingPrevRef}
+                    ref={navigationSellingPrevRef.current}
                     className=" cursor-pointer z-10 hover:bg-white left-0 shadow-sm top-[50%] group backdrop-blur-md rounded-xl px-5 absolute  bg-[rgba(255,255,255,0.4)] group-hover:bg-white  group-hover:text-[#121212] transition-all py-4 text-white flex items-center gap-2 font-bold"
                     style={{ transform: "translateY(-50%)" }}
                   >
@@ -409,7 +406,7 @@ export default function Home() {
                     />
                   </button>
                   <button
-                    ref={navigationSellingNextRef}
+                    ref={navigationSellingNextRef.current}
                     className="cursor-pointer next z-10 hover:bg-white right-0 shadow-sm top-[50%] group backdrop-blur-md rounded-xl px-5 absolute  bg-[rgba(255,255,255,0.4)] group-hover:bg-white  group-hover:text-[#121212] transition-all py-4 text-white flex items-center gap-2 font-bold"
                     style={{ transform: "translateY(-50%)" }}
                   >
@@ -471,7 +468,7 @@ export default function Home() {
                 >
                    {accountTrendingProduct.map((item) => (
                     <SwiperSlide className="" key={item._id}>
-                      <ProductItem productId={item._id} product={item} />
+                      <ProductItem product={item} />
                     </SwiperSlide>
                   ))}
                 </Swiper>
@@ -520,9 +517,11 @@ export default function Home() {
 
                     },
                     768: {
+                      spaceBetween: 20,
                       slidesPerView: 3,
                     },
                     1024: {
+                      spaceBetween: 20,
                       slidesPerView: 5,
                     },
                   }}
@@ -530,7 +529,7 @@ export default function Home() {
                 >
                   {softwareTrendingProduct.map((item) => (
                     <SwiperSlide className="" key={item._id}>
-                      <ProductItem productId={item._id} product={item} />
+                      <ProductItem product={item} />
                     </SwiperSlide>
                   ))}
                 </Swiper>
