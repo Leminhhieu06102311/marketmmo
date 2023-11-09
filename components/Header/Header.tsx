@@ -127,9 +127,14 @@ export default function Header() {
                       <span className="font-medium block">Đổi mật khẩu</span>
                     </Link>
                   </li>
-                  <li className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">
-                    <IoSettingsOutline className="w-5 h-5" />
+                  <li >
+                  <Link
+                      className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer"
+                      href="/settings"
+                    >
+                      <IoSettingsOutline className="w-5 h-5" />
                     <span className="font-medium block">Cài đặt</span>
+                    </Link>
                   </li>
                   <li
                     className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer"
