@@ -5,26 +5,38 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    'node_modules/preline/dist/*.js',
   ],
   theme: {
     extend: {
-      colors: {
-        primary: "#3861fb",
+      keyframes: {
+        slideIn: {
+          '0%': { transform: 'translateX(300px)' },
+          '100%': { transform: 'translateX(0)' },
+        }
       },
-      breakpoints: {
-        sm: "640px",
-        md: "768px",
-        lg: "1024px",
-        xl: "1280px",
+      animation: {
+        'showCart': 'slideIn .5s ease',
+      },
+      backgroundColor: {
+        'overlay': 'rgba(0,0,0,0.3)'
+      },
+      boxShadow: {
+        'modal': 'rgba(0, 0, 0, 0.2) 0px 6px 32px'
+      },
+      maxWidth: {
+        "xxs": '22rem'
+      },
+      colors: {
+        'primary': '#3861fb'
       },
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic':
+          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
-      
     },
   },
   plugins: [],
-};
-export default config;
+}
+export default config
