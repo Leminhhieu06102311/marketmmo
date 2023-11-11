@@ -48,9 +48,6 @@ export default function Home() {
   return (
     <>
       <Header />
-      <section className="max-w-xxs mx-auto mt-3 md:max-w-3xl  lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl lg:mt-7">
-        <h1 className="font-bold text-base md:text-2xl lg:text-4xl">Make Money Online</h1>
-      </section>
       <section className="max-w-xxs mx-auto mt-3 md:max-w-3xl lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl lg:py-5">
         <Swiper
           spaceBetween={20}

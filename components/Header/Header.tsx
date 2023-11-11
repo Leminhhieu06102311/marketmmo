@@ -1,13 +1,16 @@
 "use client";
 import { BiSearch } from "react-icons/bi";
-import { AiOutlineHistory, AiOutlineLogin } from "react-icons/ai";
+import {
+  AiOutlineHistory,
+  AiOutlineLogin,
+} from "react-icons/ai";
 import { HiOutlineUserCircle } from "react-icons/hi";
 import { IoPaperPlaneOutline, IoSettingsOutline } from "react-icons/io5";
 import { IoIosLogOut } from "react-icons/io";
 import { BsCart3 } from "react-icons/bs";
 import { TbArrowsExchange } from "react-icons/tb";
-import { FaBars } from "react-icons/fa";
 import Link from "next/link";
+import { HiBars3 } from "react-icons/hi2";
 import { useEffect } from "react";
 import CartModal from "../Cart/CartModal";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -15,10 +18,42 @@ import { logout } from "@/redux/userSlice";
 import { hide, show } from "@/redux/notiSlice";
 import Notification from "../Notification";
 import { status } from "../Notification/Notification";
-
+import SideBarMenuMobile from "./SideBarMenuMobile";
+import Links from "@/interfaces/links";
+const links : Links[] = [
+  {
+    name: "Sản phẩm",
+    sub_category: [
+      {
+        name: "Tài khoản",
+      },
+      {
+        name: "Phần mềm",
+      },
+      {
+        name: "Blockchain",
+      },
+    ],
+  },
+  {
+    name: "Dịch vụ",
+    sub_category: [
+      {
+        name: "Hỗ trợ bật kiếm tiền X (Twitter)",
+      },
+      {
+        name: "Tăng tương tác mạng xã hội",
+      },
+    ],
+  },
+  {
+    name: "Cộng đồng",
+  },
+];
 export default function Header() {
-  const {isLogin} = useAppSelector((state) => state.user);
+  const { isLogin } = useAppSelector((state) => state.user);
   const { isNoti } = useAppSelector((state) => state.noti);
+
   const dispatch = useAppDispatch();
   const hanldeLogout = () => {
     dispatch(logout());
@@ -27,6 +62,7 @@ export default function Header() {
       dispatch(hide());
     }, 3000);
   };
+
   useEffect(() => {
     import("preline");
   }, []);
@@ -51,8 +87,8 @@ export default function Header() {
           </Link>
         </div>
       </div>
-      <div className="flex justify-between mx-auto items-center max-w-xxs py-3 md:max-w-3xl  md:py-4 lg:max-w-full lg:py-4 lg:px-10 ">
-        <div className="flex md:gap-x-2 lg:gap-x-5 ">
+      <div className="flex justify-between mx-auto items-center max-w-xxs py-3 md:max-w-3xl  md:py-4 lg:max-w-full lg:py-4 lg:px-10">
+        <div className="flex md:gap-x-2 lg:gap-x-5">
           <Link href="/">
             <h2 className="font-bold text-xl">Market MMO</h2>
           </Link>
@@ -80,27 +116,25 @@ export default function Header() {
             </ul>
           </div>
         </div>
-        <div className="md:hidden lg:flex items-center bg-[#1212120a] rounded-xl px-3 hidden hover:bg-[#12121214] transition-all">
+        <div className="md:hidden lg:flex xl:flex items-center bg-[#1212120a] rounded-xl px-3 hidden hover:bg-[#12121214] transition-all">
           <BiSearch className="text-[#121212] w-5 h-5" />
           <input
             type="text"
             placeholder="Tìm kiếm"
-            className="pl-2 bg-transparent text-base py-3 outline-none w-96"
+            className="pl-2 bg-transparent text-base py-3 outline-none md:w-36 lg:w-52 xl:w-96 "
           />
           <div className="px-2 py-1 bg-[#12121214] rounded-md text-xs">/</div>
         </div>
         <div className=" flex lg:flex gap-5">
           <div className=" lg:flex ">
-            <div className="flex gap-2 items-center">
-              {!isLogin ? (
+            <div className="flex gap-2 md:gap-2 items-center">
+              {!isLogin && (
                 <Link
                   href="/login"
-                  className="bg-[#1212120a] hidden rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:flex items-center gap-2"
+                  className="bg-[#1212120a] hidden  rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:flex items-center gap-2"
                 >
                   <AiOutlineLogin className="w-5 h-5" /> Đăng nhập
                 </Link>
-              ) : (
-                <></>
               )}
               <button className=" group hidden md:block bg-[#1212120a] rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212] relative">
                 <HiOutlineUserCircle className="w-5 h-5" />
@@ -127,13 +161,13 @@ export default function Header() {
                       <span className="font-medium block">Đổi mật khẩu</span>
                     </Link>
                   </li>
-                  <li >
-                  <Link
+                  <li>
+                    <Link
                       className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer"
                       href="/settings"
                     >
                       <IoSettingsOutline className="w-5 h-5" />
-                    <span className="font-medium block">Cài đặt</span>
+                      <span className="font-medium block">Cài đặt</span>
                     </Link>
                   </li>
                   <li
@@ -143,15 +177,23 @@ export default function Header() {
                     <IoIosLogOut className="w-5 h-5" />
                     <span className="font-medium block">Đăng suất</span>
                     {isNoti ?? (
-                      <Notification message="Đăng suất thành công" status={status.success} />
+                      <Notification
+                        message="Đăng suất thành công"
+                        status={status.success}
+                      />
                     )}
                   </li>
                 </ul>
               </button>
               {/* start responsive mobile */}
-              <button className=" rounded-xl px-2 transition-all md:py-3 text-[#121212] flex items-center gap-2 md:hidden"></button>
-              <button className=" rounded-xl px-2 transition-all md:py-3 text-[#121212] flex items-center gap-2 md:hidden">
-                <FaBars className="h-5 w-5" />
+              <button className="bg-[#1212120a]  rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:flex items-center gap-2 flex lg:hidden">
+                <BiSearch className="w-5 h-5" />
+              </button>
+              <button
+                className="bg-[#1212120a]  rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:hidden items-center gap-2 flex"
+                data-hs-overlay="#sidebar-menu-mobile"
+              >
+                <HiBars3 className="h-5 w-5" />
               </button>
               {/* end  responsive mobile */}
               <button
@@ -166,6 +208,8 @@ export default function Header() {
       </div>
       <div className="w-full h-[1px] bg-[#eff2f5]"></div>
       <CartModal />
+      {/* Modal mobile */}
+      <SideBarMenuMobile links={links} />
     </>
   );
 }
