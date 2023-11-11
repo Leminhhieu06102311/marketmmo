@@ -35,7 +35,7 @@ const RachageHistory = () => {
               <p className="text-[15px] text-black font-semibold">Live</p>
             </div>
             <p className="mb-4 line-clamp-1 w-[118px] justify-center text-black font-semibold text-[14px] leading-20 md:m-0 lg:m-0">
-              9,655 sản phẩm
+              23 kết quả
             </p>
             <div className="flex mt-0 transition ease-in-out  mb-4 rounded-[9px] border border-[#ececec] px-3 py-1 md:mt-2 md:w-[100%] md:m-0 lg:mt-0 lg:m-0  lg:w-[69%] hover:border-[#c8c8c8bb]">
               <button className="items-center">
