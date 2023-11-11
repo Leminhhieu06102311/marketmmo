@@ -442,9 +442,9 @@ export default function DetailCategory({
             {filteredProducts ? (
              <>
               <div className="grid xl:grid-cols-5 md:grid-cols-3 gap-x-5 gap-y-2">
-                {filteredProducts.map((product) => (
+                {/* {filteredProducts.map((product) => (
                   <ProductItem product={product} productId={product._id} />
-                ))}
+                ))} */}
               </div>
               <div className="flex w-full justify-center my-4">
               <button className="bg-primary text-white px-6 py-3 rounded-md font-semibold text-sm">
