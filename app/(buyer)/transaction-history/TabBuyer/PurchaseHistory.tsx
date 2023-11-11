@@ -100,7 +100,7 @@ const PurchaseHistory = () => {
         </div>
         <div>
           <div className="mt-5 grid grid-cols-1">
-            <Link href="">
+            <Link href="/transaction-history/1">
               <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-md hover:bg-gray-50 duration-100 ">
                 <div className="p-3">
                   <div className="flex justify-between border-b border-solid border-[#EFF2F5] py-2">
