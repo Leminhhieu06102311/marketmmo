@@ -1,11 +1,9 @@
 "use client";
-import {AiOutlineDoubleLeft, AiOutlineDoubleRight} from 'react-icons/ai'
-import {
-  faLocationArrow,
-} from "@fortawesome/free-solid-svg-icons";
+import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from "react-icons/ai";
+import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Autoplay } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -13,135 +11,167 @@ import Image from "next/image";
 import Link from "next/link";
 import DetailProduct from "@/components/DetailProduct/DetailProduct";
 import { useEffect, useRef, useState } from "react";
-import { getAccountTrending, getSellingProduct, getSoftwareTrending } from "@/services/product";
+import {
+  getAccountTrending,
+  getSellingProduct,
+  getSoftwareTrending,
+} from "@/services/product";
 import Product from "@/interfaces/product";
 import ProductLoader from "@/components/Skeleton/ProductLoader";
 import ProductItem from "@/components/Product/ProductItem";
 import Footer from "@/components/Footer/Footer";
 import Header from "@/components/Header/Header";
-import {  useAppSelector } from '@/redux/hooks';
+import { useAppSelector } from "@/redux/hooks";
+import WrapResponsive from "@/components/WrapResponsive";
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const [sellingProduct, setSellingProduct] = useState<Product[]>([]);
-  const [accountTrendingProduct, setAccountTrendingProduct] = useState<Product[]>([])
-  const [softwareTrendingProduct, setSoftwareTrendingProduct] = useState<Product[]>([])
+  const [accountTrendingProduct, setAccountTrendingProduct] = useState<
+    Product[]
+  >([]);
+  const [softwareTrendingProduct, setSoftwareTrendingProduct] = useState<
+    Product[]
+  >([]);
   const navigationSellingPrevRef = useRef(null);
   const navigationSellingNextRef = useRef(null);
-  const {productId} = useAppSelector((state) => state.product)
+  const { productId } = useAppSelector((state) => state.product);
   useEffect(() => {
-    import('preline')
-  })
+    import("preline");
+  });
   useEffect(() => {
     const fetchProduct = async () => {
       const sellingProduct: Product[] = await getSellingProduct();
-      const accountTrendingProduct : Product[] = await getAccountTrending()
-      const softwareTrendingProduct : Product[] = await getSoftwareTrending()
-      setSoftwareTrendingProduct(softwareTrendingProduct)
-      setAccountTrendingProduct(accountTrendingProduct)
+      const accountTrendingProduct: Product[] = await getAccountTrending();
+      const softwareTrendingProduct: Product[] = await getSoftwareTrending();
+      setSoftwareTrendingProduct(softwareTrendingProduct);
+      setAccountTrendingProduct(accountTrendingProduct);
       setSellingProduct(sellingProduct);
       setLoading(false);
     };
     fetchProduct();
   }, []);
-  
 
   return (
     <>
       <Header />
-      <section className="max-w-xxs mx-auto mt-3 md:max-w-3xl lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl lg:py-5">
-        <Swiper
-          spaceBetween={20}
-          slidesPerView={"auto"}
+      
+      <div className="w-full bg-[url('/images/slide/slide1.gif')] bg-cover bg-center">
+        <div
+          className="w-full h-full backdrop-blur-2xl"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(129,131,145,0.01) 0%, rgba(255,255,255,1) 100%)",
+          }}
         >
-          <SwiperSlide className="!w-5/6 md:!w-full">
-            <div className="w-full relative group rounded-lg overflow-hidden">
-              <Image
-                src="/images/slide/slide1.gif"
-                width={0}
-                height={0}
-                sizes="100vw"
-                alt="slide"
-                className="w-full rounded-lg h-96 md:h-96 lg:h-96 object-cover group-hover:scale-110 transition-all"
-              />
-              <div className="absolute w-full bg-[rgba(0,0,0,0.1)] h-full top-0 flex items-end justify-between">
-                <div className="flex p-5 md:p-10 flex-col">
+          <WrapResponsive>
+            <div className="pt-20">
+              <Swiper
+                centeredSlides={true}
+                autoplay={{
+                  delay: 5000,
+                  disableOnInteraction: false,
+                }}
+                loop={true}
+                pagination={{
+                  clickable: true,
+                }}
+                navigation={true}
+                modules={[Autoplay, Navigation]}
+                spaceBetween={20}
+                slidesPerView={"auto"}
+              >
+                <SwiperSlide className="!w-5/6 md:!w-full">
+                  <div className="w-full relative group rounded-lg overflow-hidden">
+                    <Image
+                      src="/images/slide/slide1.gif"
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      alt="slide"
+                      className="w-full rounded-lg h-96 md:h-96 lg:h-96 object-cover group-hover:scale-110 transition-all"
+                    />
+                    <div className="absolute w-full bg-[rgba(0,0,0,0.1)] h-full top-0 flex items-end justify-between">
+                      <div className="flex p-5 md:p-10 flex-col">
+                        <Image
+                          src="/images/services/sosical.avif"
+                          alt="bnb"
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="rounded-md border border-white mb-5 w-14 h-14 md:w-16 md:h-16"
+                        />
+                        <p className=" text-2xl md:text-4xl font-semibold text-white">
+                          Giao dịch trung gian
+                        </p>
+                        <p className="text-white font-bold">By MarketMMO</p>
+                        <p className="text-white font-bold">
+                          Số lượng giao dịch : 14,035 giao dịch
+                        </p>
+                      </div>
+                      <div className="hidden md:flex p-10 flex-col">
+                        <button className="backdrop-blur-md rounded-xl px-5 bg-[rgba(255,255,255,0.4)] group-hover:bg-white  group-hover:text-[#121212] transition-all py-4 text-white flex items-center gap-2 font-bold">
+                          Xem danh mục
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pb-7"></div>
+                </SwiperSlide>
+                <SwiperSlide className="!w-5/6 md:!w-full">
                   <Image
-                    src="/images/services/sosical.avif"
-                    alt="bnb"
+                    src="/images/slide/slide2.gif"
                     width={0}
                     height={0}
                     sizes="100vw"
-                    className="rounded-md border border-white mb-5 w-14 h-14 md:w-16 md:h-16"
+                    alt="slide"
+                    className="w-full rounded-lg h-96 md:h-96 lg:h-96 object-cover"
                   />
-                  <p className=" text-2xl md:text-4xl font-semibold text-white">
-                    Giao dịch trung gian
-                  </p>
-                  <p className="text-white font-bold">By MarketMMO</p>
-                  <p className="text-white font-bold">
-                    Số lượng giao dịch : 14,035 giao dịch
-                  </p>
-                </div>
-                <div className="hidden md:flex p-10 flex-col">
-                  <button className="backdrop-blur-md rounded-xl px-5 bg-[rgba(255,255,255,0.4)] group-hover:bg-white  group-hover:text-[#121212] transition-all py-4 text-white flex items-center gap-2 font-bold">
-                    Xem danh mục
-                  </button>
-                </div>
-              </div>
+                  <div className="pb-7"></div>
+                </SwiperSlide>
+                <SwiperSlide className="!w-5/6 md:!w-full">
+                  <div className="w-full relative group rounded-lg overflow-hidden">
+                    <Image
+                      src="/images/slide/slide1.gif"
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      alt="slide"
+                      className="w-full rounded-lg h-96 md:h-96 lg:h-96 object-cover group-hover:scale-110 transition-all"
+                    />
+                    <div className="absolute w-full bg-[rgba(0,0,0,0.1)] h-full top-0 flex items-end justify-between">
+                      <div className="flex p-5 md:p-10 flex-col">
+                        <Image
+                          src="/images/services/sosical.avif"
+                          alt="bnb"
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="rounded-md border border-white mb-5 w-14 h-14 md:w-16 md:h-16"
+                        />
+                        <p className=" text-2xl md:text-4xl font-semibold text-white">
+                          Giao dịch trung gian
+                        </p>
+                        <p className="text-white font-bold">By MarketMMO</p>
+                        <p className="text-white font-bold">
+                          Số lượng giao dịch : 14,035 giao dịch
+                        </p>
+                      </div>
+                      <div className="hidden md:flex p-10 flex-col">
+                        <button className="backdrop-blur-md rounded-xl px-5 bg-[rgba(255,255,255,0.4)] group-hover:bg-white  group-hover:text-[#121212] transition-all py-4 text-white flex items-center gap-2 font-bold">
+                          Xem danh mục
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              </Swiper>
             </div>
-            <div className="pb-7"></div>
-          </SwiperSlide>
-          <SwiperSlide className="!w-5/6 md:!w-full">
-            <Image
-              src="/images/slide/slide2.gif"
-              width={0}
-              height={0}
-              sizes="100vw"
-              alt="slide"
-              className="w-full rounded-lg h-96 md:h-96 lg:h-96 object-cover"
-            />
-            <div className="pb-7"></div>
-          </SwiperSlide>
-          <SwiperSlide className="!w-5/6 md:!w-full">
-            <div className="w-full relative group rounded-lg overflow-hidden">
-              <Image
-                src="/images/slide/slide1.gif"
-                width={0}
-                height={0}
-                sizes="100vw"
-                alt="slide"
-                className="w-full rounded-lg h-96 md:h-96 lg:h-96 object-cover group-hover:scale-110 transition-all"
-              />
-              <div className="absolute w-full bg-[rgba(0,0,0,0.1)] h-full top-0 flex items-end justify-between">
-                <div className="flex p-5 md:p-10 flex-col">
-                  <Image
-                    src="/images/services/sosical.avif"
-                    alt="bnb"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className="rounded-md border border-white mb-5 w-14 h-14 md:w-16 md:h-16"
-                  />
-                  <p className=" text-2xl md:text-4xl font-semibold text-white">
-                    Giao dịch trung gian
-                  </p>
-                  <p className="text-white font-bold">By MarketMMO</p>
-                  <p className="text-white font-bold">
-                    Số lượng giao dịch : 14,035 giao dịch
-                  </p>
-                </div>
-                <div className="hidden md:flex p-10 flex-col">
-                  <button className="backdrop-blur-md rounded-xl px-5 bg-[rgba(255,255,255,0.4)] group-hover:bg-white  group-hover:text-[#121212] transition-all py-4 text-white flex items-center gap-2 font-bold">
-                    Xem danh mục
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="pb-7"></div>
-          </SwiperSlide>
-        </Swiper>
-      </section>
-      <section className="max-w-xxs mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
-        <div className="gap-3 md:hidden w-full my-4">
+          </WrapResponsive>
+        </div>
+      </div>
+
+      <WrapResponsive>
+      <div className="gap-3 md:hidden w-full my-4">
           <div className=" bg-white w-full">
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-bold">
@@ -165,7 +195,10 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
-                <Link href="/gmail" className="bg-[#1212120a] rounded-xl px-3 text-sm hover:bg-[#12121214] transition-all py-1 text-[#121212] flex items-center gap-2">
+                <Link
+                  href="/gmail"
+                  className="bg-[#1212120a] rounded-xl px-3 text-sm hover:bg-[#12121214] transition-all py-1 text-[#121212] flex items-center gap-2"
+                >
                   <FontAwesomeIcon icon={faLocationArrow} />
                 </Link>
               </li>
@@ -343,11 +376,11 @@ export default function Home() {
             </ul>
           </div>
         </div>
-      </section>
-      <section className="mt-10">
-        <div className=" max-w-xxs md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl  mx-auto">
-          {/* Category */}
-          <div className="my-3 top-0">
+      </WrapResponsive>
+      <WrapResponsive>
+        <div className="mt-10">
+           {/* Category */}
+           <div className="my-3 top-0">
             <div className="flex justify-between items-center">
               <div className="mx-2">
                 <h2 className="font-bold text-2xl text-[#121212]">
@@ -359,8 +392,8 @@ export default function Home() {
           {/* Products */}
           <div className="">
             {loading ? (
-              <div className="grid xl:grid-cols-5 lg:grid-cols-2 md:grid-cols-3 ">
-                <ProductLoader quantityProduct={5} />
+              <div className="grid xl:grid-cols-6 lg:grid-cols-2 md:grid-cols-3 ">
+                <ProductLoader quantityProduct={6} />
               </div>
             ) : (
               <>
@@ -369,56 +402,55 @@ export default function Home() {
                     prevEl: navigationSellingPrevRef.current,
                     nextEl: navigationSellingNextRef.current,
                   }}
+                  spaceBetween={20}
+
                   modules={[Navigation]}
-                  slidesPerView= {1.2}
+                  slidesPerView={1.2}
                   breakpoints={{
                     640: {
                       spaceBetween: 20,
                       centeredSlides: true,
-                      loop: true 
+                      loop: true,
                     },
                     768: {
+                      spaceBetween: 20,
+
                       slidesPerView: 3,
                     },
                     1024: {
                       spaceBetween: 20,
-                      slidesPerView: 5,
+                      slidesPerView: 6,
                     },
                   }}
-                 
                 >
                   {sellingProduct.map((item) => (
                     <SwiperSlide className="" key={item._id}>
                       <ProductItem product={item} />
                     </SwiperSlide>
                   ))}
-                 
+
                   <button
                     ref={navigationSellingPrevRef.current}
                     className=" cursor-pointer z-10 hover:bg-white left-0 shadow-sm top-[50%] group backdrop-blur-md rounded-xl px-5 absolute  bg-[rgba(255,255,255,0.4)] group-hover:bg-white  group-hover:text-[#121212] transition-all py-4 text-white flex items-center gap-2 font-bold"
                     style={{ transform: "translateY(-50%)" }}
                   >
-                    <AiOutlineDoubleLeft
-                      className="text-black  text-3xl"
-                    />
+                    <AiOutlineDoubleLeft className="text-black  text-3xl" />
                   </button>
                   <button
                     ref={navigationSellingNextRef.current}
                     className="cursor-pointer next z-10 hover:bg-white right-0 shadow-sm top-[50%] group backdrop-blur-md rounded-xl px-5 absolute  bg-[rgba(255,255,255,0.4)] group-hover:bg-white  group-hover:text-[#121212] transition-all py-4 text-white flex items-center gap-2 font-bold"
                     style={{ transform: "translateY(-50%)" }}
                   >
-                    <AiOutlineDoubleRight
-                      className="text-black text-3xl"
-                    />
+                    <AiOutlineDoubleRight className="text-black text-3xl" />
                   </button>
                 </Swiper>
               </>
             )}
           </div>
         </div>
-      </section>
-      <section className="mt-10">
-        <div className=" max-w-xxs md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl  mx-auto">
+      </WrapResponsive>
+      <WrapResponsive>
+        <div className="mt-10">
           {/* Category */}
           <div className="my-3 top-0">
             <div className="flex justify-between items-center">
@@ -437,33 +469,32 @@ export default function Home() {
           {/* Products */}
           <div className="">
             {loading ? (
-              <div className="grid xl:grid-cols-5 lg:grid-cols-2 md:grid-cols-3 ">
-                <ProductLoader quantityProduct={5} />
+              <div className="grid xl:grid-cols-6 lg:grid-cols-2 md:grid-cols-3 ">
+                <ProductLoader quantityProduct={6} />
               </div>
             ) : (
               <>
                 <Swiper
-                  
                   modules={[Navigation]}
-                  slidesPerView= {1.2}
+                  slidesPerView={1.2}
+                  spaceBetween={20}
                   breakpoints={{
                     640: {
                       spaceBetween: 20,
                       centeredSlides: true,
-                      loop: true
-
+                      loop: true,
                     },
                     768: {
+                      spaceBetween: 20,
                       slidesPerView: 3,
                     },
                     1024: {
                       spaceBetween: 20,
-                      slidesPerView: 5,
+                      slidesPerView: 6,
                     },
                   }}
-                 
                 >
-                   {accountTrendingProduct.map((item) => (
+                  {accountTrendingProduct.map((item) => (
                     <SwiperSlide className="" key={item._id}>
                       <ProductItem product={item} />
                     </SwiperSlide>
@@ -473,9 +504,9 @@ export default function Home() {
             )}
           </div>
         </div>
-      </section>
-      <section className="mt-10 mb-10">
-        <div className=" max-w-xxs md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl  mx-auto">
+      </WrapResponsive>
+      <WrapResponsive>
+        <div className="my-10">
           {/* Category */}
           <div className="my-3 top-0">
             <div className="flex justify-between items-center">
@@ -483,8 +514,7 @@ export default function Home() {
                 <h2 className="font-bold text-xl md:text-2xl text-[#121212] flex items-center">
                   Phần mềm{" "}
                   <span className="h-5 hidden md:block w-[1px] bg-[#121212] mx-2"></span>
-                  <span className="hidden md:block">
-                  Tools xu hướng</span>
+                  <span className="hidden md:block">Tools xu hướng</span>
                 </h2>
                 <Link href="/6544c5879d85a36c1ddbc643">
                   <button className="bg-[#1212120a] rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212] flex items-center gap-2 font-bold text-sm">
@@ -497,21 +527,20 @@ export default function Home() {
           {/* Products */}
           <div className="">
             {loading ? (
-              <div className="grid xl:grid-cols-5 lg:grid-cols-2 md:grid-cols-3 ">
-                <ProductLoader quantityProduct={5} />
+              <div className="grid xl:grid-cols-6 lg:grid-cols-2 md:grid-cols-3 ">
+                <ProductLoader quantityProduct={6} />
               </div>
             ) : (
               <>
                 <Swiper
-                  
                   modules={[Navigation]}
-                  slidesPerView= {1.2}
+                  spaceBetween={20}
+                  slidesPerView={1.2}
                   breakpoints={{
                     640: {
                       spaceBetween: 20,
                       centeredSlides: true,
-                      loop: true
-
+                      loop: true,
                     },
                     768: {
                       spaceBetween: 20,
@@ -519,10 +548,9 @@ export default function Home() {
                     },
                     1024: {
                       spaceBetween: 20,
-                      slidesPerView: 5,
+                      slidesPerView: 6,
                     },
                   }}
-                 
                 >
                   {softwareTrendingProduct.map((item) => (
                     <SwiperSlide className="" key={item._id}>
@@ -534,7 +562,7 @@ export default function Home() {
             )}
           </div>
         </div>
-      </section>
+      </WrapResponsive>
       <DetailProduct productId={productId} />
       <Footer />
     </>
