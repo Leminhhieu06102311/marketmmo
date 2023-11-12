@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineBlock, AiOutlineHistory } from "react-icons/ai";
 import { BiWorld } from "react-icons/bi";
 import { GoPackage } from "react-icons/go";
@@ -16,20 +16,19 @@ import Links from "@/interfaces/links";
 
 
 export default function SideBarMenuMobile({links}: {links : Links[]}) {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const [subMenu, setSubMenu] = useState({
     status: false,
     name: "",
   });
   const { isNoti } = useAppSelector((state) => state.noti);
-  const hanldeLogout = () => {
-    dispatch(logout());
-    dispatch(show());
-    setTimeout(() => {
-      dispatch(hide());
-    }, 3000);
-  };
-
+  // const hanldeLogout = () => {
+  //   dispatch(logout());
+  //   dispatch(show());
+  //   setTimeout(() => {
+  //     dispatch(hide());
+  //   }, 3000);
+  // };
   const Icons = [GoPackage, AiOutlineBlock, BiWorld];
   return (
     <div
@@ -144,7 +143,7 @@ export default function SideBarMenuMobile({links}: {links : Links[]}) {
             </li>
             <li
               className="font-semibold text-base  flex gap-3  items-center py-3"
-              onClick={() => hanldeLogout()}
+              // onClick={() => hanldeLogout()}
             >
               <IoIosLogOut className="w-6 h-6" />
               <span className="font-semibold block">Đăng suất</span>

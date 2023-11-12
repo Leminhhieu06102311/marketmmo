@@ -68,25 +68,7 @@ export default function Header() {
   }, []);
   return (
     <>
-      <div className=" bg-primary hidden md:block mx-auto md:py-1 lg:flex lg:py-2 lg:px-5 lg:justify-center">
-        <div className="flex items-center justify-center md:max-w-3xl mx-auto lg:max-w-7xl ">
-          <p className=" text-base text-center text-white font-medium py-2">
-            Dịch vụ giao dịch trung gian mới nhất{" "}
-            {/* <span className="hidden md:inline lg:inline">
-              giúp mọi giao dich của bạn được hoàn thành một cách suôn sẻ nhất
-            </span>{" "} */}
-            🎉
-          </p>
-          <Link
-            href="/intermediary"
-            className="ml-2 font-semibold underline duration-150 hover:text-indigo-100 inline-flex items-center gap-x-1 text-primary text-base"
-          >
-            <span className="font-bold text-white underline text-base">
-              Bắt đầu ngay
-            </span>
-          </Link>
-        </div>
-      </div>
+      
       <div className="flex justify-between mx-auto items-center max-w-xxs py-3 md:max-w-3xl  md:py-4 lg:max-w-full lg:py-4 lg:px-10">
         <div className="flex md:gap-x-2 lg:gap-x-5">
           <Link href="/">
