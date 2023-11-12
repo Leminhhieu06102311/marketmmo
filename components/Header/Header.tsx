@@ -115,7 +115,7 @@ export default function Header() {
                   href="/login"
                   className="bg-[#1212120a] hidden  rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:flex items-center gap-2"
                 >
-                  <AiOutlineLogin className="w-5 h-5" /> Đăng nhập
+                  <AiOutlineLogin className="w-5 h-5" /> <span className="font-semibold">Đăng nhập</span>
                 </Link>
               )}
               <button className=" group hidden md:block bg-[#1212120a] rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212] relative">
@@ -182,7 +182,7 @@ export default function Header() {
                 className="bg-[#1212120a] hidden md:block rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212]"
                 data-hs-overlay="#cart-modal"
               >
-                <BsCart3 className="w-5 h-5" />
+                <BsCart3 className="w-5 h-5 text-black" />
               </button>
             </div>
           </div>

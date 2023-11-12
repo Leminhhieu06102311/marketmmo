@@ -1,22 +1,16 @@
 "use client";
 import ProductItem from "@/components/Product/ProductItem";
 import ProductLoader from "@/components/Skeleton/ProductLoader";
+import WrapResponsive from "@/components/WrapResponsive";
 import Product from "@/interfaces/product";
 import { getProductFromCategory } from "@/services/product";
 import {
-  faAngleDown,
   faArrowDownShortWide,
   faArrowUpShortWide,
   faArrowUpWideShort,
   faFireFlameCurved,
-  faFontAwesome,
-  faSortDown,
-  faSortUp,
-  faStar,
-  faStarHalfAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Image from "next/image";
 import Link from "next/link";
 
 import { useEffect, useState } from "react";
@@ -51,6 +45,9 @@ export default function DetailCategory({
 
     fetchData();
   }, []);
+  useEffect(() => {
+    console.log(products)
+  },[products])
   // Filter Product
   const filterProducts = (status: string) => {
     if (status === "all") {
@@ -86,7 +83,7 @@ export default function DetailCategory({
   }, []);
   return (
     <>
-      <div className="max-w-xxs mx-auto mt-3 md:max-w-3xl lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
+        <WrapResponsive>
         <div className="mt-10">
           <h3 className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
             Gian hàng{" "}
@@ -441,10 +438,10 @@ export default function DetailCategory({
             {/* Products */}
             {filteredProducts ? (
              <>
-              <div className="grid xl:grid-cols-5 md:grid-cols-3 gap-x-5 gap-y-2">
-                {/* {filteredProducts.map((product) => (
-                  <ProductItem product={product} productId={product._id} />
-                ))} */}
+              <div className="grid xl:grid-cols-6 md:grid-cols-3 gap-x-5 gap-y-2">
+                {filteredProducts.map((product) => (
+                  <ProductItem product={product}/>
+                ))}
               </div>
               <div className="flex w-full justify-center my-4">
               <button className="bg-primary text-white px-6 py-3 rounded-md font-semibold text-sm">
@@ -460,7 +457,7 @@ export default function DetailCategory({
             )}
           </div>
         </div>
-      </div>
+        </WrapResponsive>
     </>
   );
 }
