@@ -6,7 +6,7 @@ export async function getSellingProduct() {
     return result
 }
 export async function getDetailProduct(productId: string) {
-    const res = await api.get(`/product/detail?productId=${productId}`)
+    const res = await api.get(`/product/detail?slug=${productId}`)
     const data = res.data.data
     return data
     

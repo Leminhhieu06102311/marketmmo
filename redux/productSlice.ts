@@ -3,10 +3,13 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 interface productState {
     productId: string,
+    // activeTab detail and comment in product detail
+    activeTab: string
 }
 
 const initialState : productState = {
     productId: '654b750853e01dd4f8586b0c',
+    activeTab: 'detail'
 }
 export const productSlice = createSlice({
     name: 'product',
@@ -14,8 +17,11 @@ export const productSlice = createSlice({
     reducers: {
         PopupDetailProduct: (state,action : PayloadAction<string>) => {
             state.productId = action.payload
+        },
+        setActiveTab: (state, action : PayloadAction<string>) => {
+            state.activeTab = action.payload
         }
     }
 })
-export const {PopupDetailProduct} = productSlice.actions
+export const {PopupDetailProduct, setActiveTab} = productSlice.actions
 export default productSlice.reducer

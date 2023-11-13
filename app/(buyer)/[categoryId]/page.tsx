@@ -1,8 +1,10 @@
 "use client";
+import DetailProduct from "@/components/DetailProduct/DetailProduct";
 import ProductItem from "@/components/Product/ProductItem";
 import ProductLoader from "@/components/Skeleton/ProductLoader";
 import WrapResponsive from "@/components/WrapResponsive";
 import Product from "@/interfaces/product";
+import { useAppSelector } from "@/redux/hooks";
 import { getProductFromCategory } from "@/services/product";
 import {
   faArrowDownShortWide,
@@ -20,6 +22,7 @@ export default function DetailCategory({
 }: {
   params: { categoryId: string };
 }) {
+  const { productId } = useAppSelector((state) => state.product);
   // Render Product
   const { categoryId } = params;
   const [products, setProducts] = useState<Product[]>();
@@ -458,6 +461,8 @@ export default function DetailCategory({
           </div>
         </div>
         </WrapResponsive>
+      <DetailProduct productId={productId} />
+
     </>
   );
 }

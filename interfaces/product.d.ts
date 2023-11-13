@@ -29,6 +29,7 @@ interface Product {
     name: string;
     description: string;
   };
+  slug: string,
   accompanyingProducts: [
     name: string,
     price: number
