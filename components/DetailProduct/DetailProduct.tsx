@@ -51,6 +51,7 @@ export default function DetailProduct({ productId }: { productId: string }) {
     }
   };
   const hanldeAddToCart = () => {
+    dispatch(toggleModal('cart'))
     statusAddToCart();
     if (dataProduct) {
       const cart: Cart = {
@@ -78,9 +79,9 @@ export default function DetailProduct({ productId }: { productId: string }) {
   });
 
   return (
-    <ContentModal>
+    <ContentModal nameModal="product">
       <div className="bg-overlay w-full flex justify-end fixed z-50 top-0 items-center">
-        <button onClick={() => dispatch(toggleModal())}>
+        <button onClick={() => dispatch(toggleModal('product'))}>
           <FontAwesomeIcon
             className="py-2 px-5 text-white text-lg cursor-pointer"
             icon={faXmark}
@@ -696,7 +697,6 @@ export default function DetailProduct({ productId }: { productId: string }) {
                     </div>
                     <button
                       onClick={() => hanldeAddToCart()}
-                      data-hs-overlay="#cart-modal"
                       type="button"
                       className="py-3 flex-1 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                     >
