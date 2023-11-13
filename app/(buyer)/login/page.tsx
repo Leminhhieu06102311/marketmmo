@@ -2,9 +2,9 @@
 
 import Notification from "@/components/Notification";
 import { status } from "@/components/Notification/Notification";
+import { getCookie, setCookie } from "@/redux/cookieSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { hide, show } from "@/redux/notiSlice";
-import { loginSuccess } from "@/redux/userSlice";
+import { hideNoti, showNoti } from "@/redux/notiSlice";
 import api from "@/services/api";
 import { faEyeSlash, faEye } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -54,11 +54,15 @@ export default function login() {
         }
       );
       const {access_token} = response.data.data
-      localStorage.setItem('access_token',`${access_token}`)
-      dispatch(loginSuccess())
-      dispatch(show())
+      dispatch(setCookie({
+        name: 'access_token',
+        value: access_token,
+        days: 2
+      }))
+      dispatch(getCookie({name: 'access_token'}))
+      dispatch(showNoti())
       setTimeout(() => {
-        dispatch(hide())
+        dispatch(hideNoti())
       }, 3000);
       router.push("/");
     } catch (error: any) {
@@ -84,7 +88,7 @@ export default function login() {
   return (
     <div className="fixed top-0 bottom-0 right-0 left-0 z-10 bg-white">
       <div className="flex flex-row max-w-xxs mx-auto items-center h-full lg:m-0 lg:items-stretch truncate lg:h-screen lg:max-w-7xl md:max-w-3xl md:m-auto">
-        <section className="hidden lg:w-[450px] lg:grow-0 lg:block  ">
+        {/* <section className="hidden lg:w-[450px] lg:grow-0 lg:block  ">
           <div className="lg:h-full lg:flex lg:flex-col lg:justify-between">
             <video
               playsInline
@@ -95,7 +99,7 @@ export default function login() {
               muted
             ></video>
           </div>
-        </section>
+        </section> */}
         <section className="flex flex-col flex-1 overflow-auto w-full  ">
           <div className=" flex justify-center items-center grow m-0 p-0  pt-8  ">
             {isNoti && (
