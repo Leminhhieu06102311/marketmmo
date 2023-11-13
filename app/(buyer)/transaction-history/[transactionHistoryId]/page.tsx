@@ -38,7 +38,7 @@ export default function detailProduct({ productId }: { productId: string }) {
         </Link>
       </div>
       <div className="bg-white rounded-l-lg w-full top-14  absolute bottom-0 left-0 right-0  pb-52 overflow-y-scroll">
-        <div className="w-full pb-7 px-3 md:px-0 lg:px-0 mt-10 mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl lg:flex justify-around">
+        <div className="w-full items-center pb-7 px-3 md:px-0 lg:px-0 mt-10 mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl lg:flex justify-around">
           <div className="gap-y-3 lg:flex md:flex gap-3">
             <div className="w-[81px] md:h-[71px] lg:h-[71px] mb-2 md:mb-0 lg:mb-0">
               {" "}
@@ -69,7 +69,7 @@ export default function detailProduct({ productId }: { productId: string }) {
             </div>
           </div>
           <div className="gap-y-3 mt-3 md:mt-0 lg:mt-0">
-            <div className="flex gap-3 items-center md:mt-4 mb-2 lg:justify-end">
+            <div className="flex mt-0 gap-3 items-center md:mt-4 lg:mt-0 mb-2 lg:justify-end">
               <div className="w-[31px] h-auto">
                 <img
                   src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/395552142_1398252534374620_4265249200004026910_n.jpg?stp=cp6_dst-jpg&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=8Nnv5r2sAysAX-0Z5Ul&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfDGC3BabIxNo6gsTrL6CDEJLcCbYBENqFVcFdW1pGEmDw&oe=655573B5"

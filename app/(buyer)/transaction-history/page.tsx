@@ -25,7 +25,7 @@ const BuyerHistory = () => {
 
         const data = response.data;
         setHistoriesOrders(data);
-        console.log(data);
+        // console.log(data);
         
       } catch (error) {
         console.error(error);
