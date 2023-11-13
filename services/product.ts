@@ -6,7 +6,7 @@ export async function getSellingProduct() {
     return result
 }
 export async function getDetailProduct(productId: string) {
-    const res = await api.get(`/product/detail?productId=${productId}`)
+    const res = await api.get(`/product/detail?slug=${productId}`)
     const data = res.data.data
     return data
     
@@ -21,7 +21,7 @@ export async function getSoftwareTrending() {
     const { result } = res.data.data
     return result
 }
-export async function getProductFromCategory(categoryId : string) {
+export async function   getProductFromCategory(categoryId : string) {
     const res = await api.get(`/product?limit=15&page=1&categoryId=${categoryId}&sort=RATING_DESC`)
     const { result } = res.data.data
     return result

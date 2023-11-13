@@ -21,9 +21,12 @@ import ProductLoader from "@/components/Skeleton/ProductLoader";
 import ProductItem from "@/components/Product/ProductItem";
 import Footer from "@/components/Footer/Footer";
 import Header from "@/components/Header/Header";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import WrapResponsive from "@/components/WrapResponsive";
+import ContentModal from "@/components/Modal/ContentModal";
+import { toggleModal } from "@/redux/modalSlice";
 export default function Home() {
+  const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(true);
   const [sellingProduct, setSellingProduct] = useState<Product[]>([]);
   const [accountTrendingProduct, setAccountTrendingProduct] = useState<
@@ -53,8 +56,8 @@ export default function Home() {
 
   return (
     <>
-      <Header />
       
+      <Header />
       <div className="w-full bg-[url('/images/slide/slide1.gif')] bg-cover bg-center">
         <div
           className="w-full h-full backdrop-blur-2xl"
