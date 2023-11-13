@@ -14,15 +14,16 @@ import { getDetailProduct } from "@/services/product";
 import Product from "@/interfaces/product";
 import Cart from "@/interfaces/cart";
 import { Context } from "@/app/layout";
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiOutlineHeart, AiOutlineInfoCircle } from "react-icons/ai";
 import { HiOutlineDuplicate } from "react-icons/hi";
 import { FaRegComment } from "react-icons/fa";
 import ContentModal from "../Modal";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { toggleModal } from "@/redux/modalSlice";
 import { setActiveTab } from "@/redux/productSlice";
-import { BsDashCircleDotted } from "react-icons/bs";
-import { IoIosArrowDown } from "react-icons/io";
+import { BsDashCircleDotted, BsPatchQuestion } from "react-icons/bs";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { MdOutlinePolicy } from "react-icons/md";
 
 export default function DetailProduct({ productId }: { productId: string }) {
   const dispatch = useAppDispatch();
@@ -31,6 +32,12 @@ export default function DetailProduct({ productId }: { productId: string }) {
   const [dataProduct, setDataProduct] = useState<Product>();
   const [selectType, setSelectType] = useState<number>(0);
   const [selectQuantity, setSelectQuantity] = useState(1);
+  // Use usestate change status open or close detail.
+  const [showDetail, setShowDetail] = useState({
+    isInfo: false,
+    isPolicy: false,
+    isQuestion: false
+  })
   const hanldeSelectType = (event: MouseEvent<HTMLButtonElement>) => {
     const element = event.target as HTMLElement;
     const typeId = element.getAttribute("data-type");
@@ -774,33 +781,147 @@ export default function DetailProduct({ productId }: { productId: string }) {
                         </div>
                       </div>
                       <div>
-                        <div className="flex gap-2 p-5 border border-b-gray-200 border-r-0 border-l-0 justify-between items-center">
+                        <div className="flex gap-2 p-5 border border-b-gray-200 border-r-0 border-l-0 justify-between items-center cursor-pointer" onClick={() => setShowDetail({isInfo: !showDetail.isInfo,
+                        isPolicy: showDetail.isPolicy,
+                        isQuestion: showDetail.isQuestion})}>
                           <div className="flex gap-2">
-                            <CgDetailsMore className="w-6 h-6" />
+                            <AiOutlineInfoCircle className="w-6 h-6" />
                             <p className="font-semibold">Thông tin sản phẩm</p>
                           </div>
-                          <IoIosArrowDown className="w-5 h-5" />
-                          {/* <IoIosArrowUp /> */}
+                          {showDetail.isInfo ? (
+                            <IoIosArrowUp className="w-5 h-5" /> 
+                            ) : (
+                            <IoIosArrowDown className="w-5 h-5" />
+                          )}
+                        </div>
+                        <div className={`p-5 flex-col gap-3 ${showDetail.isInfo ? "flex": "hidden"}`}>
+                          <div className="flex items-start gap-3">
+                            <BsDashCircleDotted className="w-5 h-5" />
+                            <p className="flex-1">
+                              ChatGPT là một mô hình ngôn ngữ được huấn luyện
+                              bằng công nghệ transformer và được phát triển bởi
+                              OpenAI. Nó có khả năng học từ dữ liệu văn bản lớn
+                              và tự động sinh các câu trả lời liên quan đến các
+                              câu hỏi được đặt ra. ChatGPT có thể được sử dụng
+                              trong các ứng dụng chatbot, trò chuyện tự động và
+                              các hệ thống tư vấn khác. Nó cũng có khả năng tự
+                              động hoá các tác vụ như dịch văn bản, tự động điền
+                              vào mẫu và các tác vụ khác liên quan đến ngôn ngữ.
+                            </p>
+                          </div>
+                          <div className="flex items-start gap-3">
+                            <BsDashCircleDotted className="w-5 h-5" />
+                            <p className="flex-1">
+                              ChatGPT có khả năng trả lời nhiều loại câu hỏi
+                              khác nhau, bao gồm cả câu hỏi có liên quan đến
+                              lĩnh vực tri thức, văn hóa, xã hội và các lĩnh vực
+                              khác. Nó cũng có thể trả lời các câu hỏi có tính
+                              chất hỏi đáp và câu hỏi yêu cầu phân tích sâu hơn.
+                              Tuy nhiên, ChatGPT không phải là một người hoặc hệ
+                              thống chuyên gia và không thể cung cấp các lời
+                              khuyên hoặc đưa ra các quyết định chuyên sâu trong
+                              các lĩnh vực cụ thể. Nó chỉ có thể trả lời các câu
+                              hỏi dựa trên dữ liệu văn bản mà nó được huấn luyện
+                              và không thể đưa ra các lời khuyên hoặc đưa ra các
+                              quyết định chuyên sâu.
+                            </p>
+                          </div>
                         </div>
                       </div>
                       <div>
-                        <div className="flex gap-2 p-5 border border-b-gray-200 border-r-0 border-l-0 justify-between items-center">
-                          <div className="flex gap-2">
-                            <CgDetailsMore className="w-6 h-6" />
+                        <div className="flex gap-2 p-5 border border-b-gray-200 border-r-0 border-l-0 justify-between items-center" onClick={() => setShowDetail({isInfo: showDetail.isInfo,
+                        isPolicy: !showDetail.isPolicy,
+                        isQuestion: showDetail.isQuestion})}>
+                          <div className="flex gap-2" >
+                            <MdOutlinePolicy className="w-6 h-6" />
                             <p className="font-semibold">Chính sách bảo hành</p>
                           </div>
-                          <IoIosArrowDown className="w-5 h-5" />
-                          {/* <IoIosArrowUp /> */}
+                          {showDetail.isPolicy ? (
+                            <IoIosArrowUp className="w-5 h-5" /> 
+                            ) : (
+                            <IoIosArrowDown className="w-5 h-5" />
+                          )}
+                        </div>
+                        <div className={`p-5 flex-col gap-3 ${showDetail.isPolicy ? "flex": "hidden"}`}>
+                          <div className="flex items-start gap-3">
+                            <BsDashCircleDotted className="w-5 h-5" />
+                            <p className="flex-1">
+                              ChatGPT là một mô hình ngôn ngữ được huấn luyện
+                              bằng công nghệ transformer và được phát triển bởi
+                              OpenAI. Nó có khả năng học từ dữ liệu văn bản lớn
+                              và tự động sinh các câu trả lời liên quan đến các
+                              câu hỏi được đặt ra. ChatGPT có thể được sử dụng
+                              trong các ứng dụng chatbot, trò chuyện tự động và
+                              các hệ thống tư vấn khác. Nó cũng có khả năng tự
+                              động hoá các tác vụ như dịch văn bản, tự động điền
+                              vào mẫu và các tác vụ khác liên quan đến ngôn ngữ.
+                            </p>
+                          </div>
+                          <div className="flex items-start gap-3">
+                            <BsDashCircleDotted className="w-5 h-5" />
+                            <p className="flex-1">
+                              ChatGPT có khả năng trả lời nhiều loại câu hỏi
+                              khác nhau, bao gồm cả câu hỏi có liên quan đến
+                              lĩnh vực tri thức, văn hóa, xã hội và các lĩnh vực
+                              khác. Nó cũng có thể trả lời các câu hỏi có tính
+                              chất hỏi đáp và câu hỏi yêu cầu phân tích sâu hơn.
+                              Tuy nhiên, ChatGPT không phải là một người hoặc hệ
+                              thống chuyên gia và không thể cung cấp các lời
+                              khuyên hoặc đưa ra các quyết định chuyên sâu trong
+                              các lĩnh vực cụ thể. Nó chỉ có thể trả lời các câu
+                              hỏi dựa trên dữ liệu văn bản mà nó được huấn luyện
+                              và không thể đưa ra các lời khuyên hoặc đưa ra các
+                              quyết định chuyên sâu.
+                            </p>
+                          </div>
                         </div>
                       </div>
                       <div>
-                        <div className="flex gap-2 p-5 border border-b-gray-200 border-r-0 border-l-0 justify-between items-center">
+                        <div className="flex gap-2 p-5 border border-b-gray-200 border-r-0 border-l-0 justify-between items-center" onClick={() => setShowDetail({isInfo: showDetail.isInfo,
+                        isPolicy: showDetail.isPolicy,
+                        isQuestion: !showDetail.isQuestion})}>
                           <div className="flex gap-2">
-                            <CgDetailsMore className="w-6 h-6" />
+                            <BsPatchQuestion className="w-6 h-6" />
                             <p className="font-semibold">Câu hỏi thường gặp</p>
                           </div>
-                          <IoIosArrowDown className="w-5 h-5" />
-                          {/* <IoIosArrowUp /> */}
+                          {showDetail.isQuestion ? (
+                            <IoIosArrowUp className="w-5 h-5" /> 
+                            ) : (
+                            <IoIosArrowDown className="w-5 h-5" />
+                          )}
+                        </div>
+                        <div className={`p-5 flex-col gap-3 ${showDetail.isQuestion ? "flex": "hidden"}`}>
+                          <div className="flex items-start gap-3">
+                            <BsDashCircleDotted className="w-5 h-5" />
+                            <p className="flex-1">
+                              ChatGPT là một mô hình ngôn ngữ được huấn luyện
+                              bằng công nghệ transformer và được phát triển bởi
+                              OpenAI. Nó có khả năng học từ dữ liệu văn bản lớn
+                              và tự động sinh các câu trả lời liên quan đến các
+                              câu hỏi được đặt ra. ChatGPT có thể được sử dụng
+                              trong các ứng dụng chatbot, trò chuyện tự động và
+                              các hệ thống tư vấn khác. Nó cũng có khả năng tự
+                              động hoá các tác vụ như dịch văn bản, tự động điền
+                              vào mẫu và các tác vụ khác liên quan đến ngôn ngữ.
+                            </p>
+                          </div>
+                          <div className="flex items-start gap-3">
+                            <BsDashCircleDotted className="w-5 h-5" />
+                            <p className="flex-1">
+                              ChatGPT có khả năng trả lời nhiều loại câu hỏi
+                              khác nhau, bao gồm cả câu hỏi có liên quan đến
+                              lĩnh vực tri thức, văn hóa, xã hội và các lĩnh vực
+                              khác. Nó cũng có thể trả lời các câu hỏi có tính
+                              chất hỏi đáp và câu hỏi yêu cầu phân tích sâu hơn.
+                              Tuy nhiên, ChatGPT không phải là một người hoặc hệ
+                              thống chuyên gia và không thể cung cấp các lời
+                              khuyên hoặc đưa ra các quyết định chuyên sâu trong
+                              các lĩnh vực cụ thể. Nó chỉ có thể trả lời các câu
+                              hỏi dựa trên dữ liệu văn bản mà nó được huấn luyện
+                              và không thể đưa ra các lời khuyên hoặc đưa ra các
+                              quyết định chuyên sâu.
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
