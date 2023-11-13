@@ -1,34 +1,33 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { getUser } from "@/services/user";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 interface userState {
   name: string;
   id: string;
-  isLogin: boolean;
 }
-const checkLogin = () => {
-  let result;
-  if (typeof localStorage !== "undefined") {
-    result = localStorage.getItem("access_token");
-  }
-  return result ? true : false;
-};
+
 const initialState: userState = {
   name: "",
   id: "",
-  isLogin: checkLogin(),
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logout: (state) => {
-      localStorage.removeItem("access_token");
-      state.isLogin = false;
-    },
-    loginSuccess: (state) => {
-      state.isLogin = true;
-    },
+    
+    
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchUser.fulfilled, (state,action) => {
+      return action.payload
+    })
+  }
 });
-export const { logout, loginSuccess } = userSlice.actions;
+export const fetchUser = createAsyncThunk(
+  'user/fetchUser',
+  async (access_token:string, thunkAPI) => {
+    const response : any  = await getUser(access_token)
+    return response
+  }
+)
 export default userSlice.reducer;

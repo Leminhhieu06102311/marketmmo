@@ -23,8 +23,8 @@ import Footer from "@/components/Footer/Footer";
 import Header from "@/components/Header/Header";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import WrapResponsive from "@/components/WrapResponsive";
-import ContentModal from "@/components/Modal/ContentModal";
-import { toggleModal } from "@/redux/modalSlice";
+import { fetchUser } from "@/redux/userSlice";
+import { getCookie, setCookie } from "@/redux/cookieSlice";
 export default function Home() {
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(true);
@@ -53,7 +53,7 @@ export default function Home() {
     };
     fetchProduct();
   }, []);
-
+  
   return (
     <>
       

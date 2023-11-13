@@ -13,6 +13,8 @@ export default function Notification({
 }) {
   return (
     <div className="fixed bottom-10 right-10 bg-white text-gray-700 p-4 rounded-lg shadow-lg z-50">
+      <div className={`absolute left-0 h-1 w-full bottom-0 rounded-md ${status === 'success' ? "bg-green-500" : "bg-red-500"}`}>
+      </div>
       <div className="flex gap-3">
         <div className="flex  gap-2 items-center">
           {status === 'success' ? (

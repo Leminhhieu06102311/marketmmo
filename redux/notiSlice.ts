@@ -12,13 +12,13 @@ const notiSlice = createSlice({
     name: 'noti',
     initialState,
     reducers: {
-        show: (state) => {
+        showNoti: (state) => {
             state.isNoti = true
         },
-        hide: (state) => {
+        hideNoti: (state) => {
             state.isNoti = false
         }
     }
 })
-export const {show, hide} = notiSlice.actions
+export const {showNoti, hideNoti} = notiSlice.actions
 export default notiSlice.reducer
