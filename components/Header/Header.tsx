@@ -18,6 +18,7 @@ import Notification from "../Notification";
 import { status } from "../Notification/Notification";
 import SideBarMenuMobile from "./SideBarMenuMobile";
 import Links from "@/interfaces/links";
+import { toggleModal } from "@/redux/modalSlice";
 const links : Links[] = [
   {
     name: "Sản phẩm",
@@ -174,7 +175,7 @@ export default function Header() {
               {/* end  responsive mobile */}
               <button
                 className="bg-[#1212120a] hidden md:block rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212]"
-                data-hs-overlay="#cart-modal"
+                onClick={() => dispatch(toggleModal('cart'))}
               >
                 <BsCart3 className="w-5 h-5 text-black" />
               </button>

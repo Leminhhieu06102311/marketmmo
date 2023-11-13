@@ -25,6 +25,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import WrapResponsive from "@/components/WrapResponsive";
 import { fetchUser } from "@/redux/userSlice";
 import { getCookie, setCookie } from "@/redux/cookieSlice";
+import CartModal from "@/components/Cart/CartModal";
 export default function Home() {
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(true);
@@ -56,7 +57,7 @@ export default function Home() {
   
   return (
     <>
-      
+      <CartModal />
       <Header />
       <div className="w-full bg-[url('/images/slide/slide1.gif')] bg-cover bg-center">
         <div
