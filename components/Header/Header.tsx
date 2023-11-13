@@ -424,7 +424,7 @@ export default function Header() {
                                   </div>
                                 </div>
                                 <div className="font-bold text-xs">
-                                  <span>2.000 VNĐ</span>
+                                  <span>2.0000 VNĐ</span>
                                 </div>
                               </div>
                             </Link>
