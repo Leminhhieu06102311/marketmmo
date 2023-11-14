@@ -1,19 +1,26 @@
 import { getUser } from "@/services/user";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import Cookies from 'js-cookie'
 interface userState {
   name: string;
   id: string;
+  isLoggedIn: boolean
 }
 
 const initialState: userState = {
   name: "",
   id: "",
+  isLoggedIn: Boolean(Cookies.get('access_token'))
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    setLoggedIn: (state, action : PayloadAction<boolean>) => {
+        console.log(state.isLoggedIn)
+        state.isLoggedIn = action.payload
+    }
     
     
   },
@@ -30,4 +37,5 @@ export const fetchUser = createAsyncThunk(
     return response
   }
 )
+export const { setLoggedIn} = userSlice.actions
 export default userSlice.reducer;
