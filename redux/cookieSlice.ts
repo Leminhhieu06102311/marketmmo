@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-
 interface cookieState {
     access_token: string,
 }
@@ -54,5 +53,5 @@ const cookieSlice = createSlice({
         }
     }
 })
-export const {setCookie, getCookie} = cookieSlice.actions
+export const {setCookie, getCookie,deleteCookie} = cookieSlice.actions
 export default cookieSlice.reducer

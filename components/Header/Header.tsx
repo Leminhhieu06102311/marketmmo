@@ -19,6 +19,7 @@ import { status } from "../Notification/Notification";
 import SideBarMenuMobile from "./SideBarMenuMobile";
 import Links from "@/interfaces/links";
 import { toggleModal } from "@/redux/modalSlice";
+import { deleteCookie } from "@/redux/cookieSlice";
 const links : Links[] = [
   {
     name: "Sản phẩm",
@@ -53,9 +54,8 @@ export default function Header() {
   const {isNoti} = useAppSelector((state) => state.noti)
   const dispatch = useAppDispatch();
   const {access_token} = useAppSelector((state) => state.cookie)
-  console.log(access_token)
   const hanldeLogout = () => {
-    
+    dispatch(deleteCookie({name: 'access_token'}))
   };
 
   useEffect(() => {
