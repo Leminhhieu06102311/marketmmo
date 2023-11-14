@@ -24,7 +24,6 @@ import Header from "@/components/Header/Header";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import WrapResponsive from "@/components/WrapResponsive";
 import { fetchUser } from "@/redux/userSlice";
-import { getCookie, setCookie } from "@/redux/cookieSlice";
 import CartModal from "@/components/Cart/CartModal";
 export default function Home() {
   const dispatch = useAppDispatch()

@@ -2,7 +2,6 @@
 
 import Notification from "@/components/Notification";
 import { status } from "@/components/Notification/Notification";
-import { getCookie, setCookie } from "@/redux/cookieSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { hideNoti, showNoti } from "@/redux/notiSlice";
 import api from "@/services/api";
@@ -11,7 +10,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
+import Cookies from 'js-cookie'
+import { setLoggedIn } from "@/redux/userSlice";
 export default function login() {
   const router = useRouter();
   const isNoti = useAppSelector((state) => state.noti.isNoti)
@@ -54,12 +54,8 @@ export default function login() {
         }
       );
       const {access_token} = response.data.data
-      dispatch(setCookie({
-        name: 'access_token',
-        value: access_token,
-        days: 2
-      }))
-      dispatch(getCookie({name: 'access_token'}))
+      Cookies.set('access_token', access_token, {expires: 10})
+      dispatch(setLoggedIn(true))
       dispatch(showNoti())
       setTimeout(() => {
         dispatch(hideNoti())

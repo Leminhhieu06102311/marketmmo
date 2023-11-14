@@ -18,8 +18,9 @@ import Notification from "../Notification";
 import { status } from "../Notification/Notification";
 import SideBarMenuMobile from "./SideBarMenuMobile";
 import Links from "@/interfaces/links";
+import Cookies from 'js-cookie'
 import { toggleModal } from "@/redux/modalSlice";
-import { deleteCookie } from "@/redux/cookieSlice";
+import { setLoggedIn } from "@/redux/userSlice";
 const links : Links[] = [
   {
     name: "Sản phẩm",
@@ -51,11 +52,12 @@ const links : Links[] = [
   },
 ];
 export default function Header() {
+  const {isLoggedIn} = useAppSelector((state) => state.user)
   const {isNoti} = useAppSelector((state) => state.noti)
   const dispatch = useAppDispatch();
-  const {access_token} = useAppSelector((state) => state.cookie)
   const hanldeLogout = () => {
-    dispatch(deleteCookie({name: 'access_token'}))
+    Cookies.remove('access_token')
+    dispatch(setLoggedIn(false))
   };
 
   useEffect(() => {
@@ -105,7 +107,7 @@ export default function Header() {
         <div className=" flex lg:flex gap-5">
           <div className=" lg:flex ">
             <div className="flex gap-2 md:gap-2 items-center">
-              {!access_token && (
+              {!isLoggedIn && (
                 <Link
                   href="/login"
                   className="bg-[#1212120a] hidden  rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:flex items-center gap-2"
