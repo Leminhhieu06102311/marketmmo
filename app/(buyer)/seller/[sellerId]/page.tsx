@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";
@@ -11,8 +11,10 @@ import { getAllProducts } from "@/services/product";
 import ProductItem from "@/components/Product/ProductItem";
 import ProductItemSearch from "@/components/Product/ProductItemSearch";
 
-const Seller = ({ params }: { params: { id: string } }) => {
-  const creatorId = "6544c8129d85a36c1ddbc68b";
+const Seller = ({ params }: { params: { sellerId: string } }) => {
+  console.log(params.sellerId);
+  
+  const creatorId = params.sellerId;
   const [seller, setSeller] = useState<SellerId | null>(null);
   const [showMore, setShowMore] = useState(false);
   const [showMore1, setShowMore1] = useState(false);
@@ -21,42 +23,54 @@ const Seller = ({ params }: { params: { id: string } }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [filteredProductsSearch, setFilteredProductsSearch] = useState<
+    Product[]
+  >([]);
+  const [count, setCount] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const [totalProducts, setTotalProducts] = useState(0);
   const [searchDropDown, setSearchDropDown] = useState(false);
-
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await getAllProducts(); // Lấy tất cả sản phẩm
         setProducts(data);
-        setTotalProducts(data.length)
       } catch (error) {
         console.error("Error fetching data", error);
       }
     };
-
     fetchData();
   }, []);
   useEffect(() => {
     const filterProducts = () => {
+      const filtered = products.filter(
+        (product) => product.creator._id === creatorId
+      );
+      setFilteredProducts(filtered);
+      setCount(filtered.length);
+    };
+
+    filterProducts();
+  }, [products, creatorId]);
+  useEffect(() => {
+    const filterProductsSearch = () => {
       const filtered = products.filter((product) => {
         return (
           product.creator._id === creatorId &&
           product.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
       });
-      setFilteredProducts(filtered);
+      setFilteredProductsSearch(filtered);
+      console.log(filtered);
+      
     };
-
-    filterProducts();
+    filterProductsSearch();
   }, [products, creatorId, searchTerm]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let data = await getDetailSeller("6544c8129d85a36c1ddbc68b"); // Link to JSON Server
+        let data = await getDetailSeller(params.sellerId); // Link to JSON Server
         setSeller(data);
       } catch (error) {
         console.error("Error fetching data", error);
@@ -87,8 +101,17 @@ const Seller = ({ params }: { params: { id: string } }) => {
   };
 
   const handleSearch = (event: any) => {
-    setSearchTerm(event.target.value);
+    if (event.type === "change") {
+      setSearchTerm(event.target.value);
+    } else if (event.type === "click") {
+      setSearchDropDown(true);
+    }
   };
+
+  const handleHideSearch = () => {
+    setSearchDropDown(false);
+  };
+
   return (
     <>
       {" "}
@@ -171,14 +194,14 @@ const Seller = ({ params }: { params: { id: string } }) => {
                       Số lượng sản phẩm
                     </p>
                     <span className="leading-10 text-[26px] lg:m-0 text-gray-800 text-3xl font-semibold">
-                      {totalProducts} Sản phẩm
+                      {count} Sản phẩm
                     </span>
                   </div>
                   <div className="w-auto md:mb-0 lg:mb-0 lg:w-[425px]">
                     <p className="lg:m-0 font-semibold ">Đánh giá tổng</p>
                     <span className="flex items-center gap-x-2 leading-10 text-[26px] lg:m-0 text-gray-800 text-3xl font-semibold">
                       {seller.totalRatingsOfSeller}{" "}
-                      <div className="flex gap-x-1">
+                      <div className="flex gap-x-1 pb-1">
                         {seller.totalRatingsOfSeller === 5 && (
                           <>
                             {" "}
@@ -646,7 +669,7 @@ const Seller = ({ params }: { params: { id: string } }) => {
                 <div className="mt-[30px]">
                   <div className="block md:block lg:flex items-center gap-x-4">
                     <p className="mb-4 justify-center font-semibold text-[14px] leading-20 md:m-0 lg:m-0">
-                      {totalProducts} sản phẩm
+                      {count} sản phẩm
                     </p>
 
                     <div className="flex relative mt-0 transition ease-in-out  mb-4 rounded-[9px] border border-[#ececec] px-3 py-1 md:mt-2 md:w-[100%] md:m-0 lg:mt-0 lg:m-0  lg:w-[65%] hover:border-[#c8c8c8bb]">
@@ -670,19 +693,44 @@ const Seller = ({ params }: { params: { id: string } }) => {
                         placeholder="Tìm kiếm sản phẩm"
                         value={searchTerm}
                         onChange={handleSearch}
+                        onClick={handleSearch}
                       />
-
-                      <div className="absolute min-h-[100px] overflow-y-auto mt-12 bg-white p-2 z-20 w-[97%] rounded-[7px] shadow-md">
-                        <div className="">
-                          <div className="flex font-semibold justify-between text-[14px] border-b border-[#ececec] py-3">
-                            <p>Thông tin sản phẩm</p>
-                            <p>Đánh giá</p>
+                      {searchDropDown && (
+                        <button onClick={handleHideSearch}>
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 14 14"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M1 1L13 13M1 13L13 1L1 13Z"
+                              stroke="black"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </button>
+                      )}
+                      {searchDropDown && (
+                        <div className="absolute mt-12 bg-white p-2 z-20 w-[97%] rounded-[7px] shadow-md">
+                          <div className="">
+                            <div className="flex font-semibold justify-between text-[14px] border-b border-[#ececec] py-3">
+                              <p>Thông tin sản phẩm</p>
+                              <p>Đánh giá</p>
+                            </div>
+                            <div className="min-h-[100px] max-h-[320px] overflow-y-auto">
+                              {filteredProductsSearch.map(
+                                (product: Product) => (
+                                  <ProductItemSearch product={product} />
+                                )
+                              )}
+                            </div>
                           </div>
-                          {filteredProducts.map((product: Product) => (
-                            <ProductItemSearch product={product} />
-                          ))}
                         </div>
-                      </div>
+                      )}
                     </div>
 
                     <div className="flex justify-start gap-4 mt-0 items-center md:mt-3 lg:mt-0 md:justify-end">
@@ -770,6 +818,11 @@ const Seller = ({ params }: { params: { id: string } }) => {
                       {filteredProducts.map((product: Product) => (
                         <ProductItem product={product} />
                       ))}
+                    </div>
+                    <div className="flex w-full justify-center my-4">
+                      <button className="bg-primary text-white px-6 py-3 rounded-md font-semibold text-sm">
+                        Xem thêm
+                      </button>
                     </div>
 
                     <div className="mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">

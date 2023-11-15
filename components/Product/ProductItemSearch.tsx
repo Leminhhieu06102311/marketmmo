@@ -42,7 +42,7 @@ export default function ProductItemSearch({ product }: { product: Product }) {
             <div className="gap-x-1 items-center gap-y-1">
               <div className="mt-1 text-right text-[14px]">{product.rating.count} Sao</div>
               <div className="flex gap-x-1">
-                {product.rating.count === 1 && (
+                {product.rating.count === 0 && (
                   <>
                     {" "}
                     <svg
@@ -199,7 +199,7 @@ export default function ProductItemSearch({ product }: { product: Product }) {
                     </svg>
                   </>
                 )}
-                {product.rating.count === 0 && (
+                {product.rating.count === 5 && (
                   <>
                     {" "}
                     <svg
