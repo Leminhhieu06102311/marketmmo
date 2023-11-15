@@ -11,7 +11,7 @@ import { BsCart3 } from "react-icons/bs";
 import { TbArrowsExchange } from "react-icons/tb";
 import Link from "next/link";
 import { HiBars3 } from "react-icons/hi2";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CartModal from "../Cart/CartModal";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Notification from "../Notification";
@@ -54,7 +54,17 @@ const links: Links[] = [
   },
 ];
 export default function Header() {
-  const { isLoggedIn } = useAppSelector((state) => state.user)
+  const { isLoggedIn } = useAppSelector((state) => state.user)  
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   const dispatch = useAppDispatch();
   const hanldeLogout = () => {
     Cookies.remove('access_token')
@@ -169,8 +179,215 @@ export default function Header() {
                 </ul>
               </div>
               {/* start responsive mobile */}
-              <div className="bg-[#1212120a]  rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:flex items-center gap-2 flex lg:hidden">
-                <BiSearch className="w-5 h-5" />
+              <div>
+                <div onClick={openModal} className="bg-[#1212120a]  rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:flex items-center gap-2 flex lg:hidden">
+                  <BiSearch className="w-5 h-5" />
+                </div>
+                {showModal && (
+                  <div className="fixed inset-0 flex justify-center z-50">
+                    <div onClick={closeModal} className="fixed inset-0 bg-black opacity-50"></div>
+                    <div className="bg-white w-full h-[72px] shadow-lg relative top-0">
+                      <div className="flex items-center h-full">
+                        <div onClick={closeModal} className="cursor-pointer w-[62px] flex justify-center"><FaAngleLeft className="text-base w-5 h-5" /></div>
+                        <input type="text" placeholder="Tìm kiếm" className="w-full focus:outline-none p-1 text-base" />
+                      </div>
+                    </div>
+                    <div className="absolute top-[4.5rem] left-0 z-50  w-full">
+                      <ul className="p-2 bg-white border max-h-[90vh] overflow-y-auto">
+                        {/* classify */}
+                        <li className="w-full mb-2 mt-1 ">
+                          <div className="text-xs text-[#545454] font-semibold">LAUNCHES</div>
+                        </li>
+                        <li>
+                          <div className="p-1 hover:bg-gray-50 rounded-lg">
+                            <Link href="" className="flex items-center">
+                              <Image className="rounded-lg mx-3 my-2" src="/images/product/1.webp" width={32} height={32} alt="" />
+                              <div className="flex justify-between items-center w-full">
+                                <div>
+                                  <div>
+                                    <span className="font-bold text-sm">Arc8 GameFest Pass | November '23</span>
+                                    <span className="text-primary"> <FaCircleCheck /></span>
+                                  </div>
+                                  <div>
+                                    <span className="font-bold text-sm">2,991 </span>
+                                    <span className="font-bold text-sm">items</span>
+                                  </div>
+                                </div>
+                                {/* <div>
+                      </div> */}
+                              </div>
+                            </Link>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="p-1 hover:bg-gray-100 rounded-lg">
+                            <Link href="" className="flex items-center">
+                              <Image className="rounded-lg mx-3 my-2" src="/images/product/1.webp" width={32} height={32} alt="" />
+                              <div className="flex justify-between items-center w-full">
+                                <div>
+                                  <div>
+                                    <span className="font-bold text-sm">Arc8 GameFest Pass | November '23</span>
+                                    <span className="text-primary">  <FaCircleCheck /></span>
+                                  </div>
+                                  <div>
+                                    <span className="font-bold text-sm">2,991 </span>
+                                    <span className="font-bold text-sm">items</span>
+                                  </div>
+                                </div>
+                                {/* <div>
+                      </div> */}
+                              </div>
+                            </Link>
+                          </div>
+                        </li>
+                        {/* classify */}
+                        <li className="w-full mb-2 mt-1 ">
+                          <div className="text-xs text-[#545454] font-semibold">LAUNCHES</div>
+                        </li>
+                        <li>
+                          <div className="p-1 hover:bg-gray-50 rounded-lg">
+                            <Link href="" className="flex items-center">
+                              <Image className="rounded-lg mx-3 my-2" src="/images/product/1.webp" width={32} height={32} alt="" />
+                              <div className="flex justify-between items-center w-full">
+                                <div>
+                                  <div>
+                                    <span className="font-bold text-sm">Arcadeland</span>
+                                    <span className="text-primary">  <FaCircleCheck /></span>
+                                  </div>
+                                  <div>
+                                    <span className="font-bold text-sm">2,991 </span>
+                                    <span className="font-bold text-sm">items</span>
+                                  </div>
+                                </div>
+                                <div className="font-bold text-xs">
+                                  <span>2.000 VNĐ</span>
+                                </div>
+                              </div>
+                            </Link>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="p-1 hover:bg-gray-50 rounded-lg">
+                            <Link href="" className="flex items-center">
+                              <Image className="rounded-lg mx-3 my-2" src="/images/product/1.webp" width={32} height={32} alt="" />
+                              <div className="flex justify-between items-center w-full">
+                                <div>
+                                  <div>
+                                    <span className="font-bold text-sm">Arc8 GameFest Pass | November '23</span>
+                                    <span className="text-primary">  <FaCircleCheck /></span>
+                                  </div>
+                                  <div>
+                                    <span className="font-bold text-sm">2,991 </span>
+                                    <span className="font-bold text-sm">items</span>
+                                  </div>
+                                </div>
+                                <div className="font-bold text-xs">
+                                  <span>2.000 VNĐ</span>
+                                </div>
+                              </div>
+                            </Link>
+                          </div>
+                        </li>
+                        {/* classify */}
+                        <li className="w-full mb-2 mt-1 ">
+                          <div className="text-xs text-[#545454] font-semibold">LAUNCHES</div>
+                        </li>
+                        <li>
+                          <div className="p-1 hover:bg-gray-50 rounded-lg">
+                            <Link href="" className="flex items-center">
+                              <Image className="rounded-lg mx-3 my-2" src="/images/product/1.webp" width={32} height={32} alt="" />
+                              <div className="flex justify-between items-center w-full">
+                                <div>
+                                  <div>
+                                    <span className="font-bold text-sm">Arcadeland</span>
+                                    <span className="text-primary">  <FaCircleCheck /></span>
+                                  </div>
+                                  <div>
+                                    <span className="font-bold text-sm">2,991 </span>
+                                    <span className="font-bold text-sm">items</span>
+                                  </div>
+                                </div>
+                                <div className="font-bold text-xs">
+                                  <span>2.000 VNĐ</span>
+                                </div>
+                              </div>
+                            </Link>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="p-1 hover:bg-gray-50 rounded-lg">
+                            <Link href="" className="flex items-center">
+                              <Image className="rounded-lg mx-3 my-2" src="/images/product/1.webp" width={32} height={32} alt="" />
+                              <div className="flex justify-between items-center w-full">
+                                <div>
+                                  <div>
+                                    <span className="font-bold text-sm">Arc8 GameFest Pass | November '23</span>
+                                    <span className="text-primary">  <FaCircleCheck /></span>
+                                  </div>
+                                  <div>
+                                    <span className="font-bold text-sm">2,991 </span>
+                                    <span className="font-bold text-sm">items</span>
+                                  </div>
+                                </div>
+                                <div className="font-bold text-xs">
+                                  <span>2.0000 VNĐ</span>
+                                </div>
+                              </div>
+                            </Link>
+                          </div>
+                        </li>
+                        {/* classify */}
+                        <li className="w-full mb-2 mt-1 ">
+                          <div className="text-xs text-[#545454] font-semibold">LAUNCHES</div>
+                        </li>
+                        <li>
+                          <div className="p-1 hover:bg-gray-50 rounded-lg">
+                            <Link href="" className="flex items-center">
+                              <Image className="rounded-lg mx-3 my-2" src="/images/product/1.webp" width={32} height={32} alt="" />
+                              <div className="flex justify-between items-center w-full">
+                                <div>
+                                  <div>
+                                    <span className="font-bold text-sm">Arcadeland</span>
+                                    <span className="text-primary">  <FaCircleCheck /></span>
+                                  </div>
+                                  <div>
+                                    <span className="font-bold text-sm">2,991 </span>
+                                    <span className="font-bold text-sm">items</span>
+                                  </div>
+                                </div>
+                                <div className="font-bold text-xs">
+                                  <span>2.000 VNĐ</span>
+                                </div>
+                              </div>
+                            </Link>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="p-1 hover:bg-gray-50 rounded-lg">
+                            <Link href="" className="flex items-center">
+                              <Image className="rounded-lg mx-3 my-2" src="/images/product/1.webp" width={32} height={32} alt="" />
+                              <div className="flex justify-between items-center w-full">
+                                <div>
+                                  <div>
+                                    <span className="font-bold text-sm">Arc8 GameFest Pass | November '23</span>
+                                    <span className="text-primary">  <FaCircleCheck /></span>
+                                  </div>
+                                  <div>
+                                    <span className="font-bold text-sm">2,991 </span>
+                                    <span className="font-bold text-sm">items</span>
+                                  </div>
+                                </div>
+                                <div className="font-bold text-xs">
+                                  <span>2.000 VNĐ</span>
+                                </div>
+                              </div>
+                            </Link>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
               </div>
               <div
                 className="bg-[#1212120a]  rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:hidden items-center gap-2 flex"
