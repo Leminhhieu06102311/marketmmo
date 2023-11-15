@@ -23,6 +23,8 @@ import { toggleModal } from "@/redux/modalSlice";
 import { setLoggedIn } from "@/redux/userSlice";
 import { LuBell } from "react-icons/lu";
 import {toast} from 'react-toastify'
+import Image from "next/image";
+import {FaAngleLeft,FaCircleCheck} from 'react-icons/fa6'
 const links: Links[] = [
   {
     name: "Sản phẩm",
