@@ -4,13 +4,14 @@ import Notification from "@/components/Notification";
 import { status } from "@/components/Notification/Notification";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { hide, show } from "@/redux/notiSlice";
-import { loginSuccess } from "@/redux/userSlice";
+import loginSuccess from "@/redux/userSlice"
 import api from "@/services/api";
 import { faEyeSlash, faEye } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
 
 export default function login() {
   const router = useRouter();
@@ -40,7 +41,6 @@ export default function login() {
 
   const handleLogin = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
-
     try {
       const response = await api.post("/auth/login",
         {

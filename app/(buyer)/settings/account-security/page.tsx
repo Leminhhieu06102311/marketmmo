@@ -1,15 +1,107 @@
 "use client"
-import { faAppleAlt, faAppleWhole, faCopy, faLock, faTimes, faUser, faUserAlt, faUserShield } from '@fortawesome/free-solid-svg-icons'
+import { faCopy, faExclamation, faLock, faTimes, faUser, faUserAlt, faUserShield } from '@fortawesome/free-solid-svg-icons'
 import { faShieldAlt } from '@fortawesome/free-solid-svg-icons/faShieldAlt'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FaEyeSlash, FaEye, FaExclamation } from "react-icons/fa6";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Link from 'next/link'
 import Image from 'next/image'
 import React from 'react'
 import { useState, useEffect } from 'react'
+import axios from 'axios';
 export default function Profile() {
     const [modals, setModals] = useState<string[]>([]);
     const [currentStep, setCurrentStep] = useState(1);
+    // Form Start
+    // Show password Enable/Disable
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+    const [formatPassword, setFormatPassword] = useState(false);
+    const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+    const [error, setError] = useState(false);
+    const [errorPassword, setErrorPassword] = useState(false);
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const toggleShowConfirmPassword = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    };
+    //The function checks the match of the new password and re-enters the new password
+    const { isNoti } = useAppSelector((state) => state.noti)
+    const dispatch = useAppDispatch();
+    const { access_token } = useAppSelector((state) => state.cookie)
+    console.log(access_token)
+
+    const [isPasswordMatch, setIsPasswordMatch] = useState(true);
+    const checkPasswordMatch = () => {
+        if (password === confirmPassword) {
+            setIsPasswordMatch(true);
+        } else {
+            setIsPasswordMatch(false);
+        }
+    };
+    useEffect(() => {
+        const passwordRegex =
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,60}$/;
+
+        const isPasswordValid = passwordRegex.test(password);
+        const arePasswordsMatching = password === confirmPassword;
+
+        setFormatPassword(!isPasswordValid);
+        setErrorPassword(!arePasswordsMatching);
+    }, [password, confirmPassword]);
+
+    //  
+    const handleChangePassword = async () => {
+        try {
+            const passwordRegex =
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,60}$/;
+            if (!passwordRegex.test(password)) {
+                setFormatPassword(true);
+                return;
+            }
+            if (!currentPassword || !password || !confirmPassword) {
+                return;
+            }
+            const response = await axios.patch('https://fancy-cemetery-production.up.railway.app/settings/password', {
+                currentPassword: currentPassword,
+                password: password,
+                confirmPassword: confirmPassword
+            },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': `Bearer ${access_token}`,
+                    }
+                }
+
+            );
+            setShowSuccessPopup(true);
+            setTimeout(() => {
+                closeModal('modal2')
+                setShowSuccessPopup(false);
+            }, 3000);
+
+        } catch (error) {
+            console.error("Error during registration:", error);
+            setError(true);
+            setTimeout(() => {
+                setError(false);
+            }, 5000);
+        }
+    }
     // 
+    useEffect(() => {
+        checkPasswordMatch();
+    }, [password, confirmPassword]);
+    // Form End
+
+    //   Open/Close Modal
     const openModal = (modalId: string) => {
         setModals([...modals, modalId]);
     };
@@ -384,16 +476,136 @@ export default function Profile() {
                                                         <div className="modal-content">
                                                             <div className="fixed inset-0 flex items-center justify-center z-50">
                                                                 <div className="fixed inset-0 bg-[#0a1e4266] opacity-50" onClick={() => closeModal('modal2')}></div>
-                                                                <div className="bg-white p-4 z-50 w-full h-full md:w-[400px] md:h-auto md:rounded-xl lg:w-[400px] lg:h-auto lg:rounded-xl">
+                                                                {showSuccessPopup && (
+                                                                    <div className="fixed top-4 right-4 bg-blue-500 text-white p-4 rounded shadow-lg">
+                                                                        <div className="font-bold text-lg mb-2 mr-2">
+                                                                            Thay đổi mật khẩu thành công
+                                                                        </div>
+                                                                        <p className="text-sm">
+                                                                        </p>
+                                                                        <button
+                                                                            className="close-button absolute top-2 right-2 text-lg cursor-pointer"
+                                                                            onClick={() => setShowSuccessPopup(!showSuccessPopup)}
+                                                                        >
+                                                                            x
+                                                                        </button>
+                                                                    </div>
+                                                                )}
+                                                                {error && (
+                                                                    <div className="fixed top-4 right-4 bg-red-500 text-white p-4 rounded shadow-lg">
+                                                                        <div className="font-bold text-lg mb-2 pr-8">
+                                                                            Đổi mật khẩu thất bại
+                                                                        </div>
+                                                                        <p className="text-sm ">Vui lòng thử lại</p>
+                                                                        <button
+                                                                            className="close-button absolute top-2 right-3 text-lg cursor-pointer"
+                                                                            onClick={() => setError(!error)}
+                                                                        >
+                                                                            x
+                                                                        </button>
+                                                                    </div>
+                                                                )}
+                                                                <div className="bg-white p-4 z-50 w-full h-full md:w-[400px] md:h-auto md:rounded-xl lg:w-[500px] lg:h-auto lg:rounded-xl">
                                                                     <div className="flex justify-between items-center mb-3">
                                                                         <h1 className='font-semibold text-xl'>Đặt lại mật khẩu</h1>
                                                                         <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal2')}>  <FontAwesomeIcon icon={faTimes} /></button>
                                                                     </div>
                                                                     <div className="mb-5">
-                                                                        <div className='text-gray-500 font-semibold text-sm mb-3'>Bạn sẽ nhận được hướng dẫn qua e-mail về cách đặt lại mật khẩu của mình.</div>
-                                                                        <input className='py-4 px-4 cursor-not-allowed focus:outline-none text-sm bg-slate-100 w-full border rounded-lg' type="text" placeholder='yu***st@gmail.com' disabled />
+
+                                                                        <div className='mb-5'>
+                                                                            <div className="relative mt-4">
+                                                                                <label className="text-base font-semibold" htmlFor="">
+                                                                                    Nhập mật khẩu cũ
+                                                                                </label>
+                                                                                <input
+                                                                                    type={showCurrentPassword ? 'text' : 'password'}
+                                                                                    className="py-3 px-4 focus:outline-none text-sm bg-white w-full border rounded-lg"
+                                                                                    placeholder="Nhập mật khẩu cũ"
+                                                                                    value={currentPassword}
+                                                                                    onChange={(e) => setCurrentPassword(e.target.value)}
+                                                                                />
+                                                                                {currentPassword && (
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        className="absolute right-2 top-1/2 transform translate-y-[27%]"
+                                                                                        onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                                                                                    >
+                                                                                        {showCurrentPassword && currentPassword ? <FaEyeSlash /> : <FaEye />}
+                                                                                    </button>
+                                                                                )}
+                                                                            </div>
+                                                                            <div className="relative mt-4">
+                                                                                <label className="text-base font-semibold" htmlFor="">
+                                                                                    Nhập mật khẩu mới
+                                                                                </label>
+                                                                                <input
+                                                                                    type={showPassword ? 'text' : 'password'}
+                                                                                    className="py-3 px-4 focus:outline-none text-sm bg-white w-full border rounded-lg"
+                                                                                    placeholder="Nhập mật khẩu mới"
+                                                                                    value={password}
+                                                                                    onChange={(e) => setPassword(e.target.value)}
+                                                                                />
+                                                                                {password && (
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        className="absolute right-2 top-1/2 transform translate-y-[27%]"
+                                                                                        onClick={() => setShowPassword(!showPassword)}
+                                                                                    >
+                                                                                        {showPassword && password ? <FaEyeSlash /> : <FaEye />}
+                                                                                    </button>
+                                                                                )}
+                                                                            </div>
+                                                                            <div className="relative mt-4">
+                                                                                <label className="text-base font-semibold" htmlFor="">
+                                                                                    Xác nhận mật khẩu mới
+                                                                                </label>
+                                                                                <input
+                                                                                    type={showConfirmPassword ? 'text' : 'password'}
+                                                                                    className="py-3 px-4 focus:outline-none text-sm bg-white w-full border rounded-lg"
+                                                                                    placeholder="Xác nhận mật khẩu mới"
+                                                                                    value={confirmPassword}
+                                                                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                                                                />
+                                                                                {confirmPassword && (
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        className="absolute right-2 top-1/2 transform translate-y-[27%]"
+                                                                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                                                                    >
+                                                                                        {showConfirmPassword && confirmPassword ? <FaEyeSlash /> : <FaEye />}
+                                                                                    </button>
+                                                                                )}
+                                                                            </div>
+                                                                            {/* {isPasswordMatch ? null : (
+                                                                                <div className='mt-2 px-1'>
+                                                                                    <span className='text-red-500 text-sm'>Mật khẩu không khớp</span>
+                                                                                </div>
+                                                                            )} */}
+                                                                            {errorPassword && (
+                                                                                <p className="text-red-500 text-sm mt-1 ml-1">
+                                                                                    Mật khẩu không khớp
+                                                                                </p>
+                                                                            )}
+                                                                            {formatPassword && (
+                                                                                <p
+                                                                                    className={`text-gray-400 text-sm whitespace-pre-line ml-1 ${errorPassword ? "mt-5" : "mt-1"
+                                                                                        } ${formatPassword ? "text-red-400" : "text-gray-400"} `}
+                                                                                >
+                                                                                    <FontAwesomeIcon
+                                                                                        icon={faExclamation}
+                                                                                        style={{ color: "#ffa200" }}
+                                                                                        size="lg"
+                                                                                        className="mr-2 "
+                                                                                    />
+                                                                                    Mật khẩu phải có tối thiểu 6 và tối đa 60 ký tự, ít nhất một
+                                                                                    chữ hoa, một chữ thường, một số và một ký tự đặc biệt
+                                                                                </p>
+                                                                            )}
+                                                                        </div>
+
+                                                                        <button onClick={handleChangePassword} className='w-full rounded-lg p-3 text-white font-semibold  bg-primary hover:bg-[#3459e7]'>Xác nhận</button>
                                                                     </div>
-                                                                    <button className='w-full rounded-lg p-3 text-white font-semibold  bg-primary hover:bg-[#3459e7]'>Gửi hướng dẫn</button>
+
                                                                 </div>
                                                             </div>
                                                         </div>

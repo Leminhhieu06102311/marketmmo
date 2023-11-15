@@ -1,13 +1,15 @@
 import {configureStore} from "@reduxjs/toolkit"
 import productSlice from "./productSlice"
 import userSlice from "./userSlice"
-import notiSlice from "./notiSlice"
+import modalSlice from "./modalSlice"
+import  fetchTransactionHistory  from "./historySlice"
 
 export const store = configureStore({
     reducer: {
         product: productSlice,
         user: userSlice,
-        noti: notiSlice
+        modal: modalSlice,
+        transaction: fetchTransactionHistory
     }
 })
 export type RootState = ReturnType<typeof store.getState>

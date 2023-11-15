@@ -1,62 +1,25 @@
 "use client";
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import PurchaseHistory from "./TabBuyer/PurchaseHistory";
 import RachageHistory from "./TabBuyer/RachageHistory";
 import PurchaseHistorySecond from "./TabBuyer/PurchaseHistorySecond";
-import getAll from "@/services/axiosInstance";
-
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import Link from "next/link";
 const BuyerHistory = () => {
-  const [historiesOrders, setHistoriesOrders] = useState([]);
-  
-  const [userInfo, setUserInfo] = useState();
+
+  const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
+  const dispatch = useAppDispatch();
   const [activeTab, setActiveTab] = useState(1);
-  const accessToken = localStorage.getItem('access_token');
-  console.log(accessToken);
-  
-  useEffect(() => {
-    const token = accessToken;
-
-    const axiosInstance = axios.create({
-      baseURL: '/order/histories?limit=30&page=1',
-      headers: {
-        Authorization: `Bearer ${token}`, // Gửi token trong tiêu đề Authorization
-      },
-    });
-
-    axiosInstance.get('todos/')
-      .then(response => {
-        // Xử lý dữ liệu trả về
-        setHistoriesOrders(response.data); 
-        console.log(response.data);
-        // Lưu dữ liệu vào state todos
-      })
-      .catch(error => {
-        // Xử lý lỗi
-        console.error(error);
-      });
-  }, []);
-  useEffect(() => {
-    const token = accessToken;
-    
-    getAll(token)
-      .then(data => {
-        setHistoriesOrders(data);
-      })
-      .catch(error => {
-        // Xử lý lỗi
-      });
-  }, []);
-  
   const handleTabClick = (tabIndex: any) => {
     setActiveTab(tabIndex);
   };
   return (
     <>
-      {historiesOrders ? (
+      {isLoggedIn ? (
         <p>
-          {historiesOrders}<br/>
-
+          <br />
+          <div>
+          </div>
           <div className="max-w-xxs mx-auto md:max-w-3xl lg:max-w-full  px-5">
             <div className="pt-10">
               <div className="lg:px-5">
@@ -267,7 +230,15 @@ const BuyerHistory = () => {
           </div>
         </p>
       ) : (
-        <p>Chưa đăng nhập.</p>
+        <div className="w-full h-[600px] text-center pt-[200px]">
+          <Link
+            className="bg-primary text-white px-6 py-3 rounded-md font-semibold text-sm"
+            href="/login"
+          >
+            Đăng nhập
+          </Link>
+          <p className="pt-4 font-medium">Vui lòng đăng nhập để xem lịch sử</p>
+        </div>
       )}
     </>
   );

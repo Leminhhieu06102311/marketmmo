@@ -37,7 +37,7 @@ export default function detailProduct({ productId }: { productId: string }) {
           />
         </Link>
       </div>
-      <div className="bg-white rounded-l-lg w-full top-14  absolute bottom-0 left-0 right-0  pb-52 overflow-y-scroll">
+      <div className="bg-white rounded-l-lg w-full top-13  absolute bottom-0 left-0 right-0 overflow-y-scroll">
         <div className="w-full items-center pb-7 px-3 md:px-0 lg:px-0 mt-10 mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl lg:flex justify-around">
           <div className="gap-y-3 lg:flex md:flex gap-3">
             <div className="w-[81px] md:h-[71px] lg:h-[71px] mb-2 md:mb-0 lg:mb-0">

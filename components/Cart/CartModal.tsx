@@ -2,8 +2,12 @@ import { Context } from "@/app/layout";
 import Cart from "@/interfaces/cart";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
+import ContentModal from "../Modal";
+import { useAppDispatch } from "@/redux/hooks";
+import { toggleModal } from "@/redux/modalSlice";
 
 export default function CartModal() {
+  const dispatch = useAppDispatch()
   const { isAddToCart, statusAddToCart } = useContext(Context);
   const [cart, setCart] = useState<Cart>();
   const hanldeRemoveCart = () => {
@@ -23,13 +27,10 @@ export default function CartModal() {
   }, [isAddToCart]);
   return (
     <>
-      <div
-        id="cart-modal"
-        className="bg-overlay  hs-overlay hidden w-full h-full fixed top-0 left-0 z-[60] overflow-x-hidden overflow-y-auto"
-      >
-        <div className="w-full flex justify-end">
-          <div className=" w-full hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-0 mt-0 opacity-0 animate-showCart lg:max-w-md lg:w-full m-3">
-            <div className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700">
+     
+     <ContentModal nameModal="cart">
+     <div className="fixed top-5 bottom-5 right-5">
+      <div className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700">
               <div className="flex justify-between items-center py-3 px-4 border-b dark:border-gray-700">
                 <h3 className="font-bold text-xl text-gray-800 dark:text-gray-200">
                   Giỏ hàng
@@ -37,7 +38,7 @@ export default function CartModal() {
                 <button
                   type="button"
                   className="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 rounded-md text-gray-500 hover:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-white transition-all text-sm dark:focus:ring-gray-700 dark:focus:ring-offset-gray-800"
-                  data-hs-overlay="#cart-modal"
+                  onClick={() => dispatch(toggleModal('cart'))}
                 >
                   <span className="sr-only">Close</span>
                   <svg
@@ -103,7 +104,7 @@ export default function CartModal() {
                           </p>
                           <p className="text-sm text-gray-900">
                             {" "}
-                            Loại : {cart.product.type[cart.type].name}
+                            {/* Loại : {cart.product.type[cart.type].name} */}
                           </p>
                         </div>
                       </div>
@@ -146,10 +147,10 @@ export default function CartModal() {
                   </>
                 )}
               </div>
-            </div>
-          </div>
-        </div>
       </div>
+
+      </div>
+     </ContentModal>
     </>
   );
 }

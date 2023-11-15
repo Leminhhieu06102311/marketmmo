@@ -1,13 +1,28 @@
-import React, { useState } from "react";
+"use client";
+import { useState, useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { fetchUser, fetchTransactionHistory } from "@/redux/historySlice";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";
 const PurchaseHistory = () => {
   const [showMore, setShowMore] = useState(false);
   const [sortDropDown, setSortDropDown] = useState(false);
   const [genreDropDown, setGenreDropDown] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showMore1, setShowMore1] = useState(false);
+  const transactionHistory = useAppSelector(
+    (state) => state.transaction.transactionHistory
+  );
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const accessToken =localStorage.getItem('access_token')
+    console.log(accessToken);
+    if (accessToken) {
+      dispatch(fetchTransactionHistory(accessToken));
+    }
+  }, [dispatch]);
+  useEffect(() => {
+    console.log("Lịch sử mua hàng:", transactionHistory);
+  }, [transactionHistory]);
   const handleLoadMore1 = () => {
     setShowMore1(true);
   };
@@ -34,9 +49,20 @@ const PurchaseHistory = () => {
               <div className="w-[12px] h-[12px] bg-green-500 rounded-[50%]"></div>
               <p className="text-[15px] text-black font-semibold">Live</p>
             </div>
-            <p className="mb-4 line-clamp-1 w-[118px] justify-center text-black font-semibold text-[14px] leading-20 md:m-0 lg:m-0">
-              325 kết quả
-            </p>
+            {transactionHistory.length !== 0 ? (
+              <>
+                <p className="mb-4 line-clamp-1 w-[118px] justify-center text-black font-semibold text-[14px] leading-20 md:m-0 lg:m-0">
+                  325 kết quả
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="mb-4 line-clamp-1 w-[118px] justify-center text-black font-semibold text-[14px] leading-20 md:m-0 lg:m-0">
+                  0 kết quả
+                </p>
+              </>
+            )}
+
             <div className="flex mt-0 transition ease-in-out  mb-4 rounded-[9px] border border-[#ececec] px-3 py-1 md:mt-2 md:w-[100%] md:m-0 lg:mt-0 lg:m-0  lg:w-[69%] hover:border-[#c8c8c8bb]">
               <button className="items-center">
                 <svg
@@ -100,7 +126,53 @@ const PurchaseHistory = () => {
         </div>
         <div>
           <div className="mt-5 grid grid-cols-1">
-            <Link href="/transaction-history/1">
+            {transactionHistory.length !== 0 ? (
+              <>
+                {transactionHistory.map((transaction) => (
+                  <div>
+                    <tr className="" key={transaction.id}>
+                      <td>{transaction.id}</td>
+                      <td>{transaction.date}</td>
+                      <td>{transaction.description}</td>
+                      <td>{transaction.amount}</td>
+                    </tr>{" "}
+                    <div className="px-5 lg:flex justify-center mx-auto mt-[24px] mb-[16px] gap-56">
+                      {!showMore1 && (
+                        <button
+                          className="w-full delay-150 md:w-[100%] lg:w-[260px] h-auto leading-none whitespace-nowrap p-0  bg-slate-100 rounded-md py-[16px] hover:bg-[#eff0f1]"
+                          data-sensors-click="true"
+                          onClick={handleLoadMore1}
+                        >
+                          <span className="lg: font-semibold text-var(--text-color)">
+                            Xem thêm
+                          </span>
+                        </button>
+                      )}
+                      {showMore1 && (
+                        <button
+                          className="w-full delay-150 md:w-[100%] lg:w-[260px] h-auto leading-none whitespace-nowrap p-0  bg-slate-100 rounded-md py-[16px] hover:bg-[#eff0f1]"
+                          data-sensors-click="true"
+                          onClick={handleHide1}
+                        >
+                          <span className="lg: font-semibold text-var(--text-color)">
+                            Ẩn bớt
+                          </span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </>
+            ) : (
+              <>
+                <div className="h-[300px] text-center">
+                  <p className="mt-[100px] text-gray-600 font-medium">
+                    Chưa có lịch sử mua hàng nào tại đây
+                  </p>
+                </div>
+              </>
+            )}{" "}
+            {/* <Link href="/transaction-history/1">
               <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-md hover:bg-gray-50 duration-100 ">
                 <div className="p-3">
                   <div className="flex justify-between border-b border-solid border-[#EFF2F5] py-2">
@@ -592,31 +664,7 @@ const PurchaseHistory = () => {
                   </div>
                 </Link>
               </>
-            )}
-          </div>
-          <div className="px-5 lg:flex justify-center mx-auto mt-[24px] mb-[16px] gap-56">
-            {!showMore1 && (
-              <button
-                className="w-full delay-150 md:w-[100%] lg:w-[260px] h-auto leading-none whitespace-nowrap p-0  bg-slate-100 rounded-md py-[16px] hover:bg-[#eff0f1]"
-                data-sensors-click="true"
-                onClick={handleLoadMore1}
-              >
-                <span className="lg: font-semibold text-var(--text-color)">
-                  Xem thêm
-                </span>
-              </button>
-            )}
-            {showMore1 && (
-              <button
-                className="w-full delay-150 md:w-[100%] lg:w-[260px] h-auto leading-none whitespace-nowrap p-0  bg-slate-100 rounded-md py-[16px] hover:bg-[#eff0f1]"
-                data-sensors-click="true"
-                onClick={handleHide1}
-              >
-                <span className="lg: font-semibold text-var(--text-color)">
-                  Ẩn bớt
-                </span>
-              </button>
-            )}
+            )} */}
           </div>
         </div>
       </div>
