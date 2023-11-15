@@ -1,12 +1,11 @@
-import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
-import {
-  faChevronLeft,
-  faExclamation,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { registerUser } from "@/services/user";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useCallback, useEffect, useState } from "react";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { IoIosArrowBack } from "react-icons/io";
+import { toast } from "react-toastify";
 
 interface ModalProps {
   onClose: () => void;
@@ -40,24 +39,25 @@ function Modal({ onClose }: ModalProps) {
     setAgreedToTerms(!agreedToTerms);
   };
 
-  const handleEmailChange = (e: { target: { value: any } }) => {
-    const value = e.target.value;
-    setEmail(value);
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    setErrorEmail(!emailRegex.test(value));
-  };
+  const handleEmailChange = useCallback(
+    (e: { target: { value: any } }) => {
+      const value = e.target.value;
+      setEmail(value);
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      setErrorEmail(!emailRegex.test(value));
+    }, [email])
 
-  const handlePasswordChange = (e: {
+  const handlePasswordChange = useCallback((e: {
     target: { value: SetStateAction<string> };
   }) => {
     setPassword(e.target.value);
-  };
+  }, [password])
 
-  const handleConfirmPasswordChange = (e: {
+  const handleConfirmPasswordChange = useCallback((e: {
     target: { value: SetStateAction<string> };
   }) => {
     setConfirmPassword(e.target.value);
-  };
+  },[confirmPassword])
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -86,33 +86,28 @@ function Modal({ onClose }: ModalProps) {
     if (!email || !password || !confirmPassword || !agreedToTerms) {
       return;
     }
-    try {
-      const data = {
-        name: name,
-        email: email,
-        password: password,
-      };
-      const response = await axios.post(
-        "https://fancy-cemetery-production.up.railway.app/auth/register",
-        data, // Gửi dữ liệu dưới dạng JSON
-        {
-          headers: {
-            "Content-Type": "application/json",
+    // try {
+      toast.promise(registerUser(name,email,password), {
+        pending: {
+          render: () => {
+            return "Đang đăng ký vào MarketMMO"
+          }
+        },
+        success: {
+          render: ({data}) => {
+            router.push("/login");
+            return "Đăng ký thành công vui lòng đăng nhập"
           },
+          icon: '🟢'
+        },
+        error: {
+          render: ({data}) => {
+            console.log(data)
+            const error : any = data
+            return <div>{error.response.data.message}</div>
+          }
         }
-      );
-      setShowSuccessPopup(true);
-      setTimeout(() => {
-        setShowSuccessPopup(false);
-      }, 5000);
-      router.push("/login");
-    } catch (error) {
-      console.error("Error during registration:", error);
-      setError(true);
-      setTimeout(() => {
-        setError(false);
-      }, 5000);
-    }
+      })
   };
 
   useEffect(() => {
@@ -130,10 +125,10 @@ function Modal({ onClose }: ModalProps) {
     <section className="flex flex-col flex-1 overflow-auto w-full truncate ">
       <div className="">
         <button
-          className="flex items-center justify-evenly  rounded-full md:text-base w-1/12 h-8 font-normal text-xs pl-5 gap-x-2 underline"
+          className="flex items-center justify-evenly  rounded-full md:text-base  h-8 font-normal text-xs gap-x-2 underline"
           onClick={() => onClose()}
         >
-          <FontAwesomeIcon icon={faChevronLeft} /> Back
+          <IoIosArrowBack className="w-5 h-5 " /> Back
         </button>
         <div className="">
           {showSuccessPopup && (
@@ -247,7 +242,7 @@ function Modal({ onClose }: ModalProps) {
                     className="absolute top-3 right-1 px-2 py-1 cursor-pointer"
                     onClick={toggleShowPassword}
                   >
-                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                          {showPassword ? (<FaRegEyeSlash className="w-5 h-5" />) : (<FaRegEye className="w-5 h-5" />)}
                   </div>
                 )}
               </div>
@@ -279,9 +274,9 @@ function Modal({ onClose }: ModalProps) {
                     className="absolute top-3 right-1 px-2 py-1 cursor-pointer"
                     onClick={toggleShowConfirmPassword}
                   >
-                    <FontAwesomeIcon
+                    {/* <FontAwesomeIcon
                       icon={showConfirmPassword ? faEyeSlash : faEye}
-                    />
+                    /> */}
                   </div>
                 )}
               </div>
@@ -298,12 +293,12 @@ function Modal({ onClose }: ModalProps) {
                     errorPassword ? "mt-5" : "mt-1"
                   } ${formatPassword ? "text-red-400" : "text-gray-400"} `}
                 >
-                  <FontAwesomeIcon
+                  {/* <FontAwesomeIcon
                     icon={faExclamation}
                     style={{ color: "#ffa200" }}
                     size="lg"
                     className="mr-2 "
-                  />
+                  /> */}
                   Mật khẩu phải có tối thiểu 6 và tối đa 60 ký tự, ít nhất một
                   chữ hoa, một chữ thường, một số và một ký tự đặc biệt
                 </p>

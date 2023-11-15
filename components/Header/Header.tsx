@@ -21,7 +21,9 @@ import Links from "@/interfaces/links";
 import Cookies from 'js-cookie'
 import { toggleModal } from "@/redux/modalSlice";
 import { setLoggedIn } from "@/redux/userSlice";
-const links : Links[] = [
+import { LuBell } from "react-icons/lu";
+import {toast} from 'react-toastify'
+const links: Links[] = [
   {
     name: "Sản phẩm",
     sub_category: [
@@ -52,12 +54,12 @@ const links : Links[] = [
   },
 ];
 export default function Header() {
-  const {isLoggedIn} = useAppSelector((state) => state.user)
-  const {isNoti} = useAppSelector((state) => state.noti)
+  const { isLoggedIn } = useAppSelector((state) => state.user)
   const dispatch = useAppDispatch();
   const hanldeLogout = () => {
     Cookies.remove('access_token')
     dispatch(setLoggedIn(false))
+    toast.success('Đăng suất thành công', {icon: '🟢'})
   };
 
   useEffect(() => {
@@ -65,14 +67,15 @@ export default function Header() {
   }, []);
   return (
     <>
-      
       <div className="flex justify-between mx-auto items-center max-w-xxs py-3 md:max-w-3xl  md:py-4 lg:max-w-full lg:py-4 lg:px-10">
         <div className="flex md:gap-x-2 lg:gap-x-5">
-          <Link href="/">
-            <h2 className="font-bold text-xl">Market MMO</h2>
-          </Link>
+          <div>
+            <Link href="/">
+              <h2 className="font-bold text-xl">Market MMO</h2>
+            </Link>
+          </div>
           <div className="hidden md:flex items-center">
-            <span className="h-8 w-[1px] bg-[#eff2f5] mx-2"></span>
+            <p className="h-8 w-[1px] bg-[#eff2f5] mx-2"></p>
           </div>
           <div className="hidden md:flex lg:flex items-center ">
             <ul className="flex md:gap-x-4 gap-x-7">
@@ -107,15 +110,22 @@ export default function Header() {
         <div className=" flex lg:flex gap-5">
           <div className=" lg:flex ">
             <div className="flex gap-2 md:gap-2 items-center">
-              {!isLoggedIn && (
+              {!isLoggedIn ? (
                 <Link
                   href="/login"
                   className="bg-[#1212120a] hidden  rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:flex items-center gap-2"
                 >
                   <AiOutlineLogin className="w-5 h-5" /> <span className="font-semibold">Đăng nhập</span>
                 </Link>
+              ) : (
+                <div
+                className="bg-[#1212120a] hidden md:block relative rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212]"
+              >
+                <div className="absolute top-0 right-0 bg-red-500 flex items-center justify-center rounded-full h-5 w-5 text-white font-semibold text-xs">3</div>
+                <LuBell className="w-5 h-5 text-black" />
+              </div>
               )}
-              <button className=" group hidden md:block bg-[#1212120a] rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212] relative">
+              <div className=" group hidden md:block bg-[#1212120a] rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212] relative">
                 <HiOutlineUserCircle className="w-5 h-5" />
                 <ul className="group-hover:block absolute w-60 p-2 hidden bg-white right-0 z-10 top-14 rounded-lg shadow-modal before:absolute before:w-full before:h-6 before:bg-transparent before:right-0 before:-top-3  ">
                   <li className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">
@@ -155,32 +165,26 @@ export default function Header() {
                   >
                     <IoIosLogOut className="w-5 h-5" />
                     <span className="font-medium block">Đăng suất</span>
-                    {isNoti ?? (
-                      <Notification
-                        message="Đăng suất thành công"
-                        status={status.success}
-                      />
-                    )}
                   </li>
                 </ul>
-              </button>
+              </div>
               {/* start responsive mobile */}
-              <button className="bg-[#1212120a]  rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:flex items-center gap-2 flex lg:hidden">
+              <div className="bg-[#1212120a]  rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:flex items-center gap-2 flex lg:hidden">
                 <BiSearch className="w-5 h-5" />
-              </button>
-              <button
+              </div>
+              <div
                 className="bg-[#1212120a]  rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:hidden items-center gap-2 flex"
                 data-hs-overlay="#sidebar-menu-mobile"
               >
                 <HiBars3 className="h-5 w-5" />
-              </button>
+              </div>
               {/* end  responsive mobile */}
-              <button
+              <div
                 className="bg-[#1212120a] hidden md:block rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212]"
                 onClick={() => dispatch(toggleModal('cart'))}
               >
                 <BsCart3 className="w-5 h-5 text-black" />
-              </button>
+              </div>
             </div>
           </div>
         </div>

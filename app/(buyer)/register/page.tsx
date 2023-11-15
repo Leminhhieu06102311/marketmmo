@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Modal from "./registerForm";
 import Link from "next/link";

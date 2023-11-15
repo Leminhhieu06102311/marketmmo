@@ -1,7 +1,7 @@
 "use client";
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from "react-icons/ai";
-import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 
@@ -25,7 +25,9 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import WrapResponsive from "@/components/WrapResponsive";
 import { fetchUser } from "@/redux/userSlice";
 import CartModal from "@/components/Cart/CartModal";
+import { toast } from "react-toastify";
 export default function Home() {
+  
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(true);
   const [sellingProduct, setSellingProduct] = useState<Product[]>([]);
@@ -202,7 +204,7 @@ export default function Home() {
                   href="/gmail"
                   className="bg-[#1212120a] rounded-xl px-3 text-sm hover:bg-[#12121214] transition-all py-1 text-[#121212] flex items-center gap-2"
                 >
-                  <FontAwesomeIcon icon={faLocationArrow} />
+                  {/* <FontAwesomeIcon icon={faLocationArrow} /> */}
                 </Link>
               </li>
               <li className="font-medium text-base gap-5 py-4 px-3 rounded-md flex items-center hover:bg-[#1212120a] my-1 justify-between">
@@ -224,7 +226,7 @@ export default function Home() {
                   </div>
                 </div>
                 <button className="bg-[#1212120a] rounded-xl px-3 text-sm hover:bg-[#12121214] transition-all py-1 text-[#121212] flex items-center gap-2">
-                  <FontAwesomeIcon icon={faLocationArrow} />
+                  {/* <FontAwesomeIcon icon={faLocationArrow} /> */}
                 </button>
               </li>
             </ul>
@@ -253,7 +255,7 @@ export default function Home() {
                   </div>
                 </div>
                 <button className="bg-[#1212120a] rounded-xl px-3 text-sm hover:bg-[#12121214] transition-all py-1 text-[#121212] flex items-center gap-2">
-                  <FontAwesomeIcon icon={faLocationArrow} />
+                  {/* <FontAwesomeIcon icon={faLocationArrow} /> */}
                 </button>
               </li>
               <li className="font-medium text-base gap-5 py-4 px-3 rounded-md flex items-center hover:bg-[#1212120a] my-1 justify-between">
@@ -273,7 +275,7 @@ export default function Home() {
                   </div>
                 </div>
                 <button className="bg-[#1212120a] rounded-xl px-3 text-sm hover:bg-[#12121214] transition-all py-1 text-[#121212] flex items-center gap-2">
-                  <FontAwesomeIcon icon={faLocationArrow} />
+                  {/* <FontAwesomeIcon icon={faLocationArrow} /> */}
                 </button>
               </li>
             </ul>

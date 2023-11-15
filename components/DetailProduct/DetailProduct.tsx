@@ -1,6 +1,4 @@
 "use client";
-import { faHeart, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 import { MouseEvent, useContext, useEffect, useState } from "react";
@@ -82,10 +80,10 @@ export default function DetailProduct({ productId }: { productId: string }) {
     <ContentModal nameModal="product">
       <div className="bg-overlay w-full flex justify-end fixed z-50 top-0 items-center">
         <button onClick={() => dispatch(toggleModal('product'))}>
-          <FontAwesomeIcon
+          {/* <FontAwesomeIcon
             className="py-2 px-5 text-white text-lg cursor-pointer"
             icon={faXmark}
-          />
+          /> */}
         </button>
       </div>
       {dataProduct && (

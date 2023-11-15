@@ -6,13 +6,13 @@ import WrapResponsive from "@/components/WrapResponsive";
 import Product from "@/interfaces/product";
 import { useAppSelector } from "@/redux/hooks";
 import { getProductFromCategory } from "@/services/product";
-import {
-  faArrowDownShortWide,
-  faArrowUpShortWide,
-  faArrowUpWideShort,
-  faFireFlameCurved,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import {
+//   faArrowDownShortWide,
+//   faArrowUpShortWide,
+//   faArrowUpWideShort,
+//   faFireFlameCurved,
+// } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 
 import { useEffect, useState } from "react";
@@ -112,11 +112,11 @@ export default function DetailCategory({
                     className="lg:justify-start md:justify-center flex items-center  "
                   >
                     <span className="lg:mr-4">
-                      <FontAwesomeIcon
+                      {/* <FontAwesomeIcon
                         icon={faFireFlameCurved}
                         width={17}
                         height={17}
-                      />
+                      /> */}
                     </span>
                     <span className="lg:block md:hidden text-sm font-medium leading-10">
                       Xu hướng
@@ -129,12 +129,12 @@ export default function DetailCategory({
                     className="lg:justify-start md:justify-center flex items-center "
                   >
                     <span className="lg:mr-4">
-                      <FontAwesomeIcon
+                      {/* <FontAwesomeIcon
                         icon={faArrowDownShortWide}
                         width={17}
                         height={17}
                         className="text-[#808a9d]"
-                      />
+                      /> */}
                     </span>
                     <span className="lg:block md:hidden text-sm font-medium leading-10">
                       Giảm giá
@@ -367,12 +367,12 @@ export default function DetailCategory({
                         {sortOrder === "asc" ? (
                           <>
                             Giá thấp đến cao{" "}
-                            <FontAwesomeIcon icon={faArrowUpWideShort} />
+                            {/* <FontAwesomeIcon icon={faArrowUpWideShort} /> */}
                           </>
                         ) : (
                           <>
                             Giá cao đến thấp{" "}
-                            <FontAwesomeIcon icon={faArrowUpShortWide} />
+                            {/* <FontAwesomeIcon icon={faArrowUpShortWide} /> */}
                           </>
                         )}
                       </button>
