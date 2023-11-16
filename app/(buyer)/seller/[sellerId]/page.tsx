@@ -13,7 +13,7 @@ import ProductItemSearch from "@/components/Product/ProductItemSearch";
 
 const Seller = ({ params }: { params: { sellerId: string } }) => {
   console.log(params.sellerId);
-  
+
   const creatorId = params.sellerId;
   const [seller, setSeller] = useState<SellerId | null>(null);
   const [showMore, setShowMore] = useState(false);
@@ -62,7 +62,6 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
       });
       setFilteredProductsSearch(filtered);
       console.log(filtered);
-      
     };
     filterProductsSearch();
   }, [products, creatorId, searchTerm]);
@@ -157,7 +156,7 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                           {seller.online ? (
                             <div className="w-[12px] h-[12px] bg-green-500 rounded-[50%]"></div>
                           ) : (
-                            <div className="w-[12px] h-[12px] bg-red-500 rounded-[50%]"></div>
+                            <></>
                           )}
                           <p className="text-[15px] font-medium">
                             {seller.online ? (
@@ -721,13 +720,25 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                               <p>Thông tin sản phẩm</p>
                               <p>Đánh giá</p>
                             </div>
-                            <div className="min-h-[100px] max-h-[320px] overflow-y-auto">
-                              {filteredProductsSearch.map(
-                                (product: Product) => (
-                                  <ProductItemSearch product={product} />
-                                )
-                              )}
-                            </div>
+                            {filteredProductsSearch.length ? (
+                              <>
+                                <div className="min-h-[100px] max-h-[320px] overflow-y-auto">
+                                  {filteredProductsSearch.map(
+                                    (product: Product) => (
+                                      <ProductItemSearch product={product} />
+                                    )
+                                  )}{" "}
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <div className="text-center">
+                                  <p className="my-[40px] text-gray-600 font-medium">
+                                    Chưa có sản phẩm nào
+                                  </p>
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                       )}
@@ -814,15 +825,29 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                     </div>
                   </div>
                   <div>
-                    <div className="grid xl:grid-cols-5 md:grid-cols-3 gap-x-5 gap-y-2 mt-3">
-                      {filteredProducts.map((product: Product) => (
-                        <ProductItem product={product} />
-                      ))}
-                    </div>
-                    <div className="flex w-full justify-center my-4">
-                      <button className="bg-primary text-white px-6 py-3 rounded-md font-semibold text-sm">
-                        Xem thêm
-                      </button>
+                    <div>
+                      {filteredProducts.length ? (
+                        <>
+                          <div className="grid xl:grid-cols-5 md:grid-cols-3 gap-x-5 gap-y-2 mt-3">
+                            {filteredProducts.map((product: Product) => (
+                              <ProductItem product={product} />
+                            ))}{" "}
+                          </div>
+                          <div className="flex w-full justify-center my-4">
+                            <button className="bg-primary text-white px-6 py-3 rounded-md font-semibold text-sm">
+                              Xem thêm
+                            </button>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="h-[200px] text-center">
+                            <p className="mt-[100px] text-gray-600 font-medium">
+                              Chưa có sản phẩm nào
+                            </p>
+                          </div>
+                        </>
+                      )}
                     </div>
 
                     <div className="mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
