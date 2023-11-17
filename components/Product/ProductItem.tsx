@@ -1,5 +1,5 @@
 import Product from "@/interfaces/product";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { toggleModal } from "@/redux/modalSlice";
 import { PopupDetailProduct } from "@/redux/productSlice";
 // import { faFontAwesome } from "@fortawesome/free-solid-svg-icons";
