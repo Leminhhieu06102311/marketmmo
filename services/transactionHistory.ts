@@ -13,4 +13,3 @@ export async function getAll() {
     const  result = res.data.data
     return result
 }
-

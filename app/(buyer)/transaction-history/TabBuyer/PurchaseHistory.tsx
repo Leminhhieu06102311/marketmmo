@@ -36,7 +36,6 @@ const PurchaseHistory = () => {
   }, []);
   const accessToken = localStorage.getItem("access_token");
   let sub: string | null = null;
-  const a = "6544c8129d85a36c1ddbc6ac";
   if (accessToken) {
     const tokenParts = accessToken.split(".");
     const encodedPayload = tokenParts[1];
@@ -46,18 +45,18 @@ const PurchaseHistory = () => {
   }
   useEffect(() => {
     const filterProducts = () => {
-      const filtered = histories.filter((product) => product.user._id === a);
+      const filtered = histories.filter((product) => product.user._id === sub);
       setFilteredProducts(filtered);
       setCount(filtered.length);
     };
 
     filterProducts();
-  }, [histories, a]);
+  }, [histories, sub]);
   useEffect(() => {
     const filterProductsSearch = () => {
       const filtered = histories.filter((product) => {
         return (
-          product.user._id === a &&
+          product.user._id === sub &&
           (product.product.name
             .toLowerCase()
             .includes(searchTerm.toLowerCase()) ||
@@ -73,7 +72,7 @@ const PurchaseHistory = () => {
       console.log(filtered);
     };
     filterProductsSearch();
-  }, [histories, searchTerm, a]);
+  }, [histories, searchTerm, sub]);
   const handleSort = () => {
     setSortDropDown(!sortDropDown);
     setGenreDropDown(false);
