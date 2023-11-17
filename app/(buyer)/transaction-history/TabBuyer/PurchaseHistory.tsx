@@ -1,16 +1,82 @@
-import React, { useState } from "react";
+"use client";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";
+import { Histories } from "@/interfaces/Histories";
+import { getAll } from "@/services/transactionHistory";
+import { format } from "date-fns";
+import Cookies from "js-cookie";
+
+
 const PurchaseHistory = () => {
   const [showMore, setShowMore] = useState(false);
+  const [histories, setHistories] = useState<Histories[]>([]);
   const [sortDropDown, setSortDropDown] = useState(false);
   const [genreDropDown, setGenreDropDown] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showMore1, setShowMore1] = useState(false);
-  const handleLoadMore1 = () => {
-    setShowMore1(true);
-  };
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchDropDown, setSearchDropDown] = useState(false);
+  const [filteredProducts, setFilteredProducts] = useState<Histories[]>([]);
+  const [filteredProductsSearch, setFilteredProductsSearch] = useState<
+    Histories[]
+  >([]);
+  const [count, setCount] = useState(0);
+  const [visibleProducts, setVisibleProducts] = useState(4);
+
+  useEffect(() => {
+    const fetchHistories = async () => {
+      try {
+        const transHis = await getAll();
+        setHistories(transHis);
+        setCount(transHis.length);
+        console.log(transHis);
+      } catch (error) {
+        console.error("Error fetching histories", error);
+      }
+    };
+    fetchHistories();
+  }, []);
+  const access_token = Cookies.get("access_token");
+  let sub: string | null = null;
+  if (access_token) {
+    const tokenParts = access_token.split(".");
+    const encodedPayload = tokenParts[1];
+    const decodedPayload = atob(encodedPayload);
+    const payload = JSON.parse(decodedPayload);
+    sub = payload.sub;
+    console.log(sub);
+    
+  }
+  useEffect(() => {
+    const filterProducts = () => {
+      const filtered = histories.filter((product) => product.user._id === sub);
+      setFilteredProducts(filtered);
+      setCount(filtered.length);
+    };
+
+    filterProducts();
+  }, [histories, sub]);
+  useEffect(() => {
+    const filterProductsSearch = () => {
+      const filtered = histories.filter((product) => {
+        return (
+          product.user._id === sub &&
+          (product.product.name
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+            product.product.categories.name
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            product.product.creator.name
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()))
+        );
+      });
+      setFilteredProductsSearch(filtered);
+      console.log(filtered);
+    };
+    filterProductsSearch();
+  }, [histories, searchTerm, sub]);
   const handleSort = () => {
     setSortDropDown(!sortDropDown);
     setGenreDropDown(false);
@@ -25,20 +91,43 @@ const PurchaseHistory = () => {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+  const handleSearch = (event: any) => {
+    if (event.type === "change") {
+      setSearchTerm(event.target.value);
+    } else if (event.type === "click") {
+      setSearchDropDown(true);
+    }
+  };
+
+  const handleHideSearch = () => {
+    setSearchDropDown(false);
+  };
+  const showMoreProducts = () => {
+    setVisibleProducts(visibleProducts + 3);
+  };
+  const showLessProducts = () => {
+    setVisibleProducts(4);
+  };
   return (
     <>
-      <div>
+          {access_token ? (
+        <>
+          {" "}
+          <div>
         <div className="mt-[30px]">
           <div className="block md:block lg:flex items-center gap-x-4">
             <div className="flex items-center justify-start py-2 md:py-2 gap-2 lg:p-0">
               <div className="w-[12px] h-[12px] bg-green-500 rounded-[50%]"></div>
               <p className="text-[15px] text-black font-semibold">Live</p>
             </div>
-            <p className="mb-4 line-clamp-1 w-[118px] justify-center text-black font-semibold text-[14px] leading-20 md:m-0 lg:m-0">
-              325 kết quả
-            </p>
-            <div className="flex mt-0 transition ease-in-out  mb-4 rounded-[9px] border border-[#ececec] px-3 py-1 md:mt-2 md:w-[100%] md:m-0 lg:mt-0 lg:m-0  lg:w-[69%] hover:border-[#c8c8c8bb]">
-              <button className="items-center">
+            {/* {transactionHistory.length ? ( */}
+            <>
+              <p className="mb-4 line-clamp-1 w-[118px] justify-center text-black font-semibold text-[14px] leading-20 md:m-0 lg:m-0">
+                {count} kết quả
+              </p>
+            </>
+            <div className="flex relative mt-0 transition ease-in-out  mb-4 rounded-[9px] border border-[#ececec] px-3 py-1 md:mt-2 md:w-[100%] md:m-0 lg:mt-0 lg:m-0  lg:w-[69%] hover:border-[#c8c8c8bb]">
+              <button className="items-center ">
                 <svg
                   width="17"
                   height="16"
@@ -55,8 +144,107 @@ const PurchaseHistory = () => {
               <input
                 className="w-full delay-150 h-[36px] outline-none text-[#58667E] font-medium leading-20 px-3"
                 type="text"
-                placeholder="Tìm kiếm sản phẩm"
+                placeholder="Tìm kiếm lịch sử mua hàng"
+                value={searchTerm}
+                onChange={handleSearch}
+                onClick={handleSearch}
               />
+              {searchDropDown && (
+                <button onClick={handleHideSearch}>
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1 1L13 13M1 13L13 1L1 13Z"
+                      stroke="black"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
+              )}
+              {searchDropDown && (
+                <div className="absolute mt-12 bg-white p-2 z-20 w-[97%] rounded-[7px] shadow-md">
+                  <div className="">
+                    <div className="flex font-semibold justify-between text-[14px] border-b border-[#ececec] p-3">
+                      <p>Thông tin sản phẩm</p>
+                      <p>...</p>
+                    </div>
+                    {filteredProductsSearch.length ? (
+                      <>
+                        <div className="min-h-[100px] max-h-[320px] overflow-y-auto">
+                          {filteredProductsSearch.map((item: Histories) => (
+                            <Link href={`/transaction-history/${item._id}`}>
+                              <div className="transition ease-in-out delay-150 m-2 border-b border-[#ececec] hover:bg-gray-50 duration-100 ">
+                                <div className="p-3">
+                                  <div className="justify-between px-4 items-center md:flex lg:flex">
+                                    <div className="flex gap-x-4 item-center">
+                                      <div className="h-auto w-[81px] md:h-[71px] lg:w-[50px] lg:h-auto">
+                                        {" "}
+                                        <img
+                                          src={`${item.product.pictures}`}
+                                          alt="Err"
+                                          className="w-full h-full rounded-[10px]"
+                                        />
+                                      </div>
+                                      <p className="text-[#3861FB] font-bold text-[15px] line-clamp-1 lg:w-[420px]">
+                                        {item.product.name}
+                                      </p>
+                                    </div>
+                                    <div className="gap-x-4">
+                                      <div className="flex justify-end items-center gap-x-2">
+                                        <div className="w-[31px] h-auto">
+                                          <img
+                                            src={`${item.product.creator.avatar}`}
+                                            alt="Err"
+                                            className="w-full rounded-[50%]"
+                                          />
+                                        </div>
+                                        <p className="font-inter  leading-normal">
+                                          {item.product.creator.name}
+                                        </p>
+                                      </div>
+                                      <div className="flex gap-x-1 items-center justify-end my-1">
+                                        <p className="text-[#3D3D4E] font-normal text-[13px]">
+                                          Thể loại:{" "}
+                                        </p>
+                                        <div className="flex w-auto items-center px-3 py-1 gap-x-2 rounded-[30px] bg-[#EFF2F5] text-[#616E85] text-[13px] font-normal">
+                                          {/* <div className="w-[13px] h-auto">
+                                                    <img
+                                                      src="https://hotmail.best/wp-content/uploads/2020/01/gmail-login-768x580.png"
+                                                      alt="Err"
+                                                      className="w-full"
+                                                    />
+                                                  </div> */}
+                                          <p>{item.product.categories.name}</p>
+                                        </div>
+                                      </div>
+                                      <div></div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </Link>
+                          ))}{" "}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="text-center">
+                          <p className="my-[40px] text-gray-600 font-medium">
+                            Không tìm thấy lịch sử mua hàng nào
+                          </p>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
             <div className="flex justify-start gap-4 mt-0 items-center md:mt-3 lg:mt-0 md:justify-end">
               <div className="relative">
@@ -100,522 +288,150 @@ const PurchaseHistory = () => {
         </div>
         <div>
           <div className="mt-5 grid grid-cols-1">
-            <Link href="">
-              <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-md hover:bg-gray-50 duration-100 ">
-                <div className="p-3">
-                  <div className="flex justify-between border-b border-solid border-[#EFF2F5] py-2">
-                    <div className="flex items-center gap-x-4">
-                      <div className="flex items-center gap-x-2">
-                        <div className="w-[31px] h-auto">
-                          <img
-                            src="https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/369038383_1361113118088562_8993987260558909402_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=aBUplvVWrMoAX-pYSHQ&_nc_ht=scontent.fsgn2-4.fna&oh=00_AfAEcp0EvkggZ6Me1ZoSwK5M0YPjNVAKi_bEkDU7xLJNaw&oe=652E380C"
-                            alt="Err"
-                            className="w-full rounded-[50%]"
-                          />
-                        </div>
-                        <p className="font-inter  leading-normal">
-                          Chấu Hoàng Luân
-                        </p>
-                      </div>
-                      <div>
-                        <button className="hidden px-3 py-2 rounded-[10px] bg-[#3861FB] text-white  font-medium leading-normal md:block lg:block delay-150 hover:bg-[#3862fbdf] delay-150 hover:bg-[#3862fbdf]">
-                          Đánh giá
-                        </button>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <Link className="flex items-center gap-x-2" href="">
-                        <span className="text-[#3861FB] font-medium leading-normal">
-                          Xem chi tiết
-                        </span>{" "}
-                        <svg
-                          width="8"
-                          height="11"
-                          viewBox="0 0 8 11"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M7.00596 5.75625L2.75596 10.0063C2.46221 10.3 1.98721 10.3 1.69658 10.0063L0.990332 9.3C0.696582 9.00625 0.696582 8.53125 0.990332 8.24063L4.00283 5.22813L0.990332 2.21563C0.696582 1.92188 0.696582 1.44687 0.990332 1.15625L1.69658 0.450001C1.99033 0.156251 2.46533 0.156251 2.75596 0.450001L7.00596 4.7C7.29971 4.9875 7.29971 5.4625 7.00596 5.75625Z"
-                            fill="#3861FB"
-                          />
-                        </svg>
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="justify-between p-4 items-center md:flex lg:flex">
-                    <div className="flex gap-x-4 item-center">
-                      <div className="w-[81px] md:h-[71px] lg:h-[71px]">
-                        {" "}
-                        <img
-                          src="http://logos-download.com/wp-content/uploads/2016/05/Gmail_logo_icon.png"
-                          alt="Err"
-                          className="w-full h-full rounded-[10px]"
-                        />
-                      </div>
-                      <div className="gap-y-1">
-                        <p className="w-50px text-[#3861FB] font-bold text-[15px] leading-[142%] line-clamp-1 lg:w-[420px]">
-                          Gmail NEW iOS Us và Ngoại. Chỉ bán min 30 cái
-                        </p>
-                        <p className="hidden rounded-[10px] my-1 border-[1px] border-[rgba(0, 0, 0, 0.20)] text-[#3D3D4E] text-center text-[13px] py-1 w-[350px] line-clamp-1 lg:block">
-                          Gmail random IP 7 ngày++ email|pass|recovery|geo
-                        </p>
-                        <p className="text-[#3D3D4E] font-normal  leading-normal">
-                          số lượng: 1
-                        </p>
-                      </div>
-                    </div>
-                    <div className="gap-x-4">
-                      <p className="text-[#3D3D4E] text-[12px] font-bold text-right">
-                        11/10/2023 15:59:00
-                      </p>
-                      <div className="flex gap-x-1 items-center justify-end my-1">
-                        <p className="text-[#3D3D4E] font-normal text-[13px]">
-                          Thể loại:{" "}
-                        </p>
-                        <div className="flex w-auto items-center px-3 py-1 gap-x-2 rounded-[30px] bg-[#EFF2F5] text-[#616E85] text-[13px] font-normal">
-                          <div className="w-[13px] h-auto">
-                            <img
-                              src="https://hotmail.best/wp-content/uploads/2020/01/gmail-login-768x580.png"
-                              alt="Err"
-                              className="w-full"
-                            />
-                          </div>
-                          <p>Gmail</p>
-                        </div>
-                      </div>
-                      <div>
-                        <p className="font-weight-500 text-[16px] text-right">
-                          Tổng số tiền:{" "}
-                          <span className="font-bold text-[19px]">
-                            5.000 VND
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            <Link href="">
-              <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-md hover:bg-gray-50 duration-100 ">
-                <div className="p-3">
-                  <div className="flex justify-between border-b border-solid border-[#EFF2F5] py-2">
-                    <div className="flex items-center gap-x-4">
-                      <div className="flex items-center gap-x-2">
-                        <div className="w-[31px] h-auto">
-                          <img
-                            src="https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/369038383_1361113118088562_8993987260558909402_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=aBUplvVWrMoAX-pYSHQ&_nc_ht=scontent.fsgn2-4.fna&oh=00_AfAEcp0EvkggZ6Me1ZoSwK5M0YPjNVAKi_bEkDU7xLJNaw&oe=652E380C"
-                            alt="Err"
-                            className="w-full rounded-[50%]"
-                          />
-                        </div>
-                        <p className="font-inter  leading-normal">
-                          Chấu Hoàng Luân
-                        </p>
-                      </div>
-                      <div>
-                        <button
-                          disabled
-                          className="hidden px-3 py-2 rounded-[10px] bg-[#F0F6FF] text-[#616E85]  font-medium leading-normal md:block lg:block"
-                        >
-                          Đã đánh giá
-                        </button>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <Link className="flex items-center gap-x-2" href="">
-                        <span className="text-[#3861FB] font-medium leading-normal">
-                          Xem chi tiết
-                        </span>{" "}
-                        <svg
-                          width="8"
-                          height="11"
-                          viewBox="0 0 8 11"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M7.00596 5.75625L2.75596 10.0063C2.46221 10.3 1.98721 10.3 1.69658 10.0063L0.990332 9.3C0.696582 9.00625 0.696582 8.53125 0.990332 8.24063L4.00283 5.22813L0.990332 2.21563C0.696582 1.92188 0.696582 1.44687 0.990332 1.15625L1.69658 0.450001C1.99033 0.156251 2.46533 0.156251 2.75596 0.450001L7.00596 4.7C7.29971 4.9875 7.29971 5.4625 7.00596 5.75625Z"
-                            fill="#3861FB"
-                          />
-                        </svg>
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="justify-between p-4 items-center md:flex lg:flex">
-                    <div className="flex gap-x-4 item-center">
-                      <div className="w-[81px] md:h-[71px] lg:h-[71px]">
-                        {" "}
-                        <img
-                          src="http://logos-download.com/wp-content/uploads/2016/05/Gmail_logo_icon.png"
-                          alt="Err"
-                          className="w-full h-full rounded-[10px]"
-                        />
-                      </div>
-                      <div className="gap-y-1">
-                        <p className="w-50px text-[#3861FB] font-bold text-[15px] leading-[142%] line-clamp-1 lg:w-[420px]">
-                          Gmail NEW iOS Us và Ngoại. Chỉ bán min 30 cái
-                        </p>
-                        <p className="hidden rounded-[10px] my-1 border-[1px] border-[rgba(0, 0, 0, 0.20)] text-[#3D3D4E] text-center text-[13px] py-1 w-[350px] line-clamp-1 lg:block">
-                          Gmail random IP 7 ngày++ email|pass|recovery|geo
-                        </p>
-                        <p className="text-[#3D3D4E] font-normal  leading-normal">
-                          số lượng: 1
-                        </p>
-                      </div>
-                    </div>
-                    <div className="gap-x-4">
-                      <p className="text-[#3D3D4E] text-[12px] font-bold text-right">
-                        11/10/2023 15:59:00
-                      </p>
-                      <div className="flex gap-x-1 items-center justify-end my-1">
-                        <p className="text-[#3D3D4E] font-normal text-[13px]">
-                          Thể loại:{" "}
-                        </p>
-                        <div className="flex w-auto items-center px-3 py-1 gap-x-2 rounded-[30px] bg-[#EFF2F5] text-[#616E85] text-[13px] font-normal">
-                          <div className="w-[13px] h-auto">
-                            <img
-                              src="https://hotmail.best/wp-content/uploads/2020/01/gmail-login-768x580.png"
-                              alt="Err"
-                              className="w-full"
-                            />
-                          </div>
-                          <p>Gmail</p>
-                        </div>
-                      </div>
-                      <div>
-                        <p className="font-weight-500 text-[16px] text-right">
-                          Tổng số tiền:{" "}
-                          <span className="font-bold text-[19px]">
-                            5.000 VND
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            <Link href="">
-              <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-md hover:bg-gray-50 duration-100 ">
-                <div className="p-3">
-                  <div className="flex justify-between border-b border-solid border-[#EFF2F5] py-2">
-                    <div className="flex items-center gap-x-4">
-                      <div className="flex items-center gap-x-2">
-                        <div className="w-[31px] h-auto">
-                          <img
-                            src="https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/369038383_1361113118088562_8993987260558909402_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=aBUplvVWrMoAX-pYSHQ&_nc_ht=scontent.fsgn2-4.fna&oh=00_AfAEcp0EvkggZ6Me1ZoSwK5M0YPjNVAKi_bEkDU7xLJNaw&oe=652E380C"
-                            alt="Err"
-                            className="w-full rounded-[50%]"
-                          />
-                        </div>
-                        <p className="font-inter  leading-normal">
-                          Chấu Hoàng Luân
-                        </p>
-                      </div>
-                      <div>
-                        <button className="hidden px-3 py-2 rounded-[10px] bg-[#3861FB] text-white  font-medium leading-normal md:block lg:block delay-150 hover:bg-[#3862fbdf]">
-                          Đánh giá
-                        </button>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <Link className="flex items-center gap-x-2" href="">
-                        <span className="text-[#3861FB] font-medium leading-normal">
-                          Xem chi tiết
-                        </span>{" "}
-                        <svg
-                          width="8"
-                          height="11"
-                          viewBox="0 0 8 11"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M7.00596 5.75625L2.75596 10.0063C2.46221 10.3 1.98721 10.3 1.69658 10.0063L0.990332 9.3C0.696582 9.00625 0.696582 8.53125 0.990332 8.24063L4.00283 5.22813L0.990332 2.21563C0.696582 1.92188 0.696582 1.44687 0.990332 1.15625L1.69658 0.450001C1.99033 0.156251 2.46533 0.156251 2.75596 0.450001L7.00596 4.7C7.29971 4.9875 7.29971 5.4625 7.00596 5.75625Z"
-                            fill="#3861FB"
-                          />
-                        </svg>
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="justify-between p-4 items-center md:flex lg:flex">
-                    <div className="flex gap-x-4 item-center">
-                      <div className="w-[81px] md:h-[71px] lg:h-[71px]">
-                        {" "}
-                        <img
-                          src="http://logos-download.com/wp-content/uploads/2016/05/Gmail_logo_icon.png"
-                          alt="Err"
-                          className="w-full h-full rounded-[10px]"
-                        />
-                      </div>
-                      <div className="gap-y-1">
-                        <p className="w-50px text-[#3861FB] font-bold text-[15px] leading-[142%] line-clamp-1 lg:w-[420px]">
-                          Gmail NEW iOS Us và Ngoại. Chỉ bán min 30 cái
-                        </p>
-                        <p className="hidden rounded-[10px] my-1 border-[1px] border-[rgba(0, 0, 0, 0.20)] text-[#3D3D4E] text-center text-[13px] py-1 w-[350px] line-clamp-1 lg:block">
-                          Gmail random IP 7 ngày++ email|pass|recovery|geo
-                        </p>
-                        <p className="text-[#3D3D4E] font-normal  leading-normal">
-                          số lượng: 1
-                        </p>
-                      </div>
-                    </div>
-                    <div className="gap-x-4">
-                      <p className="text-[#3D3D4E] text-[12px] font-bold text-right">
-                        11/10/2023 15:59:00
-                      </p>
-                      <div className="flex gap-x-1 items-center justify-end my-1">
-                        <p className="text-[#3D3D4E] font-normal text-[13px]">
-                          Thể loại:{" "}
-                        </p>
-                        <div className="flex w-auto items-center px-3 py-1 gap-x-2 rounded-[30px] bg-[#EFF2F5] text-[#616E85] text-[13px] font-normal">
-                          <div className="w-[13px] h-auto">
-                            <img
-                              src="https://hotmail.best/wp-content/uploads/2020/01/gmail-login-768x580.png"
-                              alt="Err"
-                              className="w-full"
-                            />
-                          </div>
-                          <p>Gmail</p>
-                        </div>
-                      </div>
-                      <div>
-                        <p className="font-weight-500 text-[16px] text-right">
-                          Tổng số tiền:{" "}
-                          <span className="font-bold text-[19px]">
-                            5.000 VND
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            {showMore1 && (
+            {filteredProducts.length ? (
               <>
-                {" "}
-                <Link href="">
-                  <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-md hover:bg-gray-50 duration-100 ">
-                    <div className="p-3">
-                      <div className="flex justify-between border-b border-solid border-[#EFF2F5] py-2">
-                        <div className="flex items-center gap-x-4">
-                          <div className="flex items-center gap-x-2">
-                            <div className="w-[31px] h-auto">
-                              <img
-                                src="https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/369038383_1361113118088562_8993987260558909402_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=aBUplvVWrMoAX-pYSHQ&_nc_ht=scontent.fsgn2-4.fna&oh=00_AfAEcp0EvkggZ6Me1ZoSwK5M0YPjNVAKi_bEkDU7xLJNaw&oe=652E380C"
-                                alt="Err"
-                                className="w-full rounded-[50%]"
-                              />
-                            </div>
-                            <p className="font-inter  leading-normal">
-                              Chấu Hoàng Luân
-                            </p>
-                          </div>
-                          <div>
-                            <button className="hidden px-3 py-2 rounded-[10px] bg-[#3861FB] text-white  font-medium leading-normal md:block lg:block delay-150 hover:bg-[#3862fbdf]">
-                              Đánh giá
-                            </button>
-                          </div>
-                        </div>
-                        <div className="flex items-center">
-                          <Link className="flex items-center gap-x-2" href="">
-                            <span className="text-[#3861FB] font-medium leading-normal">
-                              Xem chi tiết
-                            </span>{" "}
-                            <svg
-                              width="8"
-                              height="11"
-                              viewBox="0 0 8 11"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M7.00596 5.75625L2.75596 10.0063C2.46221 10.3 1.98721 10.3 1.69658 10.0063L0.990332 9.3C0.696582 9.00625 0.696582 8.53125 0.990332 8.24063L4.00283 5.22813L0.990332 2.21563C0.696582 1.92188 0.696582 1.44687 0.990332 1.15625L1.69658 0.450001C1.99033 0.156251 2.46533 0.156251 2.75596 0.450001L7.00596 4.7C7.29971 4.9875 7.29971 5.4625 7.00596 5.75625Z"
-                                fill="#3861FB"
-                              />
-                            </svg>
-                          </Link>
-                        </div>
-                      </div>
-                      <div className="justify-between p-4 items-center md:flex lg:flex">
-                        <div className="flex gap-x-4 item-center">
-                          <div className="w-[81px] md:h-[71px] lg:h-[71px]">
-                            {" "}
-                            <img
-                              src="http://logos-download.com/wp-content/uploads/2016/05/Gmail_logo_icon.png"
-                              alt="Err"
-                              className="w-full h-full rounded-[10px]"
-                            />
-                          </div>
-                          <div className="gap-y-1">
-                            <p className="w-50px text-[#3861FB] font-bold text-[15px] leading-[142%] line-clamp-1 lg:w-[420px]">
-                              Gmail NEW iOS Us và Ngoại. Chỉ bán min 30 cái
-                            </p>
-                            <p className="hidden rounded-[10px] my-1 border-[1px] border-[rgba(0, 0, 0, 0.20)] text-[#3D3D4E] text-center text-[13px] py-1 w-[350px] line-clamp-1 lg:block">
-                              Gmail random IP 7 ngày++ email|pass|recovery|geo
-                            </p>
-                            <p className="text-[#3D3D4E] font-normal  leading-normal">
-                              số lượng: 1
-                            </p>
-                          </div>
-                        </div>
-                        <div className="gap-x-4">
-                          <p className="text-[#3D3D4E] text-[12px] font-bold text-right">
-                            11/10/2023 15:59:00
-                          </p>
-                          <div className="flex gap-x-1 items-center justify-end my-1">
-                            <p className="text-[#3D3D4E] font-normal text-[13px]">
-                              Thể loại:{" "}
-                            </p>
-                            <div className="flex w-auto items-center px-3 py-1 gap-x-2 rounded-[30px] bg-[#EFF2F5] text-[#616E85] text-[13px] font-normal">
-                              <div className="w-[13px] h-auto">
+                {filteredProducts.slice(0, visibleProducts).map((item) => (
+                  <a>
+                    <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-md hover:bg-gray-50 duration-100 ">
+                      <div className="p-3">
+                        <div className="flex justify-between border-b border-solid border-[#EFF2F5] py-2">
+                          <div className="flex items-center gap-x-4">
+                            <div className="flex items-center gap-x-2">
+                              <div className="w-[31px] h-auto">
                                 <img
-                                  src="https://hotmail.best/wp-content/uploads/2020/01/gmail-login-768x580.png"
+                                  src={`${item.product.creator.avatar}`}
                                   alt="Err"
-                                  className="w-full"
+                                  className="w-full rounded-[50%]"
                                 />
                               </div>
-                              <p>Gmail</p>
+                              <p className="font-inter  leading-normal">
+                                {item.product.creator.name}
+                              </p>
+                            </div>
+                            <div>
+                              <a
+                                href={`/transaction-history/rating/${item._id}`}
+                                className="hidden px-3 py-2 rounded-[10px] bg-[#3861FB] text-white  font-medium leading-normal md:block lg:block delay-150 hover:bg-[#3862fbdf] delay-150 hover:bg-[#3862fbdf]"
+                              >
+                                Đánh giá
+                              </a>
                             </div>
                           </div>
-                          <div>
-                            <p className="font-weight-500 text-[16px] text-right">
-                              Tổng số tiền:{" "}
-                              <span className="font-bold text-[19px]">
-                                5.000 VND
-                              </span>
+                          <div className="flex items-center">
+                            <Link
+                              className="flex items-center gap-x-2"
+                              href={`/transaction-history/${item._id}`}
+                            >
+                              <span className="text-[#3861FB] font-medium leading-normal">
+                                Xem chi tiết
+                              </span>{" "}
+                              <svg
+                                width="8"
+                                height="11"
+                                viewBox="0 0 8 11"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M7.00596 5.75625L2.75596 10.0063C2.46221 10.3 1.98721 10.3 1.69658 10.0063L0.990332 9.3C0.696582 9.00625 0.696582 8.53125 0.990332 8.24063L4.00283 5.22813L0.990332 2.21563C0.696582 1.92188 0.696582 1.44687 0.990332 1.15625L1.69658 0.450001C1.99033 0.156251 2.46533 0.156251 2.75596 0.450001L7.00596 4.7C7.29971 4.9875 7.29971 5.4625 7.00596 5.75625Z"
+                                  fill="#3861FB"
+                                />
+                              </svg>
+                            </Link>
+                          </div>
+                        </div>
+                        <div className="justify-between p-4 items-center md:flex lg:flex">
+                          <div className="flex gap-x-4 item-center">
+                            <div className="w-[81px] md:h-[71px] lg:h-[71px]">
+                              {" "}
+                              <img
+                                src={`${item.product.pictures}`}
+                                alt="Err"
+                                className="w-full h-full rounded-[10px]"
+                              />
+                            </div>
+                            <div className="gap-y-1">
+                              <p className="w-50px text-[#3861FB] font-bold text-[15px] leading-[142%] line-clamp-1 lg:w-[420px]">
+                                {item.product.name}
+                              </p>
+                              {/* <p className="hidden rounded-[10px] my-1 border-[1px] border-[rgba(0, 0, 0, 0.20)] text-[#3D3D4E] text-center text-[13px] py-1 w-[350px] line-clamp-1 lg:block">
+                          Gmail random IP 7 ngày++ email|pass|recovery|geo
+                        </p> */}
+                              <p className="text-[#3D3D4E] font-normal  leading-normal">
+                                số lượng: {item.quantity}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="gap-x-4">
+                            <p className="text-[#3D3D4E] text-[12px] font-bold text-right">
+                              {format(
+                                new Date(item.createdAt),
+                                "dd/MM/yyyy HH:mm:ss"
+                              )}
                             </p>
+                            <div className="flex gap-x-1 items-center justify-end my-1">
+                              <p className="text-[#3D3D4E] font-normal text-[13px]">
+                                Thể loại:{" "}
+                              </p>
+                              <div className="flex w-auto items-center px-3 py-1 gap-x-2 rounded-[30px] bg-[#EFF2F5] text-[#616E85] text-[13px] font-normal">
+                                {/* <div className="w-[13px] h-auto">
+                            <img
+                              src="https://hotmail.best/wp-content/uploads/2020/01/gmail-login-768x580.png"
+                              alt="Err"
+                              className="w-full"
+                            />
+                          </div> */}
+                                <p>{item.product.categories.name}</p>
+                              </div>
+                            </div>
+                            <div>
+                              <p className="font-weight-500 text-[16px] text-right">
+                                Tổng số tiền:{" "}
+                                <span className="font-bold text-[19px]">
+                                  {item.totalPrice.toLocaleString("vi-VN", {
+                                    style: "currency",
+                                    currencyDisplay: "symbol",
+                                    currency: "VND",
+                                  })}
+                                </span>
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
+                  </a>
+                ))}
+                {histories.length === 4 ? (
+                  <div className="h-10"></div>
+                ) : (
+                  <div className="flex w-full justify-center my-4">
+                    {visibleProducts < histories.length ? (
+                      <button
+                        onClick={showMoreProducts}
+                        className="bg-primary text-white px-6 py-3 rounded-md font-semibold text-sm"
+                      >
+                        Xem thêm
+                      </button>
+                    ) : (
+                      <button
+                        onClick={showLessProducts}
+                        className="bg-primary text-white px-6 py-3 rounded-md font-semibold text-sm"
+                      >
+                        Ẩn bớt
+                      </button>
+                    )}
                   </div>
-                </Link>{" "}
-                <Link href="">
-                  <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-md hover:bg-gray-50 duration-100 ">
-                    <div className="p-3">
-                      <div className="flex justify-between border-b border-solid border-[#EFF2F5] py-2">
-                        <div className="flex items-center gap-x-4">
-                          <div className="flex items-center gap-x-2">
-                            <div className="w-[31px] h-auto">
-                              <img
-                                src="https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/369038383_1361113118088562_8993987260558909402_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=aBUplvVWrMoAX-pYSHQ&_nc_ht=scontent.fsgn2-4.fna&oh=00_AfAEcp0EvkggZ6Me1ZoSwK5M0YPjNVAKi_bEkDU7xLJNaw&oe=652E380C"
-                                alt="Err"
-                                className="w-full rounded-[50%]"
-                              />
-                            </div>
-                            <p className="font-inter  leading-normal">
-                              Chấu Hoàng Luân
-                            </p>
-                          </div>
-                          <div>
-                            <button className="hidden px-3 py-2 rounded-[10px] bg-[#3861FB] text-white  font-medium leading-normal md:block lg:block delay-150 hover:bg-[#3862fbdf]">
-                              Đánh giá
-                            </button>
-                          </div>
-                        </div>
-                        <div className="flex items-center">
-                          <Link className="flex items-center gap-x-2" href="">
-                            <span className="text-[#3861FB] font-medium leading-normal">
-                              Xem chi tiết
-                            </span>{" "}
-                            <svg
-                              width="8"
-                              height="11"
-                              viewBox="0 0 8 11"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M7.00596 5.75625L2.75596 10.0063C2.46221 10.3 1.98721 10.3 1.69658 10.0063L0.990332 9.3C0.696582 9.00625 0.696582 8.53125 0.990332 8.24063L4.00283 5.22813L0.990332 2.21563C0.696582 1.92188 0.696582 1.44687 0.990332 1.15625L1.69658 0.450001C1.99033 0.156251 2.46533 0.156251 2.75596 0.450001L7.00596 4.7C7.29971 4.9875 7.29971 5.4625 7.00596 5.75625Z"
-                                fill="#3861FB"
-                              />
-                            </svg>
-                          </Link>
-                        </div>
-                      </div>
-                      <div className="justify-between p-4 items-center md:flex lg:flex">
-                        <div className="flex gap-x-4 item-center">
-                          <div className="w-[81px] md:h-[71px] lg:h-[71px]">
-                            {" "}
-                            <img
-                              src="http://logos-download.com/wp-content/uploads/2016/05/Gmail_logo_icon.png"
-                              alt="Err"
-                              className="w-full h-full rounded-[10px]"
-                            />
-                          </div>
-                          <div className="gap-y-1">
-                            <p className="w-50px text-[#3861FB] font-bold text-[15px] leading-[142%] line-clamp-1 lg:w-[420px]">
-                              Gmail NEW iOS Us và Ngoại. Chỉ bán min 30 cái
-                            </p>
-                            <p className="hidden rounded-[10px] my-1 border-[1px] border-[rgba(0, 0, 0, 0.20)] text-[#3D3D4E] text-center text-[13px] py-1 w-[350px] line-clamp-1 lg:block">
-                              Gmail random IP 7 ngày++ email|pass|recovery|geo
-                            </p>
-                            <p className="text-[#3D3D4E] font-normal  leading-normal">
-                              số lượng: 1
-                            </p>
-                          </div>
-                        </div>
-                        <div className="gap-x-4">
-                          <p className="text-[#3D3D4E] text-[12px] font-bold text-right">
-                            11/10/2023 15:59:00
-                          </p>
-                          <div className="flex gap-x-1 items-center justify-end my-1">
-                            <p className="text-[#3D3D4E] font-normal text-[13px]">
-                              Thể loại:{" "}
-                            </p>
-                            <div className="flex w-auto items-center px-3 py-1 gap-x-2 rounded-[30px] bg-[#EFF2F5] text-[#616E85] text-[13px] font-normal">
-                              <div className="w-[13px] h-auto">
-                                <img
-                                  src="https://hotmail.best/wp-content/uploads/2020/01/gmail-login-768x580.png"
-                                  alt="Err"
-                                  className="w-full"
-                                />
-                              </div>
-                              <p>Gmail</p>
-                            </div>
-                          </div>
-                          <div>
-                            <p className="font-weight-500 text-[16px] text-right">
-                              Tổng số tiền:{" "}
-                              <span className="font-bold text-[19px]">
-                                5.000 VND
-                              </span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
+                )}
               </>
-            )}
-          </div>
-          <div className="px-5 lg:flex justify-center mx-auto mt-[24px] mb-[16px] gap-56">
-            {!showMore1 && (
-              <button
-                className="w-full delay-150 md:w-[100%] lg:w-[260px] h-auto leading-none whitespace-nowrap p-0  bg-slate-100 rounded-md py-[16px] hover:bg-[#eff0f1]"
-                data-sensors-click="true"
-                onClick={handleLoadMore1}
-              >
-                <span className="lg: font-semibold text-var(--text-color)">
-                  Xem thêm
-                </span>
-              </button>
-            )}
-            {showMore1 && (
-              <button
-                className="w-full delay-150 md:w-[100%] lg:w-[260px] h-auto leading-none whitespace-nowrap p-0  bg-slate-100 rounded-md py-[16px] hover:bg-[#eff0f1]"
-                data-sensors-click="true"
-                onClick={handleHide1}
-              >
-                <span className="lg: font-semibold text-var(--text-color)">
-                  Ẩn bớt
-                </span>
-              </button>
+            ) : (
+              <>
+                <div className="h-[400px] text-center">
+                  <p className="mt-[160px] text-gray-600 font-medium">
+                    Chưa có lịch sử mua hàng nào
+                  </p>
+                </div>
+              </>
             )}
           </div>
         </div>
@@ -649,6 +465,17 @@ const PurchaseHistory = () => {
             </div>
           </div>
         </div>
+      )}
+        </>
+      ) : (
+        <>
+          <div className="h-[550px] justify-center text-center">
+            <button className="bg-primary text-white px-6 py-3 rounded-md font-semibold text-sm mt-[250px] mb-[10px]">
+              <a href="/login">Đăng nhập</a>
+            </button>
+            <p className="font-medium">Đăng nhập để xem lịch sử mua hàng</p>
+          </div>
+        </>
       )}
     </>
   );

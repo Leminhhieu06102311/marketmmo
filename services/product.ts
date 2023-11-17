@@ -5,6 +5,12 @@ export async function getSellingProduct() {
     const { result } = res.data.data
     return result
 }
+export async function getAllProducts() {
+    const res = await api.get('/product?limit=30&page=1&sort=CREATED_DATE')
+    const { result } = res.data.data
+    return result
+}
+
 export async function getDetailProduct(productId: string) {
     const res = await api.get(`/product/detail?slug=${productId}`)
     const data = res.data.data

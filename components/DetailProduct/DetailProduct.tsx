@@ -101,7 +101,7 @@ export default function DetailProduct({ productId }: { productId: string }) {
                   />
                 </div>
                 <div>
-                  <h4 className="font-medium">{dataProduct.creator.name}</h4>
+                  <h4 className="font-medium"><a href={`/seller/${dataProduct.creator._id}`}>{dataProduct.creator.name}</a></h4>
                   <p className="text-sm">@{dataProduct.creator.username}</p>
                 </div>
               </div>

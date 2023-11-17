@@ -155,7 +155,7 @@ export default function Header() {
                   </li>
                   <li className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">
                     <IoPaperPlaneOutline className="w-5 h-5" />
-                    <span className="font-medium block">Đơn hàng đã mua</span>
+                    <span className="font-medium block"><Link href="/transaction-history">Đơn hàng đã mua</Link></span>
                   </li>
                   <span className="block w-full h-[2px] my-2 bg-gray-100"></span>
                   <li className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">

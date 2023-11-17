@@ -1,25 +1,76 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";
 import { getDetailSeller } from "@/services/SellerId";
 import SellerId from "@/interfaces/SellerId";
-const Seller = ({ params }: { params: { id: string } }) => {
-  console.log(params.id);
+import Product from "@/interfaces/product";
+import axios from "axios";
+import { getAllProducts } from "@/services/product";
+import ProductItem from "@/components/Product/ProductItem";
+import ProductItemSearch from "@/components/Product/ProductItemSearch";
+
+const Seller = ({ params }: { params: { sellerId: string } }) => {
+  console.log(params.sellerId);
+
+  const creatorId = params.sellerId;
   const [seller, setSeller] = useState<SellerId | null>(null);
   const [showMore, setShowMore] = useState(false);
   const [showMore1, setShowMore1] = useState(false);
   const [sortDropDown, setSortDropDown] = useState(false);
   const [genreDropDown, setGenreDropDown] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [filteredProductsSearch, setFilteredProductsSearch] = useState<
+    Product[]
+  >([]);
+  const [count, setCount] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchDropDown, setSearchDropDown] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let data = await getDetailSeller("6544c8129d85a36c1ddbc68b"); // Link to JSON Server
+        const data = await getAllProducts(); // Lấy tất cả sản phẩm
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+    };
+    fetchData();
+  }, []);
+  useEffect(() => {
+    const filterProducts = () => {
+      const filtered = products.filter(
+        (product) => product.creator._id === creatorId
+      );
+      setFilteredProducts(filtered);
+      setCount(filtered.length);
+    };
+
+    filterProducts();
+  }, [products, creatorId]);
+  useEffect(() => {
+    const filterProductsSearch = () => {
+      const filtered = products.filter((product) => {
+        return (
+          product.creator._id === creatorId &&
+          product.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      });
+      setFilteredProductsSearch(filtered);
+      console.log(filtered);
+    };
+    filterProductsSearch();
+  }, [products, creatorId, searchTerm]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let data = await getDetailSeller(params.sellerId); // Link to JSON Server
         setSeller(data);
-        console.log(data);
       } catch (error) {
         console.error("Error fetching data", error);
       }
@@ -46,6 +97,18 @@ const Seller = ({ params }: { params: { id: string } }) => {
   };
   const handleHide1 = () => {
     setShowMore1(false);
+  };
+
+  const handleSearch = (event: any) => {
+    if (event.type === "change") {
+      setSearchTerm(event.target.value);
+    } else if (event.type === "click") {
+      setSearchDropDown(true);
+    }
+  };
+
+  const handleHideSearch = () => {
+    setSearchDropDown(false);
   };
 
   return (
@@ -93,7 +156,7 @@ const Seller = ({ params }: { params: { id: string } }) => {
                           {seller.online ? (
                             <div className="w-[12px] h-[12px] bg-green-500 rounded-[50%]"></div>
                           ) : (
-                            <div className="w-[12px] h-[12px] bg-red-500 rounded-[50%]"></div>
+                            <></>
                           )}
                           <p className="text-[15px] font-medium">
                             {seller.online ? (
@@ -130,16 +193,14 @@ const Seller = ({ params }: { params: { id: string } }) => {
                       Số lượng sản phẩm
                     </p>
                     <span className="leading-10 text-[26px] lg:m-0 text-gray-800 text-3xl font-semibold">
-                      {seller.productsOverall.totalProducts} Sản phẩm
+                      {count} Sản phẩm
                     </span>
                   </div>
                   <div className="w-auto md:mb-0 lg:mb-0 lg:w-[425px]">
-                    <p className="lg:m-0 font-semibold ">
-                      Đánh giá tổng
-                    </p>
+                    <p className="lg:m-0 font-semibold ">Đánh giá tổng</p>
                     <span className="flex items-center gap-x-2 leading-10 text-[26px] lg:m-0 text-gray-800 text-3xl font-semibold">
                       {seller.totalRatingsOfSeller}{" "}
-                      <div className="flex gap-x-1">
+                      <div className="flex gap-x-1 pb-1">
                         {seller.totalRatingsOfSeller === 5 && (
                           <>
                             {" "}
@@ -607,9 +668,10 @@ const Seller = ({ params }: { params: { id: string } }) => {
                 <div className="mt-[30px]">
                   <div className="block md:block lg:flex items-center gap-x-4">
                     <p className="mb-4 justify-center font-semibold text-[14px] leading-20 md:m-0 lg:m-0">
-                      {seller.productsOverall.totalProducts} sản phẩm
+                      {count} sản phẩm
                     </p>
-                    <div className="flex mt-0 transition ease-in-out  mb-4 rounded-[9px] border border-[#ececec] px-3 py-1 md:mt-2 md:w-[100%] md:m-0 lg:mt-0 lg:m-0  lg:w-[65%] hover:border-[#c8c8c8bb]">
+
+                    <div className="flex relative mt-0 transition ease-in-out  mb-4 rounded-[9px] border border-[#ececec] px-3 py-1 md:mt-2 md:w-[100%] md:m-0 lg:mt-0 lg:m-0  lg:w-[65%] hover:border-[#c8c8c8bb]">
                       <button className="items-center">
                         <svg
                           width="17"
@@ -628,8 +690,60 @@ const Seller = ({ params }: { params: { id: string } }) => {
                         className="w-full delay-150 h-[36px] outline-none text-[#58667E] font-medium leading-20 px-3"
                         type="text"
                         placeholder="Tìm kiếm sản phẩm"
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        onClick={handleSearch}
                       />
+                      {searchDropDown && (
+                        <button onClick={handleHideSearch}>
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 14 14"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M1 1L13 13M1 13L13 1L1 13Z"
+                              stroke="black"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </button>
+                      )}
+                      {searchDropDown && (
+                        <div className="absolute mt-12 bg-white p-2 z-20 w-[97%] rounded-[7px] shadow-md">
+                          <div className="">
+                            <div className="flex font-semibold justify-between text-[14px] border-b border-[#ececec] py-3">
+                              <p>Thông tin sản phẩm</p>
+                              <p>Đánh giá</p>
+                            </div>
+                            {filteredProductsSearch.length ? (
+                              <>
+                                <div className="min-h-[100px] max-h-[320px] overflow-y-auto">
+                                  {filteredProductsSearch.map(
+                                    (product: Product) => (
+                                      <ProductItemSearch product={product} />
+                                    )
+                                  )}{" "}
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <div className="text-center">
+                                  <p className="my-[40px] text-gray-600 font-medium">
+                                    Chưa có sản phẩm nào
+                                  </p>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
+
                     <div className="flex justify-start gap-4 mt-0 items-center md:mt-3 lg:mt-0 md:justify-end">
                       <div className="relative">
                         <button
@@ -711,1920 +825,61 @@ const Seller = ({ params }: { params: { id: string } }) => {
                     </div>
                   </div>
                   <div>
-                  {seller.productsOverall.totalProductsSold !== 0 ? (
-                        <>                    <div className="mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-                      <Link href="">
-                        <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-200 ">
-                          <img
-                            src="https://2.bp.blogspot.com/-tvmgENfHanM/U-kriCleTNI/AAAAAAAABvs/Yb5VeHaIgPU/s1600/facebook+logo+vector.png"
-                            alt=""
-                            width={0}
-                            height={0}
-                            className="w-full rounded-t-2xl"
-                            sizes="100vh"
-                          />
-                          <div className="p-3">
-                            <div className=" w-full line-clamp-1 overflow-hidden">
-                              <p className="w-full font-bold">
-                                Gmail NEW iOS Us và Ngoại. Chỉ bán min 30 cái
-                              </p>
-                            </div>
-                            <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                              <span className="mr-1 text-gray-900">
-                                <FontAwesomeIcon
-                                  icon={faFontAwesome}
-                                  width={12}
-                                  height={12}
-                                />
-                              </span>
-                              <span>Gmail</span>
-                            </div>
-                            <div className="block justify-between md:flex lg:flex ">
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500">
-                                  Đánh giá
-                                </h4>
-                                <span className="flex gap-x-1 my-1 text-base font-bold">
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-                                </span>
-                              </div>
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500 text-left md:text-right lg:text-right">
-                                  Giá
-                                </h4>
-                                <span className="my-2 text-base font-bold">
-                                  300.000 VND
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-                      <Link href="">
-                        <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-200 ">
-                          <img
-                            src="https://2.bp.blogspot.com/-tvmgENfHanM/U-kriCleTNI/AAAAAAAABvs/Yb5VeHaIgPU/s1600/facebook+logo+vector.png"
-                            alt=""
-                            width={0}
-                            height={0}
-                            className="w-full rounded-t-2xl"
-                            sizes="100vh"
-                          />
-                          <div className="p-3">
-                            <div className=" w-full line-clamp-1 overflow-hidden">
-                              <p className="w-full font-bold">
-                                Gmail NEW iOS Us và Ngoại. Chỉ bán min 30 cái
-                              </p>
-                            </div>
-                            <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                              <span className="mr-1 text-gray-900">
-                                <FontAwesomeIcon
-                                  icon={faFontAwesome}
-                                  width={12}
-                                  height={12}
-                                />
-                              </span>
-                              <span>Gmail</span>
-                            </div>
-                            <div className="block justify-between md:flex lg:flex ">
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500">
-                                  Đánh giá
-                                </h4>
-                                <span className="flex gap-x-1 my-1 text-base font-bold">
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-                                </span>
-                              </div>
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500 text-left md:text-right lg:text-right">
-                                  Giá
-                                </h4>
-                                <span className="my-2 text-base font-bold">
-                                  300.000 VND
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>{" "}
-                      <Link href="">
-                        <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-200 ">
-                          <img
-                            src="https://2.bp.blogspot.com/-tvmgENfHanM/U-kriCleTNI/AAAAAAAABvs/Yb5VeHaIgPU/s1600/facebook+logo+vector.png"
-                            alt=""
-                            width={0}
-                            height={0}
-                            className="w-full rounded-t-2xl"
-                            sizes="100vh"
-                          />
-                          <div className="p-3">
-                            <div className=" w-full line-clamp-1 overflow-hidden">
-                              <p className="w-full font-bold">
-                                Gmail NEW iOS Us và Ngoại. Chỉ bán min 30 cái
-                              </p>
-                            </div>
-                            <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                              <span className="mr-1 text-gray-900">
-                                <FontAwesomeIcon
-                                  icon={faFontAwesome}
-                                  width={12}
-                                  height={12}
-                                />
-                              </span>
-                              <span>Gmail</span>
-                            </div>
-                            <div className="block justify-between md:flex lg:flex ">
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500">
-                                  Đánh giá
-                                </h4>
-                                <span className="flex gap-x-1 my-1 text-base font-bold">
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-                                </span>
-                              </div>
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500 text-left md:text-right lg:text-right">
-                                  Giá
-                                </h4>
-                                <span className="my-2 text-base font-bold">
-                                  300.000 VND
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>{" "}
-                      <Link href="">
-                        <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-200 ">
-                          <img
-                            src="https://2.bp.blogspot.com/-tvmgENfHanM/U-kriCleTNI/AAAAAAAABvs/Yb5VeHaIgPU/s1600/facebook+logo+vector.png"
-                            alt=""
-                            width={0}
-                            height={0}
-                            className="w-full rounded-t-2xl"
-                            sizes="100vh"
-                          />
-                          <div className="p-3">
-                            <div className=" w-full line-clamp-1 overflow-hidden">
-                              <p className="w-full font-bold">
-                                Gmail NEW iOS Us và Ngoại. Chỉ bán min 30 cái
-                              </p>
-                            </div>
-                            <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                              <span className="mr-1 text-gray-900">
-                                <FontAwesomeIcon
-                                  icon={faFontAwesome}
-                                  width={12}
-                                  height={12}
-                                />
-                              </span>
-                              <span>Gmail</span>
-                            </div>
-                            <div className="block justify-between md:flex lg:flex ">
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500">
-                                  Đánh giá
-                                </h4>
-                                <span className="flex gap-x-1 my-1 text-base font-bold">
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-                                </span>
-                              </div>
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500 text-left md:text-right lg:text-right">
-                                  Giá
-                                </h4>
-                                <span className="my-2 text-base font-bold">
-                                  300.000 VND
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>{" "}
-                      <Link href="">
-                        <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-200 ">
-                          <img
-                            src="https://2.bp.blogspot.com/-tvmgENfHanM/U-kriCleTNI/AAAAAAAABvs/Yb5VeHaIgPU/s1600/facebook+logo+vector.png"
-                            alt=""
-                            width={0}
-                            height={0}
-                            className="w-full rounded-t-2xl"
-                            sizes="100vh"
-                          />
-                          <div className="p-3">
-                            <div className=" w-full line-clamp-1 overflow-hidden">
-                              <p className="w-full font-bold">
-                                Gmail NEW iOS Us và Ngoại. Chỉ bán min 30 cái
-                              </p>
-                            </div>
-                            <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                              <span className="mr-1 text-gray-900">
-                                <FontAwesomeIcon
-                                  icon={faFontAwesome}
-                                  width={12}
-                                  height={12}
-                                />
-                              </span>
-                              <span>Gmail</span>
-                            </div>
-                            <div className="block justify-between md:flex lg:flex ">
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500">
-                                  Đánh giá
-                                </h4>
-                                <span className="flex gap-x-1 my-1 text-base font-bold">
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-                                </span>
-                              </div>
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500 text-left md:text-right lg:text-right">
-                                  Giá
-                                </h4>
-                                <span className="my-2 text-base font-bold">
-                                  300.000 VND
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>{" "}
-                      <Link href="">
-                        <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-200 ">
-                          <img
-                            src="https://2.bp.blogspot.com/-tvmgENfHanM/U-kriCleTNI/AAAAAAAABvs/Yb5VeHaIgPU/s1600/facebook+logo+vector.png"
-                            alt=""
-                            width={0}
-                            height={0}
-                            className="w-full rounded-t-2xl"
-                            sizes="100vh"
-                          />
-                          <div className="p-3">
-                            <div className=" w-full line-clamp-1 overflow-hidden">
-                              <p className="w-full font-bold">
-                                Gmail NEW iOS Us và Ngoại. Chỉ bán min 30 cái
-                              </p>
-                            </div>
-                            <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                              <span className="mr-1 text-gray-900">
-                                <FontAwesomeIcon
-                                  icon={faFontAwesome}
-                                  width={12}
-                                  height={12}
-                                />
-                              </span>
-                              <span>Gmail</span>
-                            </div>
-                            <div className="block justify-between md:flex lg:flex ">
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500">
-                                  Đánh giá
-                                </h4>
-                                <span className="flex gap-x-1 my-1 text-base font-bold">
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-                                </span>
-                              </div>
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500 text-left md:text-right lg:text-right">
-                                  Giá
-                                </h4>
-                                <span className="my-2 text-base font-bold">
-                                  300.000 VND
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>{" "}
-                      <Link href="">
-                        <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-200 ">
-                          <img
-                            src="https://2.bp.blogspot.com/-tvmgENfHanM/U-kriCleTNI/AAAAAAAABvs/Yb5VeHaIgPU/s1600/facebook+logo+vector.png"
-                            alt=""
-                            width={0}
-                            height={0}
-                            className="w-full rounded-t-2xl"
-                            sizes="100vh"
-                          />
-                          <div className="p-3">
-                            <div className=" w-full line-clamp-1 overflow-hidden">
-                              <p className="w-full font-bold">
-                                Gmail NEW iOS Us và Ngoại. Chỉ bán min 30 cái
-                              </p>
-                            </div>
-                            <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                              <span className="mr-1 text-gray-900">
-                                <FontAwesomeIcon
-                                  icon={faFontAwesome}
-                                  width={12}
-                                  height={12}
-                                />
-                              </span>
-                              <span>Gmail</span>
-                            </div>
-                            <div className="block justify-between md:flex lg:flex ">
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500">
-                                  Đánh giá
-                                </h4>
-                                <span className="flex gap-x-1 my-1 text-base font-bold">
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-                                </span>
-                              </div>
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500 text-left md:text-right lg:text-right">
-                                  Giá
-                                </h4>
-                                <span className="my-2 text-base font-bold">
-                                  300.000 VND
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>{" "}
-                      <Link href="">
-                        <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-200 ">
-                          <img
-                            src="https://2.bp.blogspot.com/-tvmgENfHanM/U-kriCleTNI/AAAAAAAABvs/Yb5VeHaIgPU/s1600/facebook+logo+vector.png"
-                            alt=""
-                            width={0}
-                            height={0}
-                            className="w-full rounded-t-2xl"
-                            sizes="100vh"
-                          />
-                          <div className="p-3">
-                            <div className=" w-full line-clamp-1 overflow-hidden">
-                              <p className="w-full font-bold">
-                                Gmail NEW iOS Us và Ngoại. Chỉ bán min 30 cái
-                              </p>
-                            </div>
-                            <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                              <span className="mr-1 text-gray-900">
-                                <FontAwesomeIcon
-                                  icon={faFontAwesome}
-                                  width={12}
-                                  height={12}
-                                />
-                              </span>
-                              <span>Gmail</span>
-                            </div>
-                            <div className="block justify-between md:flex lg:flex ">
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500">
-                                  Đánh giá
-                                </h4>
-                                <span className="flex gap-x-1 my-1 text-base font-bold">
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-                                </span>
-                              </div>
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500 text-left md:text-right lg:text-right">
-                                  Giá
-                                </h4>
-                                <span className="my-2 text-base font-bold">
-                                  300.000 VND
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>{" "}
-                      <Link href="">
-                        <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-200 ">
-                          <img
-                            src="https://2.bp.blogspot.com/-tvmgENfHanM/U-kriCleTNI/AAAAAAAABvs/Yb5VeHaIgPU/s1600/facebook+logo+vector.png"
-                            alt=""
-                            width={0}
-                            height={0}
-                            className="w-full rounded-t-2xl"
-                            sizes="100vh"
-                          />
-                          <div className="p-3">
-                            <div className=" w-full line-clamp-1 overflow-hidden">
-                              <p className="w-full font-bold">
-                                Gmail NEW iOS Us và Ngoại. Chỉ bán min 30 cái
-                              </p>
-                            </div>
-                            <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                              <span className="mr-1 text-gray-900">
-                                <FontAwesomeIcon
-                                  icon={faFontAwesome}
-                                  width={12}
-                                  height={12}
-                                />
-                              </span>
-                              <span>Gmail</span>
-                            </div>
-                            <div className="block justify-between md:flex lg:flex ">
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500">
-                                  Đánh giá
-                                </h4>
-                                <span className="flex gap-x-1 my-1 text-base font-bold">
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-                                </span>
-                              </div>
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500 text-left md:text-right lg:text-right">
-                                  Giá
-                                </h4>
-                                <span className="my-2 text-base font-bold">
-                                  300.000 VND
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-                      <Link href="">
-                        <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-200 ">
-                          <img
-                            src="https://2.bp.blogspot.com/-tvmgENfHanM/U-kriCleTNI/AAAAAAAABvs/Yb5VeHaIgPU/s1600/facebook+logo+vector.png"
-                            alt=""
-                            width={0}
-                            height={0}
-                            className="w-full rounded-t-2xl"
-                            sizes="100vh"
-                          />
-                          <div className="p-3">
-                            <div className=" w-full line-clamp-1 overflow-hidden">
-                              <p className="w-full font-bold">
-                                Gmail NEW iOS Us và Ngoại. Chỉ bán min 30 cái
-                              </p>
-                            </div>
-                            <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                              <span className="mr-1 text-gray-900">
-                                <FontAwesomeIcon
-                                  icon={faFontAwesome}
-                                  width={12}
-                                  height={12}
-                                />
-                              </span>
-                              <span>Gmail</span>
-                            </div>
-                            <div className="block justify-between md:flex lg:flex ">
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500">
-                                  Đánh giá
-                                </h4>
-                                <span className="flex gap-x-1 my-1 text-base font-bold">
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-
-                                  <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                      fill="#ECAA00"
-                                    />
-                                  </svg>
-                                </span>
-                              </div>
-                              <div className="my-1">
-                                <h4 className="text-xs font-bold text-gray-500 text-left md:text-right lg:text-right">
-                                  Giá
-                                </h4>
-                                <span className="my-2 text-base font-bold">
-                                  300.000 VND
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-                      {showMore1 && (
+                    <div>
+                      {filteredProducts.length ? (
                         <>
-                          {" "}
-                          <Link href="">
-                            <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-200 ">
-                              <img
-                                src="https://2.bp.blogspot.com/-tvmgENfHanM/U-kriCleTNI/AAAAAAAABvs/Yb5VeHaIgPU/s1600/facebook+logo+vector.png"
-                                alt=""
-                                width={0}
-                                height={0}
-                                className="w-full rounded-t-2xl"
-                                sizes="100vh"
-                              />
-                              <div className="p-3">
-                                <div className=" w-full line-clamp-1 overflow-hidden">
-                                  <p className="w-full font-bold">
-                                    Gmail NEW iOS Us và Ngoại. Chỉ bán min 30
-                                    cái
-                                  </p>
-                                </div>
-                                <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                                  <span className="mr-1 text-gray-900">
-                                    <FontAwesomeIcon
-                                      icon={faFontAwesome}
-                                      width={12}
-                                      height={12}
-                                    />
-                                  </span>
-                                  <span>Gmail</span>
-                                </div>
-                                <div className="block justify-between md:flex lg:flex ">
-                                  <div className="my-1">
-                                    <h4 className="text-xs font-bold text-gray-500">
-                                      Đánh giá
-                                    </h4>
-                                    <span className="flex gap-x-1 my-1 text-base font-bold">
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-                                    </span>
-                                  </div>
-                                  <div className="my-1">
-                                    <h4 className="text-xs font-bold text-gray-500 text-left md:text-right lg:text-right">
-                                      Giá
-                                    </h4>
-                                    <span className="my-2 text-base font-bold">
-                                      300.000 VND
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </Link>{" "}
-                          <Link href="">
-                            <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-200 ">
-                              <img
-                                src="https://2.bp.blogspot.com/-tvmgENfHanM/U-kriCleTNI/AAAAAAAABvs/Yb5VeHaIgPU/s1600/facebook+logo+vector.png"
-                                alt=""
-                                width={0}
-                                height={0}
-                                className="w-full rounded-t-2xl"
-                                sizes="100vh"
-                              />
-                              <div className="p-3">
-                                <div className=" w-full line-clamp-1 overflow-hidden">
-                                  <p className="w-full font-bold">
-                                    Gmail NEW iOS Us và Ngoại. Chỉ bán min 30
-                                    cái
-                                  </p>
-                                </div>
-                                <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                                  <span className="mr-1 text-gray-900">
-                                    <FontAwesomeIcon
-                                      icon={faFontAwesome}
-                                      width={12}
-                                      height={12}
-                                    />
-                                  </span>
-                                  <span>Gmail</span>
-                                </div>
-                                <div className="block justify-between md:flex lg:flex ">
-                                  <div className="my-1">
-                                    <h4 className="text-xs font-bold text-gray-500">
-                                      Đánh giá
-                                    </h4>
-                                    <span className="flex gap-x-1 my-1 text-base font-bold">
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-                                    </span>
-                                  </div>
-                                  <div className="my-1">
-                                    <h4 className="text-xs font-bold text-gray-500 text-left md:text-right lg:text-right">
-                                      Giá
-                                    </h4>
-                                    <span className="my-2 text-base font-bold">
-                                      300.000 VND
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </Link>{" "}
-                          <Link href="">
-                            <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-200 ">
-                              <img
-                                src="https://2.bp.blogspot.com/-tvmgENfHanM/U-kriCleTNI/AAAAAAAABvs/Yb5VeHaIgPU/s1600/facebook+logo+vector.png"
-                                alt=""
-                                width={0}
-                                height={0}
-                                className="w-full rounded-t-2xl"
-                                sizes="100vh"
-                              />
-                              <div className="p-3">
-                                <div className=" w-full line-clamp-1 overflow-hidden">
-                                  <p className="w-full font-bold">
-                                    Gmail NEW iOS Us và Ngoại. Chỉ bán min 30
-                                    cái
-                                  </p>
-                                </div>
-                                <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                                  <span className="mr-1 text-gray-900">
-                                    <FontAwesomeIcon
-                                      icon={faFontAwesome}
-                                      width={12}
-                                      height={12}
-                                    />
-                                  </span>
-                                  <span>Gmail</span>
-                                </div>
-                                <div className="block justify-between md:flex lg:flex ">
-                                  <div className="my-1">
-                                    <h4 className="text-xs font-bold text-gray-500">
-                                      Đánh giá
-                                    </h4>
-                                    <span className="flex gap-x-1 my-1 text-base font-bold">
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-                                    </span>
-                                  </div>
-                                  <div className="my-1">
-                                    <h4 className="text-xs font-bold text-gray-500 text-left md:text-right lg:text-right">
-                                      Giá
-                                    </h4>
-                                    <span className="my-2 text-base font-bold">
-                                      300.000 VND
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </Link>{" "}
-                          <Link href="">
-                            <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-200 ">
-                              <img
-                                src="https://2.bp.blogspot.com/-tvmgENfHanM/U-kriCleTNI/AAAAAAAABvs/Yb5VeHaIgPU/s1600/facebook+logo+vector.png"
-                                alt=""
-                                width={0}
-                                height={0}
-                                className="w-full rounded-t-2xl"
-                                sizes="100vh"
-                              />
-                              <div className="p-3">
-                                <div className=" w-full line-clamp-1 overflow-hidden">
-                                  <p className="w-full font-bold">
-                                    Gmail NEW iOS Us và Ngoại. Chỉ bán min 30
-                                    cái
-                                  </p>
-                                </div>
-                                <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                                  <span className="mr-1 text-gray-900">
-                                    <FontAwesomeIcon
-                                      icon={faFontAwesome}
-                                      width={12}
-                                      height={12}
-                                    />
-                                  </span>
-                                  <span>Gmail</span>
-                                </div>
-                                <div className="block justify-between md:flex lg:flex ">
-                                  <div className="my-1">
-                                    <h4 className="text-xs font-bold text-gray-500">
-                                      Đánh giá
-                                    </h4>
-                                    <span className="flex gap-x-1 my-1 text-base font-bold">
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-                                    </span>
-                                  </div>
-                                  <div className="my-1">
-                                    <h4 className="text-xs font-bold text-gray-500 text-left md:text-right lg:text-right">
-                                      Giá
-                                    </h4>
-                                    <span className="my-2 text-base font-bold">
-                                      300.000 VND
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </Link>{" "}
-                          <Link href="">
-                            <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-200 ">
-                              <img
-                                src="https://2.bp.blogspot.com/-tvmgENfHanM/U-kriCleTNI/AAAAAAAABvs/Yb5VeHaIgPU/s1600/facebook+logo+vector.png"
-                                alt=""
-                                width={0}
-                                height={0}
-                                className="w-full rounded-t-2xl"
-                                sizes="100vh"
-                              />
-                              <div className="p-3">
-                                <div className=" w-full line-clamp-1 overflow-hidden">
-                                  <p className="w-full font-bold">
-                                    Gmail NEW iOS Us và Ngoại. Chỉ bán min 30
-                                    cái
-                                  </p>
-                                </div>
-                                <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                                  <span className="mr-1 text-gray-900">
-                                    <FontAwesomeIcon
-                                      icon={faFontAwesome}
-                                      width={12}
-                                      height={12}
-                                    />
-                                  </span>
-                                  <span>Gmail</span>
-                                </div>
-                                <div className="block justify-between md:flex lg:flex ">
-                                  <div className="my-1">
-                                    <h4 className="text-xs font-bold text-gray-500">
-                                      Đánh giá
-                                    </h4>
-                                    <span className="flex gap-x-1 my-1 text-base font-bold">
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-                                    </span>
-                                  </div>
-                                  <div className="my-1">
-                                    <h4 className="text-xs font-bold text-gray-500 text-left md:text-right lg:text-right">
-                                      Giá
-                                    </h4>
-                                    <span className="my-2 text-base font-bold">
-                                      300.000 VND
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </Link>{" "}
-                          <Link href="">
-                            <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-200 ">
-                              <img
-                                src="https://2.bp.blogspot.com/-tvmgENfHanM/U-kriCleTNI/AAAAAAAABvs/Yb5VeHaIgPU/s1600/facebook+logo+vector.png"
-                                alt=""
-                                width={0}
-                                height={0}
-                                className="w-full rounded-t-2xl"
-                                sizes="100vh"
-                              />
-                              <div className="p-3">
-                                <div className=" w-full line-clamp-1 overflow-hidden">
-                                  <p className="w-full font-bold">
-                                    Gmail NEW iOS Us và Ngoại. Chỉ bán min 30
-                                    cái
-                                  </p>
-                                </div>
-                                <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                                  <span className="mr-1 text-gray-900">
-                                    <FontAwesomeIcon
-                                      icon={faFontAwesome}
-                                      width={12}
-                                      height={12}
-                                    />
-                                  </span>
-                                  <span>Gmail</span>
-                                </div>
-                                <div className="block justify-between md:flex lg:flex ">
-                                  <div className="my-1">
-                                    <h4 className="text-xs font-bold text-gray-500">
-                                      Đánh giá
-                                    </h4>
-                                    <span className="flex gap-x-1 my-1 text-base font-bold">
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-                                    </span>
-                                  </div>
-                                  <div className="my-1">
-                                    <h4 className="text-xs font-bold text-gray-500 text-left md:text-right lg:text-right">
-                                      Giá
-                                    </h4>
-                                    <span className="my-2 text-base font-bold">
-                                      300.000 VND
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </Link>{" "}
-                          <Link href="">
-                            <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl hover:-translate-y-3 hover:shadow-gray-400 duration-200 ">
-                              <img
-                                src="https://2.bp.blogspot.com/-tvmgENfHanM/U-kriCleTNI/AAAAAAAABvs/Yb5VeHaIgPU/s1600/facebook+logo+vector.png"
-                                alt=""
-                                width={0}
-                                height={0}
-                                className="w-full rounded-t-2xl"
-                                sizes="100vh"
-                              />
-                              <div className="p-3">
-                                <div className=" w-full line-clamp-1 overflow-hidden">
-                                  <p className="w-full font-bold">
-                                    Gmail NEW iOS Us và Ngoại. Chỉ bán min 30
-                                    cái
-                                  </p>
-                                </div>
-                                <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                                  <span className="mr-1 text-gray-900">
-                                    <FontAwesomeIcon
-                                      icon={faFontAwesome}
-                                      width={12}
-                                      height={12}
-                                    />
-                                  </span>
-                                  <span>Gmail</span>
-                                </div>
-                                <div className="block justify-between md:flex lg:flex ">
-                                  <div className="my-1">
-                                    <h4 className="text-xs font-bold text-gray-500">
-                                      Đánh giá
-                                    </h4>
-                                    <span className="flex gap-x-1 my-1 text-base font-bold">
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-
-                                      <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M14.1744 17.4982C14.0481 17.4987 13.9249 17.4588 13.8223 17.3844L8.99906 13.8467L4.17585 17.3844C4.0728 17.46 3.94866 17.5005 3.82136 17.5C3.69407 17.4995 3.57022 17.4581 3.46772 17.3817C3.36522 17.3054 3.28938 17.198 3.25117 17.0752C3.21296 16.9523 3.21436 16.8204 3.25515 16.6984L5.13629 11.0615L0.260942 7.67903C0.155339 7.60584 0.0756353 7.50041 0.0334775 7.37814C-0.00868039 7.25586 -0.0110835 7.12315 0.0266195 6.9994C0.0643224 6.87564 0.140155 6.76733 0.243038 6.69028C0.345922 6.61323 0.470463 6.57149 0.598466 6.57115H6.61314L8.42827 0.919828C8.46737 0.797818 8.54367 0.691473 8.64622 0.616049C8.74876 0.540626 8.87228 0.5 8.99906 0.5C9.12584 0.5 9.24937 0.540626 9.35191 0.616049C9.45446 0.691473 9.53075 0.797818 9.56985 0.919828L11.385 6.57305H17.3997C17.5278 6.57298 17.6526 6.61444 17.7558 6.69134C17.859 6.76824 17.9352 6.87654 17.9731 7.00039C18.011 7.12424 18.0088 7.25713 17.9667 7.37959C17.9246 7.50205 17.8448 7.60765 17.7391 7.68092L12.8618 11.0615L14.7418 16.6969C14.7723 16.7881 14.7809 16.8854 14.7668 16.9806C14.7528 17.0759 14.7166 17.1664 14.6611 17.2446C14.6057 17.3229 14.5327 17.3868 14.448 17.4308C14.3634 17.4749 14.2696 17.498 14.1744 17.4982Z"
-                                          fill="#ECAA00"
-                                        />
-                                      </svg>
-                                    </span>
-                                  </div>
-                                  <div className="my-1">
-                                    <h4 className="text-xs font-bold text-gray-500 text-left md:text-right lg:text-right">
-                                      Giá
-                                    </h4>
-                                    <span className="my-2 text-base font-bold">
-                                      300.000 VND
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </Link>
-                          <div className="px-5 lg:flex justify-center mx-auto mt-[24px] mb-[16px] gap-56">
-                      {!showMore1 && (
-                        <button
-                          className="w-full delay-150 md:w-[100%] lg:w-[260px] h-auto leading-none whitespace-nowrap p-0  bg-slate-100 rounded-md py-[16px] hover:bg-[#eff0f1]"
-                          data-sensors-click="true"
-                          onClick={handleLoadMore1}
-                        >
-                          <span className="lg: font-semibold text-var(--text-color)">
-                            Xem thêm
-                          </span>
-                        </button>
-                      )}
-                      {showMore1 && (
-                        <button
-                          className="w-full delay-150 md:w-[100%] lg:w-[260px] h-auto leading-none whitespace-nowrap p-0  bg-slate-100 rounded-md py-[16px] hover:bg-[#eff0f1]"
-                          data-sensors-click="true"
-                          onClick={handleHide1}
-                        >
-                          <span className="lg: font-semibold text-var(--text-color)">
-                            Ẩn bớt
-                          </span>
-                        </button>
-                      )}
-                    </div>
-                        </>
-                      )}
-                    </div>
+                          <div className="grid xl:grid-cols-5 md:grid-cols-3 gap-x-5 gap-y-2 mt-3">
+                            {filteredProducts.map((product: Product) => (
+                              <ProductItem product={product} />
+                            ))}{" "}
+                          </div>
+                          <div className="flex w-full justify-center my-4">
+                            <button className="bg-primary text-white px-6 py-3 rounded-md font-semibold text-sm">
+                              Xem thêm
+                            </button>
+                          </div>
                         </>
                       ) : (
-                        <><div className="py-[150px] items-center">
-                          <p className="text-center text-[#58667E] font-medium">Chưa có sản phẩm nào</p></div></>
+                        <>
+                          <div className="h-[200px] text-center">
+                            <p className="mt-[100px] text-gray-600 font-medium">
+                              Chưa có sản phẩm nào
+                            </p>
+                          </div>
+                        </>
                       )}
+                    </div>
+
+                    <div className="mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+                      {showMore1 && (
+                        <>
+                          <div className="px-5 lg:flex justify-center mx-auto mt-[24px] mb-[16px] gap-56">
+                            {!showMore1 && (
+                              <button
+                                className="w-full delay-150 md:w-[100%] lg:w-[260px] h-auto leading-none whitespace-nowrap p-0  bg-slate-100 rounded-md py-[16px] hover:bg-[#eff0f1]"
+                                data-sensors-click="true"
+                                onClick={handleLoadMore1}
+                              >
+                                <span className="lg: font-semibold text-var(--text-color)">
+                                  Xem thêm
+                                </span>
+                              </button>
+                            )}
+                            {showMore1 && (
+                              <button
+                                className="w-full delay-150 md:w-[100%] lg:w-[260px] h-auto leading-none whitespace-nowrap p-0  bg-slate-100 rounded-md py-[16px] hover:bg-[#eff0f1]"
+                                data-sensors-click="true"
+                                onClick={handleHide1}
+                              >
+                                <span className="lg: font-semibold text-var(--text-color)">
+                                  Ẩn bớt
+                                </span>
+                              </button>
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
