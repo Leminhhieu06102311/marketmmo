@@ -1,15 +1,39 @@
 "use client"
-import { faTimes, faUpload, faUser, faUserAlt, faUserShield } from '@fortawesome/free-solid-svg-icons'
-import { faShieldAlt } from '@fortawesome/free-solid-svg-icons/faShieldAlt'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faTimes, faUpload, faUser, faUserAlt, faUserShield } from '@fortawesome/free-solid-svg-icons'
+// import { faShieldAlt } from '@fortawesome/free-solid-svg-icons/faShieldAlt'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
+import Cookies from 'js-cookie';
+import { getUser } from "@/services/user";
+import api from '@/services/api';
+
+import { storage } from "../../../firebase";
+import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { toast } from 'react-toastify'
+import { AxiosError } from 'axios'
+
 
 export default function userProfile() {
     const [modals, setModals] = useState<string[]>([]);
     const [currentStep, setCurrentStep] = useState(1);
+
+    //
+    const [access_token, setAccessToken] = useState('');
+    const [displayName, setDisplayName] = useState('');
+    const [username, setUsername] = useState('');
+    const [description, setDescription] = useState('');
+    const [website, setWebsite] = useState(null)
+    const [birthDay, setBirthDay] = useState("")
+    const [avatar, setAvatar] = useState('');
+    const [fileName, setFileName] = useState('');
+
+    const [imageUrl, setImageUrl] = useState('')
+    const defaultAvatar = '/images/security/noavatar.png';
+
+
     // Modal
     const openModal = (modalId: string) => {
         setModals([...modals, modalId]);
@@ -19,25 +43,25 @@ export default function userProfile() {
         setModals(modals.filter((id) => id !== modalId));
         setCurrentStep(1);
     };
+
     //File Upload
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const [selectedImage, setSelectedImage] = useState<File | null>(null);
+
     const handleFileSelect = () => {
         if (fileInputRef.current) {
             fileInputRef.current.click();
         }
     };
-
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const files = event.target.files;
-        if (files && files.length > 0) {
-            const file = files[0];
-            // Xử lý tệp đã chọn ở đây
+        const file = event.target?.files?.[0];
+
+        if (file) {
+            setSelectedImage(file);
+            setFileName(file.name);
         }
     };
-    // Count the number of values in the input
-    const [displayName, setDisplayName] = useState('test1');
-    const [username, setUsername] = useState('test2');
-    const [description, setDescription] = useState('test3');
+
 
     const handleDisplayNameChange = (event: { target: { value: any } }) => {
         const value = event.target.value;
@@ -54,14 +78,181 @@ export default function userProfile() {
         setDescription(value);
     };
 
+    const handleWebsiteChange = (event: { target: { value: any } }) => {
+        const newValue = event.target.value.trim().slice(0, 100);
+        setWebsite(newValue || null);
+    };
+
+    const handleBirthDayChange = (event: { target: { value: any } }) => {
+        const value = event.target.value;
+        setBirthDay(value);
+    };
+
+    //random characters
+    const generateRandomString = (length: number) => {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        const charactersLength = characters.length;
+
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * charactersLength);
+            result += characters.charAt(randomIndex);
+        }
+
+        return result;
+    };
+    const getCurrentTimestamp = () => {
+        return new Date().getTime().toString();
+    };
+
+    //close modal
+    const upLoadImageAvatar = () => {
+        closeModal('modal1')
+    }
+
+    //delete avatar old
+    const deleteImage = async (avatar: any) => {
+        try {
+            const imageRef = ref(storage, avatar);
+            await deleteObject(imageRef);
+
+        } catch (error) {
+            console.error('Error deleting image:', error);
+        }
+    };
+
+    const handleInformation = async () => {
+        if (selectedImage !== null) {
+            try {
+                // Upload image to Firebase Storage
+                const randomString = generateRandomString(8);
+                const timestamp = getCurrentTimestamp();
+                const imageRef = ref(storage, `users/${randomString}_${timestamp}_${fileName}`);
+                await uploadBytes(imageRef, selectedImage);
+
+                // Get the download URL of the uploaded image
+                const imageUrl = await getDownloadURL(imageRef);
+
+                // Delete the old avatar
+                await deleteImage(avatar);
+
+                // Format birthday
+                let isoDateString;
+                if (birthDay && /^\d{4}-\d{2}-\d{2}$/.test(birthDay)) {
+                    const dateObject = new Date(birthDay);
+                    isoDateString = dateObject.toISOString();
+                } else {
+                    console.log('Invalid birthDay:', birthDay);
+                }
+
+                // Update user information using Axios
+                const response = await api.put(
+                    'settings/profile',
+                    {
+                        avatar: imageUrl || "",
+                        name: displayName,
+                        username: username,
+                        bio: description || "",
+                        birthday: isoDateString,
+                        website: website || "",
+                    },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${access_token}`,
+                        },
+                    }
+                );
+                toast.success('Cập nhật thông tin thành công');
+            } catch (error: any) {
+                console.error('Error during update:', error);
+                // Hiển thị thông báo lỗi
+                toast.error('Có lỗi xảy ra khi cập nhật thông tin');
+                if (error.response) {
+                    console.error('Response data:', error.response.data);
+                }
+            }
+        }
+        else {
+            try {
+                // Format birthday
+                let isoDateString;
+                if (birthDay && /^\d{4}-\d{2}-\d{2}$/.test(birthDay)) {
+                    const dateObject = new Date(birthDay);
+                    isoDateString = dateObject.toISOString();
+                } else {
+                    console.log('Invalid birthDay:', birthDay);
+                }
+
+                // Update user information using Axios
+                const response = await api.put(
+                    'settings/profile',
+                    {
+                        avatar: avatar || "",
+                        name: displayName,
+                        username: username,
+                        bio: description || "",
+                        birthday: isoDateString,
+                        website: website || "",
+                    },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${access_token}`,
+                        },
+                    }
+                );
+                toast.success('Cập nhật thông tin thành công');
+            } catch (error: any) {
+                console.error('Error during update:', error);
+                // Hiển thị thông báo lỗi
+                toast.error('Có lỗi xảy ra khi cập nhật thông tin');
+                if (error.response) {
+                    console.error('Response data:', error.response.data);
+                }
+            }
+        }
+    };
+
+
+
+    useEffect(() => {
+        const token = Cookies.get('access_token');
+
+        if (token) {
+            console.log('Access Token:', token);
+            setAccessToken(token)
+        } else {
+            console.log('Access Token not found in cookie');
+        }
+        const fetchDataUser = async () => {
+            try {
+                let dataUser = await getUser(token);
+                console.log(dataUser);
+                setDisplayName(dataUser.data.name)
+                setUsername(dataUser.data.username)
+                setDescription(dataUser.data.bio)
+                setBirthDay(new Date(dataUser.data.birthday).toISOString().split('T')[0])
+                setWebsite(dataUser.data.website)
+                setAvatar(dataUser.data.avatar);
+            } catch (error) {
+                console.error("Error fetching data", error);
+            }
+        };
+        fetchDataUser();
+    }, []);
 
     return (
         <>
             <div className='w-full m-auto  lg:max-w-8xl flex'>
                 <div className='w-64 hidden md:block lg:block'>
                     <ul className='w-52 sticky top-5 mt-7 mb-7'>
-                        <li className='mb-1'><Link href='/settings' className='flex justify-left items-center p-4 text-sm font-semibold rounded-lg bg-[#EFF2F5] hover:bg-[#EFF2F5]'><FontAwesomeIcon className="mr-3" icon={faUser} width={20} height={20} /> Hồ sơ</Link></li>
-                        <li className='mb-1'><Link href='/settings/account-security' className='flex justify-left items-center p-4 text-sm rounded-lg hover:bg-[#EFF2F5] '><FontAwesomeIcon className="mr-3" icon={faShieldAlt} width={20} height={20} />Bảo mật tài khoản</Link></li>
+                        <li className='mb-1'><Link href='/settings' className='flex justify-left items-center p-4 text-sm font-semibold rounded-lg bg-[#EFF2F5] hover:bg-[#EFF2F5]'>
+                            {/* <FontAwesomeIcon className="mr-3" icon={faUser} width={20} height={20} /> */}
+                            Hồ sơ</Link></li>
+                        <li className='mb-1'><Link href='/settings/account-security' className='flex justify-left items-center p-4 text-sm rounded-lg hover:bg-[#EFF2F5] '>
+                            {/* <FontAwesomeIcon className="mr-3" icon={faShieldAlt} width={20} height={20} /> */}
+                            Bảo mật tài khoản</Link></li>
                     </ul>
                 </div>
                 <div className='w-full mb:w-full lg:w-10/12'>
@@ -73,7 +264,12 @@ export default function userProfile() {
                                 <div className='mb-4'>
                                     <div className='text-base font-bold leading-6 mb-1'>Ảnh đại diện</div>
                                     <div className='flex items-center justify-between'>
-                                        <div className='w-20 h-20 bg-[#EFF2F5] rounded-full'><img className='w-full h-full object-cover rounded-full' src="/images/detail-category/1.png" alt="" /></div>
+                                        <div className='w-20 h-20 bg-[#EFF2F5] rounded-full'>
+                                            {selectedImage ? (
+                                                <img alt={''} src={URL.createObjectURL(selectedImage)} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]' ></img>
+                                            ) : (
+                                                <img alt={''} src={avatar || defaultAvatar} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]'></img>
+                                            )}</div>
                                         <button onClick={() => openModal('modal1')} className='w-28 h-10 text-white text-xs font-bold bg-primary rounded-lg hover:bg-[#3459e7]'>Chỉnh sửa</button>
                                         {modals.includes('modal1') && (
                                             <div className="modal">
@@ -83,13 +279,17 @@ export default function userProfile() {
                                                         <div className="bg-white p-4 z-50 w-full h-full md:h-auto  md:w-3/6 md:rounded-xl  lg:h-auto lg:rounded-xl lg:w-528" >
                                                             <div className="flex justify-between mb-5">
                                                                 <h2 className='font-bold text-2xl'>Ảnh đại diện của bạn</h2>
-                                                                <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal1')}>  <FontAwesomeIcon icon={faTimes} /></button>
+                                                                <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal1')}>
+                                                                    {/* <FontAwesomeIcon icon={faTimes} /> */}
+                                                                    x
+                                                                </button>
                                                             </div>
                                                             <div className="">
                                                                 <h3 className='font-semibold text-base mb-3'>Tuỳ chỉnh</h3>
                                                                 <div className=''>
                                                                     <div className="flex justify-between items-center mb-5">
-                                                                        <Image alt={''} src='/images/security/noavatar.png' width={80} height={80} ></Image>
+                                                                        {selectedImage ? (<Image alt={''} src={URL.createObjectURL(selectedImage)} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]' ></Image>) :
+                                                                            (<Image alt={''} src={avatar || defaultAvatar} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]'></Image>)}
                                                                         <div className='flex items-center'>
                                                                             <input
                                                                                 type="file"
@@ -97,7 +297,9 @@ export default function userProfile() {
                                                                                 style={{ display: 'none' }}
                                                                                 onChange={handleFileChange}
                                                                             />
-                                                                            <button onClick={handleFileSelect} className='bg-primary text-white px-4 py-3 rounded-lg text-sm font-semibold hover:bg-[#3459e7]'><span className='mr-2'><FontAwesomeIcon icon={faUpload} /></span> Tải lên</button>
+                                                                            <button onClick={handleFileSelect} className='bg-primary text-white px-4 py-3 rounded-lg text-sm font-semibold hover:bg-[#3459e7]'><span className='mr-2'>
+                                                                                {/* <FontAwesomeIcon icon={faUpload} /> */}
+                                                                            </span> Tải lên</button>
                                                                         </div>
                                                                     </div>
                                                                     <div className='mb-5'>
@@ -113,7 +315,7 @@ export default function userProfile() {
                                                                             </li>
                                                                         </ul>
                                                                     </div>
-                                                                    <button className='bg-primary w-full rounded-lg text-white font-semibold  py-2 hover:bg-[#3459e7]'>Lưu</button>
+                                                                    <button className='bg-primary w-full rounded-lg text-white font-semibold  py-2 hover:bg-[#3459e7]' onClick={upLoadImageAvatar}>Lưu</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -191,6 +393,18 @@ export default function userProfile() {
                                     </span>
                                 </div>
                                 <div className='mb-4'>
+                                    <div className='text-base text-black font-bold leading-7 mb-1'>Ngày sinh</div>
+                                    <div className='relative'>
+                                        <input
+                                            className='w-full bg-[#EFF2F5] border border-[#CFD6E4] p-4 rounded-lg text-sm focus:outline-gray-400 focus:bg-slate-50 hover:border-[#A6B0C3]'
+                                            type="date"
+                                            value={birthDay}
+                                            onChange={handleBirthDayChange}
+                                        />
+
+                                    </div>
+                                </div>
+                                <div className='mb-4'>
                                     <div className='text-base text-black font-bold leading-7 mb1'>Mô tả</div>
                                     <div className='relative'>
                                         <textarea
@@ -201,7 +415,7 @@ export default function userProfile() {
                                             onChange={handleDescriptionChange}
                                         ></textarea>
                                         <span className='absolute top-24 right-2 font-normal text-gray-400'>
-                                            {description.length}/500
+                                            {description ? `${description.length}/500` : '0/500'}
                                         </span>
                                     </div>
                                 </div>
@@ -210,11 +424,13 @@ export default function userProfile() {
                                     <input
                                         className='w-full bg-[#EFF2F5] border border-[#CFD6E4] p-4 rounded-lg text-sm focus:outline-gray-400 focus:bg-slate-50 hover:border-[#A6B0C3]'
                                         type="text"
+                                        value={website ?? ''}
+                                        onChange={handleWebsiteChange}
                                         placeholder='Thêm website của bạn'
                                     />
                                 </div>
                             </div>
-                            <button className='bg-primary py-3 px-10 text-white text-sm font-semibold rounded-lg hover:bg-[#3459e7]'>Lưu</button>
+                            <button className='bg-primary py-3 px-10 text-white text-sm font-semibold rounded-lg hover:bg-[#3459e7]' onClick={handleInformation}>Lưu</button>
                         </div>
                         <div className='max-w-2xl border-t border-gray-400 pt-5 mt-5'>
                             <h1 className='text-xl font-bold mb-6'>Cộng đồng </h1>
