@@ -11,20 +11,20 @@ import { BsCart3 } from "react-icons/bs";
 import { TbArrowsExchange } from "react-icons/tb";
 import Link from "next/link";
 import { HiBars3 } from "react-icons/hi2";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CartModal from "../Cart/CartModal";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import Notification from "../Notification";
-import { status } from "../Notification/Notification";
 import SideBarMenuMobile from "./SideBarMenuMobile";
 import Links from "@/interfaces/links";
 import Cookies from 'js-cookie'
 import { toggleModal } from "@/redux/modalSlice";
 import { setLoggedIn } from "@/redux/userSlice";
 import { LuBell } from "react-icons/lu";
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 import Image from "next/image";
-import {FaAngleLeft,FaCircleCheck} from 'react-icons/fa6'
+import { FaAngleLeft, FaCircleCheck } from 'react-icons/fa6'
+import SearchProduct from "./SearchProduct";
+import {  filterProducts, showModalSearch } from "@/redux/searchSlice";
 const links: Links[] = [
   {
     name: "Sản phẩm",
@@ -56,9 +56,10 @@ const links: Links[] = [
   },
 ];
 export default function Header() {
-  const { isLoggedIn } = useAppSelector((state) => state.user)  
+  const { isLoggedIn } = useAppSelector((state) => state.user)
+  const {isModalSearch} = useAppSelector((state) => state.search)
+  const [searchTerm, setSearchTerm] = useState('')
   const [showModal, setShowModal] = useState(false);
-
   const openModal = () => {
     setShowModal(true);
   };
@@ -71,12 +72,16 @@ export default function Header() {
   const hanldeLogout = () => {
     Cookies.remove('access_token')
     dispatch(setLoggedIn(false))
-    toast.success('Đăng suất thành công', {icon: '🟢'})
+    toast.success('Đăng suất thành công', { icon: '🟢' })
   };
-
   useEffect(() => {
     import("preline");
   }, []);
+  const hanldeSearchProduct = (e : any) => {
+    setSearchTerm(e)
+    dispatch(filterProducts(searchTerm))
+  }
+
   return (
     <>
       <div className="flex justify-between mx-auto items-center max-w-xxs py-3 md:max-w-3xl  md:py-4 lg:max-w-full lg:py-4 lg:px-10">
@@ -110,32 +115,36 @@ export default function Header() {
             </ul>
           </div>
         </div>
-        <div className="md:hidden lg:flex xl:flex items-center bg-[#1212120a] rounded-xl px-3 hidden hover:bg-[#12121214] transition-all">
+        <div onFocus={() => dispatch(showModalSearch())}className="relative md:hidden lg:flex xl:flex items-center bg-[#1212120a] rounded-xl px-3 hidden hover:bg-[#12121214] transition-all" >
           <BiSearch className="text-[#121212] w-5 h-5" />
           <input
             type="text"
             placeholder="Tìm kiếm"
-            className="pl-2 bg-transparent text-base py-3 outline-none md:w-36 lg:w-52 xl:w-96 "
+            value={searchTerm}
+            onChange={(e) => hanldeSearchProduct(e.target.value)} 
+            className="pl-2 bg-transparent text-base py-3 outline-none md:w-36 lg:w-52 xl:w-96  "
+            
           />
           <div className="px-2 py-1 bg-[#12121214] rounded-md text-xs">/</div>
+          {searchTerm && isModalSearch && <SearchProduct />}
         </div>
         <div className=" flex lg:flex gap-5">
           <div className=" lg:flex ">
             <div className="flex gap-2 md:gap-2 items-center">
               {!isLoggedIn ? (
-                <Link
-                  href="/login"
+                <button
+                  onClick={() => dispatch(toggleModal('login'))}
                   className="bg-[#1212120a] hidden  rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:flex items-center gap-2"
                 >
                   <AiOutlineLogin className="w-5 h-5" /> <span className="font-semibold">Đăng nhập</span>
-                </Link>
+                </button>
               ) : (
                 <div
-                className="bg-[#1212120a] hidden md:block relative rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212]"
-              >
-                <div className="absolute top-0 right-0 bg-red-500 flex items-center justify-center rounded-full h-5 w-5 text-white font-semibold text-xs">3</div>
-                <LuBell className="w-5 h-5 text-black" />
-              </div>
+                  className="bg-[#1212120a] hidden md:block relative rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212]"
+                >
+                  <div className="absolute top-0 right-0 bg-red-500 flex items-center justify-center rounded-full h-5 w-5 text-white font-semibold text-xs">3</div>
+                  <LuBell className="w-5 h-5 text-black" />
+                </div>
               )}
               <div className=" group hidden md:block bg-[#1212120a] rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212] relative">
                 <HiOutlineUserCircle className="w-5 h-5" />

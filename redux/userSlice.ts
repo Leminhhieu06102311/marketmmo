@@ -4,12 +4,14 @@ import Cookies from 'js-cookie'
 interface userState {
   name: string;
   id: string;
+  access_token: string,
   isLoggedIn: boolean
 }
 
 export const  initialState: userState = {
   name: "",
   id: "",
+  access_token: '',
   isLoggedIn: Boolean(Cookies.get('access_token'))
 };
 
@@ -18,12 +20,12 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setLoggedIn: (state, action : PayloadAction<boolean>) => {
-        console.log(state.isLoggedIn)
         state.isLoggedIn = action.payload
     }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUser.fulfilled, (state,action) => {
+      console.log(action.payload)
       return action.payload
     })
   }

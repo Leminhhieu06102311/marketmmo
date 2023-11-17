@@ -17,6 +17,12 @@ export async function getDetailProduct(productId: string) {
     return data
     
 }
+export async function getProducts() {
+    const res = await api.get(`/product?limit=100&page=1&sort=BEST_SELLER`)
+    const data = res.data.data.result
+    return data
+    
+}
 export async function getAccountTrending() {
     const res = await api.get('/product?limit=5&page=1&categoryId=6544c5879d85a36c1ddbc646&sort=BEST_SELLER_DESC')
     const { result } = res.data.data
