@@ -6,8 +6,7 @@ import { MouseEvent, useState, useEffect } from "react";
 import { getAll } from "@/services/transactionHistory";
 import { format } from "date-fns";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { toggleModal } from "@/redux/modalSlice";
-import { PopupDetailProduct } from "@/redux/productSlice";
+import Cookies from "js-cookie";
 
 // Import Swiper styles
 import "swiper/css";
@@ -19,6 +18,8 @@ export default function detailProduct({
   params: { transactionHistoryId: string };
 }) {
   console.log(params.transactionHistoryId);
+  const access_token = Cookies.get("access_token");
+
   const dispatch = useAppDispatch()
   const transId = params.transactionHistoryId;
   const [TransacId, setTransacId] = useState<Histories[]>([]);
@@ -27,7 +28,6 @@ export default function detailProduct({
 
   const [filteredTransacId, setFilteredTransacId] = useState<Histories[]>([]);
   const [selectType, setSelectType] = useState<Number>(1);
-  const [selectQuantity, setSelectQuantity] = useState(1);
 
   useEffect(() => {
     const fetchHistories = async () => {
@@ -68,7 +68,9 @@ export default function detailProduct({
   return (
     <>
       {" "}
-      {filteredTransacId.map((product: Histories) => (
+      {access_token ? (
+        <>
+          {" "}      {filteredTransacId.map((product: Histories) => (
         <div>
           <div className=" w-full h-full fixed top-0 right-0 left-0 ">
             <div className=" bg-overlay w-full flex justify-end  fixed z-50 top-0 items-center  ">
@@ -896,6 +898,18 @@ export default function detailProduct({
           </div>
         </div>
       ))}
+        </>
+      ) : (
+        <>
+          <div className="h-[550px] justify-center text-center">
+            <button className="bg-primary text-white px-6 py-3 rounded-md font-semibold text-sm mt-[250px] mb-[10px]">
+              <a href="/login">Đăng nhập</a>
+            </button>
+            <p className="font-medium">Đã xảy ra lỗi. Vui lòng đăng nhập</p>
+          </div>
+        </>
+      )}
+
     </>
   );
 }

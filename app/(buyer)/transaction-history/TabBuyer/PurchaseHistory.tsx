@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Histories } from "@/interfaces/Histories";
 import { getAll } from "@/services/transactionHistory";
 import { format } from "date-fns";
+import Cookies from "js-cookie";
+
 
 const PurchaseHistory = () => {
   const [showMore, setShowMore] = useState(false);
@@ -34,14 +36,16 @@ const PurchaseHistory = () => {
     };
     fetchHistories();
   }, []);
-  const accessToken = localStorage.getItem("access_token");
+  const access_token = Cookies.get("access_token");
   let sub: string | null = null;
-  if (accessToken) {
-    const tokenParts = accessToken.split(".");
+  if (access_token) {
+    const tokenParts = access_token.split(".");
     const encodedPayload = tokenParts[1];
     const decodedPayload = atob(encodedPayload);
     const payload = JSON.parse(decodedPayload);
     sub = payload.sub;
+    console.log(sub);
+    
   }
   useEffect(() => {
     const filterProducts = () => {
@@ -106,7 +110,10 @@ const PurchaseHistory = () => {
   };
   return (
     <>
-      <div>
+          {access_token ? (
+        <>
+          {" "}
+          <div>
         <div className="mt-[30px]">
           <div className="block md:block lg:flex items-center gap-x-4">
             <div className="flex items-center justify-start py-2 md:py-2 gap-2 lg:p-0">
@@ -458,6 +465,17 @@ const PurchaseHistory = () => {
             </div>
           </div>
         </div>
+      )}
+        </>
+      ) : (
+        <>
+          <div className="h-[550px] justify-center text-center">
+            <button className="bg-primary text-white px-6 py-3 rounded-md font-semibold text-sm mt-[250px] mb-[10px]">
+              <a href="/login">Đăng nhập</a>
+            </button>
+            <p className="font-medium">Đăng nhập để xem lịch sử mua hàng</p>
+          </div>
+        </>
       )}
     </>
   );
