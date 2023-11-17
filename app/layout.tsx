@@ -9,6 +9,7 @@ import { Provider } from 'react-redux'
 import { store } from '@/redux/store'
 import { ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
+import ModalLogin from './(buyer)/login/ModalLogin.tsx'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -47,10 +48,11 @@ export default function RootLayout({
           <main>
 
             {children}
+          <ModalLogin />
           </main>
           <ToastContainer
             position="bottom-right"
-            autoClose={8000}
+            autoClose={3000}
             hideProgressBar={false}
             newestOnTop={false}
             closeOnClick

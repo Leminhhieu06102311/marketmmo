@@ -1,11 +1,12 @@
 "use client"
-import { faTimes, faUpload, faUser, faUserAlt, faUserShield } from '@fortawesome/free-solid-svg-icons'
-import { faShieldAlt } from '@fortawesome/free-solid-svg-icons/faShieldAlt'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
+import WrapResponsive from '@/components/WrapResponsive'
+import { FaRegUser } from 'react-icons/fa'
+import { GrShieldSecurity } from "react-icons/gr";
 
 export default function userProfile() {
     const [modals, setModals] = useState<string[]>([]);
@@ -54,17 +55,9 @@ export default function userProfile() {
         setDescription(value);
     };
 
-
     return (
         <>
-            <div className='w-full m-auto  lg:max-w-8xl flex'>
-                <div className='w-64 hidden md:block lg:block'>
-                    <ul className='w-52 sticky top-5 mt-7 mb-7'>
-                        <li className='mb-1'><Link href='/settings' className='flex justify-left items-center p-4 text-sm font-semibold rounded-lg bg-[#EFF2F5] hover:bg-[#EFF2F5]'><FontAwesomeIcon className="mr-3" icon={faUser} width={20} height={20} /> Hồ sơ</Link></li>
-                        <li className='mb-1'><Link href='/settings/account-security' className='flex justify-left items-center p-4 text-sm rounded-lg hover:bg-[#EFF2F5] '><FontAwesomeIcon className="mr-3" icon={faShieldAlt} width={20} height={20} />Bảo mật tài khoản</Link></li>
-                    </ul>
-                </div>
-                <div className='w-full mb:w-full lg:w-10/12'>
+            <div className='w-full mb:w-full lg:w-10/12'>
                     <h1 className='mx-8 py-4 border-b border-gray-200 text-2xl font-semibold '>Hồ sơ</h1>
                     <div className='px-8 py-6'>
                         <div className='max-w-2xl' >
@@ -83,7 +76,7 @@ export default function userProfile() {
                                                         <div className="bg-white p-4 z-50 w-full h-full md:h-auto  md:w-3/6 md:rounded-xl  lg:h-auto lg:rounded-xl lg:w-528" >
                                                             <div className="flex justify-between mb-5">
                                                                 <h2 className='font-bold text-2xl'>Ảnh đại diện của bạn</h2>
-                                                                <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal1')}>  <FontAwesomeIcon icon={faTimes} /></button>
+                                                                <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal1')}>  </button>
                                                             </div>
                                                             <div className="">
                                                                 <h3 className='font-semibold text-base mb-3'>Tuỳ chỉnh</h3>
@@ -97,7 +90,7 @@ export default function userProfile() {
                                                                                 style={{ display: 'none' }}
                                                                                 onChange={handleFileChange}
                                                                             />
-                                                                            <button onClick={handleFileSelect} className='bg-primary text-white px-4 py-3 rounded-lg text-sm font-semibold hover:bg-[#3459e7]'><span className='mr-2'><FontAwesomeIcon icon={faUpload} /></span> Tải lên</button>
+                                                                            <button onClick={handleFileSelect} className='bg-primary text-white px-4 py-3 rounded-lg text-sm font-semibold hover:bg-[#3459e7]'><span className='mr-2'></span> Tải lên</button>
                                                                         </div>
                                                                     </div>
                                                                     <div className='mb-5'>
@@ -228,7 +221,6 @@ export default function userProfile() {
                         </div>
                     </div>
                 </div>
-            </div>
         </>
     )
 }

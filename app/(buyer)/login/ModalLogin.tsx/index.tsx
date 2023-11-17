@@ -10,8 +10,10 @@ import { setLoggedIn } from "@/redux/userSlice";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
-export default function login() {
-  const router = useRouter();
+import ContentModal from "@/components/Modal";
+import { toggleModal } from "@/redux/modalSlice";
+import ModalRegister from "../../register/ModalRegister";
+export default function ModalLogin() {
   const dispatch = useAppDispatch()
   const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
@@ -19,6 +21,11 @@ export default function login() {
   const [showPassword, setShowPassword] = useState(false);
   const [messageErrorLogin, setMessageErrorLogin] = useState('');
   const [notification, setNotification] = useState(false);
+  const [status, setStatus] = useState({
+    isLogin: true,
+    isRegister: false,
+    isForgotPassword: false
+  })
   const handleEmailChange = useCallback(
     (e: { target: { value: any } }) => {
       const value = e.target.value;
@@ -53,7 +60,7 @@ export default function login() {
           const { access_token } = data.data
           Cookies.set('access_token', access_token, { expires: 10 })
           dispatch(setLoggedIn(true))
-          router.push("/");
+          dispatch(toggleModal('login'))
           return "Đăng nhập thành công"
 
         },
@@ -81,23 +88,12 @@ export default function login() {
   };
 
   return (
-    <div className="fixed top-0 bottom-0 right-0 left-0 z-10 bg-white">
-      <div className="flex flex-row max-w-xxs mx-auto items-center h-full lg:m-0 lg:items-stretch truncate lg:h-screen lg:max-w-7xl md:max-w-3xl md:m-auto">
-        <section className="hidden lg:w-[450px] lg:grow-0 lg:block  ">
-          <div className="lg:h-full lg:flex lg:flex-col lg:justify-between">
-            <video
-              playsInline
-              className="lg:w-full lg:h-full lg:object-cover lg:overflow-clip"
-              src="https://cdn.dribbble.com/uploads/48226/original/b8bd4e4273cceae2889d9d259b04f732.mp4?1689028949"
-              autoPlay
-              loop
-              muted
-            ></video>
-          </div>
-        </section>
-        <section className="flex flex-col flex-1 overflow-auto w-full  ">
-          <div className=" flex justify-center items-center grow m-0 p-0  pt-8  ">
-            <div className="lg:ml-28  w-full max-w-[440px] ">
+    <ContentModal nameModal="login">
+      <div className=" w-full min-h-screen flex items-center justify-center">
+      <div className="flex bg-white flex-col w-fit p-10 rounded-2xl relative">
+          {status.isLogin && (
+            <div className="flex justify-center items-center grow m-0 p-0  pt-8  ">
+            <div className=" w-full max-w-[440px] ">
               <h2 className="font-bold md:text-2xl mb-10 text-2xl lg:text-3xl">
                 Đăng nhập Market MMO
               </h2>
@@ -190,16 +186,20 @@ export default function login() {
                   </button>
                   <p className="font-normal text-center mt-5 text-sm">
                     Chưa có tài khoản?{" "}
-                    <Link href="/register" className="underline ">
+                    <button onClick={() => setStatus({...status, isRegister: true, isLogin: false})} className="underline">
                       Đăng ký ngay
-                    </Link>
+                    </button>
                   </p>
                 </form>
               </div>
             </div>
           </div>
-        </section>
+          )}
+          {status.isRegister && <ModalRegister />}
+
+        </div>
+
       </div>
-    </div>
+    </ContentModal>
   );
 }

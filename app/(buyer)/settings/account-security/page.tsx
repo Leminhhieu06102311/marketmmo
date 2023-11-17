@@ -1,14 +1,12 @@
 "use client"
-import { faCopy, faExclamation, faLock, faTimes, faUser, faUserAlt, faUserShield } from '@fortawesome/free-solid-svg-icons'
-import { faShieldAlt } from '@fortawesome/free-solid-svg-icons/faShieldAlt'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { FaEyeSlash, FaEye, FaExclamation } from "react-icons/fa6";
+import { FaEyeSlash, FaEye } from "react-icons/fa6";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Link from 'next/link'
 import Image from 'next/image'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios';
+import Cookies from 'js-cookie'
 export default function Profile() {
     const [modals, setModals] = useState<string[]>([]);
     const [currentStep, setCurrentStep] = useState(1);
@@ -32,11 +30,7 @@ export default function Profile() {
         setShowConfirmPassword(!showConfirmPassword);
     };
     //The function checks the match of the new password and re-enters the new password
-    const { isNoti } = useAppSelector((state) => state.noti)
     const dispatch = useAppDispatch();
-    const { access_token } = useAppSelector((state) => state.cookie)
-    console.log(access_token)
-
     const [isPasswordMatch, setIsPasswordMatch] = useState(true);
     const checkPasswordMatch = () => {
         if (password === confirmPassword) {
@@ -58,6 +52,7 @@ export default function Profile() {
 
     //  
     const handleChangePassword = async () => {
+        const access_token = Cookies.get('access_token')
         try {
             const passwordRegex =
                 /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,60}$/;
@@ -246,7 +241,7 @@ export default function Profile() {
                         <span className='text-sm font-semibold'>
                             KHTI54LZ27TAGPZSD5PEC6TNWELXDX6P
                         </span>
-                        <FontAwesomeIcon icon={faCopy} className=' ml-3 text-xl' />
+                        
                     </div>
                     <div className='text-gray-500 text-center w-full text-sm'>Quét mã QR này bằng ứng dụng Google Authenticator hoặc nhập mã ở trên theo cách thủ công.</div>
                 </div>
@@ -291,13 +286,13 @@ export default function Profile() {
                 <h2 className="text-center mt-5 mb-5 font-bold text-lg">Lưu Key dự phòng này ở một vị trí an toàn</h2>
                 <div className='flex justify-center flex-col items-center'>
                     <div className='flex items-center text-center mb-5 w-14 h-14 rounded-full bg-[#EFF2F5] '>
-                        <FontAwesomeIcon icon={faLock} className='w-full' color='#808a9d' />
+                        
                     </div>
                     <div className='w-full text-center mb-3'>
                         <span className='text-sm font-semibold'>
                             KHTI54LZ27TAGPZSD5PEC6TNWELXDX6P
                         </span>
-                        <FontAwesomeIcon icon={faCopy} className=' ml-3 text-xl' />
+                        
 
                     </div>
                     <div className='w-full text-center text-gray-500'>
@@ -406,14 +401,7 @@ export default function Profile() {
     };
     return (
         <>
-            <div className='w-full m-auto  lg:max-w-8xl flex'>
-                <div className='w-64 hidden md:block lg:block'>
-                    <ul className='w-52 sticky top-5 mt-7 mb-7'>
-                        <li className='mb-1'><Link href='/settings' className='flex justify-left items-center p-4 text-sm font-semibold rounded-lg  hover:bg-[#EFF2F5]'><FontAwesomeIcon className="mr-3" icon={faUser} width={20} height={20} /> Hồ sơ</Link></li>
-                        <li className='mb-1'><Link href='/settings/account-security' className='flex justify-left items-center p-4 text-sm rounded-lg bg-[#EFF2F5] hover:bg-[#EFF2F5] '><FontAwesomeIcon className="mr-3" icon={faShieldAlt} width={20} height={20} />Bảo mật tài khoản</Link></li>
-                    </ul>
-                </div>
-                <div className='w-full mb:w-full lg:w-10/12'>
+             <div className='w-full mb:w-full lg:w-10/12'>
                     <h1 className='mx-8 py-4 border-b border-gray-200 text-2xl font-semibold'>Bảo mật tài khoản</h1>
                     <div className='px-8 py-6'>
                         <div className='pb-6 border-b border-gray-200 mb-3' >
@@ -443,7 +431,7 @@ export default function Profile() {
                                                                 <div className="fixed inset-0 bg-[#0a1e4266] opacity-50" onClick={() => closeModal('modal1')}></div>
                                                                 <div className="bg-white p-4 z-50 w-full h-full md:h-auto  md:w-3/6 md:rounded-xl  lg:h-auto lg:rounded-xl lg:w-[528px]" >
                                                                     <div className="flex justify-end mb-1">
-                                                                        <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal1')}>  <FontAwesomeIcon icon={faTimes} /></button>
+                                                                        <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal1')}>  </button>
                                                                     </div>
                                                                     <div className="">
                                                                         <div>{renderContent()}</div>
@@ -508,7 +496,7 @@ export default function Profile() {
                                                                 <div className="bg-white p-4 z-50 w-full h-full md:w-[400px] md:h-auto md:rounded-xl lg:w-[500px] lg:h-auto lg:rounded-xl">
                                                                     <div className="flex justify-between items-center mb-3">
                                                                         <h1 className='font-semibold text-xl'>Đặt lại mật khẩu</h1>
-                                                                        <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal2')}>  <FontAwesomeIcon icon={faTimes} /></button>
+                                                                        <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal2')}>  </button>
                                                                     </div>
                                                                     <div className="mb-5">
 
@@ -591,12 +579,7 @@ export default function Profile() {
                                                                                     className={`text-gray-400 text-sm whitespace-pre-line ml-1 ${errorPassword ? "mt-5" : "mt-1"
                                                                                         } ${formatPassword ? "text-red-400" : "text-gray-400"} `}
                                                                                 >
-                                                                                    <FontAwesomeIcon
-                                                                                        icon={faExclamation}
-                                                                                        style={{ color: "#ffa200" }}
-                                                                                        size="lg"
-                                                                                        className="mr-2 "
-                                                                                    />
+                                                                                    
                                                                                     Mật khẩu phải có tối thiểu 6 và tối đa 60 ký tự, ít nhất một
                                                                                     chữ hoa, một chữ thường, một số và một ký tự đặc biệt
                                                                                 </p>
@@ -642,7 +625,6 @@ export default function Profile() {
                         </div>
                     </div>
                 </div>
-            </div>
         </>
     )
 }
