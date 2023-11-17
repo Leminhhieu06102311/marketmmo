@@ -1,19 +1,37 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Cookies from "js-cookie";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+
 import PurchaseHistory from "./TabBuyer/PurchaseHistory";
 import RachageHistory from "./TabBuyer/RachageHistory";
 import PurchaseHistorySecond from "./TabBuyer/PurchaseHistorySecond";
+import { useRouter } from "next/navigation";
+import { setLoggedIn } from "@/redux/userSlice";
+
 const BuyerHistory = () => {
-  const access_token = Cookies.get("access_token");
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const access_token = Cookies.get("access_token");
+    if (!access_token) {
+      dispatch(setLoggedIn(true));
+      router.replace("/login");
+    }
+    setLoading(false);
+  }, []);
+
   const [activeTab, setActiveTab] = useState(1);
   const handleTabClick = (tabIndex: any) => {
     setActiveTab(tabIndex);
   };
-  console.log(access_token);
+
+  // console.log(access_token);
+
   return (
     <>
-      {access_token ? (
         <>
           {" "}
           <div className="max-w-xxs mx-auto md:max-w-3xl lg:max-w-full  px-5">
@@ -226,16 +244,7 @@ const BuyerHistory = () => {
             )}
           </div>
         </>
-      ) : (
-        <>
-          <div className="h-[550px] justify-center text-center">
-            <button className="bg-primary text-white px-6 py-3 rounded-md font-semibold text-sm mt-[250px] mb-[10px]">
-              <a href="/login">Đăng nhập</a>
-            </button>
-            <p className="font-medium">Đăng nhập để xem lịch sử mua hàng</p>
-          </div>
-        </>
-      )}
+
     </>
   );
 };

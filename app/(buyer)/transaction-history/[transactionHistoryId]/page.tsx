@@ -7,6 +7,9 @@ import { getAll } from "@/services/transactionHistory";
 import { format } from "date-fns";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Cookies from "js-cookie";
+import { setLoggedIn } from "@/redux/userSlice";
+import { useRouter } from "next/navigation";
+
 
 // Import Swiper styles
 import "swiper/css";
@@ -18,9 +21,14 @@ export default function detailProduct({
   params: { transactionHistoryId: string };
 }) {
   console.log(params.transactionHistoryId);
-  const access_token = Cookies.get("access_token");
-
   const dispatch = useAppDispatch()
+
+  const router = useRouter(); 
+  const access_token = Cookies.get("access_token");
+  if(!access_token){
+    dispatch(setLoggedIn(true))
+    router.push("/login");
+  }
   const transId = params.transactionHistoryId;
   const [TransacId, setTransacId] = useState<Histories[]>([]);
   const [rating, setRating] = useState(0);

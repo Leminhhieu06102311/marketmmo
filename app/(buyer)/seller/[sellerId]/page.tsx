@@ -10,11 +10,13 @@ import axios from "axios";
 import { getAllProducts } from "@/services/product";
 import ProductItem from "@/components/Product/ProductItem";
 import ProductItemSearch from "@/components/Product/ProductItemSearch";
+import SellerIdLoader from "@/components/Skeleton/SellerIdLoader";
 
 const Seller = ({ params }: { params: { sellerId: string } }) => {
   console.log(params.sellerId);
 
   const creatorId = params.sellerId;
+  const [loading, setLoading] = useState(true);
   const [seller, setSeller] = useState<SellerId | null>(null);
   const [showMore, setShowMore] = useState(false);
   const [showMore1, setShowMore1] = useState(false);
@@ -26,6 +28,8 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
   const [filteredProductsSearch, setFilteredProductsSearch] = useState<
     Product[]
   >([]);
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [showAll, setShowAll] = useState(false);
   const [count, setCount] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchDropDown, setSearchDropDown] = useState(false);
@@ -68,16 +72,13 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        let data = await getDetailSeller(params.sellerId); // Link to JSON Server
-        setSeller(data);
-      } catch (error) {
-        console.error("Error fetching data", error);
-      }
+      let data = await getDetailSeller(params.sellerId); // Link to JSON Server
+      setSeller(data);
+      setLoading(false);
     };
-
     fetchData();
   }, []);
+
   const handleLoadMore = () => {
     setShowMore(true);
   };
@@ -100,10 +101,14 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
   };
 
   const handleSearch = (event: any) => {
-    if (event.type === "change") {
-      setSearchTerm(event.target.value);
-    } else if (event.type === "click") {
+    const inputValue = event.target.value;
+
+    if (inputValue.trim().length > 0) {
+      setSearchTerm(inputValue);
       setSearchDropDown(true);
+    } else {
+      setSearchTerm("");
+      setSearchDropDown(false);
     }
   };
 
@@ -111,9 +116,64 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
     setSearchDropDown(false);
   };
 
+  const handleSortByPrice = () => {
+    const sorted = [...filteredProducts].sort((a, b) =>
+      sortOrder === "asc" ? a.price - b.price : b.price - a.price
+    );
+    setFilteredProducts(sorted);
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  };
+  const handleSortByCreatedAt = () => {
+    const sorted = [...filteredProducts].sort((a, b) =>
+      sortOrder === "asc"
+        ? new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        : new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+    setFilteredProducts(sorted);
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  };
+
+  const handleSortByRating = () => {
+    const sorted = [...filteredProducts].sort((a, b) =>
+      sortOrder === "asc"
+        ? a.rating.count - b.rating.count
+        : b.rating.count - a.rating.count
+    );
+    setFilteredProducts(sorted);
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  };
+
+  const handleSortByBestSelling = () => {
+    const sorted = [...filteredProducts].sort((a, b) =>
+      sortOrder === "asc"
+        ? a.numberHasSeller - b.numberHasSeller
+        : b.numberHasSeller - a.numberHasSeller
+    );
+    setFilteredProducts(sorted);
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  };
+  const handleShowAll = () => {
+    const filterProducts = () => {
+      const filtered = products.filter(
+        (product) => product.creator._id === creatorId
+      );
+      setFilteredProducts(filtered);
+      setCount(filtered.length);
+    };
+    setSortOrder("asc");
+    filterProducts();
+    setSortDropDown(false);
+    setGenreDropDown(false);
+  };
   return (
     <>
-      {" "}
+      {loading ? (
+        <>
+          <SellerIdLoader />
+        </>
+      ) : (
+        <></>
+      )}{" "}
       <div className={`${isDropdownOpen ? "blur-sm	" : ""} md:blur-0 lg:blur-0`}>
         {seller && (
           <div className="max-w-xxs mx-auto md:max-w-3xl md:px-0 lg:max-w-full pt-12 lg:px-10">
@@ -691,8 +751,7 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                         type="text"
                         placeholder="Tìm kiếm sản phẩm"
                         value={searchTerm}
-                        onChange={handleSearch}
-                        onClick={handleSearch}
+                        onInput={handleSearch}
                       />
                       {searchDropDown && (
                         <button onClick={handleHideSearch}>
@@ -748,7 +807,7 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                       <div className="relative">
                         <button
                           onClick={handleSort}
-                          className="flex px-2.5 py-2.5 items-center rounded-[9px] border border-[#ececec] gap-2 font-semibold hover:border-[#c8c8c8bb] lg:px-5"
+                          className="flex px-2.5 py-2.5 items-center rounded-[9px] border border-[#ececec] gap-2 font-semibold hover:border-[#c8c8c8bb] lg:px-3"
                         >
                           Sắp xếp theo
                           <svg
@@ -767,28 +826,84 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                         {sortDropDown && (
                           <div className="absolute hidden mt-2 bg-white p-2 z-20 w-full rounded-[7px] shadow-md md:block lg:block">
                             <div className="py-2 px-1 hover:bg-slate-50">
-                              <button className="font-medium">Mới nhất</button>
-                            </div>
-                            <div className="py-2 px-1 hover:bg-slate-100">
-                              <button className="font-medium">
-                                Từ thấp tới cao
+                              <button
+                                onClick={handleSortByCreatedAt}
+                                className="font-medium"
+                              >
+                                Mới nhất
                               </button>
                             </div>
                             <div className="py-2 px-1 hover:bg-slate-100">
-                              <button className="font-medium">
-                                Từ cao tới thấp
+                              <button
+                                onClick={handleSortByPrice}
+                                className="font-medium flex items-center"
+                              >
+                                <span>Giá</span>{" "}
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M12.0467 6.37992L8.00004 2.33325L3.95337 6.37992"
+                                    stroke="#292D32"
+                                    stroke-width="1.5"
+                                    stroke-miterlimit="10"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                  <path
+                                    d="M8 13.6668V2.44678"
+                                    stroke="#292D32"
+                                    stroke-width="1.5"
+                                    stroke-miterlimit="10"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                              </button>
+                            </div>
+                            <div className="py-2 px-1 hover:bg-slate-100">
+                              <button className="font-medium flex items-center">
+                                <span>Giá</span>
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M12.0467 9.62012L8.00004 13.6668L3.95337 9.62012"
+                                    stroke="#292D32"
+                                    stroke-width="1.5"
+                                    stroke-miterlimit="10"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                  <path
+                                    d="M8 2.33325V13.5533"
+                                    stroke="#292D32"
+                                    stroke-width="1.5"
+                                    stroke-miterlimit="10"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
                               </button>
                             </div>
                           </div>
                         )}
                       </div>
 
-                      <div className="relative">
+                      <div className="">
                         <button
                           onClick={handleGenre}
                           className="flex px-2.5 py-2.5 items-center rounded-[9px] border border-[#ececec] gap-2 font-semibold hover:border-[#c8c8c8bb]"
                         >
-                          Tất cả
+                          Khác
                           <svg
                             width="12"
                             height="7"
@@ -803,24 +918,31 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                           </svg>
                         </button>
                         {genreDropDown && (
-                          <div className="hidden absolute mt-2 bg-white px-4 py-2 z-20 w-auto rounded-[7px] shadow-md md:block lg:block">
-                            <div className="p-2 hover:bg-slate-50">
-                              <button className="font-medium">FaceBook</button>
+                          <div className="absolute hidden mt-2 bg-white p-2 z-20 w-auto rounded-[7px] shadow-md md:block lg:block">
+                            <div className="py-2 px-1 hover:bg-slate-100">
+                              <button
+                                onClick={handleSortByRating}
+                                className="font-medium"
+                              >
+                                Đánh giá cao nhất
+                              </button>
                             </div>
-                            <div className="p-2 hover:bg-slate-100">
-                              <button className="font-medium">Gmail</button>
-                            </div>
-                            <div className="p-2 hover:bg-slate-100">
-                              <button className="font-medium">Twitter</button>
-                            </div>
-                            <div className="p-2 hover:bg-slate-100">
-                              <button className="font-medium">Telegram</button>
+                            <div className="py-2 px-1 hover:bg-slate-100">
+                              <button
+                                onClick={handleSortByBestSelling}
+                                className="font-medium"
+                              >
+                                Bán chạy nhất
+                              </button>
                             </div>
                           </div>
                         )}
                       </div>
-                      <button className="h-[40px] delay-150 px-5 items-center rounded-[9px] bg-[#3861FB] text-white hover:bg-[#3862fbdf]">
-                        Lọc
+                      <button
+                        onClick={handleShowAll}
+                        className="h-[40px] delay-150 px-5 items-center rounded-[9px] bg-[#3861FB] text-white hover:bg-[#3862fbdf]"
+                      >
+                        Xem tất cả
                       </button>
                     </div>
                   </div>
@@ -892,7 +1014,7 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
           <div className="w-[100%] bg-zinc-50 fixed bottom-0 left-0">
             <div className="bg-zinc-50 rounded-lg shadow-xl z-20">
               <div className="grid grid-cols-1 pt-5">
-                <button className="py-4 px-5 text-sm font-bold hover:bg-slate-100 rounded-lg">
+                <button className="py-4 px-5 text-sm font-bold hover:bg-slate-100 rounded-lg text-center">
                   Mới nhất
                 </button>
                 <button className="py-4 px-5 text-sm font-bold hover:bg-slate-100 rounded-lg">
