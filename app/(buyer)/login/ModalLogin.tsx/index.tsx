@@ -6,7 +6,7 @@ import { loginUser } from "@/services/user";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import Cookies from 'js-cookie'
-import { setLoggedIn } from "@/redux/userSlice";
+import { fetchUser, setLoggedIn } from "@/redux/userSlice";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
@@ -61,6 +61,7 @@ export default function ModalLogin() {
           Cookies.set('access_token', access_token, { expires: 10 })
           dispatch(setLoggedIn(true))
           dispatch(toggleModal('login'))
+          dispatch(fetchUser(access_token))
           return "Đăng nhập thành công"
 
         },

@@ -22,11 +22,12 @@ import { setActiveTab } from "@/redux/productSlice";
 import { BsDashCircleDotted, BsPatchQuestion } from "react-icons/bs";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { MdOutlinePolicy } from "react-icons/md";
+import { IoCloseOutline } from "react-icons/io5";
+import { setIsAddToCart } from "@/redux/userSlice";
 
 export default function DetailProduct({ productId }: { productId: string }) {
   const dispatch = useAppDispatch();
   const { activeTab } = useAppSelector((state) => state.product);
-  const { statusAddToCart } = useContext(Context);
   const [dataProduct, setDataProduct] = useState<Product>();
   const [selectType, setSelectType] = useState<number>(0);
   const [selectQuantity, setSelectQuantity] = useState(1);
@@ -50,7 +51,7 @@ export default function DetailProduct({ productId }: { productId: string }) {
   };
   const hanldeAddToCart = () => {
     dispatch(toggleModal('cart'))
-    statusAddToCart();
+    dispatch(setIsAddToCart())
     if (dataProduct) {
       const cart: Cart = {
         type: selectType,
@@ -78,12 +79,9 @@ export default function DetailProduct({ productId }: { productId: string }) {
 
   return (
     <ContentModal nameModal="product">
-      <div className="bg-overlay w-full flex justify-end fixed z-50 top-0 items-center">
-        <button onClick={() => dispatch(toggleModal('product'))}>
-          {/* <FontAwesomeIcon
-            className="py-2 px-5 text-white text-lg cursor-pointer"
-            icon={faXmark}
-          /> */}
+      <div className=" w-full flex justify-end fixed z-50 top-0 items-center">
+        <button onClick={() => dispatch(toggleModal('product'))} className="p-3">
+        <IoCloseOutline className="w-5 h-5" />
         </button>
       </div>
       {dataProduct && (
@@ -613,7 +611,7 @@ export default function DetailProduct({ productId }: { productId: string }) {
                   <div className="flex gap-2 flex-col my-2">
                     <p>Chọn gói sản phẩm</p>
                     <div className="inline-flex flex-wrap gap-2">
-                      {dataProduct?.accompanyingProducts.map((item, index) => (
+                      {dataProduct.accompanyingProducts.map((item, index) => (
                         <button
                           key={index}
                           data-type={index}
@@ -624,7 +622,7 @@ export default function DetailProduct({ productId }: { productId: string }) {
                               : "text-black bg-white border-gray-200"
                           } p-2 rounded-lg text-sm inline cursor-pointer border`}
                         >
-                          {/* {item?.name} */}
+                          {item.name}
                         </button>
                       ))}
                     </div>

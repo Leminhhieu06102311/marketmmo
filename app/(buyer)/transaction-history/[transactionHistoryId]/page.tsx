@@ -1,6 +1,4 @@
 "use client";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { MouseEvent, useState, useEffect } from "react";
 import { getAll } from "@/services/transactionHistory";
@@ -19,7 +17,6 @@ export default function detailProduct({
 }) {
   console.log(params.transactionHistoryId);
   const access_token = Cookies.get("access_token");
-
   const dispatch = useAppDispatch()
   const transId = params.transactionHistoryId;
   const [TransacId, setTransacId] = useState<Histories[]>([]);
@@ -75,10 +72,11 @@ export default function detailProduct({
           <div className=" w-full h-full fixed top-0 right-0 left-0 ">
             <div className=" bg-overlay w-full flex justify-end  fixed z-50 top-0 items-center  ">
               <Link href="/transaction-history">
-                <FontAwesomeIcon
+                {/* <FontAwesomeIcon
                   className="py-4 px-5 text-white text-lg cursor-pointer"
                   icon={faXmark}
-                />
+                /> */}
+                fix
               </Link>
             </div>
             <div className="bg-white rounded-l-lg w-full top-13  absolute bottom-0 left-0 right-0 overflow-y-scroll">

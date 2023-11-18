@@ -31,8 +31,10 @@ interface Product {
   };
   slug: string,
   accompanyingProducts: [
-    name: string,
-    price: number
+    {
+      name: string,
+      price: number
+    }
   ]
   status: string;
   quantity: number;
@@ -49,6 +51,6 @@ interface Product {
     value: null;
     count: number;
   };
-  }
+}
 
 export default Product

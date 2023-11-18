@@ -3,16 +3,24 @@ import Cart from "@/interfaces/cart";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import ContentModal from "../Modal";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { toggleModal } from "@/redux/modalSlice";
-
+import { fetchUser, setIsAddToCart } from "@/redux/userSlice";
+import { hanldeOrder } from "@/services/user";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import Cookies from 'js-cookie'
 export default function CartModal() {
+  const router = useRouter()
   const dispatch = useAppDispatch()
-  const { isAddToCart, statusAddToCart } = useContext(Context);
   const [cart, setCart] = useState<Cart>();
+  const {isAddToCart} = useAppSelector((state) => state.user)
+  // get id user
+  dispatch(fetchUser(Cookies.get('access_token')))
+  const {id} = useAppSelector((state) => state.user)
   const hanldeRemoveCart = () => {
     localStorage.clear()
-    statusAddToCart()
+    dispatch(setIsAddToCart())
   }
   useEffect(() => {
     const getCart = () => {
@@ -25,6 +33,32 @@ export default function CartModal() {
     };
     getCart();
   }, [isAddToCart]);
+  const submitOrder =  async () => {
+    const data = localStorage?.getItem("product")
+    if (data) {
+      const {product,type, quantity} = JSON.parse(data)
+      const productId = product._id
+      const price = product.price
+      toast.promise(hanldeOrder(productId,id,quantity,price),{
+        pending: {
+          render: () => {
+            return "Đang xử lý giao dịch"
+          }
+        },
+        success: {
+          render: () => {
+            hanldeRemoveCart()
+            dispatch(toggleModal('cart'))
+            router.push('/transaction-history')
+            return "Giao dịch thành công"
+          },
+          icon: '🟢'
+        }
+      })
+    }
+    
+    
+  }
   return (
     <>
      
@@ -139,6 +173,7 @@ export default function CartModal() {
                       </div>
                     </div>
                     <button
+                      onClick={() => submitOrder()}
                       type="button"
                       className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm"
                     >

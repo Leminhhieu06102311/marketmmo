@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Histories } from "@/interfaces/Histories";
 import { getAll } from "@/services/transactionHistory";
-import { format } from "date-fns";
+// import { format } from "date-fns";
 import Cookies from "js-cookie";
 
 
@@ -364,10 +364,10 @@ const PurchaseHistory = () => {
                           </div>
                           <div className="gap-x-4">
                             <p className="text-[#3D3D4E] text-[12px] font-bold text-right">
-                              {format(
+                              {/* {format(
                                 new Date(item.createdAt),
                                 "dd/MM/yyyy HH:mm:ss"
-                              )}
+                              )} */}
                             </p>
                             <div className="flex gap-x-1 items-center justify-end my-1">
                               <p className="text-[#3D3D4E] font-normal text-[13px]">

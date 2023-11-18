@@ -6,7 +6,7 @@ export async function getUser(access_token : string) {
             'Authorization': 'Bearer ' + access_token
         }
     })
-    return res.data
+    return res.data.data
 }
 export async function loginUser(email : string, password : string) {
     const res = await api.post('/auth/login', {
@@ -20,6 +20,16 @@ export async function registerUser(name: string, email : string, password : stri
         email,
         password,
         name
+    })
+    return res.data
+}
+
+export async function hanldeOrder(productId: string, userId : string, quantity : number, price: number) {
+    const res = await api.post('/order/order', {
+        product: productId,
+        user: userId,
+        quantity: quantity,
+        orderPrice: price
     })
     return res.data
 }
