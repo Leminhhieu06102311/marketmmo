@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";
 const RachageHistory = () => {
   const [showMore, setShowMore] = useState(false);
   const [showMore1, setShowMore1] = useState(false);

@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";
 const PurchaseHistorySecond = () => {
   const [showMore, setShowMore] = useState(false);
   const [sortDropDown, setSortDropDown] = useState(false);

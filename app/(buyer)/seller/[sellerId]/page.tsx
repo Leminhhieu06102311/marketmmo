@@ -1,8 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";
 import { getDetailSeller } from "@/services/SellerId";
 import SellerId from "@/interfaces/SellerId";
 import Product from "@/interfaces/product";
