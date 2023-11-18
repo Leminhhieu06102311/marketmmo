@@ -33,6 +33,8 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
   const [count, setCount] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchDropDown, setSearchDropDown] = useState(false);
+  const [selectedItem, setSelectedItem] = useState('');
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -116,12 +118,14 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
     setSearchDropDown(false);
   };
 
-  const handleSortByPrice = () => {
+  const handleSortByPrice = (item:string) => {
     const sorted = [...filteredProducts].sort((a, b) =>
       sortOrder === "asc" ? a.price - b.price : b.price - a.price
     );
     setFilteredProducts(sorted);
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    setSelectedItem(item);
+
   };
   const handleSortByCreatedAt = () => {
     const sorted = [...filteredProducts].sort((a, b) =>
@@ -835,7 +839,8 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                             </div>
                             <div className="py-2 px-1 hover:bg-slate-100">
                               <button
-                                onClick={handleSortByPrice}
+                                // onClick={handleSortByPrice}
+                                onClick={() => handleSortByPrice('Item 1')}
                                 className="font-medium flex items-center"
                               >
                                 <span>Giá</span>{" "}

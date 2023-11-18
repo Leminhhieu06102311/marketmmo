@@ -19,8 +19,9 @@ const BuyerHistory = () => {
     if (!access_token) {
       dispatch(setLoggedIn(true));
       router.replace("/login");
+      setLoading(false);
     }
-    setLoading(false);
+    
   }, []);
 
   const [activeTab, setActiveTab] = useState(1);

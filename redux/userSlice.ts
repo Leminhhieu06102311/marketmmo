@@ -4,32 +4,43 @@ import Cookies from 'js-cookie'
 interface userState {
   name: string;
   id: string;
-  access_token: string,
-  isLoggedIn: boolean
+  isLoggedIn: boolean;
+  sortType:null | string;
 }
 
 export const  initialState: userState = {
   name: "",
   id: "",
-  access_token: '',
-  isLoggedIn: Boolean(Cookies.get('access_token'))
+  isLoggedIn: Boolean(Cookies.get('access_token')),
+  sortType: null,
 };
-
+export const sortReducer = (state = initialState, action:any) => {
+  switch (action.type) {
+    case 'SET_SORT_TYPE':
+      return {
+        ...state,
+        sortType: action.payload,
+      };
+    default:
+      return state;
+  }
+};
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
     setLoggedIn: (state, action : PayloadAction<boolean>) => {
+        console.log(state.isLoggedIn)
         state.isLoggedIn = action.payload
     }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUser.fulfilled, (state,action) => {
-      console.log(action.payload)
       return action.payload
     })
   }
 });
+
 export const fetchUser = createAsyncThunk(
   'user/fetchUser',
   async (access_token:string, thunkAPI) => {
