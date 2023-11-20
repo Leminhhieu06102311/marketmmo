@@ -67,7 +67,7 @@ export default function login() {
                 </div>
                 <div className="text-gray-400 text-base font-medium leading-[21px] text-center">
                   <span className="text-gray-400 ">Chưa nhận được email?</span>{" "}
-                  <a href="" className="text-blue-600 ">
+                  <a href="/recover" className="text-blue-600 ">
                     Gửi lại
                   </a>
                 </div>

@@ -1,10 +1,17 @@
 "use client";
 
+import { sendToEmail } from "@/services/user";
+import { useRouter } from 'next/navigation';
 import { useState } from "react";
+import { toast } from "react-toastify";
 
-export default function login() {
+export default function forgotPassword() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
+  const [messageErrorLogin, setMessageErrorLogin] = useState('');
+  const [notification, setNotification] = useState(false);
+
+  const router = useRouter()
 
   const handleEmailChange = (e: { target: { value: any } }) => {
     const value = e.target.value;
@@ -13,6 +20,39 @@ export default function login() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setError(!emailRegex.test(value));
   };
+
+  const handleSenCode = () => {
+    toast.promise(sendToEmail(email), {
+      pending: {
+        render() {
+          return "Đang gửi mã tới email vui lòng đợi!"
+        },
+      },
+      success: {
+        render() {
+          router.push("/recover/recover-success");
+          return "Gửi mã thành công"
+        },
+        // other options
+        icon: "🟢",
+      },
+      error: {
+        render: ({ data }) => {
+          const error: any = data
+          if (error.response && error.response.status === 401) {
+            setMessageErrorLogin(error.response.data.message)
+            setNotification(true);
+            console.log(error);
+          } else {
+            setMessageErrorLogin(error.response.data.message)
+            setNotification(true);
+            console.error("Lỗi ", error);
+          }
+          return <div>{error.response.data.message}</div>
+        }
+      }
+    })
+  }
 
   return (
     <div className="fixed top-0 bottom-0 right-0 left-0 z-10 bg-white">
@@ -80,6 +120,13 @@ export default function login() {
                   Vui lòng nhập email đã đăng ký của bạn bên dưới
                 </div>
               </div>
+              {notification && (
+                <div className="pb-2">
+                  <p className="text-sm text-red-500">
+                    {messageErrorLogin}
+                  </p>
+                </div>
+              )}
               <div className="lg:max-w-[440px] md:max-w-[440px] max-w-[360px] w-full mt-3">
                 <label
                   htmlFor="email"
@@ -93,11 +140,10 @@ export default function login() {
                     name="email"
                     type="email"
                     autoComplete="email"
-                    className={`block rounded-lg  h-14 focus:outline-none lg:w-[440px] md:w-[440px] w-[360px]  ${
-                      error
-                        ? "border border-red-500 focus:ring-red-100"
-                        : "hover:bg-white border hover:border-blue-500 hover:ring hover:ring-blue-100 focus:ring focus:ring-blue-100 focus:border-blue-500"
-                    } pl-4 focus:bg-white `}
+                    className={`block rounded-lg  h-14 focus:outline-none lg:w-[440px] md:w-[440px] w-[360px]  ${error
+                      ? "border border-red-500 focus:ring-red-100"
+                      : "hover:bg-white border hover:border-blue-500 hover:ring hover:ring-blue-100 focus:ring focus:ring-blue-100 focus:border-blue-500"
+                      } pl-4 focus:bg-white `}
                     onChange={handleEmailChange}
                   />
                   {error && (
@@ -108,12 +154,12 @@ export default function login() {
                 </div>
                 <div className="mt-2">
                   <span className="text-gray-400 text-sm">Nhớ mật khẩu?</span>{" "}
-                  <a href="" className="text-blue-600 text-sm ">
+                  <a href="/" className="text-blue-600 text-sm ">
                     Đăng nhập
                   </a>
                 </div>
                 <div>
-                  <button className="rounded-lg bg-primary text-white font-medium  md:text-base mt-5 text-sm h-14  hover:bg-blue-500 lg:w-[440px] md:w-[440px] w-[360px]">
+                  <button className="rounded-lg bg-primary text-white font-medium  md:text-base mt-5 text-sm h-14  hover:bg-blue-500 lg:w-[440px] md:w-[440px] w-[360px]" onClick={handleSenCode}>
                     Xác nhận
                   </button>
                 </div>

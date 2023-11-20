@@ -79,8 +79,8 @@ export async function ChangeForgotPassword(
   code: string
 ) {
   const res = await api.post(`/recover/send-code/${code}`, {
-    password: confirmPassword,
-    confirmPassword: password,
+    password: password,
+    confirmPassword: confirmPassword,
   });
   return res.data;
 }
