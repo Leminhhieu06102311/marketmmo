@@ -17,6 +17,7 @@ export default function CartModal() {
   const { isLoggedIn } = useAppSelector((state) => state.user)
   const { isAddToCart } = useAppSelector((state) => state.user)
   const { id } = useAppSelector((state) => state.user)
+  const access_token = Cookies.get('access_token')
   const hanldeRemoveCart = () => {
     localStorage.clear()
     dispatch(setIsAddToCart())
@@ -31,7 +32,7 @@ export default function CartModal() {
         const { product, type, quantity } = JSON.parse(data)
         const productId = product._id
         const price = product.price
-        toast.promise(hanldeOrder(productId, id, quantity, price), {
+        toast.promise(hanldeOrder(productId, id, quantity, price,access_token), {
           pending: {
             render: () => {
               return "Đang xử lý giao dịch"
@@ -41,7 +42,7 @@ export default function CartModal() {
             render: () => {
               hanldeRemoveCart()
               dispatch(toggleModal('cart'))
-              router.push('/transaction-history')
+              router.replace('/transaction-history')
               return "Giao dịch thành công"
             },
             icon: '🟢'
@@ -67,7 +68,7 @@ export default function CartModal() {
   return (
     <>
       <ContentModal nameModal="cart">
-        <div className="fixed top-5 bottom-5 right-5">
+        <div className="fixed top-5 bottom-5 right-5 " >
           <div className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700">
             <div className="flex justify-between items-center py-3 px-4 border-b dark:border-gray-700">
               <h3 className="font-bold text-xl text-gray-800 dark:text-gray-200">
@@ -111,7 +112,7 @@ export default function CartModal() {
               ) : (
                 <>
                   <div>
-                  <div className="bg-primary text-white py-4 px-6">Bạn chỉ có thể mua một mặt hàng cùng một lúc</div>
+                  <div className="bg-primary text-white py-2 px-6 text-sm flex justify-center">Bạn chỉ có thể mua một mặt hàng cùng một lúc</div>
                     <div className="flex justify-between my-4 items-center">
                       <p className="font-semibold">1 mặt hàng</p>
                       <div className="px-3 py-1 cursor-pointer bg-gray-100 rounded-lg" onClick={() => hanldeRemoveCart()}>
