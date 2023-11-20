@@ -4,27 +4,15 @@ import Cookies from 'js-cookie'
 interface userState {
   name: string;
   id: string;
-  isLoggedIn: boolean;
-  sortType:null | string;
+  isLoggedIn: boolean
 }
 
 export const  initialState: userState = {
   name: "",
   id: "",
-  isLoggedIn: Boolean(Cookies.get('access_token')),
-  sortType: null,
+  isLoggedIn: Boolean(Cookies.get('access_token'))
 };
-export const sortReducer = (state = initialState, action:any) => {
-  switch (action.type) {
-    case 'SET_SORT_TYPE':
-      return {
-        ...state,
-        sortType: action.payload,
-      };
-    default:
-      return state;
-  }
-};
+
 export const userSlice = createSlice({
   name: "user",
   initialState,

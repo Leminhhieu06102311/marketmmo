@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Cookies from "js-cookie";
 import { setLoggedIn } from "@/redux/userSlice";
 import { useRouter } from "next/navigation";
+import { toggleModal } from "@/redux/modalSlice";
 
 // Import Swiper styles
 import "swiper/css";
@@ -71,6 +72,9 @@ export default function detailProduct({
   };
   const handleRatingClick = (value: any) => {
     setRating(value);
+  };
+  const handleRatingClick2 = () => {
+    dispatch(toggleModal("rating"));
   };
 
   return (
@@ -169,7 +173,7 @@ export default function detailProduct({
                         </button>
                         <a
                           type="button"
-                          onClick={handleShowMore1}
+                          onClick={handleRatingClick2}
                           className="py-2 px-4 inline-flex cursor-pointer justify-center items-center gap-2 rounded-lg bg-blue-500 border border-transparent font-semibold text-white hover:text-white hover:bg-blue-500 focus:outline-none focus:ring-2 ring-offset-white focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm"
                         >
                           Đánh giá

@@ -28,13 +28,9 @@ const BuyerHistory = () => {
   const handleTabClick = (tabIndex: any) => {
     setActiveTab(tabIndex);
   };
-
-  // console.log(access_token);
-
   return (
     <>
         <>
-          {" "}
           <div className="max-w-xxs mx-auto md:max-w-3xl lg:max-w-full  px-5">
             <div className="pt-10">
               <div className="lg:px-5">

@@ -12,7 +12,6 @@ export default function ContentModal({ children, nameModal }: { children: React.
 
                     </div>
                     <div className="w-full h-full">
-
                         {children}
                     </div>
                 </div>
