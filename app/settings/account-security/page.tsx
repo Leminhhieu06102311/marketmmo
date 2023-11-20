@@ -7,6 +7,8 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios';
 import Cookies from 'js-cookie'
+import { changePassword } from "@/services/user";
+import { toast } from "react-toastify";
 export default function Profile() {
     const [modals, setModals] = useState<string[]>([]);
     const [currentStep, setCurrentStep] = useState(1);
@@ -20,8 +22,12 @@ export default function Profile() {
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [formatPassword, setFormatPassword] = useState(false);
     const [showSuccessPopup, setShowSuccessPopup] = useState(false);
-    const [error, setError] = useState(false);
+    // const [error, setError] = useState(false);
     const [errorPassword, setErrorPassword] = useState(false);
+
+    const [messageErrorLogin, setMessageErrorLogin] = useState('');
+    const [notification, setNotification] = useState(false);
+
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -53,42 +59,53 @@ export default function Profile() {
     //  
     const handleChangePassword = async () => {
         const access_token = Cookies.get('access_token')
-        try {
-            const passwordRegex =
-                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,60}$/;
-            if (!passwordRegex.test(password)) {
-                setFormatPassword(true);
-                return;
-            }
-            if (!currentPassword || !password || !confirmPassword) {
-                return;
-            }
-            const response = await axios.patch('https://fancy-cemetery-production.up.railway.app/settings/password', {
-                currentPassword: currentPassword,
-                password: password,
-                confirmPassword: confirmPassword
-            },
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        'Authorization': `Bearer ${access_token}`,
-                    }
-                }
-
-            );
-            setShowSuccessPopup(true);
-            setTimeout(() => {
-                closeModal('modal2')
-                setShowSuccessPopup(false);
-            }, 3000);
-
-        } catch (error) {
-            console.error("Error during registration:", error);
-            setError(true);
-            setTimeout(() => {
-                setError(false);
-            }, 5000);
+        const passwordRegex =
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,60}$/;
+        if (!passwordRegex.test(password)) {
+            setFormatPassword(true);
+            return;
         }
+        if (!currentPassword || !password || !confirmPassword) {
+            return;
+        }
+        setMessageErrorLogin('')
+        toast.promise(changePassword(access_token, currentPassword, password, confirmPassword), {
+            pending: {
+                render() {
+                    return "Đang đổi mật khẩu vui lòng đợi!"
+                },
+            },
+            success: {
+                render({ data }) {
+                    closeModal('modal2');
+                    const { access_token } = data.data;
+                    Cookies.set('access_token', access_token, { expires: 10 });
+                    setCurrentPassword('')
+                    setPassword('');
+                    setConfirmPassword('');
+                    // Return the success message
+                    return "Đổi mật khẩu thành công";
+                },
+                icon: "🟢",
+            },
+            error: {
+                render: ({ data }) => {
+                    const error: any = data
+                    if (error.response && error.response.status === 401) {
+                        // Lỗi 401 có nghĩa là "Sai tài khoản hoặc mật khẩu"
+                        setMessageErrorLogin(error.response.data.message)
+                        setNotification(true);
+                        console.log(error);
+                    } else {
+                        setMessageErrorLogin(error.response.data.message)
+                        setNotification(true);
+
+                        console.error("Lỗi, Vui lòng thử lại sau !", error);
+                    }
+                    return <div>{error.response.data.message}</div>
+                }
+            }
+        })
     }
     // 
     useEffect(() => {
@@ -479,20 +496,7 @@ export default function Profile() {
                                                                     </button>
                                                                 </div>
                                                             )}
-                                                            {error && (
-                                                                <div className="fixed top-4 right-4 bg-red-500 text-white p-4 rounded shadow-lg">
-                                                                    <div className="font-bold text-lg mb-2 pr-8">
-                                                                        Đổi mật khẩu thất bại
-                                                                    </div>
-                                                                    <p className="text-sm ">Vui lòng thử lại</p>
-                                                                    <button
-                                                                        className="close-button absolute top-2 right-3 text-lg cursor-pointer"
-                                                                        onClick={() => setError(!error)}
-                                                                    >
-                                                                        x
-                                                                    </button>
-                                                                </div>
-                                                            )}
+
                                                             <div className="bg-white p-4 z-50 w-full h-full md:w-[400px] md:h-auto md:rounded-xl lg:w-[500px] lg:h-auto lg:rounded-xl">
                                                                 <div className="flex justify-between items-center mb-3">
                                                                     <h1 className='font-semibold text-xl'>Đặt lại mật khẩu</h1>
@@ -501,6 +505,13 @@ export default function Profile() {
                                                                 <div className="mb-5">
 
                                                                     <div className='mb-5'>
+                                                                        {notification && (
+                                                                            <div className="pb-2">
+                                                                                <p className="text-sm text-red-500">
+                                                                                    {messageErrorLogin}
+                                                                                </p>
+                                                                            </div>
+                                                                        )}
                                                                         <div className="relative mt-4">
                                                                             <label className="text-base font-semibold" htmlFor="">
                                                                                 Nhập mật khẩu cũ
@@ -515,7 +526,7 @@ export default function Profile() {
                                                                             {currentPassword && (
                                                                                 <button
                                                                                     type="button"
-                                                                                    className="absolute right-2 top-1/2 transform translate-y-[27%]"
+                                                                                    className="absolute right-2 top-1/2 transform translate-y-[25%]"
                                                                                     onClick={() => setShowCurrentPassword(!showCurrentPassword)}
                                                                                 >
                                                                                     {showCurrentPassword && currentPassword ? <FaEyeSlash /> : <FaEye />}
