@@ -7,8 +7,6 @@ import { Provider } from 'react-redux'
 import { store } from '@/redux/store'
 import { ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
-import { useAppDispatch, useAppSelector } from '@/redux/hooks'
-import CartModal from '@/components/Cart'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
