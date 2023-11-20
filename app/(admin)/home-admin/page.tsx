@@ -12,7 +12,7 @@ import {
     Legend,
     ResponsiveContainer, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, LineChart,
 } from 'recharts';
-export default function homeSeller() {
+export default function homeAdmin() {
 
 
 

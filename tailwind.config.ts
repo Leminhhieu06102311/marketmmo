@@ -6,6 +6,7 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     'node_modules/preline/dist/*.js',
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -37,6 +38,7 @@ const config: Config = {
       },
     },
   },
+  darkMode: "class",
   plugins: [],
 }
 export default config

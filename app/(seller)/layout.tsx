@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
-import { useEffect } from "react";
-import { AiOutlineMessage } from "react-icons/ai";
-import {LuUserCircle} from "react-icons/lu"
-import {GoHome, GoPackage ,GoProjectRoadmap, GoGift} from "react-icons/go"
-import {MdOutlinePayments} from "react-icons/md"
-
-export default function SellerLayout({
+import { useEffect, useState } from "react";
+import { IoIosSearch } from "react-icons/io";
+import { FaBell, FaUser } from "react-icons/fa";
+import { AiFillDashboard } from "react-icons/ai";
+import { FaCartShopping } from "react-icons/fa6";
+import { FiMenu } from "react-icons/fi";
+import 'animate.css';
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -14,263 +15,117 @@ export default function SellerLayout({
   useEffect(() => {
     import("preline");
   }, []);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchModallOpen, setSearchModalOpen] = useState(false);
+  const openSearch = () => {
+    setSearchModalOpen(true);
+  };
+
+  const closeSearch = () => {
+    setSearchModalOpen(false);
+  };
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   return (
-    <div
-      style={{
-        background: "linear-gradient(180deg, #F7F5F0 0%, #FFF 138.09%)",
-      }}
-    >
-      <button className="fixed bottom-10 right-10 bg-primary rounded-full text-white flex items-center py-2 px-3 gap-2">
-        <AiOutlineMessage className="w-5 h-5 text-white" />
-        <span>Tin nhắn từ người mua</span>
-      </button>
-      <div>
-        {/* ========== MAIN CONTENT ========== */}
-        {/* Sidebar Toggle */}
-        <div className="sticky top-0 inset-x-0 z-20  border-y px-4 sm:px-6 md:px-8 lg:hidden dark:bg-gray-800 dark:border-gray-700">
-          <div className="flex items-center py-4">
-            {/* Navigation Toggle */}
-            <button
-              type="button"
-              className="text-gray-500 hover:text-gray-600"
-              data-hs-overlay="#application-sidebar"
-              aria-controls="application-sidebar"
-              aria-label="Toggle navigation"
-            >
-              <span className="sr-only">Toggle Navigation</span>
-              <svg
-                className="w-5 h-5"
-                width={16}
-                height={16}
-                fill="currentColor"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
-                />
-              </svg>
-            </button>
-            {/* End Navigation Toggle */}
-            {/* Breadcrumb */}
-            <ol
-              className="ml-3 flex items-center whitespace-nowrap min-w-0"
-              aria-label="Breadcrumb"
-            >
-              <li className="flex items-center text-sm text-gray-800 dark:text-gray-400">
-                Người bán
-                <svg
-                  className="flex-shrink-0 mx-3 overflow-visible h-2.5 w-2.5 text-gray-400 dark:text-gray-600"
-                  width={16}
-                  height={16}
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M5 1L10.6869 7.16086C10.8637 7.35239 10.8637 7.64761 10.6869 7.83914L5 14"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </li>
-              <li
-                className="text-sm font-semibold text-gray-800 truncate dark:text-gray-400"
-                aria-current="page"
-              >
-                Trang chủ
-              </li>
-            </ol>
-            {/* End Breadcrumb */}
+
+    <div className="bg-[#f9fafb] ">
+      {searchModallOpen ? null : (
+        <header className=" flex flex-col box-border fixed top-0 left-auto right-0 text-[rgb(255, 255, 255)] shadow-none h-[80px] z-50 backdrop-blur-[50px] bg-[rgba(249, 250, 251, 0.8)] transition w-full md:w-full lg:w-[calc(100%-281px)] ">
+          <div className="md:px-6 lg:px-[40px] ">
+            <div className="flex items-center justify-between h-[80px]">
+              <div className="flex items-center">
+                <button onClick={openModal} className="inline-flex items-center relative justify-center p-2 text-[1.5rem] cursor-pointer w-10 h-10 hover:bg-[#63738114] rounded-full  md:block lg:hidden"><FiMenu className="w-5 h-5" /></button>
+                <button onClick={openSearch} className="inline-flex items-center relative justify-center p-2 text-[1.5rem] cursor-pointer w-10 h-10 hover:bg-[#63738114] rounded-full"><IoIosSearch className="w-5 h-5" /></button>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="">
+                  <button className="inline-flex items-center justify-center p-2 text-[1.5rem] w-10 h-10 hover:bg-[#63738114] rounded-full">
+                    <FaBell className="w-5 h-5" />
+                  </button>
+                  <button className="inline-flex items-center justify-center p-2 ml-2 w-10 h-10  rounded-full hover:bg-[#63738114] ">
+                    <div className="w-full h-full rounded-full overflow-hidden border-[2px solid rgb(249, 250, 251)]">
+                      <img className="w-full h-full text-center object-cover " src="/images/product/1.webp" alt="" /></div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+      )}
+      <div className="flex relative ">
+        {/* NAV */}
+        <div className=" flex-shrink-0 w-[280px] h-screen p-0 overflow-scroll scroll-auto border-r hidden  lg:block">
+          <div className="">
+            <div className="text-xl font-bold w-full text-center p-7">Market MMO</div>
+            <div className="my-6 mx-5 py-4 px-5 rounded-xl bg-[#919eab1f] flex ">
+              <div className="w-10 h-10 overflow-hidden rounded-full">
+                <img src="/images/product/1.webp" alt="" />
+              </div>
+              <div className="flex items-center ml-4">
+                <h6 className="font-semibold text-[0.875rem">Jaydon Frankie</h6>
+              </div>
+            </div>
+            <nav className="px-4 ">
+              <Link href="" className="mb-1 text-sm rounded-md capitalize text-primary font-semibold py-2 px-4 min-h-[44px] flex items-center cursor-pointer bg-[#1877f214]"><AiFillDashboard className="w-6 h-6 mr-4" /><span>Dashboard</span></Link>
+              <Link href="" className="mb-1 text-sm rounded-md capitalize text-[#637381] font-semibold py-2 px-4 min-h-[44px] flex items-center cursor-pointer hover:bg-[#919eab14] transition-all"><FaUser className="w-6 h-6 mr-4" /><span>User</span></Link>
+              <Link href="" className="mb-1 text-sm rounded-md capitalize text-[#637381] font-semibold py-2 px-4 min-h-[44px] flex items-center cursor-pointer hover:bg-[#919eab14] transition-all"><FaCartShopping className="w-6 h-6 mr-4" /><span>Product</span></Link>
+            </nav>
           </div>
         </div>
-        {/* End Sidebar Toggle */}
-        {/* Sidebar */}
-        <div
-          id="application-sidebar"
-          className="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 left-0 bottom-0 z-[60] w-64  border-r border-gray-200 pt-7 pb-10 overflow-y-auto scrollbar-y lg:block lg:translate-x-0 lg:right-auto lg:bottom-0 dark:scrollbar-y dark:bg-gray-800 dark:border-gray-700"
-        >
-          <div className="px-6">
-            <a
-              className="flex-none text-xl font-semibold dark:text-white"
-              href="#"
-              aria-label="MarKet MMO"
-            >
-              Sell MarKet MMO
-            </a>
+        {/* NavModal */}
+        {isModalOpen && (
+          <div className="fixed inset-0 overflow-y-auto z-50 transition">
+            <div className="flex items-start justify-start min-h-screen pt-4 px-4 pb-20 text-left sm:block sm:p-0">
+              <div className="fixed inset-0 ">
+                <div
+                  className="absolute inset-0 bg-gray-500 opacity-75"
+                  onClick={closeModal}
+                ></div>
+              </div>
+
+              <div className="fixed left-0 top-0 h-full bg-white overflow-y-auto w-[280px] transition-all animate__animated animate__fadeInLeft animate__faster">
+                <div className="">
+                  <div className="text-xl font-bold w-full text-center p-7">Market MMO</div>
+                  <div className="my-6 mx-5 py-4 px-5 rounded-xl bg-[#919eab1f] flex ">
+                    <div className="w-10 h-10 overflow-hidden rounded-full">
+                      <img src="/images/product/1.webp" alt="" />
+                    </div>
+                    <div className="flex items-center ml-4">
+                      <h6 className="font-semibold text-[0.875rem">Jaydon Frankie</h6>
+                    </div>
+                  </div>
+                  <nav className="px-4 ">
+                    <Link href="" className="mb-1 text-sm rounded-md capitalize text-primary font-semibold py-2 px-4 min-h-[44px] flex items-center cursor-pointer bg-[#1877f214]"><AiFillDashboard className="w-6 h-6 mr-4" /><span>Dashboard</span></Link>
+                    <Link href="" className="mb-1 text-sm rounded-md capitalize text-[#637381] font-semibold py-2 px-4 min-h-[44px] flex items-center cursor-pointer hover:bg-[#919eab14] transition-all"><FaUser className="w-6 h-6 mr-4" /><span>User</span></Link>
+                    <Link href="" className="mb-1 text-sm rounded-md capitalize text-[#637381] font-semibold py-2 px-4 min-h-[44px] flex items-center cursor-pointer hover:bg-[#919eab14] transition-all"><FaCartShopping className="w-6 h-6 mr-4" /><span>Product</span></Link>
+                  </nav>
+                </div>
+              </div>
+            </div>
           </div>
-          <nav
-            className="hs-accordion-group p-6 w-full flex flex-col flex-wrap"
-            data-hs-accordion-always-open
-          >
-            <ul className="space-y-1.5">
-              <li>
-                <a className=" items-center gap-x-3.5 py-3 px-6 bg-white  text-black text-base rounded-full justify-center inline-flex  dark:bg-gray-900 dark:text-white">
-                  <GoHome className="w-6 h-6" />
-                  Trang Chủ
-                </a>
-              </li>
-              <li className="hs-accordion" id="users-accordion">
-                <a
-                  className=" items-center gap-x-3.5 py-3 px-6 hover:bg-white  text-black text-base rounded-full justify-center inline-flex  dark:bg-gray-900 dark:text-white"
-                  href="javascript:;"
-                >
-                 <GoPackage className="w-6 h-6" />
-                  Sản phẩm
-                </a>
-                <div
-                  id="users-accordion-sub"
-                  className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden"
-                >
-                  <ul
-                    className="hs-accordion-group pl-3 pt-2"
-                    data-hs-accordion-always-open
-                  >
-                    <li className="hs-accordion" id="users-accordion-sub-1">
-                      <Link
-                        className=" items-center gap-x-3.5 py-3 px-6 hover:bg-white  text-black text-base rounded-full justify-center inline-flex  dark:bg-gray-900 dark:text-white"
-                        href="/manager-product"
-                      >
-                        Quản lí sản phẩm
-                        <svg
-                          className="hs-accordion-active:block ml-auto hidden w-3 h-3 text-gray-600 group-hover:text-gray-500 dark:text-gray-400"
-                          width={16}
-                          height={16}
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M2 11L8.16086 5.31305C8.35239 5.13625 8.64761 5.13625 8.83914 5.31305L15 11"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                          />
-                        </svg>
-                      </Link>
-                    </li>
-                    <li className="hs-accordion" id="users-accordion-sub-2">
-                      <a
-                        className=" items-center gap-x-3.5 py-3 px-6 hover:bg-white  text-black text-base rounded-full justify-center inline-flex  dark:bg-gray-900 dark:text-white"
-                        href="javascript:;"
-                      >
-                        Quản lí tồn kho
-                        <svg
-                          className="hs-accordion-active:block ml-auto hidden w-3 h-3 text-gray-600 group-hover:text-gray-500 dark:text-gray-400"
-                          width={16}
-                          height={16}
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M2 11L8.16086 5.31305C8.35239 5.13625 8.64761 5.13625 8.83914 5.31305L15 11"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                          />
-                        </svg>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li className="hs-accordion" id="account-accordion">
-                <a
-                  className=" items-center gap-x-3.5 py-3 px-6 hover:bg-white  text-black text-base rounded-full justify-center inline-flex  dark:bg-gray-900 dark:text-white"
-                  href="javascript:;"
-                >
-                 <GoProjectRoadmap className="w-6 h-6" />
-                  Đơn hàng
-                </a>
-                <div
-                  id="account-accordion-sub"
-                  className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden"
-                >
-                  <ul className="pt-2 pl-2">
-                    <li>
-                      <a
-                        className="flex items-center gap-x-3.5 py-3 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
-                        href="javascript:;"
-                      >
-                        Quản lí đơn hàng
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="flex items-center gap-x-3.5 py-3 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
-                        href="javascript:;"
-                      >
-                        Quản lí yêu cầu hủy
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="flex items-center gap-x-3.5 py-3 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
-                        href="javascript:;"
-                      >
-                        Quản lí đơn hoàn trả
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li className="hs-accordion" id="projects-accordion">
-                <Link
-                  href="/promotion/marketing-tools"
-                  className=" items-center gap-x-3.5 py-3 px-6 hover:bg-white  text-black text-base rounded-full justify-center inline-flex  dark:bg-gray-900 dark:text-white"
-                >
-                  <GoGift className="w-6 h-6" />
-                  Khuyến mãi
-                </Link>
-                <div
-                  id="projects-accordion-sub"
-                  className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden"
-                >
-                  <ul className="pt-2 pl-2">
-                    <li>
-                      <a
-                        className="flex items-center gap-x-3.5 py-3 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
-                        href="javascript:;"
-                      >
-                        Công cụ quảng bá
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li className="hs-accordion" id="projects-accordion">
-                <Link
-                  className=" items-center gap-x-3.5 py-3 px-6 hover:bg-white  text-black text-base rounded-full justify-center inline-flex  dark:bg-gray-900 dark:text-white"
-                  href="/finance"
-                >
-                  <MdOutlinePayments className="w-6 h-6" />
-                  Tài chính
-                </Link>
-                
-              </li>
-              <li className="hs-accordion" id="projects-accordion">
-                <Link
-                  className=" items-center gap-x-3.5 py-3 px-6 hover:bg-white  text-black text-base rounded-full justify-center inline-flex  dark:bg-gray-900 dark:text-white"
-                  href="/seller-settings"
-                >
-                  <LuUserCircle className="w-6  h-6 " />
-                  Hồ sơ
-                </Link>
-                
-              </li>
-            </ul>
-          </nav>
+        )}
+        <div className="w-full md:w-full lg:w-[100% calc(100%-280px)]">
+          {searchModallOpen && (
+            <div className="relative inset-0  items-center justify-center z-50 ">
+              <div className="fixed inset-0 bg-transparent" onClick={closeSearch}></div>
+              <div className="absolute shadow-lg right-0 bg-[#f9fafbcc] bg-blur-[6px] w-full h-[80px]  animate__animated animate__slideInDown animate__faster flex items-center lg:px-10 ">
+                <button className="inline-flex items-center relative justify-center p-2 text-[1.5rem] cursor-pointer w-10 h-10 hover:bg-[#63738114] rounded-full"><IoIosSearch className="w-5 h-5" /></button>
+                <input type="text" className="w-full focus:outline-none bg-transparent" placeholder="Search..." />
+                <button className="px-4 py-[6px] bg-primary text-white font-semibold rounded-xl">Search</button>
+              </div>
+            </div>
+          )}
+          <div className="pt-[88px] px-4 w-full">
+
+            {children}
+          </div>
         </div>
-        {/* End Sidebar */}
-        {/* Content */}
-        <div className="w-full pt-10 px-4 sm:px-6 md:px-8 lg:pl-72 min-h-screen">
-          {children}
-        </div>
-        {/* End Content */}
-        {/* ========== END MAIN CONTENT ========== */}
       </div>
-    </div>
+    </div >
   );
 }
