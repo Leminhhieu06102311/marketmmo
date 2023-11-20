@@ -1,5 +1,4 @@
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import Link from "next/link";
 export default function TransactionIdLoader() {
   return (
@@ -8,10 +7,10 @@ export default function TransactionIdLoader() {
         <div className="w-full h-full fixed  bg-white right-0 left-0 ">
           <div className=" w-full flex justify-end top-0 items-center  ">
             <Link href="/transaction-history">
-              <FontAwesomeIcon
+              {/* <FontAwesomeIcon
                 className="py-4 px-5 text-white text-lg cursor-pointer"
                 icon={faXmark}
-              />
+              /> */}
             </Link>
           </div>
           <div className="bg-white relative top-0 w-full bottom-0 left-0 right-0">

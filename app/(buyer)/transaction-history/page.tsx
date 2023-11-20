@@ -3,9 +3,9 @@ import React, { useState,useEffect } from "react";
 import Cookies from "js-cookie";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
-import PurchaseHistory from "./TabBuyer/PurchaseHistory";
-import RachageHistory from "./TabBuyer/RachageHistory";
-import PurchaseHistorySecond from "./TabBuyer/PurchaseHistorySecond";
+// import PurchaseHistory from "./TabBuyer/PurchaseHistory";
+// import RachageHistory from "./TabBuyer/RachageHistory";
+// import PurchaseHistorySecond from "./TabBuyer/PurchaseHistorySecond";
 import { useRouter } from "next/navigation";
 import { setLoggedIn } from "@/redux/userSlice";
 
@@ -224,7 +224,7 @@ const BuyerHistory = () => {
                 </div>
               </div>
             </div>
-            {activeTab === 1 && (
+            {/* {activeTab === 1 && (
               <div>
                 <PurchaseHistory />
               </div>
@@ -238,7 +238,7 @@ const BuyerHistory = () => {
               <div>
                 <PurchaseHistorySecond />
               </div>
-            )}
+            )} */}
           </div>
         </>
 

@@ -5,7 +5,7 @@ export async function getTransactionHistory(access_token : string) {
             'Authorization': 'Bearer ' + access_token
         }
     })
-    return res.data
+    return res.data.data
 }
 
 export async function getAll() {
