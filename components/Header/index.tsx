@@ -120,6 +120,7 @@ export default function Header() {
               type="text"
               placeholder="Tìm kiếm"
               value={searchTerm}
+              autoComplete="off"
               onChange={(e) => hanldeSearchProduct(e.target.value)}
               className="pl-2 bg-transparent text-base py-3 outline-none md:w-36 lg:w-52 xl:w-96  "
 
