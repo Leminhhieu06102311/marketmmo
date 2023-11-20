@@ -64,7 +64,6 @@ export default function Home() {
       {isClient ? (
         (
           <>
-            <Header />
             <HomeSlide />
             <WrapResponsive>
             <div className="gap-3 md:hidden w-full my-4">
@@ -423,7 +422,6 @@ export default function Home() {
               </div>
             </WrapResponsive>
             {productId && <DetailProduct productId={productId} />} 
-            <Footer />
           </>
         )
       ) : (
