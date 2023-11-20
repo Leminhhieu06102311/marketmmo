@@ -90,21 +90,21 @@ const BuyerHistory = () => {
                 </div>
               </div>
             </div>
-            {activeTab === 1 && (
-              <div>
-                <PurchaseHistory />
-              </div>
-            )}
-            {activeTab === 2 && (
-              <div>
-                <RachageHistory />
-              </div>
-            )}
-            {activeTab === 3 && (
-              <div>
-                <PurchaseHistorySecond />
-              </div>
-            )}
+              {activeTab === 1 && (
+                <div>
+                  <PurchaseHistory />
+                </div>
+              )}
+              {activeTab === 2 && (
+                <div>
+                  <RachageHistory />
+                </div>
+              )}
+              {activeTab === 3 && (
+                <div>
+                  <PurchaseHistorySecond />
+                </div>
+              )}
           </div>
         </>
 

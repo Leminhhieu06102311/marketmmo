@@ -1,15 +1,13 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-interface ModalState {
+interface modalState {
   status: boolean;
   name: string;
-  rating: number; // Thêm trường rating để lưu giá trị đánh giá
 }
 
-const initialState: ModalState = {
+const initialState: modalState = {
   status: false,
   name: "",
-  rating: 0,
 };
 
 const modalSlice = createSlice({
@@ -17,28 +15,22 @@ const modalSlice = createSlice({
   initialState,
   reducers: {
     toggleModal: (state, action: PayloadAction<string>) => {
-      switch (state.name) {
-        case "":
-          state.status = !state.status;
-          state.name = action.payload;
-          break;
-        case action.payload:
-          state.status = !state.status;
-          state.name = "";
-          break;
-        default:
-          state.name = "";
-          state.status = false;
-          state.name = action.payload;
-          state.status = true;
-          break;
+      if (state.name === action.payload && state.status === true) {
+        // Nếu toggle rating đã được bật và người dùng nhấp lại, tắt modal rating
+        state.status = false;
+        state.name = "";
+      } else if (state.name === "rating" && state.status === true) {
+        // Nếu toggle rating đã được bật và người dùng nhấp vào toggle khác, tắt modal rating và mở modal mới
+        state.status = true;
+        state.name = action.payload;
+      } else {
+        // Mở modal rating và đặt tên toggle là "rating"
+        state.status = true;
+        state.name = "rating";
       }
-    },
-    setRating: (state, action: PayloadAction<number>) => {
-      state.rating = action.payload;
     },
   },
 });
 
-export const { toggleModal, setRating } = modalSlice.actions;
+export const { toggleModal } = modalSlice.actions;
 export default modalSlice.reducer;
