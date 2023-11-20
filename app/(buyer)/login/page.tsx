@@ -6,8 +6,9 @@ import { getCookie, setCookie } from "@/redux/cookieSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { hideNoti, showNoti } from "@/redux/notiSlice";
 import api from "@/services/api";
-import { faEyeSlash, faEye } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { IoMdEye, IoIosEyeOff } from "react-icons/io";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -53,13 +54,13 @@ export default function login() {
           },
         }
       );
-      const {access_token} = response.data.data
+      const { access_token } = response.data.data
       dispatch(setCookie({
         name: 'access_token',
         value: access_token,
         days: 2
       }))
-      dispatch(getCookie({name: 'access_token'}))
+      dispatch(getCookie({ name: 'access_token' }))
       dispatch(showNoti())
       setTimeout(() => {
         dispatch(hideNoti())
@@ -103,7 +104,7 @@ export default function login() {
         <section className="flex flex-col flex-1 overflow-auto w-full  ">
           <div className=" flex justify-center items-center grow m-0 p-0  pt-8  ">
             {isNoti && (
-             <Notification message="Đăng nhập thành công" status={status.success} />
+              <Notification message="Đăng nhập thành công" status={status.success} />
             )}
             {errorLogin && (
               <Notification message="Đăng nhập thất bại" status={status.error} />
@@ -180,11 +181,10 @@ export default function login() {
                         type="email"
                         autoComplete="email"
                         required
-                        className={`block rounded-lg w-full h-14 focus:outline-none ${
-                          error
-                            ? "border border-red-500 focus:ring-red-100"
-                            : "hover:bg-white border hover:border-blue-500 hover:ring hover:ring-blue-100 focus:ring focus:ring-blue-100 focus:border-blue-500"
-                        } pl-4 focus:bg-white `}
+                        className={`block rounded-lg w-full h-14 focus:outline-none ${error
+                          ? "border border-red-500 focus:ring-red-100"
+                          : "hover:bg-white border hover:border-blue-500 hover:ring hover:ring-blue-100 focus:ring focus:ring-blue-100 focus:border-blue-500"
+                          } pl-4 focus:bg-white `}
                         onChange={handleEmailChange}
                         value={email}
                       />
@@ -221,9 +221,8 @@ export default function login() {
                           className="absolute top-14 right-2 px-2 py-1 cursor-pointer"
                           onClick={toggleShowPassword}
                         >
-                          <FontAwesomeIcon
-                            icon={showPassword ? faEyeSlash : faEye}
-                          />
+                          {showPassword ? <IoIosEyeOff /> : <IoMdEye />}
+
                         </div>
                       )}
                     </fieldset>
