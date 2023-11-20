@@ -6,6 +6,7 @@ export async function getUser(access_token : string) {
             'Authorization': 'Bearer ' + access_token
         }
     })
+    console.log('get')
     return res.data.data
 }
 export async function loginUser(email : string, password : string) {
