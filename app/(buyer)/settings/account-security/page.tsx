@@ -1,14 +1,14 @@
 "use client"
-import { faCopy, faExclamation, faLock, faTimes, faUser, faUserAlt, faUserShield } from '@fortawesome/free-solid-svg-icons'
-import { faShieldAlt } from '@fortawesome/free-solid-svg-icons/faShieldAlt'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { FaEyeSlash, FaEye, FaExclamation } from "react-icons/fa6";
+import { FaEyeSlash, FaEye } from "react-icons/fa6";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Link from 'next/link'
 import Image from 'next/image'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios';
+import Cookies from 'js-cookie'
+import { changePassword } from "@/services/user";
+import { toast } from "react-toastify";
 export default function Profile() {
     const [modals, setModals] = useState<string[]>([]);
     const [currentStep, setCurrentStep] = useState(1);
@@ -22,8 +22,12 @@ export default function Profile() {
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [formatPassword, setFormatPassword] = useState(false);
     const [showSuccessPopup, setShowSuccessPopup] = useState(false);
-    const [error, setError] = useState(false);
+    // const [error, setError] = useState(false);
     const [errorPassword, setErrorPassword] = useState(false);
+
+    const [messageErrorLogin, setMessageErrorLogin] = useState('');
+    const [notification, setNotification] = useState(false);
+
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -32,11 +36,7 @@ export default function Profile() {
         setShowConfirmPassword(!showConfirmPassword);
     };
     //The function checks the match of the new password and re-enters the new password
-    const { isNoti } = useAppSelector((state) => state.noti)
     const dispatch = useAppDispatch();
-    const { access_token } = useAppSelector((state) => state.cookie)
-    console.log(access_token)
-
     const [isPasswordMatch, setIsPasswordMatch] = useState(true);
     const checkPasswordMatch = () => {
         if (password === confirmPassword) {
@@ -58,42 +58,59 @@ export default function Profile() {
 
     //  
     const handleChangePassword = async () => {
-        try {
-            const passwordRegex =
-                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,60}$/;
-            if (!passwordRegex.test(password)) {
-                setFormatPassword(true);
-                return;
-            }
-            if (!currentPassword || !password || !confirmPassword) {
-                return;
-            }
-            const response = await axios.patch('https://fancy-cemetery-production.up.railway.app/settings/password', {
-                currentPassword: currentPassword,
-                password: password,
-                confirmPassword: confirmPassword
-            },
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        'Authorization': `Bearer ${access_token}`,
-                    }
-                }
-
-            );
-            setShowSuccessPopup(true);
-            setTimeout(() => {
-                closeModal('modal2')
-                setShowSuccessPopup(false);
-            }, 3000);
-
-        } catch (error) {
-            console.error("Error during registration:", error);
-            setError(true);
-            setTimeout(() => {
-                setError(false);
-            }, 5000);
+        const access_token = Cookies.get('access_token')
+        const passwordRegex =
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,60}$/;
+        if (!passwordRegex.test(password)) {
+            setFormatPassword(true);
+            return;
         }
+        if (!currentPassword || !password || !confirmPassword) {
+            return;
+        }
+        setMessageErrorLogin('')
+        toast.promise(changePassword(access_token, currentPassword, password, confirmPassword), {
+            pending: {
+                render() {
+                    return "Đang đổi mật khẩu vui lòng đợi!"
+                },
+            },
+            success: {
+                render({ data }) {
+                    const { access_token } = data.data;
+                    Cookies.set('access_token', access_token, { expires: 10 });
+
+                    // Set a timeout to close the modal after 3000 milliseconds (3 seconds)
+                    setTimeout(() => {
+                        closeModal('modal2');
+                        setShowSuccessPopup(false);
+                    }, 2000);
+                    setCurrentPassword('')
+                    setPassword('');
+                    setConfirmPassword('');
+                    // Return the success message
+                    return "Đổi mật khẩu thành công";
+                },
+                icon: "🟢",
+            },
+            error: {
+                render: ({ data }) => {
+                    const error: any = data
+                    if (error.response && error.response.status === 401) {
+                        // Lỗi 401 có nghĩa là "Sai tài khoản hoặc mật khẩu"
+                        setMessageErrorLogin(error.response.data.message)
+                        setNotification(true);
+                        console.log(error);
+                    } else {
+                        setMessageErrorLogin(error.response.data.message)
+                        setNotification(true);
+
+                        console.error("Lỗi, Vui lòng thử lại sau !", error);
+                    }
+                    return <div>{error.response.data.message}</div>
+                }
+            }
+        })
     }
     // 
     useEffect(() => {
@@ -246,7 +263,7 @@ export default function Profile() {
                         <span className='text-sm font-semibold'>
                             KHTI54LZ27TAGPZSD5PEC6TNWELXDX6P
                         </span>
-                        <FontAwesomeIcon icon={faCopy} className=' ml-3 text-xl' />
+
                     </div>
                     <div className='text-gray-500 text-center w-full text-sm'>Quét mã QR này bằng ứng dụng Google Authenticator hoặc nhập mã ở trên theo cách thủ công.</div>
                 </div>
@@ -291,13 +308,13 @@ export default function Profile() {
                 <h2 className="text-center mt-5 mb-5 font-bold text-lg">Lưu Key dự phòng này ở một vị trí an toàn</h2>
                 <div className='flex justify-center flex-col items-center'>
                     <div className='flex items-center text-center mb-5 w-14 h-14 rounded-full bg-[#EFF2F5] '>
-                        <FontAwesomeIcon icon={faLock} className='w-full' color='#808a9d' />
+
                     </div>
                     <div className='w-full text-center mb-3'>
                         <span className='text-sm font-semibold'>
                             KHTI54LZ27TAGPZSD5PEC6TNWELXDX6P
                         </span>
-                        <FontAwesomeIcon icon={faCopy} className=' ml-3 text-xl' />
+
 
                     </div>
                     <div className='w-full text-center text-gray-500'>
@@ -406,238 +423,219 @@ export default function Profile() {
     };
     return (
         <>
-            <div className='w-full m-auto  lg:max-w-8xl flex'>
-                <div className='w-64 hidden md:block lg:block'>
-                    <ul className='w-52 sticky top-5 mt-7 mb-7'>
-                        <li className='mb-1'><Link href='/settings' className='flex justify-left items-center p-4 text-sm font-semibold rounded-lg  hover:bg-[#EFF2F5]'><FontAwesomeIcon className="mr-3" icon={faUser} width={20} height={20} /> Hồ sơ</Link></li>
-                        <li className='mb-1'><Link href='/settings/account-security' className='flex justify-left items-center p-4 text-sm rounded-lg bg-[#EFF2F5] hover:bg-[#EFF2F5] '><FontAwesomeIcon className="mr-3" icon={faShieldAlt} width={20} height={20} />Bảo mật tài khoản</Link></li>
-                    </ul>
-                </div>
-                <div className='w-full mb:w-full lg:w-10/12'>
-                    <h1 className='mx-8 py-4 border-b border-gray-200 text-2xl font-semibold'>Bảo mật tài khoản</h1>
-                    <div className='px-8 py-6'>
-                        <div className='pb-6 border-b border-gray-200 mb-3' >
-                            <h1 className='text-xl font-semibold mb-3'>Thông tin tài khoản</h1>
-                            <div>
-                                <h1 className='text-base font-semibold mb-2'>Địa chỉ Email</h1>
-                                <div className='flex flex-col md:flex-row lg:flex-row lg:items-center'>
-                                    <div className='text-gray-400 font-semibold text-sm mr-2 mb-2' >Nếu bạn cần thay đổi địa chỉ email của mình vui lòng liên hệ với <Link href='' className='text-primary'>bộ phận dịch vụ</Link> </div>
-                                    <div className='flex justify-start'><div className='p-2 text-sm font-semibold rounded-lg bg-[#EFF2F5]'>pg*****15@gmail.com</div></div>
-                                </div>
+            <div className='w-full mb:w-full lg:w-10/12'>
+                <h1 className='mx-8 py-4 border-b border-gray-200 text-2xl font-semibold'>Bảo mật tài khoản</h1>
+                <div className='px-8 py-6'>
+                    <div className='pb-6 border-b border-gray-200 mb-3' >
+                        <h1 className='text-xl font-semibold mb-3'>Thông tin tài khoản</h1>
+                        <div>
+                            <h1 className='text-base font-semibold mb-2'>Địa chỉ Email</h1>
+                            <div className='flex flex-col md:flex-row lg:flex-row lg:items-center'>
+                                <div className='text-gray-400 font-semibold text-sm mr-2 mb-2' >Nếu bạn cần thay đổi địa chỉ email của mình vui lòng liên hệ với <Link href='' className='text-primary'>bộ phận dịch vụ</Link> </div>
+                                <div className='flex justify-start'><div className='p-2 text-sm font-semibold rounded-lg bg-[#EFF2F5]'>pg*****15@gmail.com</div></div>
                             </div>
                         </div>
-                        <div>
-                            <h1 className='text-xl font-semibold mb-3'>Cài đặt hệ thống bảo vệ</h1>
-                            <div className='pb-6 border-b border-gray-200 mb-3'>
-                                <div className='mb-2'>
-                                    <h1 className='text-base font-semibold mb-2'>Trình xác thực Google (2FA)</h1>
-                                    <div className='flex flex-col justify-between md:flex-col lg:flex-row'>
-                                        <span className='text-gray-400 font-semibold text-sm mr-2 mb-2'>Sử dụng Authenticator để nhận mã xác minh nhằm bảo mật tốt hơn.</span>
-                                        <div className='flex justify-end'>
-                                            <button onClick={() => openModal('modal1')} className='bg-primary px-4 rounded-lg text-white font-semibold text-sm py-2 hover:bg-[#3459e7]'>Cho phép</button>
-                                            <div>
-                                                {modals.includes('modal1') && (
-                                                    <div className="modal">
-                                                        <div className="modal-content">
-                                                            <div className="fixed inset-0 flex items-center justify-center z-50">
-                                                                <div className="fixed inset-0 bg-[#0a1e4266] opacity-50" onClick={() => closeModal('modal1')}></div>
-                                                                <div className="bg-white p-4 z-50 w-full h-full md:h-auto  md:w-3/6 md:rounded-xl  lg:h-auto lg:rounded-xl lg:w-[528px]" >
-                                                                    <div className="flex justify-end mb-1">
-                                                                        <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal1')}>  <FontAwesomeIcon icon={faTimes} /></button>
-                                                                    </div>
-                                                                    <div className="">
-                                                                        <div>{renderContent()}</div>
-                                                                    </div>
+                    </div>
+                    <div>
+                        <h1 className='text-xl font-semibold mb-3'>Cài đặt hệ thống bảo vệ</h1>
+                        <div className='pb-6 border-b border-gray-200 mb-3'>
+                            <div className='mb-2'>
+                                <h1 className='text-base font-semibold mb-2'>Trình xác thực Google (2FA)</h1>
+                                <div className='flex flex-col justify-between md:flex-col lg:flex-row'>
+                                    <span className='text-gray-400 font-semibold text-sm mr-2 mb-2'>Sử dụng Authenticator để nhận mã xác minh nhằm bảo mật tốt hơn.</span>
+                                    <div className='flex justify-end'>
+                                        <button onClick={() => openModal('modal1')} className='bg-primary px-4 rounded-lg text-white font-semibold text-sm py-2 hover:bg-[#3459e7]'>Cho phép</button>
+                                        <div>
+                                            {modals.includes('modal1') && (
+                                                <div className="modal">
+                                                    <div className="modal-content">
+                                                        <div className="fixed inset-0 flex items-center justify-center z-50">
+                                                            <div className="fixed inset-0 bg-[#0a1e4266] opacity-50" onClick={() => closeModal('modal1')}></div>
+                                                            <div className="bg-white p-4 z-50 w-full h-full md:h-auto  md:w-3/6 md:rounded-xl  lg:h-auto lg:rounded-xl lg:w-[528px]" >
+                                                                <div className="flex justify-end mb-1">
+                                                                    <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal1')}>  </button>
+                                                                </div>
+                                                                <div className="">
+                                                                    <div>{renderContent()}</div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                )}
-                                            </div>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
-                                {/* <div className='mb-2'>
+                            </div>
+                            {/* <div className='mb-2'>
                                     <h1 className='text-base font-semibold mb-2'>Xác minh địa chỉ email (2FA)+</h1>
                                     <div className='flex flex-col justify-between md:flex-col lg:flex-row'>
                                         <span className='text-gray-400 font-semibold text-sm mr-2 mb-2'>Sử dụng Authenticator để nhận mã xác minh nhằm bảo mật tốt hơn.</span>
                                         <div className='flex justify-end'><button className='bg-primary px-4 rounded-lg text-white font-semibold text-sm py-2 hover:bg-[#3459e7]'>Cho phép</button></div>
                                     </div>
                                 </div> */}
-                                <div className='mb-2'>
-                                    <h1 className='text-base font-semibold mb-2'>Mật khẩu</h1>
-                                    <div className='flex flex-col justify-between md:flex-row lg:flex-row'>
-                                        <span className='text-gray-400 font-semibold text-sm mr-2 mb-2'>Đặt mật khẩu duy nhất để bảo vệ tốt hơn</span>
-                                        <div className='flex justify-end'>
-                                            <button onClick={() => openModal('modal2')} className='bg-white border border-gray-300 px-4 rounded-lg font-semibold text-sm py-2 hover:bg-[#f8fafd]'>Đặt lại mật khẩu</button>
-                                            <div>
-                                                {modals.includes('modal2') && (
-                                                    <div className="modal">
-                                                        <div className="modal-content">
-                                                            <div className="fixed inset-0 flex items-center justify-center z-50">
-                                                                <div className="fixed inset-0 bg-[#0a1e4266] opacity-50" onClick={() => closeModal('modal2')}></div>
-                                                                {showSuccessPopup && (
-                                                                    <div className="fixed top-4 right-4 bg-blue-500 text-white p-4 rounded shadow-lg">
-                                                                        <div className="font-bold text-lg mb-2 mr-2">
-                                                                            Thay đổi mật khẩu thành công
-                                                                        </div>
-                                                                        <p className="text-sm">
-                                                                        </p>
-                                                                        <button
-                                                                            className="close-button absolute top-2 right-2 text-lg cursor-pointer"
-                                                                            onClick={() => setShowSuccessPopup(!showSuccessPopup)}
-                                                                        >
-                                                                            x
-                                                                        </button>
+                            <div className='mb-2'>
+                                <h1 className='text-base font-semibold mb-2'>Mật khẩu</h1>
+                                <div className='flex flex-col justify-between md:flex-row lg:flex-row'>
+                                    <span className='text-gray-400 font-semibold text-sm mr-2 mb-2'>Đặt mật khẩu duy nhất để bảo vệ tốt hơn</span>
+                                    <div className='flex justify-end'>
+                                        <button onClick={() => openModal('modal2')} className='bg-white border border-gray-300 px-4 rounded-lg font-semibold text-sm py-2 hover:bg-[#f8fafd]'>Đặt lại mật khẩu</button>
+                                        <div>
+                                            {modals.includes('modal2') && (
+                                                <div className="modal">
+                                                    <div className="modal-content">
+                                                        <div className="fixed inset-0 flex items-center justify-center z-50">
+                                                            <div className="fixed inset-0 bg-[#0a1e4266] opacity-50" onClick={() => closeModal('modal2')}></div>
+                                                            {showSuccessPopup && (
+                                                                <div className="fixed top-4 right-4 bg-blue-500 text-white p-4 rounded shadow-lg">
+                                                                    <div className="font-bold text-lg mb-2 mr-2">
+                                                                        Thay đổi mật khẩu thành công
                                                                     </div>
-                                                                )}
-                                                                {error && (
-                                                                    <div className="fixed top-4 right-4 bg-red-500 text-white p-4 rounded shadow-lg">
-                                                                        <div className="font-bold text-lg mb-2 pr-8">
-                                                                            Đổi mật khẩu thất bại
-                                                                        </div>
-                                                                        <p className="text-sm ">Vui lòng thử lại</p>
-                                                                        <button
-                                                                            className="close-button absolute top-2 right-3 text-lg cursor-pointer"
-                                                                            onClick={() => setError(!error)}
-                                                                        >
-                                                                            x
-                                                                        </button>
-                                                                    </div>
-                                                                )}
-                                                                <div className="bg-white p-4 z-50 w-full h-full md:w-[400px] md:h-auto md:rounded-xl lg:w-[500px] lg:h-auto lg:rounded-xl">
-                                                                    <div className="flex justify-between items-center mb-3">
-                                                                        <h1 className='font-semibold text-xl'>Đặt lại mật khẩu</h1>
-                                                                        <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal2')}>  <FontAwesomeIcon icon={faTimes} /></button>
-                                                                    </div>
-                                                                    <div className="mb-5">
+                                                                    <p className="text-sm">
+                                                                    </p>
+                                                                    <button
+                                                                        className="close-button absolute top-2 right-2 text-lg cursor-pointer"
+                                                                        onClick={() => setShowSuccessPopup(!showSuccessPopup)}
+                                                                    >
+                                                                        x
+                                                                    </button>
+                                                                </div>
+                                                            )}
 
-                                                                        <div className='mb-5'>
-                                                                            <div className="relative mt-4">
-                                                                                <label className="text-base font-semibold" htmlFor="">
-                                                                                    Nhập mật khẩu cũ
-                                                                                </label>
-                                                                                <input
-                                                                                    type={showCurrentPassword ? 'text' : 'password'}
-                                                                                    className="py-3 px-4 focus:outline-none text-sm bg-white w-full border rounded-lg"
-                                                                                    placeholder="Nhập mật khẩu cũ"
-                                                                                    value={currentPassword}
-                                                                                    onChange={(e) => setCurrentPassword(e.target.value)}
-                                                                                />
-                                                                                {currentPassword && (
-                                                                                    <button
-                                                                                        type="button"
-                                                                                        className="absolute right-2 top-1/2 transform translate-y-[27%]"
-                                                                                        onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                                                                                    >
-                                                                                        {showCurrentPassword && currentPassword ? <FaEyeSlash /> : <FaEye />}
-                                                                                    </button>
-                                                                                )}
+                                                            <div className="bg-white p-4 z-50 w-full h-full md:w-[400px] md:h-auto md:rounded-xl lg:w-[500px] lg:h-auto lg:rounded-xl">
+                                                                <div className="flex justify-between items-center mb-3">
+                                                                    <h1 className='font-semibold text-xl'>Đặt lại mật khẩu</h1>
+                                                                    <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal2')}>  </button>
+                                                                </div>
+                                                                <div className="mb-5">
+
+                                                                    <div className='mb-5'>
+                                                                        {notification && (
+                                                                            <div className="pb-2">
+                                                                                <p className="text-sm text-red-500">
+                                                                                    {messageErrorLogin}
+                                                                                </p>
                                                                             </div>
-                                                                            <div className="relative mt-4">
-                                                                                <label className="text-base font-semibold" htmlFor="">
-                                                                                    Nhập mật khẩu mới
-                                                                                </label>
-                                                                                <input
-                                                                                    type={showPassword ? 'text' : 'password'}
-                                                                                    className="py-3 px-4 focus:outline-none text-sm bg-white w-full border rounded-lg"
-                                                                                    placeholder="Nhập mật khẩu mới"
-                                                                                    value={password}
-                                                                                    onChange={(e) => setPassword(e.target.value)}
-                                                                                />
-                                                                                {password && (
-                                                                                    <button
-                                                                                        type="button"
-                                                                                        className="absolute right-2 top-1/2 transform translate-y-[27%]"
-                                                                                        onClick={() => setShowPassword(!showPassword)}
-                                                                                    >
-                                                                                        {showPassword && password ? <FaEyeSlash /> : <FaEye />}
-                                                                                    </button>
-                                                                                )}
-                                                                            </div>
-                                                                            <div className="relative mt-4">
-                                                                                <label className="text-base font-semibold" htmlFor="">
-                                                                                    Xác nhận mật khẩu mới
-                                                                                </label>
-                                                                                <input
-                                                                                    type={showConfirmPassword ? 'text' : 'password'}
-                                                                                    className="py-3 px-4 focus:outline-none text-sm bg-white w-full border rounded-lg"
-                                                                                    placeholder="Xác nhận mật khẩu mới"
-                                                                                    value={confirmPassword}
-                                                                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                                                                />
-                                                                                {confirmPassword && (
-                                                                                    <button
-                                                                                        type="button"
-                                                                                        className="absolute right-2 top-1/2 transform translate-y-[27%]"
-                                                                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                                                                    >
-                                                                                        {showConfirmPassword && confirmPassword ? <FaEyeSlash /> : <FaEye />}
-                                                                                    </button>
-                                                                                )}
-                                                                            </div>
-                                                                            {/* {isPasswordMatch ? null : (
+                                                                        )}
+                                                                        <div className="relative mt-4">
+                                                                            <label className="text-base font-semibold" htmlFor="">
+                                                                                Nhập mật khẩu cũ
+                                                                            </label>
+                                                                            <input
+                                                                                type={showCurrentPassword ? 'text' : 'password'}
+                                                                                className="py-3 px-4 focus:outline-none text-sm bg-white w-full border rounded-lg"
+                                                                                placeholder="Nhập mật khẩu cũ"
+                                                                                value={currentPassword}
+                                                                                onChange={(e) => setCurrentPassword(e.target.value)}
+                                                                            />
+                                                                            {currentPassword && (
+                                                                                <button
+                                                                                    type="button"
+                                                                                    className="absolute right-2 top-1/2 transform translate-y-[25%]"
+                                                                                    onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                                                                                >
+                                                                                    {showCurrentPassword && currentPassword ? <FaEyeSlash /> : <FaEye />}
+                                                                                </button>
+                                                                            )}
+                                                                        </div>
+                                                                        <div className="relative mt-4">
+                                                                            <label className="text-base font-semibold" htmlFor="">
+                                                                                Nhập mật khẩu mới
+                                                                            </label>
+                                                                            <input
+                                                                                type={showPassword ? 'text' : 'password'}
+                                                                                className="py-3 px-4 focus:outline-none text-sm bg-white w-full border rounded-lg"
+                                                                                placeholder="Nhập mật khẩu mới"
+                                                                                value={password}
+                                                                                onChange={(e) => setPassword(e.target.value)}
+                                                                            />
+                                                                            {password && (
+                                                                                <button
+                                                                                    type="button"
+                                                                                    className="absolute right-2 top-1/2 transform translate-y-[27%]"
+                                                                                    onClick={() => setShowPassword(!showPassword)}
+                                                                                >
+                                                                                    {showPassword && password ? <FaEyeSlash /> : <FaEye />}
+                                                                                </button>
+                                                                            )}
+                                                                        </div>
+                                                                        <div className="relative mt-4">
+                                                                            <label className="text-base font-semibold" htmlFor="">
+                                                                                Xác nhận mật khẩu mới
+                                                                            </label>
+                                                                            <input
+                                                                                type={showConfirmPassword ? 'text' : 'password'}
+                                                                                className="py-3 px-4 focus:outline-none text-sm bg-white w-full border rounded-lg"
+                                                                                placeholder="Xác nhận mật khẩu mới"
+                                                                                value={confirmPassword}
+                                                                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                                                            />
+                                                                            {confirmPassword && (
+                                                                                <button
+                                                                                    type="button"
+                                                                                    className="absolute right-2 top-1/2 transform translate-y-[27%]"
+                                                                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                                                                >
+                                                                                    {showConfirmPassword && confirmPassword ? <FaEyeSlash /> : <FaEye />}
+                                                                                </button>
+                                                                            )}
+                                                                        </div>
+                                                                        {/* {isPasswordMatch ? null : (
                                                                                 <div className='mt-2 px-1'>
                                                                                     <span className='text-red-500 text-sm'>Mật khẩu không khớp</span>
                                                                                 </div>
                                                                             )} */}
-                                                                            {errorPassword && (
-                                                                                <p className="text-red-500 text-sm mt-1 ml-1">
-                                                                                    Mật khẩu không khớp
-                                                                                </p>
-                                                                            )}
-                                                                            {formatPassword && (
-                                                                                <p
-                                                                                    className={`text-gray-400 text-sm whitespace-pre-line ml-1 ${errorPassword ? "mt-5" : "mt-1"
-                                                                                        } ${formatPassword ? "text-red-400" : "text-gray-400"} `}
-                                                                                >
-                                                                                    <FontAwesomeIcon
-                                                                                        icon={faExclamation}
-                                                                                        style={{ color: "#ffa200" }}
-                                                                                        size="lg"
-                                                                                        className="mr-2 "
-                                                                                    />
-                                                                                    Mật khẩu phải có tối thiểu 6 và tối đa 60 ký tự, ít nhất một
-                                                                                    chữ hoa, một chữ thường, một số và một ký tự đặc biệt
-                                                                                </p>
-                                                                            )}
-                                                                        </div>
+                                                                        {errorPassword && (
+                                                                            <p className="text-red-500 text-sm mt-1 ml-1">
+                                                                                Mật khẩu không khớp
+                                                                            </p>
+                                                                        )}
+                                                                        {formatPassword && (
+                                                                            <p
+                                                                                className={`text-gray-400 text-sm whitespace-pre-line ml-1 ${errorPassword ? "mt-5" : "mt-1"
+                                                                                    } ${formatPassword ? "text-red-400" : "text-gray-400"} `}
+                                                                            >
 
-                                                                        <button onClick={handleChangePassword} className='w-full rounded-lg p-3 text-white font-semibold  bg-primary hover:bg-[#3459e7]'>Xác nhận</button>
+                                                                                Mật khẩu phải có tối thiểu 6 và tối đa 60 ký tự, ít nhất một
+                                                                                chữ hoa, một chữ thường, một số và một ký tự đặc biệt
+                                                                            </p>
+                                                                        )}
                                                                     </div>
 
+                                                                    <button onClick={handleChangePassword} className='w-full rounded-lg p-3 text-white font-semibold  bg-primary hover:bg-[#3459e7]'>Xác nhận</button>
                                                                 </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
-                                                )}
-                                            </div>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <h1 className='text-xl font-semibold mb-3'>Thiết bị và hoạt động</h1>
-                            <div className='mb-2'>
-                                <h1 className='text-base font-semibold mb-2'>Quản lý thiết bị</h1>
-                                <div className='flex flex-col justify-between md: lg:flex-row'>
-                                    <div className='flex flex-col mb-2 md:flex-row md:items-center lg:flex-row lg:items-center'>
-                                        <div><span className='text-gray-400 font-semibold text-sm mr-2'>Cho phép các thiết bị có quyền truy cập vào tài khoản của bạn</span></div>
-                                        <div className='hidden p-2 text-sm font-semibold rounded-lg bg-[#EFF2F5] lg:block'>Đang sử dụng: Chrome 17</div>
-                                    </div>
-                                    <div className='flex justify-between' >
-                                        <div className='block p-2 text-sm font-semibold rounded-lg bg-[#EFF2F5] lg:hidden'>Đang sử dụng: Chrome 17</div>
-                                        <Link href='/settings/account-security/account-activity' className='bg-white border text-center border-gray-300 rounded-lg font-semibold text-sm px-6 py-3 hover:bg-[#f8fafd]'>Quản lý</Link>
-                                    </div>
+                    </div>
+                    <div>
+                        <h1 className='text-xl font-semibold mb-3'>Thiết bị và hoạt động</h1>
+                        <div className='mb-2'>
+                            <h1 className='text-base font-semibold mb-2'>Quản lý thiết bị</h1>
+                            <div className='flex flex-col justify-between md: lg:flex-row'>
+                                <div className='flex flex-col mb-2 md:flex-row md:items-center lg:flex-row lg:items-center'>
+                                    <div><span className='text-gray-400 font-semibold text-sm mr-2'>Cho phép các thiết bị có quyền truy cập vào tài khoản của bạn</span></div>
+                                    <div className='hidden p-2 text-sm font-semibold rounded-lg bg-[#EFF2F5] lg:block'>Đang sử dụng: Chrome 17</div>
+                                </div>
+                                <div className='flex justify-between' >
+                                    <div className='block p-2 text-sm font-semibold rounded-lg bg-[#EFF2F5] lg:hidden'>Đang sử dụng: Chrome 17</div>
+                                    <Link href='/settings/account-security/account-activity' className='bg-white border text-center border-gray-300 rounded-lg font-semibold text-sm px-6 py-3 hover:bg-[#f8fafd]'>Quản lý</Link>
                                 </div>
                             </div>
-                            <div>
-                                <h1 className='text-base font-semibold mb-2'>Hoạt động tài khoản</h1>
-                                <div className='flex justify-between flex-col md:flex-row lg:flex-row'>
-                                    <span className='text-gray-400 font-semibold text-sm mr-2 mb-2'>Kiểm tra hoạt động đăng nhập gần đây của tài khoản</span>
-                                    <Link href='/settings/account-security/device-management' className='bg-white border text-center border-gray-300 px-4 rounded-lg font-semibold text-sm py-2 hover:bg-[#f8fafd]'>Xem thêm</Link>
-                                </div>
+                        </div>
+                        <div>
+                            <h1 className='text-base font-semibold mb-2'>Hoạt động tài khoản</h1>
+                            <div className='flex justify-between flex-col md:flex-row lg:flex-row'>
+                                <span className='text-gray-400 font-semibold text-sm mr-2 mb-2'>Kiểm tra hoạt động đăng nhập gần đây của tài khoản</span>
+                                <Link href='/settings/account-security/device-management' className='bg-white border text-center border-gray-300 px-4 rounded-lg font-semibold text-sm py-2 hover:bg-[#f8fafd]'>Xem thêm</Link>
                             </div>
                         </div>
                     </div>
