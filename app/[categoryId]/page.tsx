@@ -50,7 +50,7 @@ export default function DetailCategory({
   }, []);
   useEffect(() => {
     console.log(products)
-  },[products])
+  }, [products])
   // Filter Product
   const filterProducts = (status: string) => {
     if (status === "all") {
@@ -81,12 +81,12 @@ export default function DetailCategory({
     }
   };
   // Preline Library
-  useEffect(() => {
-    import("preline");
-  }, []);
+  // useEffect(() => {
+  //   import("preline");
+  // }, []);
   return (
     <>
-        <WrapResponsive>
+      <WrapResponsive>
         <div className="mt-10">
           <h3 className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
             Gian hàng{" "}
@@ -334,9 +334,8 @@ export default function DetailCategory({
                     <li className="">
                       <button
                         onClick={() => filterProducts("all")}
-                        className={`px-4 py-2 m-1 rounded-md ${
-                          activeButton === "all" ? "bg-white" : "text-gray-500"
-                        }`}
+                        className={`px-4 py-2 m-1 rounded-md ${activeButton === "all" ? "bg-white" : "text-gray-500"
+                          }`}
                       >
                         Tất cả
                       </button>
@@ -344,18 +343,16 @@ export default function DetailCategory({
                     <li className="">
                       <button
                         onClick={() => filterProducts("sale")}
-                        className={`px-4 py-2 m-1 text-gray-500 rounded-md ${
-                          activeButton === "sale" ? "bg-white" : ""
-                        }`}
+                        className={`px-4 py-2 m-1 text-gray-500 rounded-md ${activeButton === "sale" ? "bg-white" : ""
+                          }`}
                       >
                         Giảm giá
                       </button>
                     </li>
                     <li className="">
                       <button
-                        className={`px-4 py-2 m-1 text-gray-500 rounded-md ${
-                          activeButton === "price" ? "bg-white" : ""
-                        }`}
+                        className={`px-4 py-2 m-1 text-gray-500 rounded-md ${activeButton === "price" ? "bg-white" : ""
+                          }`}
                         onClick={() => {
                           const newSortOrder =
                             sortOrder === "asc" ? "desc" : "asc";
@@ -440,18 +437,18 @@ export default function DetailCategory({
             </div>
             {/* Products */}
             {filteredProducts ? (
-             <>
-              <div className="grid xl:grid-cols-6 md:grid-cols-3 gap-x-5 gap-y-2">
-                {filteredProducts.map((product) => (
-                  <ProductItem product={product}/>
-                ))}
-              </div>
-              <div className="flex w-full justify-center my-4">
-              <button className="bg-primary text-white px-6 py-3 rounded-md font-semibold text-sm">
-                Xem thêm
-              </button>
+              <>
+                <div className="grid xl:grid-cols-6 md:grid-cols-3 gap-x-5 gap-y-2">
+                  {filteredProducts.map((product) => (
+                    <ProductItem product={product} />
+                  ))}
+                </div>
+                <div className="flex w-full justify-center my-4">
+                  <button className="bg-primary text-white px-6 py-3 rounded-md font-semibold text-sm">
+                    Xem thêm
+                  </button>
 
-              </div>
+                </div>
               </>
             ) : (
               <div className="grid xl:grid-cols-5 md:grid-cols-3">
@@ -460,7 +457,7 @@ export default function DetailCategory({
             )}
           </div>
         </div>
-        </WrapResponsive>
+      </WrapResponsive>
       <DetailProduct productId={productId} />
 
     </>
