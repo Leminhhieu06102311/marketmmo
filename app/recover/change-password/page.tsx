@@ -1,16 +1,31 @@
 "use client";
 
-import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ChangeForgotPassword } from "@/services/user";
+// import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IoMdEye, IoIosEyeOff } from "react-icons/io";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { useParams } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
-export default function ChangePassword() {
+
+
+export default function changeForgot() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorPassword, setErrorPassword] = useState(false);
+
+  const [messageErrorLogin, setMessageErrorLogin] = useState('');
+  const [notification, setNotification] = useState(false);
+
+  const router = useRouter()
+  const params = useParams()
+  const code = params.Code_change_password
+
 
   const handlePasswordChange = (e: { target: { value: any } }) => {
     setPassword(e.target.value);
@@ -26,6 +41,45 @@ export default function ChangePassword() {
   const toggleShowConfirmPassword = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
+
+  const handleChangePassword = async () => {
+    setMessageErrorLogin('')
+    toast.promise(ChangeForgotPassword(password, confirmPassword, code.toString()), {
+      pending: {
+        render() {
+          return "Vui lòng đợi!"
+        },
+      },
+      success: {
+        render() {
+          router.push("/");
+          return "Đổi mật khẩu thành công"
+
+        },
+        // other options
+        icon: "🟢",
+      },
+      error: {
+        render: ({ data }) => {
+          const error: any = data
+          if (error.response && error.response.status === 401) {
+            // Lỗi 401 có nghĩa là "Sai tài khoản hoặc mật khẩu"
+            setMessageErrorLogin(error.response.data.message)
+            setNotification(true);
+            console.log(error);
+          } else {
+            setMessageErrorLogin(error.response.data.message)
+            setNotification(true);
+
+            console.error("Lỗi ", error);
+          }
+          return <div>{error.response.data.message}</div>
+        }
+      }
+    })
+  }
+
+
 
   useEffect(() => {
     setErrorPassword(password !== confirmPassword);
@@ -109,6 +163,13 @@ export default function ChangePassword() {
                   />
                 </div>
               </div>
+              {notification && (
+                <div className="pb-2">
+                  <p className="text-sm text-red-500">
+                    {messageErrorLogin}
+                  </p>
+                </div>
+              )}
               <div className="lg:max-w-[440px] md:max-w-[440px] max-w-[360px] mt-20">
                 <label
                   htmlFor="password"
@@ -130,9 +191,7 @@ export default function ChangePassword() {
                       className="absolute top-3 right-1 px-2 py-1 cursor-pointer"
                       onClick={toggleShowPassword}
                     >
-                      <FontAwesomeIcon
-                        icon={showPassword ? faEyeSlash : faEye}
-                      />
+                      {showPassword ? <IoIosEyeOff /> : <IoMdEye />}
                     </div>
                   )}
                 </div>
@@ -149,11 +208,10 @@ export default function ChangePassword() {
                     id="confirmPassword"
                     name="confirmPassword"
                     type={showConfirmPassword ? "text" : "password"}
-                    className={`block rounded-lg lg:w-[440px] md:w-[440px] w-[360px] h-14 focus:outline-none appearance-none ${
-                      errorPassword
-                        ? "border border-red-500 focus:ring-red-100"
-                        : "hover:bg-white border hover:border-blue-500 hover:ring hover:border hover:ring-blue-100 focus:ring focus:ring-blue-100 "
-                    } pl-4 pr-10 focus:bg-white`}
+                    className={`block rounded-lg lg:w-[440px] md:w-[440px] w-[360px] h-14 focus:outline-none appearance-none ${errorPassword
+                      ? "border border-red-500 focus:ring-red-100"
+                      : "hover:bg-white border hover:border-blue-500 hover:ring hover:border hover:ring-blue-100 focus:ring focus:ring-blue-100 "
+                      } pl-4 pr-10 focus:bg-white`}
                     onChange={handleConfirmPasswordChange}
                     value={confirmPassword}
                   />
@@ -162,9 +220,7 @@ export default function ChangePassword() {
                       className="absolute top-3 right-1 px-2 py-1 cursor-pointer"
                       onClick={toggleShowConfirmPassword}
                     >
-                      <FontAwesomeIcon
-                        icon={showConfirmPassword ? faEyeSlash : faEye}
-                      />
+                      {showConfirmPassword ? <IoIosEyeOff /> : <IoMdEye />}
                     </div>
                   )}
                   {errorPassword && (
@@ -176,7 +232,7 @@ export default function ChangePassword() {
               </div>
               <div className="lg:max-w-[440px] md:max-w-[440px] max-w-[360px] mt-3">
                 <div>
-                  <button className="rounded-lg bg-primary text-white font-medium lg:w-[440px] md:w-[440px] w-[360px] md:text-base mt-5 text-sm h-14  hover:bg-blue-500">
+                  <button className="rounded-lg bg-primary text-white font-medium lg:w-[440px] md:w-[440px] w-[360px] md:text-base mt-5 text-sm h-14  hover:bg-blue-500" onClick={handleChangePassword}>
                     Đặt lại mật khẩu
                   </button>
                 </div>
