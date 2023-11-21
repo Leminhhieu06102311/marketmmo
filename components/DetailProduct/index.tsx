@@ -23,6 +23,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { MdOutlinePolicy } from "react-icons/md";
 import { IoCloseOutline } from "react-icons/io5";
 import { setIsAddToCart } from "@/redux/userSlice";
+import Comments from "./Comments/Comments";
 
 export default function DetailProduct({ productId }: { productId: string }) {
   const dispatch = useAppDispatch();
@@ -918,7 +919,7 @@ export default function DetailProduct({ productId }: { productId: string }) {
                     </div>
                   </>
                 ) : (
-                  <>Detail comment</>
+                  <Comments productId={productId} />
                 )}
               </div>
             </div>
