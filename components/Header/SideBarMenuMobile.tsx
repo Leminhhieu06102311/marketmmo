@@ -9,8 +9,6 @@ import { IoPaperPlaneOutline, IoSettingsOutline } from "react-icons/io5";
 import { TbArrowsExchange } from "react-icons/tb";
 import Notification from "../Notification";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { logout } from "@/redux/userSlice";
-import { hide, show } from "@/redux/notiSlice";
 import { status } from "../Notification/Notification";
 import Links from "@/interfaces/links";
 
@@ -21,7 +19,6 @@ export default function SideBarMenuMobile({links}: {links : Links[]}) {
     status: false,
     name: "",
   });
-  const { isNoti } = useAppSelector((state) => state.noti);
   // const hanldeLogout = () => {
   //   dispatch(logout());
   //   dispatch(show());
@@ -147,12 +144,7 @@ export default function SideBarMenuMobile({links}: {links : Links[]}) {
             >
               <IoIosLogOut className="w-6 h-6" />
               <span className="font-semibold block">Đăng suất</span>
-              {isNoti ?? (
-                <Notification
-                  message="Đăng suất thành công"
-                  status={status.success}
-                />
-              )}
+              
             </li>
           </ul>
         </div>

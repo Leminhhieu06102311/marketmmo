@@ -4,16 +4,12 @@ import Cookies from 'js-cookie'
 interface userState {
   name: string;
   id: string;
-  access_token: string,
-  isLoggedIn: boolean,
-  isAddToCart: boolean
+  isLoggedIn: boolean
 }
 
 export const  initialState: userState = {
   name: "",
   id: "",
-  access_token: '',
-  isAddToCart: false,
   isLoggedIn: Boolean(Cookies.get('access_token'))
 };
 
@@ -22,16 +18,13 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setLoggedIn: (state, action : PayloadAction<boolean>) => {
+        console.log(state.isLoggedIn)
         state.isLoggedIn = action.payload
-    },
-    setIsAddToCart: (state) => {
-      state.isAddToCart = !state.isAddToCart
     }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUser.fulfilled, (state,action) => {
-      state.id = action.payload._id
-      state.name = action.payload.name
+      return action.payload
     })
   }
 });
@@ -42,5 +35,5 @@ export const fetchUser = createAsyncThunk(
     return response
   }
 )
-export const { setLoggedIn,setIsAddToCart} = userSlice.actions
+export const { setLoggedIn} = userSlice.actions
 export default userSlice.reducer;

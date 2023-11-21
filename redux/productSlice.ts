@@ -8,7 +8,7 @@ interface productState {
 }
 
 const initialState : productState = {
-    productId: '654b750853e01dd4f8586b0c',
+    productId: '',
     activeTab: 'detail'
 }
 export const productSlice = createSlice({

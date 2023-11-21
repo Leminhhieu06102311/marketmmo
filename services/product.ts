@@ -5,9 +5,21 @@ export async function getSellingProduct() {
     const { result } = res.data.data
     return result
 }
+export async function getAllProducts() {
+    const res = await api.get('/product?limit=30&page=1&sort=CREATED_DATE')
+    const { result } = res.data.data
+    return result
+}
+
 export async function getDetailProduct(productId: string) {
     const res = await api.get(`/product/detail?slug=${productId}`)
     const data = res.data.data
+    return data
+    
+}
+export async function getProducts() {
+    const res = await api.get(`/product?limit=100&page=1&sort=BEST_SELLER`)
+    const data = res.data.data.result
     return data
     
 }

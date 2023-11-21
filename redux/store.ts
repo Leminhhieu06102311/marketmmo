@@ -1,19 +1,21 @@
+
 import {configureStore} from "@reduxjs/toolkit"
 import productSlice from "./productSlice"
 import userSlice from "./userSlice"
-import notiSlice from "./notiSlice"
 import modalSlice from "./modalSlice"
-import cookieSlice from "./cookieSlice"
+import searchSlice from "./searchSlice"
+import { rootReducer } from "./hooks"
 
 export const store = configureStore({
     reducer: {
         product: productSlice,
         user: userSlice,
-        noti: notiSlice,
         modal: modalSlice,
-        cookie: cookieSlice
+        search: searchSlice,
+        rootReducer: userSlice
     }
 })
 export type RootState = ReturnType<typeof store.getState>
 
-export type AppDispatch = typeof store.dispatch 
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

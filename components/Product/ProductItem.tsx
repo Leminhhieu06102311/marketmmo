@@ -2,15 +2,15 @@ import Product from "@/interfaces/product";
 import { useAppDispatch } from "@/redux/hooks";
 import { toggleModal } from "@/redux/modalSlice";
 import { PopupDetailProduct } from "@/redux/productSlice";
-import { faFontAwesome } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faFontAwesome } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 
 export default function ProductItem({product} : {product: Product}) {
   const dispatch = useAppDispatch()
   const hanldeClickProduct = () => {
     dispatch(PopupDetailProduct(product.slug))
-    dispatch(toggleModal())
+    dispatch(toggleModal('product'))
   }
   return (
     <button
@@ -36,7 +36,7 @@ export default function ProductItem({product} : {product: Product}) {
           <div className="w-full flex">
           <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
             <span className="mr-1 text-gray-900">
-              <FontAwesomeIcon icon={faFontAwesome} width={12} height={12} />
+              {/* <FontAwesomeIcon icon={faFontAwesome} width={12} height={12} /> */}
             </span>
             <span>{product.code}</span>
           </div>
