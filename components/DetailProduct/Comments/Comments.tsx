@@ -4,7 +4,7 @@ import { FaEllipsis } from "react-icons/fa6";
 import Cookies from 'js-cookie';
 
 import axios from 'axios';
-import moment from 'moment';
+// import moment from 'moment';
 import { getUser } from '@/services/user';
 import { useAppDispatch } from '@/redux/hooks';
 export default function Comments({ productId }: { productId: string }) {
@@ -207,7 +207,7 @@ export default function Comments({ productId }: { productId: string }) {
                                             <div className='mb-2 inline-block w-full'>
                                                 <div className='flex items-center'>
                                                     <h3 className='font-semibold text-[13px] mr-3'>@{comment.user.username}</h3>
-                                                    <div className='text-[#6b7280] text-xs font-semibold '>{moment(comment.createdAt).fromNow()}</div>
+                                                    {/* <div className='text-[#6b7280] text-xs font-semibold '>{moment(comment.createdAt).fromNow()}</div> */}
                                                 </div>
                                                 <div>
                                                     {isEditing !== comment._id && (
@@ -309,7 +309,7 @@ export default function Comments({ productId }: { productId: string }) {
                                                                 <div className='mb-2 inline-block w-full'>
                                                                     <div className='flex items-center'>
                                                                         <h3 className='font-semibold text-[13px] mr-3'>@{childComment.user.username}</h3>
-                                                                        <div className='text-[#6b7280] text-xs font-semibold '>{moment(childComment.createdAt).fromNow()}</div>
+                                                                        {/* <div className='text-[#6b7280] text-xs font-semibold '>{moment(childComment.createdAt).fromNow()}</div> */}
                                                                     </div>
                                                                     <div>
                                                                         {isEditing !== childComment._id && (

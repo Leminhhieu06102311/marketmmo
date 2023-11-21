@@ -7,13 +7,11 @@ import { HiOutlineUserCircle } from "react-icons/hi";
 import { IoIosArrowBack, IoIosArrowForward, IoIosLogOut } from "react-icons/io";
 import { IoPaperPlaneOutline, IoSettingsOutline } from "react-icons/io5";
 import { TbArrowsExchange } from "react-icons/tb";
-import Notification from "../Notification";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { status } from "../Notification/Notification";
 import Links from "@/interfaces/links";
 
 
-export default function SideBarMenuMobile({links}: {links : Links[]}) {
+export default function SideBarMenuMobile({ links }: { links: Links[] }) {
   // const dispatch = useAppDispatch();
   const [subMenu, setSubMenu] = useState({
     status: false,
@@ -140,11 +138,11 @@ export default function SideBarMenuMobile({links}: {links : Links[]}) {
             </li>
             <li
               className="font-semibold text-base  flex gap-3  items-center py-3"
-              // onClick={() => hanldeLogout()}
+            // onClick={() => hanldeLogout()}
             >
               <IoIosLogOut className="w-6 h-6" />
               <span className="font-semibold block">Đăng suất</span>
-              
+
             </li>
           </ul>
         </div>
