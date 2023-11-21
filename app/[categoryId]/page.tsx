@@ -80,10 +80,6 @@ export default function DetailCategory({
       setActiveButton("price");
     }
   };
-  // Preline Library
-  useEffect(() => {
-    import("preline");
-  }, []);
   return (
     <>
         <WrapResponsive>
