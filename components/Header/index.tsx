@@ -150,7 +150,11 @@ export default function Header() {
                   <ul className="group-hover:block absolute w-60 p-2 hidden bg-white right-0 z-10 top-14 rounded-lg shadow-modal before:absolute before:w-full before:h-6 before:bg-transparent before:right-0 before:-top-3  ">
                     <li className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">
                       <HiOutlineUserCircle className="w-5 h-5" />
-                      <span className="font-medium block">Trang cá nhân</span>
+                      <span className="font-medium block">
+                        <Link href="/profile">
+                          Trang cá nhân
+                        </Link>
+                      </span>
                     </li>
                     <li className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">
                       <IoPaperPlaneOutline className="w-5 h-5" />

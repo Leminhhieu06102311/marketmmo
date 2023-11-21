@@ -27,14 +27,14 @@ export default function Login() {
     },
     [setEmail]
   );
-  
+
   const handlePasswordChange = useCallback(
     (e: { target: { value: any } }) => {
       setPassword(e.target.value);
     },
     [setPassword]
   );
-  
+
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -154,12 +154,12 @@ export default function Login() {
                         className=" flex justify-between mt-3.5 mb-1 md:text-base text-sm font-semibold"
                       >
                         Mật khẩu
-                        <a
+                        <Link
                           href="/recover"
                           className="font-normal underline text-sm"
                         >
                           Quên mật khẩu?
-                        </a>
+                        </Link>
                       </label>
                       <input
                         type={showPassword ? "text" : "password"}

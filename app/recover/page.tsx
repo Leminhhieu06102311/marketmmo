@@ -155,7 +155,7 @@ export default function forgotPassword() {
                 </div>
                 <div className="mt-2">
                   <span className="text-gray-400 text-sm">Nhớ mật khẩu?</span>{" "}
-                  <Link href="/" className="text-blue-600 text-sm ">
+                  <Link href="/login" className="text-blue-600 text-sm ">
                     Đăng nhập
                   </Link>
                 </div>
