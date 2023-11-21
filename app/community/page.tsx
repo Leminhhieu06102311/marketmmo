@@ -155,6 +155,7 @@ export default function feed() {
             </ul>
           </aside>
         </div>
+
         <main className="bg-white grow-[3] shrink basis relative z-10">
           <div className="flex flex-row justify-between">
             <div className=" flex-1 grow-[2] md:min-w-[750px] max-w-[1000px] ">
@@ -257,11 +258,7 @@ export default function feed() {
                         href="#"
                         className="text-black  text-base font-medium flex items-center gap-x-4"
                       >
-                        {/* <FontAwesomeIcon
-                          icon={faEllipsis}
-                          size="xl"
-                          className="font-extralight text-[#a6b0c3]"
-                        /> */}
+
 
                         <FaEllipsis size="xl"
                           className="font-extralight text-[#a6b0c3]" />
@@ -275,12 +272,7 @@ export default function feed() {
                   <div className="h-screen w-screen max-h-screen max-h-[100vh] flex flex-col transition-height duration-300 ease-in-out max-w-screen bg-white rounded-lg overflow-hidden">
                     <div className="p-4 text-center text-base leading-6 font-semibold relative flex-shrink-0 z-1010 shadow-sm">
                       Community
-                      {/* <FontAwesomeIcon
-                        icon={faXmark}
-                        size="xl"
-                        onClick={toggleMenu}
-                        className="absolute top-4 right-4 text-[#a6b0c3] text-xs cursor-pointer z-10 w-6 h-6"
-                      /> */}
+
 
                       <HiOutlineXMark onClick={toggleMenu}
                         className="absolute top-4 right-4 text-[#a6b0c3] text-xs cursor-pointer z-10 w-6 h-6" />
@@ -293,11 +285,7 @@ export default function feed() {
                         href="#"
                         className="text-black  font-semibold text-base text-primary flex items-center gap-x-4"
                       >
-                        {/* <FontAwesomeIcon
-                          icon={faRss}
-                          size="xl"
-                          className="text-black "
-                        /> */}
+
                         <GoRss className="text-black " />
                         Bảng tin
                       </a>
@@ -305,12 +293,7 @@ export default function feed() {
                         href="#"
                         className="text-black  text-base font-medium flex items-center gap-x-4"
                       >
-                        {/* <FontAwesomeIcon
-                          icon={faHashtag}
-                          // style={{ color: "#ffffff" }}
-                          size="xl"
-                          className="font-extralight text-[#a6b0c3]"
-                        /> */}
+
                         < BsHash className="font-extralight text-[#a6b0c3]" />
                         Topics
                       </a>
@@ -615,8 +598,8 @@ export default function feed() {
                                     Th11 7
                                   </span>
                                 </div>
-                              </div>
-                            </div>
+                              </div >
+                            </div >
                             <div className="md:col-span-1 col-span-2 row-span-1 max-w-[560px]">
                               <div className="w-full">
                                 <div className="max-h-[168px] max-w-[560px] relative overflow-hidden text-[14px]">
@@ -651,9 +634,9 @@ export default function feed() {
                                 <FiMoreHorizontal className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
                               </div>
                             </div>
-                          </div>
-                        </div>
-                      </div>
+                          </div >
+                        </div >
+                      </div >
                       <div className={`${activeTab === "follow" ? "" : "hidden"
                         }`}
                         id="for_you">
@@ -801,6 +784,7 @@ export default function feed() {
                             </div>
                             <div className="col-span-1 row-span-1 flex w-[calc(100%-90px)] relative justify-start min-h-[30px]">
                               <div>
+
                                 <div className="box-border m-0 inline-grid leading-5 grid  md:gap-4 gap-x-2 items-center grid-rows-2 grid-cols-2 md:grid-rows-1 md:grid-cols-3">
                                   <a href="" className="grid grid-cols-1 auto-cols-auto gap-3 items-center justify-star">
                                     <span className="font-medium whitespace-nowrap overflow-hidden overflow-ellipsis text-[14px] leading-6">
@@ -816,8 +800,8 @@ export default function feed() {
                                     Th11 7
                                   </span>
                                 </div>
-                              </div>
-                            </div>
+                              </div >
+                            </div >
                             <div className="md:col-span-1 col-span-2 row-span-1 max-w-[560px]">
                               <div className="w-full">
                                 <div className="max-h-[168px] max-w-[560px] relative overflow-hidden text-[14px]">
@@ -852,14 +836,14 @@ export default function feed() {
                                 <FiMoreHorizontal className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
                               </div>
                             </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+                          </div >
+                        </div >
+                      </div >
+                    </div >
+                  </div >
+                </div >
+              </div >
+            </div >
             <div className="max-w-[350px] min-w-[280px] grow basis-0 shrink-0 m-0 hidden lg:block">
               <div className="sticky top-0 z-10 self-start">
                 <div className="border-box m-0 h-5"></div>
@@ -933,8 +917,8 @@ export default function feed() {
                 <div className="border-box m-0 h-5"></div>
               </div>
             </div>
-          </div>
-        </main>
+          </div >
+        </main >
       </div >
     </div >
   );
