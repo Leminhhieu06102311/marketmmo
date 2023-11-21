@@ -35,17 +35,20 @@ export async function hanldeOrder(
   price: number,
   access_token: string
 ) {
-  const res = await api.post("/order/order", {
-    product: productId,
-    user: userId,
-    quantity: quantity,
-    orderPrice: price,
-  },
-  {
-    headers: {
-      Authorization: "Bearer " + access_token,
+  const res = await api.post(
+    "/order/order",
+    {
+      product: productId,
+      user: userId,
+      quantity: quantity,
+      orderPrice: price,
     },
-  });
+    {
+      headers: {
+        Authorization: "Bearer " + access_token,
+      },
+    }
+  );
   return res.data;
 }
 
@@ -84,7 +87,7 @@ export async function ChangeForgotPassword(
   confirmPassword: string,
   code: string
 ) {
-  const res = await api.post(`/recover/forget/${code}`, {
+  const res = await api.post(`/recover/frget/${code}`, {
     password: password,
     confirmPassword: confirmPassword,
   });
