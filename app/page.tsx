@@ -62,6 +62,7 @@ export default function Home() {
     <div>
       <>
         <HomeSlide />
+      
         <WrapResponsive>
           <div className="mt-10">
             {/* Category */}
