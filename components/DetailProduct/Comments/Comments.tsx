@@ -5,15 +5,11 @@ import Cookies from 'js-cookie';
 
 import axios from 'axios';
 import moment from 'moment';
-import 'moment-timezone';
-import 'moment/locale/vi';
 import { getUser } from '@/services/user';
 import { useAppDispatch } from '@/redux/hooks';
-import { fetchUser } from '@/redux/userSlice';
-export default function DetailComments({ productId }: { productId: string }) {
-    const dispatch = useAppDispatch()
+export default function Comments({ productId }: { productId: string }) {
     const [access_token, setAccessToken] = useState('');
-    const [userId, setUserId] = useState('');
+    const [dataUser, setDataUser] = useState({});
     const [modals, setModals] = useState<string[]>([]);
     const [visibleDivs, setVisibleDivs] = useState<{ [key: string]: boolean }>({});
     const [editedContent, setEditedContent] = useState<string>('');
@@ -26,32 +22,14 @@ export default function DetailComments({ productId }: { productId: string }) {
     const [editCommentContent, setEditCommentContent] = useState('');
     const [isEditing, setIsEditing] = useState(false);
     const [reloadData, setReloadData] = useState(false);
+    const token = Cookies.get('access_token');
     useEffect(() => {
-        console.log(userId)
-        setUserId(userId);
-        console.log(userId)
-    }, [userId])
-    useEffect(() => {
-        const token = Cookies.get('access_token');
-        if (token) {
-            setAccessToken(token)
-        } else {
-            console.log('Access Token not found in cookie');
-        }
         const fetchDataUser = async () => {
-            try {
-                const dataUser = await getUser(token);
-                // console.log(dataUser)
-                // console.log(dataUser.data._id);
-                // setUserId(dataUser.data._id);
-                // console.log(userId)
-            } catch (error) {
-                console.error("Error fetching data", error);
-            }
+            const res = await getUser(token);
+            setDataUser(res)
         };
-
         fetchDataUser();
-        const fetchData = async () => {
+        const fetchDataComment = async () => {
             try {
                 const response = await axios.get(`https://fancy-cemetery-production.up.railway.app/comment?product-slug=${productId}&limit=30&page=1`);
                 const data = response.data.data;
@@ -65,7 +43,7 @@ export default function DetailComments({ productId }: { productId: string }) {
                 console.error('Error fetching data:', error);
             }
         };
-        fetchData();
+        fetchDataComment();
     }, [productId, reloadData]);
 
     const handleSendButtonClick = async (parent: any) => {
@@ -193,6 +171,9 @@ export default function DetailComments({ productId }: { productId: string }) {
         setIsEditing(false);
     };
 
+    useEffect(() => {
+        console.log(dataUser)
+    }, [dataUser])
     return (
         <div>
             <div>
