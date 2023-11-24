@@ -61,7 +61,7 @@ export default function Comments({ productId }: { productId: string }) {
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${access_token}`,
+                        'Authorization': `Bearer ${token}`,
                     },
                 }
             );
@@ -77,14 +77,12 @@ export default function Comments({ productId }: { productId: string }) {
         }
     };
     const deleteComment = async (commentId: any) => {
-        const token = Cookies.get('access_token');
-        console.log(token)
         try {
             const response = await axios.delete(`https://fancy-cemetery-production.up.railway.app/comment?comment=${commentId}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${access_token}`,
+                        'Authorization': `Bearer ${token}`,
                     },
                 });
 
@@ -105,7 +103,7 @@ export default function Comments({ productId }: { productId: string }) {
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                        Authorization: `Bearer ${access_token}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );

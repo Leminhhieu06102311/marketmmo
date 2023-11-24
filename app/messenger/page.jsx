@@ -1,10 +1,13 @@
 "use client";
-import {
-  faImage,
-  faPaperPlane,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import {
+//   faImage,
+//   faPaperPlane,
+//   faSearch,
+// } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { BiSolidImageAdd } from "react-icons/bi";
+import { FaPaperPlane } from "react-icons/fa";
+import { IoSearchOutline } from "react-icons/io5";
 import { useEffect, useRef } from "react";
 
 export default function Messenger() {
@@ -20,8 +23,8 @@ export default function Messenger() {
             <h2 className="font-bold text-xl text-slate-900">Tin Nhắn</h2>
           </div>
           <div className="px-5 md:hidden lg:block">
-            <div className=" bg-slate-100 rounded-3xl px-3 my-2">
-              <FontAwesomeIcon icon={faSearch} />
+            <div className=" bg-slate-100 rounded-3xl px-3 my-2 flex items-center">
+              <IoSearchOutline />
               <input
                 type="text"
                 placeholder="Tìm kiếm tin nhắn"
@@ -219,7 +222,7 @@ export default function Messenger() {
           <div className="absolute bottom-0 right-0 left-0 z-50">
             <div className="flex gap-2 items-center bg-white px-3">
               <div className="flex items-center h-10 w-10 rounded-full hover:bg-gray-200 cursor-pointer justify-center">
-                <FontAwesomeIcon icon={faImage} />
+              <BiSolidImageAdd  className='text-[25px]'/>
               </div>
               <div className=" w-full">
                 <div className=" bg-slate-100 rounded-3xl px-3 my-2">
@@ -231,7 +234,7 @@ export default function Messenger() {
                 </div>
               </div>
               <div className="flex items-center h-10 w-10 rounded-full hover:bg-gray-200 cursor-pointer justify-center">
-                <FontAwesomeIcon icon={faPaperPlane} />
+                <FaPaperPlane />
               </div>
             </div>
           </div>

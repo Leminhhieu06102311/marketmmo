@@ -1,8 +1,6 @@
 "use client";
 
 import { ChangeForgotPassword } from "@/services/user";
-// import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IoMdEye, IoIosEyeOff } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -52,9 +50,8 @@ export default function changeForgot() {
       },
       success: {
         render() {
-          router.push("/");
+          router.push("/login");
           return "Đổi mật khẩu thành công"
-
         },
         // other options
         icon: "🟢",
@@ -163,14 +160,15 @@ export default function changeForgot() {
                   />
                 </div>
               </div>
-              {notification && (
-                <div className="pb-2">
-                  <p className="text-sm text-red-500">
-                    {messageErrorLogin}
-                  </p>
-                </div>
-              )}
+
               <div className="lg:max-w-[440px] md:max-w-[440px] max-w-[360px] mt-20">
+                {notification && (
+                  <div className="pb-2">
+                    <p className="text-sm text-red-500">
+                      {messageErrorLogin}
+                    </p>
+                  </div>
+                )}
                 <label
                   htmlFor="password"
                   className="block md:text-base font-semibold leading-6 text-gray-900 text-sm"
