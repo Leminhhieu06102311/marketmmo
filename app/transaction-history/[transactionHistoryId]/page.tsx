@@ -14,6 +14,9 @@ import { Histories } from "@/interfaces/Histories";
 import TransactionIdLoader from "@/components/Skeleton/TransactionIdLoader";
 import { IoIosArrowBack } from "react-icons/io";
 import WrapResponsive from "@/components/WrapResponsive";
+import { toast } from "react-toastify";
+import { ratingProduct } from "@/services/rating";
+import { IoCloseOutline } from "react-icons/io5";
 
 export default function TransactionHistoryProduct({
   params,
@@ -30,8 +33,12 @@ export default function TransactionHistoryProduct({
   const [rating, setRating] = useState(0);
   const [showMore1, setShowMore1] = useState(false);
 
+  const [notification, setNotification] = useState(false)
+  const [messenges, setMessenges] = useState('')
+
   const [filteredTransacId, setFilteredTransacId] = useState<Histories[]>([]);
   const access_token = Cookies.get("access_token");
+
   useEffect(() => {
     if (!access_token) {
       router.replace("/login");
@@ -62,6 +69,42 @@ export default function TransactionHistoryProduct({
   const handleRatingClick = (value: any) => {
     setRating(value);
   };
+
+  const handleSendRating = (productId: string) => {
+
+    setMessenges('')
+    toast.promise(ratingProduct(access_token, rating, productId), {
+      pending: {
+        render() {
+          return "Vui lòng đợi"
+        },
+      }, success: {
+        render() {
+          setShowMore1(false)
+          return "Xin cảm ơn, bạn đã đánh giá sản phẩm thành công!"
+        },
+        // other options
+        icon: "🟢",
+      },
+      error: {
+        render: ({ data }) => {
+          const error: any = data
+          if (error.response && error.response.status === 401) {
+            // Lỗi 401 có nghĩa là "Sai tài khoản hoặc mật khẩu"
+            setMessenges(error.response.data.message)
+            setNotification(true);
+            console.log(error);
+          } else {
+            setMessenges(error.response.data.message)
+            setNotification(true);
+
+            console.error("Lỗi, Vui lòng thử lại", error);
+          }
+          return <div>{error.response.data.message}</div>
+        }
+      }
+    })
+  }
 
   return (
     <>
@@ -134,7 +177,7 @@ export default function TransactionHistoryProduct({
                   </div>
                   <div className="gap-y-3 mt-3 md:mt-0 lg:mt-0">
                     <div className="flex mt-0 gap-3 items-center md:mt-4 lg:mt-0 mb-2 lg:justify-end">
-                      <a
+                      <Link
                         href={`/seller/${product.product.creator._id}`}
                         className="w-[31px] h-auto"
                       >
@@ -143,13 +186,13 @@ export default function TransactionHistoryProduct({
                           alt="Err"
                           className="w-full rounded-[50%]"
                         />
-                      </a>
-                      <a
+                      </Link>
+                      <Link
                         href={`/seller/${product.product.creator._id}`}
                         className="font-inter  leading-normal"
                       >
                         {product.product.creator.name}
-                      </a>
+                      </Link>
                     </div>
                     <div className="gap-x-3">
                       <button
@@ -158,13 +201,13 @@ export default function TransactionHistoryProduct({
                       >
                         Xem sản phẩm{" "}
                       </button>
-                      <a
+                      <button
                         type="button"
                         onClick={handleShowMore1}
                         className="py-2 px-4 inline-flex cursor-pointer justify-center items-center gap-2 rounded-lg bg-blue-500 border border-transparent font-semibold text-white hover:text-white hover:bg-blue-500 focus:outline-none focus:ring-2 ring-offset-white focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm"
                       >
                         Đánh giá
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -198,7 +241,7 @@ export default function TransactionHistoryProduct({
                         <div className="flex gap-x-3 items-center pt-2">
                           <p className="text-[#3D3D4E]">Thể loại: </p>
                           <div className="flex w-auto items-center px-4 py-2 gap-x-2 rounded-[30px] bg-[#EFF2F5] text-[#616E85] font-normal">
-                           
+
                             <p>{product.product.categories.name}</p>
                           </div>
                         </div>
@@ -207,7 +250,7 @@ export default function TransactionHistoryProduct({
                             Số lượng : <b>x{product.quantity}</b>
                           </p>
                         </div>
-                        
+
                         <div className="flex gap-3 items-center my-2">
                           <p>Trạng thái: </p>
                           <p className="text-[#21BF73] font-bold text-right uppercase">
@@ -265,14 +308,13 @@ export default function TransactionHistoryProduct({
                   </div>
                 </div>
                 <div>
-                  {" "}
                   <div>
-                    {" "}
                     {showMore1 === true ? (
                       <>
                         <div className="">
                           <div className="flex justify-center">
                             <div className="w-[40%] absolute top-0 z-100 bg-white pb-10 shadow-xl rounded-2xl box-shadow-product mx-auto">
+                              <button className="right-5 top-2 absolute text-gray-500" onClick={() => setShowMore1(false)}><IoCloseOutline className='text-[25px]' /></button>
                               <div className="pt-10">
                                 <div className="w-[70%] mx-auto flex justify-center items-center">
                                   <div className="lg:w-[40px] lg:h-[40px] rounded-[50%] bg-primary text-center leading-10">
@@ -891,7 +933,7 @@ export default function TransactionHistoryProduct({
                               <div className="flex justify-center">
                                 <button
                                   type="button"
-                                  className="py-2 mb-6 px-4 inline-flex justify-center items-center gap-2 rounded-lg bg-blue-500 border border-transparent font-semibold text-white hover:text-white hover:bg-blue-500 focus:outline-none focus:ring-2 ring-offset-white focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm"
+                                  className="py-2 mb-6 px-4 inline-flex justify-center items-center gap-2 rounded-lg bg-blue-500 border border-transparent font-semibold text-white hover:text-white hover:bg-blue-500 focus:outline-none focus:ring-2 ring-offset-white focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm" onClick={() => handleSendRating(product.product._id)}
                                 >
                                   Gửi đánh giá
                                 </button>
