@@ -150,7 +150,7 @@ export default function feed() {
                     <div className="p-4 text-center text-base leading-6 font-semibold relative flex-shrink-0 shadow-sm">
                       Cộng đồng
 
-                     <HiOutlineXMark className="absolute top-4 right-4 text-[#a6b0c3] text-xs cursor-pointer z-10 w-6 h-6" onClick={toggleMenu} />
+                      <HiOutlineXMark className="absolute top-4 right-4 text-[#a6b0c3] text-xs cursor-pointer z-10 w-6 h-6" onClick={toggleMenu} />
                     </div>
                     <div className="flex flex-col items-start ml-8  md:items-start gap-y-11 bg-white absolute left-0 md:left-20 top-20 h-full w-64 transform transition-transform duration-300 ease-in-out translate-x-0">
                       <div className="flex justify-between items-center ">
@@ -351,408 +351,409 @@ export default function feed() {
                         <span className="line-height-12 text-base cursor-pointer select-none ">Đang theo dõi</span>
                       </div>
                     </div>
-                  <div className="">
-                    <div className="h-full w-full relative">
-                      <div className={`${activeTab === "for_you" ? "" : "hidden"
-                        }`}
-                        id="for_you">
-                        <div className="md:px-8 px-2 border-box m-0 cursor-pointer overflow-hidden">
-                          <div className="md:mt-[20px] mt-[30px] grid md:grid-cols-[72px,1fr] grid-cols-[40px,1fr] grid-rows-[auto,auto,1fr,auto] relative transition-all duration-600 ease-in-out border-b border-gray-200">
-                            <div className="absolute top-0 right-0">
-                              <button className="h-8 p-0 w-[84px] text-[12px] items-center bg-blue-600 hover:bg-blue-400 rounded-lg inline-flex text-white cursor-pointer justify-center font-semibold ">+ Theo dõi</button>
-                            </div>
-                            <div className="col-span-1 md:row-span-4 row-span-1 cursor-pointer">
-                              <a href="" className="md:w-14 md:h-14 w-8 h-8 shrink-0 mr-10">
-                                <div className="md:w-14 md:h-14 w-8 h-8 rounded-full bg-gray-100 border boder-gray-100 transition flex items-center justify-center overflow-hidden">
-                                  <img src="../images/community/user.png" className="w-full h-full object-cover" alt="" />
-                                </div>
-                              </a>
-                            </div>
-                            <div className="col-span-1 row-span-1 flex w-[calc(100%-90px)] relative justify-start min-h-[30px]">
-                              <div>
-                                <div className="box-border m-0 inline-grid leading-5 grid  md:gap-4 gap-x-2 items-center grid-rows-2 grid-cols-2 md:grid-rows-1 md:grid-cols-3">
-                                  <a href="" className="grid grid-cols-1 auto-cols-auto gap-3 items-center justify-star">
-                                    <span className="font-medium whitespace-nowrap overflow-hidden overflow-ellipsis text-[14px] leading-6">
-                                      ddq7mexeifil
+                    <div className="">
+                      <div className="h-full w-full relative">
+                        <div className={`${activeTab === "for_you" ? "" : "hidden"
+                          }`}
+                          id="for_you">
+                          <div className="md:px-8 px-2 border-box m-0 cursor-pointer overflow-hidden">
+                            <div className="md:mt-[20px] mt-[30px] grid md:grid-cols-[72px,1fr] grid-cols-[40px,1fr] grid-rows-[auto,auto,1fr,auto] relative transition-all duration-600 ease-in-out border-b border-gray-200">
+                              <div className="absolute top-0 right-0">
+                                <button className="h-8 p-0 w-[84px] text-[12px] items-center bg-blue-600 hover:bg-blue-400 rounded-lg inline-flex text-white cursor-pointer justify-center font-semibold ">+ Theo dõi</button>
+                              </div>
+                              <div className="col-span-1 md:row-span-4 row-span-1 cursor-pointer">
+                                <a href="" className="md:w-14 md:h-14 w-8 h-8 shrink-0 mr-10">
+                                  <div className="md:w-14 md:h-14 w-8 h-8 rounded-full bg-gray-100 border boder-gray-100 transition flex items-center justify-center overflow-hidden">
+                                    <img src="../images/community/user.png" className="w-full h-full object-cover" alt="" />
+                                  </div>
+                                </a>
+                              </div>
+                              <div className="col-span-1 row-span-1 flex w-[calc(100%-90px)] relative justify-start min-h-[30px]">
+                                <div>
+                                  <div className="box-border m-0 inline-grid leading-5 grid  md:gap-4 gap-x-2 items-center grid-rows-2 grid-cols-2 md:grid-rows-1 md:grid-cols-3">
+                                    <a href="" className="grid grid-cols-1 auto-cols-auto gap-3 items-center justify-star">
+                                      <span className="font-medium whitespace-nowrap overflow-hidden overflow-ellipsis text-[14px] leading-6">
+                                        ddq7mexeifil
+                                      </span>
+                                    </a>
+                                    <a href="" className="grid grid-cols-1 max-sm:grid-rows-1 max-sm:row-start-2">
+                                      <span className="font-normal text-gray-400 whitespace-nowrap overflow-hidden overflow-ellipsis text-sm leading-6">
+                                        @ddq7mexeifil
+                                      </span>
+                                    </a>
+                                    <span className=" text-gray-400 whitespace-nowrap text-[14px] leading-6 grid grid-cols-1 ">
+                                      Th11 7
                                     </span>
-                                  </a>
-                                  <a href="" className="grid grid-cols-1 max-sm:grid-rows-1 max-sm:row-start-2">
-                                    <span className="font-normal text-gray-400 whitespace-nowrap overflow-hidden overflow-ellipsis text-sm leading-6">
-                                      @ddq7mexeifil
-                                    </span>
-                                  </a>
-                                  <span className=" text-gray-400 whitespace-nowrap text-[14px] leading-6 grid grid-cols-1 ">
-                                    Th11 7
-                                  </span>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className="md:col-span-1 col-span-2 row-span-1 max-w-[560px]">
-                              <div className="w-full">
-                                <div className="max-h-[168px] max-w-[560px] relative overflow-hidden text-[14px]">
-                                  <div className="m-0  break-words text-base leading-6">
-                                    <p className="mx-auto text-base leading-6">
-                                      {formatText(
-                                        ` $BTC The flight time is very close🚀
+                              <div className="md:col-span-1 col-span-2 row-span-1 max-w-[560px]">
+                                <div className="w-full">
+                                  <div className="max-h-[168px] max-w-[560px] relative overflow-hidden text-[14px]">
+                                    <div className="m-0  break-words text-base leading-6">
+                                      <p className="mx-auto text-base leading-6">
+                                        {formatText(
+                                          ` $BTC The flight time is very close🚀
                                       It's not the time to sell; it's the time to hold and even add to your limited supply assets, like XRP $XRP Ethereum $ETH MANA $MANA SAND $SAND and PEPE $PEPE`)}
-                                    </p>
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="">
+                                  <div className="max-w-[560px] mt-[10px] rounded-[8px] overflow-hidden">
+                                    <div className="relative cursor-pointer w-full pt-[56%]">
+                                      <img src="https://pbs.twimg.com/media/F50ONSfbgAA8wzG.jpg" alt="" className="w-full h-full absolute top-0 left-0 object-cover" />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                              <div className="">
-                                <div className="max-w-[560px] mt-[10px] rounded-[8px] overflow-hidden">
-                                  <div className="relative cursor-pointer w-full pt-[56%]">
-                                    <img src="https://pbs.twimg.com/media/F50ONSfbgAA8wzG.jpg" alt="" className="w-full h-full absolute top-0 left-0 object-cover" />
+                              <div className="md:col-span-1 col-span-2 row-span-1 flex justify-between items-center p-3 max-w-[560px]">
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <HiOutlineChatBubbleLeftEllipsis className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <AiOutlineRetweet className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <AiOutlineHeart className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <FiMoreHorizontal className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="md:mt-[20px] mt-[30px] grid md:grid-cols-[72px,1fr] grid-cols-[40px,1fr] grid-rows-[auto,auto,1fr,auto] relative transition-all duration-600 ease-in-out border-b border-gray-200">
+                              <div className="absolute top-0 right-0">
+                                <button className="h-8 p-0 w-[84px] text-[12px] items-center bg-blue-600 hover:bg-blue-400 rounded-lg inline-flex text-white cursor-pointer justify-center font-semibold ">+ Theo dõi</button>
+                              </div>
+                              <div className="col-span-1 md:row-span-4 row-span-1 cursor-pointer">
+                                <a href="" className="md:w-14 md:h-14 w-8 h-8 shrink-0 mr-10">
+                                  <div className="md:w-14 md:h-14 w-8 h-8 rounded-full bg-gray-100 border boder-gray-100 transition flex items-center justify-center overflow-hidden">
+                                    <img src="../images/community/user.png" className="w-full h-full object-cover" alt="" />
+                                  </div>
+                                </a>
+                              </div>
+                              <div className="col-span-1 row-span-1 flex w-[calc(100%-90px)] relative justify-start min-h-[30px]">
+                                <div>
+                                  <div className="box-border m-0 inline-grid leading-5 grid  md:gap-4 gap-x-2 items-center grid-rows-2 grid-cols-2 md:grid-rows-1 md:grid-cols-3">
+                                    <a href="" className="grid grid-cols-1 auto-cols-auto gap-3 items-center justify-star">
+                                      <span className="font-medium whitespace-nowrap overflow-hidden overflow-ellipsis text-[14px] leading-6">
+                                        ddq7mexeifil
+                                      </span>
+                                    </a>
+                                    <a href="" className="grid grid-cols-1 max-sm:grid-rows-1 max-sm:row-start-2">
+                                      <span className="font-normal text-gray-400 whitespace-nowrap overflow-hidden overflow-ellipsis text-sm leading-6">
+                                        @ddq7mexeifil
+                                      </span>
+                                    </a>
+                                    <span className=" text-gray-400 whitespace-nowrap text-[14px] leading-6 grid grid-cols-1 ">
+                                      Th11 7
+                                    </span>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className="md:col-span-1 col-span-2 row-span-1 flex justify-between items-center p-3 max-w-[560px]">
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <HiOutlineChatBubbleLeftEllipsis className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <AiOutlineRetweet className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <AiOutlineHeart className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <FiMoreHorizontal className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="md:mt-[20px] mt-[30px] grid md:grid-cols-[72px,1fr] grid-cols-[40px,1fr] grid-rows-[auto,auto,1fr,auto] relative transition-all duration-600 ease-in-out border-b border-gray-200">
-                            <div className="absolute top-0 right-0">
-                              <button className="h-8 p-0 w-[84px] text-[12px] items-center bg-blue-600 hover:bg-blue-400 rounded-lg inline-flex text-white cursor-pointer justify-center font-semibold ">+ Theo dõi</button>
-                            </div>
-                            <div className="col-span-1 md:row-span-4 row-span-1 cursor-pointer">
-                              <a href="" className="md:w-14 md:h-14 w-8 h-8 shrink-0 mr-10">
-                                <div className="md:w-14 md:h-14 w-8 h-8 rounded-full bg-gray-100 border boder-gray-100 transition flex items-center justify-center overflow-hidden">
-                                  <img src="../images/community/user.png" className="w-full h-full object-cover" alt="" />
-                                </div>
-                              </a>
-                            </div>
-                            <div className="col-span-1 row-span-1 flex w-[calc(100%-90px)] relative justify-start min-h-[30px]">
-                              <div>
-                                <div className="box-border m-0 inline-grid leading-5 grid  md:gap-4 gap-x-2 items-center grid-rows-2 grid-cols-2 md:grid-rows-1 md:grid-cols-3">
-                                  <a href="" className="grid grid-cols-1 auto-cols-auto gap-3 items-center justify-star">
-                                    <span className="font-medium whitespace-nowrap overflow-hidden overflow-ellipsis text-[14px] leading-6">
-                                      ddq7mexeifil
-                                    </span>
-                                  </a>
-                                  <a href="" className="grid grid-cols-1 max-sm:grid-rows-1 max-sm:row-start-2">
-                                    <span className="font-normal text-gray-400 whitespace-nowrap overflow-hidden overflow-ellipsis text-sm leading-6">
-                                      @ddq7mexeifil
-                                    </span>
-                                  </a>
-                                  <span className=" text-gray-400 whitespace-nowrap text-[14px] leading-6 grid grid-cols-1 ">
-                                    Th11 7
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="md:col-span-1 col-span-2 row-span-1 max-w-[560px]">
-                              <div className="w-full">
-                                <div className="max-h-[168px] max-w-[560px] relative overflow-hidden text-[14px]">
-                                  <div className="m-0  break-words text-base leading-6">
-                                    <p className="mx-auto text-base leading-6">
-                                      {formatText(
-                                        ` $BTC The flight time is very close🚀
+                              <div className="md:col-span-1 col-span-2 row-span-1 max-w-[560px]">
+                                <div className="w-full">
+                                  <div className="max-h-[168px] max-w-[560px] relative overflow-hidden text-[14px]">
+                                    <div className="m-0  break-words text-base leading-6">
+                                      <p className="mx-auto text-base leading-6">
+                                        {formatText(
+                                          ` $BTC The flight time is very close🚀
                                       It's not the time to sell; it's the time to hold and even add to your limited supply assets, like XRP $XRP Ethereum $ETH MANA $MANA SAND $SAND and PEPE $PEPE`)}
-                                    </p>
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="">
+                                  <div className="max-w-[560px] mt-[10px] rounded-[8px] overflow-hidden">
+                                    <div className="relative cursor-pointer w-full pt-[56%]">
+                                      <img src="https://pbs.twimg.com/media/F50ONSfbgAA8wzG.jpg" alt="" className="w-full h-full absolute top-0 left-0 object-cover" />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                              <div className="">
-                                <div className="max-w-[560px] mt-[10px] rounded-[8px] overflow-hidden">
-                                  <div className="relative cursor-pointer w-full pt-[56%]">
-                                    <img src="https://pbs.twimg.com/media/F50ONSfbgAA8wzG.jpg" alt="" className="w-full h-full absolute top-0 left-0 object-cover" />
+                              <div className="md:col-span-1 col-span-2 row-span-1 flex justify-between items-center p-3 max-w-[560px]">
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <HiOutlineChatBubbleLeftEllipsis className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <AiOutlineRetweet className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <AiOutlineHeart className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <FiMoreHorizontal className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="md:mt-[20px] mt-[30px] grid md:grid-cols-[72px,1fr] grid-cols-[40px,1fr] grid-rows-[auto,auto,1fr,auto] relative transition-all duration-600 ease-in-out border-b border-gray-200">
+                              <div className="absolute top-0 right-0">
+                                <button className="h-8 p-0 w-[84px] text-[12px] items-center bg-blue-600 hover:bg-blue-400 rounded-lg inline-flex text-white cursor-pointer justify-center font-semibold ">+ Theo dõi</button>
+                              </div>
+                              <div className="col-span-1 md:row-span-4 row-span-1 cursor-pointer">
+                                <a href="" className="md:w-14 md:h-14 w-8 h-8 shrink-0 mr-10">
+                                  <div className="md:w-14 md:h-14 w-8 h-8 rounded-full bg-gray-100 border boder-gray-100 transition flex items-center justify-center overflow-hidden">
+                                    <img src="../images/community/user.png" className="w-full h-full object-cover" alt="" />
                                   </div>
-                                </div>
+                                </a>
                               </div>
-                            </div>
-                            <div className="md:col-span-1 col-span-2 row-span-1 flex justify-between items-center p-3 max-w-[560px]">
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <HiOutlineChatBubbleLeftEllipsis className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <AiOutlineRetweet className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <AiOutlineHeart className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <FiMoreHorizontal className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="md:mt-[20px] mt-[30px] grid md:grid-cols-[72px,1fr] grid-cols-[40px,1fr] grid-rows-[auto,auto,1fr,auto] relative transition-all duration-600 ease-in-out border-b border-gray-200">
-                            <div className="absolute top-0 right-0">
-                              <button className="h-8 p-0 w-[84px] text-[12px] items-center bg-blue-600 hover:bg-blue-400 rounded-lg inline-flex text-white cursor-pointer justify-center font-semibold ">+ Theo dõi</button>
-                            </div>
-                            <div className="col-span-1 md:row-span-4 row-span-1 cursor-pointer">
-                              <a href="" className="md:w-14 md:h-14 w-8 h-8 shrink-0 mr-10">
-                                <div className="md:w-14 md:h-14 w-8 h-8 rounded-full bg-gray-100 border boder-gray-100 transition flex items-center justify-center overflow-hidden">
-                                  <img src="../images/community/user.png" className="w-full h-full object-cover" alt="" />
-                                </div>
-                              </a>
-                            </div>
-                            <div className="col-span-1 row-span-1 flex w-[calc(100%-90px)] relative justify-start min-h-[30px]">
+                              <div className="col-span-1 row-span-1 flex w-[calc(100%-90px)] relative justify-start min-h-[30px]">
 
-                              <div>
-                                <div className="box-border m-0 inline-grid leading-5 grid  md:gap-4 gap-x-2 items-center grid-rows-2 grid-cols-2 md:grid-rows-1 md:grid-cols-3">
-                                  <a href="" className="grid grid-cols-1 auto-cols-auto gap-3 items-center justify-star">
-                                    <span className="font-medium whitespace-nowrap overflow-hidden overflow-ellipsis text-[14px] leading-6">
-                                      ddq7mexeifil
+                                <div>
+                                  <div className="box-border m-0 inline-grid leading-5 grid  md:gap-4 gap-x-2 items-center grid-rows-2 grid-cols-2 md:grid-rows-1 md:grid-cols-3">
+                                    <a href="" className="grid grid-cols-1 auto-cols-auto gap-3 items-center justify-star">
+                                      <span className="font-medium whitespace-nowrap overflow-hidden overflow-ellipsis text-[14px] leading-6">
+                                        ddq7mexeifil
+                                      </span>
+                                    </a>
+                                    <a href="" className="grid grid-cols-1 max-sm:grid-rows-1 max-sm:row-start-2">
+                                      <span className="font-normal text-gray-400 whitespace-nowrap overflow-hidden overflow-ellipsis text-sm leading-6">
+                                        @ddq7mexeifil
+                                      </span>
+                                    </a>
+                                    <span className=" text-gray-400 whitespace-nowrap text-[14px] leading-6 grid grid-cols-1 ">
+                                      Th11 7
                                     </span>
-                                  </a>
-                                  <a href="" className="grid grid-cols-1 max-sm:grid-rows-1 max-sm:row-start-2">
-                                    <span className="font-normal text-gray-400 whitespace-nowrap overflow-hidden overflow-ellipsis text-sm leading-6">
-                                      @ddq7mexeifil
-                                    </span>
-                                  </a>
-                                  <span className=" text-gray-400 whitespace-nowrap text-[14px] leading-6 grid grid-cols-1 ">
-                                    Th11 7
-                                  </span>
-                                </div>
+                                  </div>
+                                </div >
                               </div >
-                            </div >
-             <div className="md:col-span-1 col-span-2 row-span-1 max-w-[560px]">
-                              <div className="w-full">
-                                <div className="max-h-[168px] max-w-[560px] relative overflow-hidden text-[14px]">
-                                  <div className="m-0  break-words text-base leading-6">
-                                    <p className="mx-auto text-base leading-6 mt-2">
-                                      {formatText(
-                                        ` $BTC The flight time is very close🚀
+                              <div className="md:col-span-1 col-span-2 row-span-1 max-w-[560px]">
+                                <div className="w-full">
+                                  <div className="max-h-[168px] max-w-[560px] relative overflow-hidden text-[14px]">
+                                    <div className="m-0  break-words text-base leading-6">
+                                      <p className="mx-auto text-base leading-6 mt-2">
+                                        {formatText(
+                                          ` $BTC The flight time is very close🚀
                                       It's not the time to sell; it's the time to hold and even add to your limited supply assets, like XRP $XRP Ethereum $ETH MANA $MANA SAND $SAND and PEPE $PEPE`)}
-                                    </p>
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="">
+                                  <div className="max-w-[560px] mt-[10px] rounded-[8px] overflow-hidden">
+                                    <div className="relative cursor-pointer w-full pt-[56%]">
+                                      <img src="https://pbs.twimg.com/media/F50ONSfbgAA8wzG.jpg" alt="" className="w-full h-full absolute top-0 left-0 object-cover" />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                              <div className="">
-                                <div className="max-w-[560px] mt-[10px] rounded-[8px] overflow-hidden">
-                                  <div className="relative cursor-pointer w-full pt-[56%]">
-                                    <img src="https://pbs.twimg.com/media/F50ONSfbgAA8wzG.jpg" alt="" className="w-full h-full absolute top-0 left-0 object-cover" />
-                                  </div>
+                              <div className="md:col-span-1 col-span-2 row-span-1 flex justify-between items-center p-3 max-w-[560px]">
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <HiOutlineChatBubbleLeftEllipsis className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <AiOutlineRetweet className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <AiOutlineHeart className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <FiMoreHorizontal className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
                                 </div>
                               </div>
-                            </div>
-                            <div className="md:col-span-1 col-span-2 row-span-1 flex justify-between items-center p-3 max-w-[560px]">
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <HiOutlineChatBubbleLeftEllipsis className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <AiOutlineRetweet className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <AiOutlineHeart className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <FiMoreHorizontal className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                            </div>
+                            </div >
                           </div >
                         </div >
-                      </div >
-                      <div className={`${activeTab === "follow" ? "" : "hidden"
-                        }`}
-                        id="for_you">
-                        <div className="md:px-8 px-2 border-box m-0 cursor-pointer overflow-hidden">
-                          <div className="md:mt-[20px] mt-[30px] grid md:grid-cols-[72px,1fr] grid-cols-[40px,1fr] grid-rows-[auto,auto,1fr,auto] relative transition-all duration-600 ease-in-out border-b border-gray-200">
-                            <div className="absolute top-0 right-0">
-                              <button className="h-8 p-0 w-[84px] text-[12px] items-center bg-blue-600 hover:bg-blue-400 rounded-lg inline-flex text-white cursor-pointer justify-center font-semibold ">+ Theo dõi</button>
-                            </div>
-                            <div className="col-span-1 md:row-span-4 row-span-1 cursor-pointer">
-                              <a href="" className="md:w-14 md:h-14 w-8 h-8 shrink-0 mr-10">
-                                <div className="md:w-14 md:h-14 w-8 h-8 rounded-full bg-gray-100 border boder-gray-100 transition flex items-center justify-center overflow-hidden">
-                                  <img src="../images/community/user.png" className="w-full h-full object-cover" alt="" />
-                                </div>
-                              </a>
-                            </div>
-                            <div className="col-span-1 row-span-1 flex w-[calc(100%-90px)] relative justify-start min-h-[30px]">
-                              <div>
-                                <div className="box-border m-0 inline-grid leading-5 grid  md:gap-4 gap-x-2 items-center grid-rows-2 grid-cols-2 md:grid-rows-1 md:grid-cols-3">
-                                  <a href="" className="grid grid-cols-1 auto-cols-auto gap-3 items-center justify-star">
-                                    <span className="font-medium whitespace-nowrap overflow-hidden overflow-ellipsis text-[14px] leading-6">
-                                      ddq7mexeifil
+                        <div className={`${activeTab === "follow" ? "" : "hidden"
+                          }`}
+                          id="for_you">
+                          <div className="md:px-8 px-2 border-box m-0 cursor-pointer overflow-hidden">
+                            <div className="md:mt-[20px] mt-[30px] grid md:grid-cols-[72px,1fr] grid-cols-[40px,1fr] grid-rows-[auto,auto,1fr,auto] relative transition-all duration-600 ease-in-out border-b border-gray-200">
+                              <div className="absolute top-0 right-0">
+                                <button className="h-8 p-0 w-[84px] text-[12px] items-center bg-blue-600 hover:bg-blue-400 rounded-lg inline-flex text-white cursor-pointer justify-center font-semibold ">+ Theo dõi</button>
+                              </div>
+                              <div className="col-span-1 md:row-span-4 row-span-1 cursor-pointer">
+                                <a href="" className="md:w-14 md:h-14 w-8 h-8 shrink-0 mr-10">
+                                  <div className="md:w-14 md:h-14 w-8 h-8 rounded-full bg-gray-100 border boder-gray-100 transition flex items-center justify-center overflow-hidden">
+                                    <img src="../images/community/user.png" className="w-full h-full object-cover" alt="" />
+                                  </div>
+                                </a>
+                              </div>
+                              <div className="col-span-1 row-span-1 flex w-[calc(100%-90px)] relative justify-start min-h-[30px]">
+                                <div>
+                                  <div className="box-border m-0 inline-grid leading-5 grid  md:gap-4 gap-x-2 items-center grid-rows-2 grid-cols-2 md:grid-rows-1 md:grid-cols-3">
+                                    <a href="" className="grid grid-cols-1 auto-cols-auto gap-3 items-center justify-star">
+                                      <span className="font-medium whitespace-nowrap overflow-hidden overflow-ellipsis text-[14px] leading-6">
+                                        ddq7mexeifil
+                                      </span>
+                                    </a>
+                                    <a href="" className="grid grid-cols-1 max-sm:grid-rows-1 max-sm:row-start-2">
+                                      <span className="font-normal text-gray-400 whitespace-nowrap overflow-hidden overflow-ellipsis text-sm leading-6">
+                                        @ddq7mexeifil
+                                      </span>
+                                    </a>
+                                    <span className=" text-gray-400 whitespace-nowrap text-[14px] leading-6 grid grid-cols-1 ">
+                                      Th11 7
                                     </span>
-                                  </a>
-                                  <a href="" className="grid grid-cols-1 max-sm:grid-rows-1 max-sm:row-start-2">
-                                    <span className="font-normal text-gray-400 whitespace-nowrap overflow-hidden overflow-ellipsis text-sm leading-6">
-                                      @ddq7mexeifil
-                                    </span>
-                                  </a>
-                                  <span className=" text-gray-400 whitespace-nowrap text-[14px] leading-6 grid grid-cols-1 ">
-                                    Th11 7
-                                  </span>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className="md:col-span-1 col-span-2 row-span-1 max-w-[560px]">
-                              <div className="w-full">
-                                <div className="max-h-[168px] max-w-[560px] relative overflow-hidden text-[14px]">
-                                  <div className="m-0  break-words text-base leading-6">
-                                    <p className="mx-auto text-base leading-6">
-                                      {formatText(
-                                        ` $BTC The flight time is very close🚀
+                              <div className="md:col-span-1 col-span-2 row-span-1 max-w-[560px]">
+                                <div className="w-full">
+                                  <div className="max-h-[168px] max-w-[560px] relative overflow-hidden text-[14px]">
+                                    <div className="m-0  break-words text-base leading-6">
+                                      <p className="mx-auto text-base leading-6">
+                                        {formatText(
+                                          ` $BTC The flight time is very close🚀
                                       It's not the time to sell; it's the time to hold and even add to your limited supply assets, like XRP $XRP Ethereum $ETH MANA $MANA SAND $SAND and PEPE $PEPE`)}
-                                    </p>
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="">
+                                  <div className="max-w-[560px] mt-[10px] rounded-[8px] overflow-hidden">
+                                    <div className="relative cursor-pointer w-full pt-[56%]">
+                                      <img src="https://pbs.twimg.com/media/F50ONSfbgAA8wzG.jpg" alt="" className="w-full h-full absolute top-0 left-0 object-cover" />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                              <div className="">
-                                <div className="max-w-[560px] mt-[10px] rounded-[8px] overflow-hidden">
-                                  <div className="relative cursor-pointer w-full pt-[56%]">
-                                    <img src="https://pbs.twimg.com/media/F50ONSfbgAA8wzG.jpg" alt="" className="w-full h-full absolute top-0 left-0 object-cover" />
+                              <div className="md:col-span-1 col-span-2 row-span-1 flex justify-between items-center p-3 max-w-[560px]">
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <HiOutlineChatBubbleLeftEllipsis className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <AiOutlineRetweet className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <AiOutlineHeart className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <FiMoreHorizontal className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="md:mt-[20px] mt-[30px] grid md:grid-cols-[72px,1fr] grid-cols-[40px,1fr] grid-rows-[auto,auto,1fr,auto] relative transition-all duration-600 ease-in-out border-b border-gray-200">
+                              <div className="absolute top-0 right-0">
+                                <button className="h-8 p-0 w-[84px] text-[12px] items-center bg-blue-600 hover:bg-blue-400 rounded-lg inline-flex text-white cursor-pointer justify-center font-semibold ">+ Theo dõi</button>
+                              </div>
+                              <div className="col-span-1 md:row-span-4 row-span-1 cursor-pointer">
+                                <a href="" className="md:w-14 md:h-14 w-8 h-8 shrink-0 mr-10">
+                                  <div className="md:w-14 md:h-14 w-8 h-8 rounded-full bg-gray-100 border boder-gray-100 transition flex items-center justify-center overflow-hidden">
+                                    <img src="../images/community/user.png" className="w-full h-full object-cover" alt="" />
+                                  </div>
+                                </a>
+                              </div>
+                              <div className="col-span-1 row-span-1 flex w-[calc(100%-90px)] relative justify-start min-h-[30px]">
+                                <div>
+                                  <div className="box-border m-0 inline-grid leading-5 grid  md:gap-4 gap-x-2 items-center grid-rows-2 grid-cols-2 md:grid-rows-1 md:grid-cols-3">
+                                    <a href="" className="grid grid-cols-1 auto-cols-auto gap-3 items-center justify-star">
+                                      <span className="font-medium whitespace-nowrap overflow-hidden overflow-ellipsis text-[14px] leading-6">
+                                        ddq7mexeifil
+                                      </span>
+                                    </a>
+                                    <a href="" className="grid grid-cols-1 max-sm:grid-rows-1 max-sm:row-start-2">
+                                      <span className="font-normal text-gray-400 whitespace-nowrap overflow-hidden overflow-ellipsis text-sm leading-6">
+                                        @ddq7mexeifil
+                                      </span>
+                                    </a>
+                                    <span className=" text-gray-400 whitespace-nowrap text-[14px] leading-6 grid grid-cols-1 ">
+                                      Th11 7
+                                    </span>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className="md:col-span-1 col-span-2 row-span-1 flex justify-between items-center p-3 max-w-[560px]">
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <HiOutlineChatBubbleLeftEllipsis className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <AiOutlineRetweet className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <AiOutlineHeart className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <FiMoreHorizontal className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="md:mt-[20px] mt-[30px] grid md:grid-cols-[72px,1fr] grid-cols-[40px,1fr] grid-rows-[auto,auto,1fr,auto] relative transition-all duration-600 ease-in-out border-b border-gray-200">
-                            <div className="absolute top-0 right-0">
-                              <button className="h-8 p-0 w-[84px] text-[12px] items-center bg-blue-600 hover:bg-blue-400 rounded-lg inline-flex text-white cursor-pointer justify-center font-semibold ">+ Theo dõi</button>
-                            </div>
-                            <div className="col-span-1 md:row-span-4 row-span-1 cursor-pointer">
-                              <a href="" className="md:w-14 md:h-14 w-8 h-8 shrink-0 mr-10">
-                                <div className="md:w-14 md:h-14 w-8 h-8 rounded-full bg-gray-100 border boder-gray-100 transition flex items-center justify-center overflow-hidden">
-                                  <img src="../images/community/user.png" className="w-full h-full object-cover" alt="" />
-                                </div>
-                              </a>
-                            </div>
-                            <div className="col-span-1 row-span-1 flex w-[calc(100%-90px)] relative justify-start min-h-[30px]">
-                              <div>
-                                <div className="box-border m-0 inline-grid leading-5 grid  md:gap-4 gap-x-2 items-center grid-rows-2 grid-cols-2 md:grid-rows-1 md:grid-cols-3">
-                                  <a href="" className="grid grid-cols-1 auto-cols-auto gap-3 items-center justify-star">
-                                    <span className="font-medium whitespace-nowrap overflow-hidden overflow-ellipsis text-[14px] leading-6">
-                                      ddq7mexeifil
-                                    </span>
-                                  </a>
-                                  <a href="" className="grid grid-cols-1 max-sm:grid-rows-1 max-sm:row-start-2">
-                                    <span className="font-normal text-gray-400 whitespace-nowrap overflow-hidden overflow-ellipsis text-sm leading-6">
-                                      @ddq7mexeifil
-                                    </span>
-                                  </a>
-                                  <span className=" text-gray-400 whitespace-nowrap text-[14px] leading-6 grid grid-cols-1 ">
-                                    Th11 7
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="md:col-span-1 col-span-2 row-span-1 max-w-[560px]">
-                              <div className="w-full">
-                                <div className="max-h-[168px] max-w-[560px] relative overflow-hidden text-[14px]">
-                                  <div className="m-0  break-words text-base leading-6">
-                                    <p className="mx-auto text-base leading-6">
-                                      {formatText(
-                                        ` $BTC The flight time is very close🚀
+                              <div className="md:col-span-1 col-span-2 row-span-1 max-w-[560px]">
+                                <div className="w-full">
+                                  <div className="max-h-[168px] max-w-[560px] relative overflow-hidden text-[14px]">
+                                    <div className="m-0  break-words text-base leading-6">
+                                      <p className="mx-auto text-base leading-6">
+                                        {formatText(
+                                          ` $BTC The flight time is very close🚀
                                       It's not the time to sell; it's the time to hold and even add to your limited supply assets, like XRP $XRP Ethereum $ETH MANA $MANA SAND $SAND and PEPE $PEPE`)}
-                                    </p>
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="">
+                                  <div className="max-w-[560px] mt-[10px] rounded-[8px] overflow-hidden">
+                                    <div className="relative cursor-pointer w-full pt-[56%]">
+                                      <img src="https://pbs.twimg.com/media/F50ONSfbgAA8wzG.jpg" alt="" className="w-full h-full absolute top-0 left-0 object-cover" />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                              <div className="">
-                                <div className="max-w-[560px] mt-[10px] rounded-[8px] overflow-hidden">
-                                  <div className="relative cursor-pointer w-full pt-[56%]">
-                                    <img src="https://pbs.twimg.com/media/F50ONSfbgAA8wzG.jpg" alt="" className="w-full h-full absolute top-0 left-0 object-cover" />
+                              <div className="md:col-span-1 col-span-2 row-span-1 flex justify-between items-center p-3 max-w-[560px]">
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <HiOutlineChatBubbleLeftEllipsis className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <AiOutlineRetweet className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <AiOutlineHeart className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <FiMoreHorizontal className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="md:mt-[20px] mt-[30px] grid md:grid-cols-[72px,1fr] grid-cols-[40px,1fr] grid-rows-[auto,auto,1fr,auto] relative transition-all duration-600 ease-in-out border-b border-gray-200">
+                              <div className="absolute top-0 right-0">
+                                <button className="h-8 p-0 w-[84px] text-[12px] items-center bg-blue-600 hover:bg-blue-400 rounded-lg inline-flex text-white cursor-pointer justify-center font-semibold ">+ Theo dõi</button>
+                              </div>
+                              <div className="col-span-1 md:row-span-4 row-span-1 cursor-pointer">
+                                <a href="" className="md:w-14 md:h-14 w-8 h-8 shrink-0 mr-10">
+                                  <div className="md:w-14 md:h-14 w-8 h-8 rounded-full bg-gray-100 border boder-gray-100 transition flex items-center justify-center overflow-hidden">
+                                    <img src="../images/community/user.png" className="w-full h-full object-cover" alt="" />
                                   </div>
-                                </div>
+                                </a>
                               </div>
-                            </div>
-                            <div className="md:col-span-1 col-span-2 row-span-1 flex justify-between items-center p-3 max-w-[560px]">
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <HiOutlineChatBubbleLeftEllipsis className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <AiOutlineRetweet className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <AiOutlineHeart className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <FiMoreHorizontal className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="md:mt-[20px] mt-[30px] grid md:grid-cols-[72px,1fr] grid-cols-[40px,1fr] grid-rows-[auto,auto,1fr,auto] relative transition-all duration-600 ease-in-out border-b border-gray-200">
-                            <div className="absolute top-0 right-0">
-                              <button className="h-8 p-0 w-[84px] text-[12px] items-center bg-blue-600 hover:bg-blue-400 rounded-lg inline-flex text-white cursor-pointer justify-center font-semibold ">+ Theo dõi</button>
-                            </div>
-                            <div className="col-span-1 md:row-span-4 row-span-1 cursor-pointer">
-                              <a href="" className="md:w-14 md:h-14 w-8 h-8 shrink-0 mr-10">
-                                <div className="md:w-14 md:h-14 w-8 h-8 rounded-full bg-gray-100 border boder-gray-100 transition flex items-center justify-center overflow-hidden">
-                                  <img src="../images/community/user.png" className="w-full h-full object-cover" alt="" />
-                                </div>
-                              </a>
-                            </div>
-                            <div className="col-span-1 row-span-1 flex w-[calc(100%-90px)] relative justify-start min-h-[30px]">
-                              <div>
-                                <div className="box-border m-0 inline-grid leading-5 grid  md:gap-4 gap-x-2 items-center grid-rows-2 grid-cols-2 md:grid-rows-1 md:grid-cols-3">
-                                  <a href="" className="grid grid-cols-1 auto-cols-auto gap-3 items-center justify-star">
-                                    <span className="font-medium whitespace-nowrap overflow-hidden overflow-ellipsis text-[14px] leading-6">
-                                      ddq7mexeifil
+                              <div className="col-span-1 row-span-1 flex w-[calc(100%-90px)] relative justify-start min-h-[30px]">
+                                <div>
+                                  <div className="box-border m-0 inline-grid leading-5 grid  md:gap-4 gap-x-2 items-center grid-rows-2 grid-cols-2 md:grid-rows-1 md:grid-cols-3">
+                                    <a href="" className="grid grid-cols-1 auto-cols-auto gap-3 items-center justify-star">
+                                      <span className="font-medium whitespace-nowrap overflow-hidden overflow-ellipsis text-[14px] leading-6">
+                                        ddq7mexeifil
+                                      </span>
+                                    </a>
+                                    <a href="" className="grid grid-cols-1 max-sm:grid-rows-1 max-sm:row-start-2">
+                                      <span className="font-normal text-gray-400 whitespace-nowrap overflow-hidden overflow-ellipsis text-sm leading-6">
+                                        @ddq7mexeifil
+                                      </span>
+                                    </a>
+                                    <span className=" text-gray-400 whitespace-nowrap text-[14px] leading-6 grid grid-cols-1 ">
+                                      Th11 7
                                     </span>
-                                  </a>
-                                  <a href="" className="grid grid-cols-1 max-sm:grid-rows-1 max-sm:row-start-2">
-                                    <span className="font-normal text-gray-400 whitespace-nowrap overflow-hidden overflow-ellipsis text-sm leading-6">
-                                      @ddq7mexeifil
-                                    </span>
-                                  </a>
-                                  <span className=" text-gray-400 whitespace-nowrap text-[14px] leading-6 grid grid-cols-1 ">
-                                    Th11 7
-                                  </span>
-                                </div>
+                                  </div>
+                                </div >
                               </div >
-                            </div >
-                            <div className="md:col-span-1 col-span-2 row-span-1 max-w-[560px]">
-                              <div className="w-full">
-                                <div className="max-h-[168px] max-w-[560px] relative overflow-hidden text-[14px]">
-                                  <div className="m-0  break-words text-base leading-6">
-                                    <p className="mx-auto text-base leading-6 mt-2">
-                                      {formatText(
-                                        ` $BTC The flight time is very close🚀
+                              <div className="md:col-span-1 col-span-2 row-span-1 max-w-[560px]">
+                                <div className="w-full">
+                                  <div className="max-h-[168px] max-w-[560px] relative overflow-hidden text-[14px]">
+                                    <div className="m-0  break-words text-base leading-6">
+                                      <p className="mx-auto text-base leading-6 mt-2">
+                                        {formatText(
+                                          ` $BTC The flight time is very close🚀
                                       It's not the time to sell; it's the time to hold and even add to your limited supply assets, like XRP $XRP Ethereum $ETH MANA $MANA SAND $SAND and PEPE $PEPE`)}
-                                    </p>
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="">
+                                  <div className="max-w-[560px] mt-[10px] rounded-[8px] overflow-hidden">
+                                    <div className="relative cursor-pointer w-full pt-[56%]">
+                                      <img src="https://pbs.twimg.com/media/F50ONSfbgAA8wzG.jpg" alt="" className="w-full h-full absolute top-0 left-0 object-cover" />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                              <div className="">
-                                <div className="max-w-[560px] mt-[10px] rounded-[8px] overflow-hidden">
-                                  <div className="relative cursor-pointer w-full pt-[56%]">
-                                    <img src="https://pbs.twimg.com/media/F50ONSfbgAA8wzG.jpg" alt="" className="w-full h-full absolute top-0 left-0 object-cover" />
-                                  </div>
+                              <div className="md:col-span-1 col-span-2 row-span-1 flex justify-between items-center p-3 max-w-[560px]">
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <HiOutlineChatBubbleLeftEllipsis className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <AiOutlineRetweet className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <AiOutlineHeart className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
+                                </div>
+                                <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
+                                  <FiMoreHorizontal className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
                                 </div>
                               </div>
-                            </div>
-                            <div className="md:col-span-1 col-span-2 row-span-1 flex justify-between items-center p-3 max-w-[560px]">
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <HiOutlineChatBubbleLeftEllipsis className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <AiOutlineRetweet className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <AiOutlineHeart className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                              <div className="overflow-hidden whitespace-no-wrap truncate text-gray-500 leading-none cursor-pointer font-medium text-sm">
-                                <FiMoreHorizontal className=" text-[24px] select-none inline-block flex-shrink-0 leading-none align-middle" />
-                              </div>
-                            </div>
+                            </div >
                           </div >
                         </div >
                       </div >
@@ -760,63 +761,63 @@ export default function feed() {
                   </div >
                 </div >
               </div >
-            </div >
-            <div className="max-w-[350px] min-w-[280px] grow basis-0 shrink-0 m-0 hidden lg:block">
-              <div className="sticky top-0 z-10 self-start">
-                <div className="border-box m-0 h-5"></div>
-                <div className="mb-4 shadow-md self-start bg-white p-2 pt-2.5 pb-2.5 rounded-[8px] box-border">
-                  <div className="font-bold text-[16px] h-[28px] mb-2.5 flex items-center pt-2.5 pb-0">
-                    <FcFlashOn className="text-[35px]" />&nbsp;
-                    <span>
-                      Các chủ đề thịnh hành
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between cursor-pointer h-8 px-2.5 rounded-full text-sm">
-                    <small>1</small>
-                    <div className="flex-1 pl-[15px] mr-1 overflow-hidden flex items-center">
-                      <div className="truncate font-semibold">
-                        #Facebook
+              <div className="max-w-[350px] min-w-[280px] grow basis-0 shrink-0 m-0 hidden lg:block">
+                <div className="sticky top-0 z-10 self-start">
+                  <div className="border-box m-0 h-5"></div>
+                  <div className="mb-4 shadow-md self-start bg-white p-2 pt-2.5 pb-2.5 rounded-[8px] box-border">
+                    <div className="font-bold text-[16px] h-[28px] mb-2.5 flex items-center pt-2.5 pb-0">
+                      <FcFlashOn className="text-[35px]" />&nbsp;
+                      <span>
+                        Các chủ đề thịnh hành
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between cursor-pointer h-8 px-2.5 rounded-full text-sm">
+                      <small>1</small>
+                      <div className="flex-1 pl-[15px] mr-1 overflow-hidden flex items-center">
+                        <div className="truncate font-semibold">
+                          #Facebook
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between cursor-pointer h-8 px-2.5 rounded-full text-sm">
+                      <small>2</small>
+                      <div className="flex-1 pl-[15px] mr-1 overflow-hidden flex items-center">
+                        <div className="truncate font-semibold">
+                          #SEO
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between cursor-pointer h-8 px-2.5 rounded-full text-sm">
+                      <small>3</small>
+                      <div className="flex-1 pl-[15px] mr-1 overflow-hidden flex items-center">
+                        <div className="truncate font-semibold">
+                          #Twitter
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between cursor-pointer h-8 px-2.5 rounded-full text-sm">
+                      <small>4</small>
+                      <div className="flex-1 pl-[15px] mr-1 overflow-hidden flex items-center">
+                        <div className="truncate font-semibold">
+                          #Email
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between cursor-pointer h-8 px-2.5 rounded-full text-sm">
+                      <small>5</small>
+                      <div className="flex-1 pl-[15px] mr-1 overflow-hidden flex items-center">
+                        <div className="truncate font-semibold">
+                          #Tool
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between cursor-pointer h-8 px-2.5 rounded-full text-sm">
-                    <small>2</small>
-                    <div className="flex-1 pl-[15px] mr-1 overflow-hidden flex items-center">
-                      <div className="truncate font-semibold">
-                        #SEO
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between cursor-pointer h-8 px-2.5 rounded-full text-sm">
-                    <small>3</small>
-                    <div className="flex-1 pl-[15px] mr-1 overflow-hidden flex items-center">
-                      <div className="truncate font-semibold">
-                        #Twitter
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between cursor-pointer h-8 px-2.5 rounded-full text-sm">
-                    <small>4</small>
-                    <div className="flex-1 pl-[15px] mr-1 overflow-hidden flex items-center">
-                      <div className="truncate font-semibold">
-                        #Email
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between cursor-pointer h-8 px-2.5 rounded-full text-sm">
-                    <small>5</small>
-                    <div className="flex-1 pl-[15px] mr-1 overflow-hidden flex items-center">
-                      <div className="truncate font-semibold">
-                        #Tool
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="border-box m-0 h-5"></div>
+                  <div className="border-box m-0 h-5"></div>
+                </div >
               </div >
-            </div >
 
-          </div >
+            </div >
+          </div>
         </main >
       </div >
     </div >
