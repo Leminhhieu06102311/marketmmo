@@ -270,6 +270,7 @@ export default function UserProfile() {
                 setBirthDay(new Date(dataUser.birthday).toISOString().split('T')[0])
                 setWebsite(dataUser.website)
                 setAvatar(dataUser.avatar);
+
             } catch (error) {
                 console.error("Error fetching data", error);
             }
@@ -306,7 +307,6 @@ export default function UserProfile() {
                                                         <div className="flex justify-between mb-5">
                                                             <h2 className='font-bold text-2xl'>Ảnh đại diện của bạn</h2>
                                                             <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal1')}>
-                                                                {/* <FontAwesomeIcon icon={faTimes} /> */}
                                                                 <IoCloseOutline />
                                                             </button>
                                                         </div>

@@ -8,6 +8,7 @@ import { AiOutlineRetweet, AiOutlineHeart } from "react-icons/ai";
 import { FaChevronDown, FaEllipsis } from "react-icons/fa6";
 import { CiFaceSmile } from "react-icons/ci";
 import { GoRss } from "react-icons/go";
+
 import { FcFlashOn } from "react-icons/fc";
 // import Picker from "@emoji-mart/react";
 import React, { useState } from "react";
@@ -80,6 +81,7 @@ export default function feed() {
                   Bảng tin
                 </Link >
               </li >
+
               <li className="mb-1">
                 <Link
                   href=""
@@ -125,9 +127,11 @@ export default function feed() {
                   Xem thêm
                 </Link>
               </li>
+
             </ul >
           </aside >
         </div >
+
 
         <main className="bg-white grow-[3] shrink basis relative z-10">
           <div className="flex flex-row justify-between">
@@ -145,7 +149,8 @@ export default function feed() {
                   <div className="h-screen w-screen max-h-screen max-h-[100vh] flex flex-col transition-height duration-300 ease-in-out max-w-screen bg-white rounded-lg overflow-hidden">
                     <div className="p-4 text-center text-base leading-6 font-semibold relative flex-shrink-0 shadow-sm">
                       Cộng đồng
-                      <HiOutlineXMark className="absolute top-4 right-4 text-[#a6b0c3] text-xs cursor-pointer z-10 w-6 h-6" onClick={toggleMenu} />
+
+                     <HiOutlineXMark className="absolute top-4 right-4 text-[#a6b0c3] text-xs cursor-pointer z-10 w-6 h-6" onClick={toggleMenu} />
                     </div>
                     <div className="flex flex-col items-start ml-8  md:items-start gap-y-11 bg-white absolute left-0 md:left-20 top-20 h-full w-64 transform transition-transform duration-300 ease-in-out translate-x-0">
                       <div className="flex justify-between items-center ">
@@ -157,7 +162,6 @@ export default function feed() {
                         href="#"
                         className="text-black  font-semibold text-base text-primary flex items-center gap-x-4"
                       >
-
                         < GoRss className="text-black " />
                         Bảng tin
                       </a>
@@ -165,7 +169,6 @@ export default function feed() {
                         href="#"
                         className="text-black  text-base font-medium flex items-center gap-x-4"
                       >
-
                         <BsHash className="font-extralight text-[#a6b0c3]" />
                         Chủ đề
                       </a>
@@ -173,9 +176,11 @@ export default function feed() {
                         href="#"
                         className="text-black  text-base font-medium flex items-center gap-x-4"
                       >
+
                         <BsFileEarmarkRichtext className="text-[25px] text-gray-500" />
                         Bài viết
                       </a >
+
                       <a
                         href="#"
                         className="text-black  text-base font-medium flex items-center gap-x-4"
@@ -200,6 +205,7 @@ export default function feed() {
                           className="font-extralight text-[#a6b0c3]" />
                         Xem thêm
                       </a>
+
                     </div >
                   </div >
                 </div >
@@ -345,7 +351,6 @@ export default function feed() {
                         <span className="line-height-12 text-base cursor-pointer select-none ">Đang theo dõi</span>
                       </div>
                     </div>
-                  </div>
                   <div className="">
                     <div className="h-full w-full relative">
                       <div className={`${activeTab === "for_you" ? "" : "hidden"
@@ -494,6 +499,7 @@ export default function feed() {
                               </a>
                             </div>
                             <div className="col-span-1 row-span-1 flex w-[calc(100%-90px)] relative justify-start min-h-[30px]">
+
                               <div>
                                 <div className="box-border m-0 inline-grid leading-5 grid  md:gap-4 gap-x-2 items-center grid-rows-2 grid-cols-2 md:grid-rows-1 md:grid-cols-3">
                                   <a href="" className="grid grid-cols-1 auto-cols-auto gap-3 items-center justify-star">
@@ -512,7 +518,7 @@ export default function feed() {
                                 </div>
                               </div >
                             </div >
-                            <div className="md:col-span-1 col-span-2 row-span-1 max-w-[560px]">
+             <div className="md:col-span-1 col-span-2 row-span-1 max-w-[560px]">
                               <div className="w-full">
                                 <div className="max-h-[168px] max-w-[560px] relative overflow-hidden text-[14px]">
                                   <div className="m-0  break-words text-base leading-6">
@@ -696,7 +702,6 @@ export default function feed() {
                             </div>
                             <div className="col-span-1 row-span-1 flex w-[calc(100%-90px)] relative justify-start min-h-[30px]">
                               <div>
-
                                 <div className="box-border m-0 inline-grid leading-5 grid  md:gap-4 gap-x-2 items-center grid-rows-2 grid-cols-2 md:grid-rows-1 md:grid-cols-3">
                                   <a href="" className="grid grid-cols-1 auto-cols-auto gap-3 items-center justify-star">
                                     <span className="font-medium whitespace-nowrap overflow-hidden overflow-ellipsis text-[14px] leading-6">
@@ -810,6 +815,7 @@ export default function feed() {
                 <div className="border-box m-0 h-5"></div>
               </div >
             </div >
+
           </div >
         </main >
       </div >
