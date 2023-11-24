@@ -78,8 +78,8 @@ export default function feed() {
                 >
                   <GoRss className="text-[25px]" />
                   Bảng tin
-                </Link>
-              </li>
+                </Link >
+              </li >
               <li className="mb-1">
                 <Link
                   href=""
@@ -87,8 +87,8 @@ export default function feed() {
                 >
                   <BsHash className="text-[25px]" />
                   Chủ đề
-                </Link>
-              </li>
+                </Link >
+              </li >
               <li className="mb-1">
                 <Link
                   href=""
@@ -125,9 +125,9 @@ export default function feed() {
                   Xem thêm
                 </Link>
               </li>
-            </ul>
-          </aside>
-        </div>
+            </ul >
+          </aside >
+        </div >
 
         <main className="bg-white grow-[3] shrink basis relative z-10">
           <div className="flex flex-row justify-between">
@@ -145,13 +145,7 @@ export default function feed() {
                   <div className="h-screen w-screen max-h-screen max-h-[100vh] flex flex-col transition-height duration-300 ease-in-out max-w-screen bg-white rounded-lg overflow-hidden">
                     <div className="p-4 text-center text-base leading-6 font-semibold relative flex-shrink-0 shadow-sm">
                       Cộng đồng
-                      {/* <FontAwesomeIcon
-                        icon={faXmark}
-                        size="xl"
-                        onClick={toggleMenu}
-                        className="absolute top-4 right-4 text-[#a6b0c3] text-xs cursor-pointer z-10 w-6 h-6"
-                      /> */}
-                      <HiOutlineXMark className="absolute top-4 right-4 text-[#a6b0c3] text-xs cursor-pointer z-10 w-6 h-6" />
+                      <HiOutlineXMark className="absolute top-4 right-4 text-[#a6b0c3] text-xs cursor-pointer z-10 w-6 h-6" onClick={toggleMenu} />
                     </div>
                     <div className="flex flex-col items-start ml-8  md:items-start gap-y-11 bg-white absolute left-0 md:left-20 top-20 h-full w-64 transform transition-transform duration-300 ease-in-out translate-x-0">
                       <div className="flex justify-between items-center ">
@@ -163,11 +157,7 @@ export default function feed() {
                         href="#"
                         className="text-black  font-semibold text-base text-primary flex items-center gap-x-4"
                       >
-                        {/* <FontAwesomeIcon
-                          icon={faRss}
-                          size="xl"
-                          className="text-black "
-                        /> */}
+
                         < GoRss className="text-black " />
                         Bảng tin
                       </a>
@@ -175,12 +165,7 @@ export default function feed() {
                         href="#"
                         className="text-black  text-base font-medium flex items-center gap-x-4"
                       >
-                        {/* <FontAwesomeIcon
-                          icon={faHashtag}
-                          // style={{ color: "#ffffff" }}
-                          size="xl"
-                          className="font-extralight text-[#a6b0c3]"
-                        /> */}
+
                         <BsHash className="font-extralight text-[#a6b0c3]" />
                         Chủ đề
                       </a>
@@ -190,7 +175,7 @@ export default function feed() {
                       >
                         <BsFileEarmarkRichtext className="text-[25px] text-gray-500" />
                         Bài viết
-                      </a>
+                      </a >
                       <a
                         href="#"
                         className="text-black  text-base font-medium flex items-center gap-x-4"
@@ -215,9 +200,9 @@ export default function feed() {
                           className="font-extralight text-[#a6b0c3]" />
                         Xem thêm
                       </a>
-                    </div>
-                  </div>
-                </div>
+                    </div >
+                  </div >
+                </div >
               ) : (
                 <div className="fixed inset-0 bg-[rgba(10,30,66,0.4)] flex justify-center items-center transition-all duration-300 ease-in-out top-0 left-0 translate-x-[-100%] shadow-lg z-1010">
                   <div className="h-screen w-screen max-h-screen max-h-[100vh] flex flex-col transition-height duration-300 ease-in-out max-w-screen bg-white rounded-lg overflow-hidden">
@@ -254,33 +239,33 @@ export default function feed() {
                       >
                         <BsFileEarmarkRichtext className="text-[25px] text-gray-500" />
                         Bài viết
-                      </a>
+                      </a >
                       <a
                         href="#"
                         className="text-black  text-base font-medium flex items-center gap-x-4"
                       >
                         <IoMdNotificationsOutline className="text-[25px] text-gray-500" />
                         Thông báo
-                      </a>
+                      </a >
                       <a
                         href="#"
                         className="text-black  text-base font-medium flex items-center gap-x-4"
                       >
                         <BsPerson className="text-[25px] text-gray-500" />
                         Trang cá nhân
-                      </a>
+                      </a >
                       <a
                         href="#"
                         className="text-black  text-base font-medium flex items-center gap-x-4"
                       >
-                        <FaEllipsis size="xl"
-                          className="font-extralight text-[#a6b0c3]" />
+                        <FaEllipsis size="xl" className="font-extralight text-[#a6b0c3]" />
                         Xem thêm
                       </a>
-                    </div>
-                  </div>
-                </div>
-              )}
+                    </div >
+                  </div >
+                </div >
+              )
+              }
               <div className="border-box ">
                 <div className="mx-2 md:mx-8">
                   <div className="mt-6  grid grid-rows-[auto,auto,1fr,auto] grid-cols-[72px,1fr,max-content,106px] gap-x-4 gap-y-4">
@@ -313,8 +298,6 @@ export default function feed() {
                     </div>
                     <div className="col-span-1 row-span-1">
                       <div>
-                        {/* <FontAwesomeIcon icon={faFaceSmile} onClick={() => setShowPicker(!showPicker)} size="xl" className="text-gray-400" /> */}
-
                         <CiFaceSmile className="text-gray-400 text-[25px]" />
 
                         {/* {showPicker && (
@@ -825,8 +808,8 @@ export default function feed() {
                   </div>
                 </div>
                 <div className="border-box m-0 h-5"></div>
-              </div>
-            </div>
+              </div >
+            </div >
           </div >
         </main >
       </div >

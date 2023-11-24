@@ -15,6 +15,7 @@ import { storage } from "../../firebase";
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { toast } from 'react-toastify'
 import { AxiosError } from 'axios'
+import { IoCloseOutline } from 'react-icons/io5';
 
 
 export default function UserProfile() {
@@ -255,7 +256,6 @@ export default function UserProfile() {
         const token = Cookies.get('access_token');
 
         if (token) {
-            console.log('Access Token:', token);
             setAccessToken(token)
         } else {
             console.log('Access Token not found in cookie');
@@ -275,7 +275,7 @@ export default function UserProfile() {
             }
         };
         fetchDataUser();
-    }, []);
+    }, [access_token]);
 
     return (
         <>
@@ -307,7 +307,7 @@ export default function UserProfile() {
                                                             <h2 className='font-bold text-2xl'>Ảnh đại diện của bạn</h2>
                                                             <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal1')}>
                                                                 {/* <FontAwesomeIcon icon={faTimes} /> */}
-                                                                x
+                                                                <IoCloseOutline />
                                                             </button>
                                                         </div>
                                                         <div className="">
