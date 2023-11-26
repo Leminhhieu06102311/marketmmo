@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function RecoverSuccess() {
   return (
     <div className="fixed top-0 bottom-0 right-0 left-0 z-10 bg-white">
@@ -67,22 +69,24 @@ export default function RecoverSuccess() {
                 </div>
                 <div className="text-gray-400 text-base font-medium leading-[21px] text-center">
                   <span className="text-gray-400 ">Chưa nhận được email?</span>{" "}
-                  <a href="/recover" className="text-blue-600 ">
+                  <Link href="/recover" className="text-blue-600 ">
                     Gửi lại
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className="lg:max-w-[440px] max-w-[360px] mt-3">
                 <div>
-                  <button className="rounded-lg bg-primary text-white font-medium  w-[360px] md:text-base mt-5 text-sm h-14  hover:bg-blue-500 lg:w-[440px]">
-                    Quay lại
-                  </button>
+                  <Link href={'/recover'} >
+                    <button className="rounded-lg bg-primary text-white font-medium  w-[360px] md:text-base mt-5 text-sm h-14  hover:bg-blue-500 lg:w-[440px]">
+                      Quay lại
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
           </div>
         </section>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }

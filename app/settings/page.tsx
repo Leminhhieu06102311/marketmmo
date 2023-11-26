@@ -15,6 +15,7 @@ import { storage } from "../../firebase";
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { toast } from 'react-toastify'
 import { AxiosError } from 'axios'
+import { IoCloseOutline } from 'react-icons/io5';
 
 
 export default function UserProfile() {
@@ -105,11 +106,6 @@ export default function UserProfile() {
         return new Date().getTime().toString();
     };
 
-    //close modal
-    const upLoadImageAvatar = () => {
-        closeModal('modal1')
-    }
-
     //delete avatar old
     const deleteImage = async (avatar: any) => {
         try {
@@ -121,7 +117,10 @@ export default function UserProfile() {
         }
     };
 
-    const handleInformation = async () => {
+
+    //close modal
+    const upLoadImageAvatar = async () => {
+        closeModal('modal1')
         if (selectedImage !== null) {
             try {
                 // Upload image to Firebase Storage
@@ -131,29 +130,20 @@ export default function UserProfile() {
                 await uploadBytes(imageRef, selectedImage);
 
                 // Get the download URL of the uploaded image
-                const imageUrl = await getDownloadURL(imageRef);
+                const Url = await getDownloadURL(imageRef);
+
+                setImageUrl(Url)
 
                 // Delete the old avatar
                 await deleteImage(avatar);
-
-                // Format birthday
-                let isoDateString;
-                if (birthDay && /^\d{4}-\d{2}-\d{2}$/.test(birthDay)) {
-                    const dateObject = new Date(birthDay);
-                    isoDateString = dateObject.toISOString();
-                } else {
-                    console.log('Invalid birthDay:', birthDay);
-                }
-
-                // Update user information using Axios
                 const response = await api.put(
                     'settings/profile',
                     {
-                        avatar: imageUrl || "",
+                        avatar: Url,
                         name: displayName,
                         username: username,
                         bio: description || "",
-                        birthday: isoDateString,
+                        birthday: birthDay,
                         website: website || "",
                     },
                     {
@@ -163,7 +153,8 @@ export default function UserProfile() {
                         },
                     }
                 );
-                toast.success('Cập nhật thông tin thành công');
+                toast.success('Cập nhật Ảnh đại diện thành công');
+
             } catch (error: any) {
                 console.error('Error during update:', error);
                 // Hiển thị thông báo lỗi
@@ -172,8 +163,14 @@ export default function UserProfile() {
                     console.error('Response data:', error.response.data);
                 }
             }
+        } else {
+            return
         }
-        else {
+    };
+
+
+    const handleInformation = async () => {
+        if (selectedImage !== null) {
             try {
                 // Format birthday
                 let isoDateString;
@@ -188,7 +185,45 @@ export default function UserProfile() {
                 const response = await api.put(
                     'settings/profile',
                     {
-                        avatar: avatar || "",
+                        avatar: imageUrl,
+                        name: displayName,
+                        username: username,
+                        bio: description || "",
+                        birthday: isoDateString,
+                        website: website || "",
+                    },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${access_token}`,
+                        },
+                    }
+                );
+                toast.success('Cập nhật thông tin thành công');
+            } catch (error: any) {
+                console.error('Error during update:', error);
+                // Hiển thị thông báo lỗi
+                toast.error('Có lỗi xảy ra khi cập nhật thông tin');
+                if (error.response) {
+                    console.error('Response data:', error.response.data);
+                }
+            }
+        } else {
+            try {
+                // Format birthday
+                let isoDateString;
+                if (birthDay && /^\d{4}-\d{2}-\d{2}$/.test(birthDay)) {
+                    const dateObject = new Date(birthDay);
+                    isoDateString = dateObject.toISOString();
+                } else {
+                    console.log('Invalid birthDay:', birthDay);
+                }
+
+                // Update user information using Axios
+                const response = await api.put(
+                    'settings/profile',
+                    {
+                        avatar: avatar,
                         name: displayName,
                         username: username,
                         bio: description || "",
@@ -212,7 +247,8 @@ export default function UserProfile() {
                 }
             }
         }
-    };
+
+    }
 
 
 
@@ -228,22 +264,13 @@ export default function UserProfile() {
             try {
                 let dataUser = await getUser(token);
                 console.log(dataUser);
+                setDisplayName(dataUser.name)
+                setUsername(dataUser.username)
+                setDescription(dataUser.bio)
+                setBirthDay(new Date(dataUser.birthday).toISOString().split('T')[0])
+                setWebsite(dataUser.website)
+                setAvatar(dataUser.avatar);
 
-                if (dataUser) {
-                    if (dataUser.name) {
-                        setDisplayName(dataUser.name);
-                    }
-
-                    setUsername(dataUser.username);
-                    setDescription(dataUser.bio);
-                    setBirthDay(new Date(dataUser.birthday).toISOString().split('T')[0]);
-                    setWebsite(dataUser.website);
-                    setAvatar(dataUser.avatar);
-                } else {
-                    console.error("Invalid data format", dataUser);
-                    console.log(dataUser);
-
-                }
             } catch (error) {
                 console.error("Error fetching data", error);
             }
@@ -266,9 +293,9 @@ export default function UserProfile() {
                                 <div className='flex items-center justify-between'>
                                     <div className='w-20 h-20 bg-[#EFF2F5] rounded-full'>
                                         {selectedImage ? (
-                                            <img alt={''} src={URL.createObjectURL(selectedImage)} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]' ></img>
+                                            <Image alt={''} src={URL.createObjectURL(selectedImage)} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]' ></Image>
                                         ) : (
-                                            <img alt={''} src={avatar || defaultAvatar} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]'></img>
+                                            <Image alt={''} src={avatar || defaultAvatar} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]'></Image>
                                         )}</div>
                                     <button onClick={() => openModal('modal1')} className='w-28 h-10 text-white text-xs font-bold bg-primary rounded-lg hover:bg-[#3459e7]'>Chỉnh sửa</button>
                                     {modals.includes('modal1') && (
@@ -280,8 +307,7 @@ export default function UserProfile() {
                                                         <div className="flex justify-between mb-5">
                                                             <h2 className='font-bold text-2xl'>Ảnh đại diện của bạn</h2>
                                                             <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal1')}>
-                                                                {/* <FontAwesomeIcon icon={faTimes} /> */}
-                                                                x
+                                                                <IoCloseOutline />
                                                             </button>
                                                         </div>
                                                         <div className="">

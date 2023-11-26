@@ -16,6 +16,7 @@
     "axios": "^1.6.1",
     "date-fns": "^2.30.0",
     "debug": "^4.3.4",
+    "encoding": "^0.1.13",
     "firebase": "^10.6.0",
     "immer": "^10.0.3",
     "js-cookie": "^3.0.5",

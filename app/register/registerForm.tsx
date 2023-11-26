@@ -1,6 +1,5 @@
 
 import { registerUser } from "@/services/user";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { SetStateAction, useCallback, useEffect, useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
@@ -57,7 +56,7 @@ function Modal({ onClose }: ModalProps) {
     target: { value: SetStateAction<string> };
   }) => {
     setConfirmPassword(e.target.value);
-  },[confirmPassword])
+  }, [confirmPassword])
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -87,27 +86,27 @@ function Modal({ onClose }: ModalProps) {
       return;
     }
     // try {
-      toast.promise(registerUser(name,email,password), {
-        pending: {
-          render: () => {
-            return "Đang đăng ký vào MarketMMO"
-          }
-        },
-        success: {
-          render: ({data}) => {
-            router.push("/login");
-            return "Đăng ký thành công vui lòng đăng nhập"
-          },
-          icon: '🟢'
-        },
-        error: {
-          render: ({data}) => {
-            console.log(data)
-            const error : any = data
-            return <div>{error.response.data.message}</div>
-          }
+    toast.promise(registerUser(name, email, password), {
+      pending: {
+        render: () => {
+          return "Đang đăng ký vào MarketMMO"
         }
-      })
+      },
+      success: {
+        render: ({ data }) => {
+          router.push("/login");
+          return "Đăng ký thành công vui lòng đăng nhập"
+        },
+        icon: '🟢'
+      },
+      error: {
+        render: ({ data }) => {
+          console.log(data)
+          const error: any = data
+          return <div>{error.response.data.message}</div>
+        }
+      }
+    })
   };
 
   useEffect(() => {
@@ -202,11 +201,10 @@ function Modal({ onClose }: ModalProps) {
                   type="email"
                   required
                   autoComplete="email"
-                  className={`block rounded-lg w-full h-14 focus:outline-none ${
-                    errorEmail
-                      ? "border border-red-500 focus:ring-red-100"
-                      : "hover:bg-white border hover:border-blue-500 hover:ring hover:ring-blue-100 focus:ring focus:ring-blue-100 focus:border-blue-500"
-                  } pl-4 focus:bg-white `}
+                  className={`block rounded-lg w-full h-14 focus:outline-none ${errorEmail
+                    ? "border border-red-500 focus:ring-red-100"
+                    : "hover:bg-white border hover:border-blue-500 hover:ring hover:ring-blue-100 focus:ring focus:ring-blue-100 focus:border-blue-500"
+                    } pl-4 focus:bg-white `}
                   onChange={handleEmailChange}
                   placeholder="nguyenvana@gmail.com"
                 />
@@ -242,7 +240,7 @@ function Modal({ onClose }: ModalProps) {
                     className="absolute top-3 right-1 px-2 py-1 cursor-pointer"
                     onClick={toggleShowPassword}
                   >
-                          {showPassword ? (<FaRegEyeSlash className="w-5 h-5" />) : (<FaRegEye className="w-5 h-5" />)}
+                    {showPassword ? (<FaRegEyeSlash className="w-5 h-5" />) : (<FaRegEye className="w-5 h-5" />)}
                   </div>
                 )}
               </div>
@@ -260,11 +258,10 @@ function Modal({ onClose }: ModalProps) {
                   name="confirmPassword"
                   required
                   type={showConfirmPassword ? "text" : "password"}
-                  className={`block rounded-lg w-full h-14 focus:outline-none appearance-none ${
-                    errorPassword
-                      ? "border border-red-500 focus:ring-red-100"
-                      : "hover:bg-white border hover:border-blue-500 hover:ring hover:border hover:ring-blue-100 focus:ring focus:ring-blue-100 "
-                  } pl-4 pr-10 focus:bg-white`}
+                  className={`block rounded-lg w-full h-14 focus:outline-none appearance-none ${errorPassword
+                    ? "border border-red-500 focus:ring-red-100"
+                    : "hover:bg-white border hover:border-blue-500 hover:ring hover:border hover:ring-blue-100 focus:ring focus:ring-blue-100 "
+                    } pl-4 pr-10 focus:bg-white`}
                   onChange={handleConfirmPasswordChange}
                   value={confirmPassword}
                   placeholder="**********"
@@ -289,9 +286,8 @@ function Modal({ onClose }: ModalProps) {
               )}
               {formatPassword && (
                 <p
-                  className={`text-gray-400 text-sm whitespace-pre-line ml-1 ${
-                    errorPassword ? "mt-5" : "mt-1"
-                  } ${formatPassword ? "text-red-400" : "text-gray-400"} `}
+                  className={`text-gray-400 text-sm whitespace-pre-line ml-1 ${errorPassword ? "mt-5" : "mt-1"
+                    } ${formatPassword ? "text-red-400" : "text-gray-400"} `}
                 >
                   {/* <FontAwesomeIcon
                     icon={faExclamation}

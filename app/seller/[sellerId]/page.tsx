@@ -786,7 +786,7 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                                 <div className="min-h-[100px] max-h-[320px] overflow-y-auto">
                                   {filteredProductsSearch.map(
                                     (product: Product) => (
-                                      <ProductItemSearch product={product} />
+                                      <ProductItemSearch product={product} key={product._id} />
                                     )
                                   )}{" "}
                                 </div>

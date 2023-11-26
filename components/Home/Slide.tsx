@@ -6,19 +6,25 @@ import { ref, listAll, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebase";
 import { useEffect, useState } from "react";
 
+// todos : 
+// + Cần có api get lấy cả image từ slide kèm với nội dung sau đó render ra
 export default function HomeSlide() {
   const imageListRef = ref(storage, 'slides/')
-  const [imageSlides, setImageSlides] = useState<any>([])
-  const [countSlide, setCountSlide] = useState(0)
-  useEffect(() => {
-    listAll(imageListRef).then((response) => {
-      response.items.map((item) => {
-        getDownloadURL(item).then((url) => {
-          setImageSlides((pre: any) => [...pre, url])
-        })
-      })
-    })
-  }, [])
+  const [imageSlides, setImageSlides] = useState<any>([
+    'https://firebasestorage.googleapis.com/v0/b/marketmmo.appspot.com/o/slides%2F0bc8399d16bc43e5a7f953530a7a0b89.jpeg?alt=media&token=7264f5cb-e6af-4f75-a136-04f41d634931',
+    'https://firebasestorage.googleapis.com/v0/b/marketmmo.appspot.com/o/slides%2F6cd7d73f13094af0b3c7e37dc4ff1054.jpeg?alt=media&token=2137e968-37fb-47a6-9a50-518129c94b0b',
+    'https://firebasestorage.googleapis.com/v0/b/marketmmo.appspot.com/o/slides%2F77e8f066839d496f83806409d3b6fe89.png?alt=media&token=98e41092-3309-4e22-804c-863a880354d9'
+    
+  ])
+  // useEffect(() => {
+  //   listAll(imageListRef).then((response) => {
+  //     response.items.map((item) => {
+  //       getDownloadURL(item).then((url) => {
+  //         setImageSlides((pre: any) => [...pre, url])
+  //       })
+  //     })
+  //   })
+  // }, [])
   return (
     <>
       {imageSlides && (
@@ -38,13 +44,7 @@ export default function HomeSlide() {
             modules={[Autoplay, Navigation, EffectCreative]}
             spaceBetween={20}
             slidesPerView={"auto"}
-            onSlideChange={(swiper) => {
-              let count = swiper.realIndex
-              console.log(swiper)
-              if (count) {
-                setCountSlide(count)
-              }
-            }}
+           
           >
             {imageSlides.map((item: any, index: string) => (
               <SwiperSlide key={index} className="!w-5/6 md:!w-full">
@@ -68,14 +68,14 @@ export default function HomeSlide() {
                           />
                           <div className="absolute w-full bg-[rgba(0,0,0,0.1)] h-full top-0 flex items-end justify-between">
                             <div className="flex p-5 md:p-10 flex-col">
-                              <Image
+                              {/* <Image
                                 src="/images/services/sosical.avif"
                                 alt="bnb"
                                 width={0}
                                 height={0}
                                 sizes="100vw"
                                 className="rounded-md border border-white mb-5 w-14 h-14 md:w-16 md:h-16"
-                              />
+                              /> */}
                               <p className=" text-2xl md:text-4xl font-semibold text-white">
                                 Giao dịch trung gian
                               </p>

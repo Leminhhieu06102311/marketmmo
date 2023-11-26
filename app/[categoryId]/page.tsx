@@ -6,6 +6,8 @@ import WrapResponsive from "@/components/WrapResponsive";
 import Product from "@/interfaces/product";
 import { useAppSelector } from "@/redux/hooks";
 import { getProductFromCategory } from "@/services/product";
+import { FaChevronDown, FaEllipsis } from "react-icons/fa6";
+
 // import {
 //   faArrowDownShortWide,
 //   faArrowUpShortWide,
@@ -50,7 +52,7 @@ export default function DetailCategory({
   }, []);
   useEffect(() => {
     console.log(products)
-  },[products])
+  }, [products])
   // Filter Product
   const filterProducts = (status: string) => {
     if (status === "all") {
@@ -82,7 +84,7 @@ export default function DetailCategory({
   };
   return (
     <>
-        <WrapResponsive>
+      <WrapResponsive>
         <div className="mt-10">
           <h3 className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
             Gian hàng{" "}
@@ -149,19 +151,7 @@ export default function DetailCategory({
                   >
                     <span className="lg:mx-2 md:mx-0">
                       <div className="flex justify-center items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 w-8 h-8 rounded-full">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          height="1em"
-                          viewBox="0 0 512 512"
-                        >
-                          {/*! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. */}
-                          <style
-                            dangerouslySetInnerHTML={{
-                              __html: "svg{fill:#ffffff}",
-                            }}
-                          />
-                          <path d="M256.55 8C116.52 8 8 110.34 8 248.57c0 72.3 29.71 134.78 78.07 177.94 8.35 7.51 6.63 11.86 8.05 58.23A19.92 19.92 0 0 0 122 502.31c52.91-23.3 53.59-25.14 62.56-22.7C337.85 521.8 504 423.7 504 248.57 504 110.34 396.59 8 256.55 8zm149.24 185.13l-73 115.57a37.37 37.37 0 0 1-53.91 9.93l-58.08-43.47a15 15 0 0 0-18 0l-78.37 59.44c-10.46 7.93-24.16-4.6-17.11-15.67l73-115.57a37.36 37.36 0 0 1 53.91-9.93l58.06 43.46a15 15 0 0 0 18 0l78.41-59.38c10.44-7.98 24.14 4.54 17.09 15.62z" />
-                        </svg>
+                        <FaChevronDown className="h-[24px]" />
                       </div>
                     </span>
                     <span className="lg:block md:hidden py-1 leading-10 text-sm font-medium">
@@ -330,9 +320,8 @@ export default function DetailCategory({
                     <li className="">
                       <button
                         onClick={() => filterProducts("all")}
-                        className={`px-4 py-2 m-1 rounded-md ${
-                          activeButton === "all" ? "bg-white" : "text-gray-500"
-                        }`}
+                        className={`px-4 py-2 m-1 rounded-md ${activeButton === "all" ? "bg-white" : "text-gray-500"
+                          }`}
                       >
                         Tất cả
                       </button>
@@ -340,18 +329,16 @@ export default function DetailCategory({
                     <li className="">
                       <button
                         onClick={() => filterProducts("sale")}
-                        className={`px-4 py-2 m-1 text-gray-500 rounded-md ${
-                          activeButton === "sale" ? "bg-white" : ""
-                        }`}
+                        className={`px-4 py-2 m-1 text-gray-500 rounded-md ${activeButton === "sale" ? "bg-white" : ""
+                          }`}
                       >
                         Giảm giá
                       </button>
                     </li>
                     <li className="">
                       <button
-                        className={`px-4 py-2 m-1 text-gray-500 rounded-md ${
-                          activeButton === "price" ? "bg-white" : ""
-                        }`}
+                        className={`px-4 py-2 m-1 text-gray-500 rounded-md ${activeButton === "price" ? "bg-white" : ""
+                          }`}
                         onClick={() => {
                           const newSortOrder =
                             sortOrder === "asc" ? "desc" : "asc";
@@ -436,18 +423,18 @@ export default function DetailCategory({
             </div>
             {/* Products */}
             {filteredProducts ? (
-             <>
-              <div className="grid xl:grid-cols-6 md:grid-cols-3 gap-x-5 gap-y-2">
-                {filteredProducts.map((product) => (
-                  <ProductItem product={product}/>
-                ))}
-              </div>
-              <div className="flex w-full justify-center my-4">
-              <button className="bg-primary text-white px-6 py-3 rounded-md font-semibold text-sm">
-                Xem thêm
-              </button>
+              <>
+                <div className="grid xl:grid-cols-6 md:grid-cols-3 gap-x-5 gap-y-2">
+                  {filteredProducts.map((product) => (
+                    <ProductItem product={product} key={product._id} />
+                  ))}
+                </div>
+                <div className="flex w-full justify-center my-4">
+                  <button className="bg-primary text-white px-6 py-3 rounded-md font-semibold text-sm">
+                    Xem thêm
+                  </button>
 
-              </div>
+                </div>
               </>
             ) : (
               <div className="grid xl:grid-cols-5 md:grid-cols-3">
@@ -456,7 +443,7 @@ export default function DetailCategory({
             )}
           </div>
         </div>
-        </WrapResponsive>
+      </WrapResponsive>
       <DetailProduct productId={productId} />
 
     </>

@@ -5,6 +5,8 @@ import { MouseEvent, useContext, useEffect, useState } from "react";
 import { Pagination } from "swiper/modules";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { CgDetailsMore } from "react-icons/cg";
+import { IoAddSharp } from "react-icons/io5";
+import { HiOutlineMinusSm } from "react-icons/hi";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
@@ -77,7 +79,7 @@ export default function DetailProduct({ productId }: { productId: string }) {
     <ContentModal nameModal="product">
       <div className=" w-full flex justify-end fixed z-50 top-0 items-center">
         <button onClick={() => dispatch(toggleModal('product'))} className="p-3">
-        <IoCloseOutline className="w-5 h-5" />
+          <IoCloseOutline className="w-5 h-5" />
         </button>
       </div>
       {dataProduct && (
@@ -163,7 +165,7 @@ export default function DetailProduct({ productId }: { productId: string }) {
                     </div>
                   </div>
                   <div className="flex flex-col justify-center items-center flex-1 gap-2">
-                    <h4 className="font-semibold text-lg">Chia sẽ</h4>
+                    <h4 className="font-semibold text-lg">Chia sẻ</h4>
                     <div className="flex gap-2">
                       <Link href="/" className="w-7 h-7  rounded-full">
                         <svg
@@ -612,13 +614,13 @@ export default function DetailProduct({ productId }: { productId: string }) {
                           key={index}
                           data-type={index}
                           onClick={(event) => hanldeSelectType(event)}
-                          className={`${
-                            selectType === index
-                              ? "bg-primary text-white border-transparent"
-                              : "text-black bg-white border-gray-200"
-                          } p-2 rounded-lg text-sm inline cursor-pointer border`}
+                          className={`${selectType === index
+                            ? "bg-primary text-white border-transparent"
+                            : "text-black bg-white border-gray-200"
+                            } p-2 rounded-lg text-sm inline cursor-pointer border`}
                         >
-                          {item.name}
+                          {item && item.name ? item.name : "Đang chờ cập nhật thêm gói"}
+
                         </button>
                       ))}
                     </div>
@@ -629,29 +631,7 @@ export default function DetailProduct({ productId }: { productId: string }) {
                   <div className=" py-3 flex gap-2 flex-col">
                     <div className="border border-gray-200 rounded-md inline-flex items-center">
                       <button onClick={handleMinus} className="py-3 px-4">
-                        <svg
-                          className="w-4 h-4"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <g id="SVGRepo_bgCarrier" strokeWidth={0} />
-                          <g
-                            id="SVGRepo_tracerCarrier"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <g id="SVGRepo_iconCarrier">
-                            {" "}
-                            <path
-                              d="M6 12L18 12"
-                              stroke="#000000"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />{" "}
-                          </g>
-                        </svg>
+                        <HiOutlineMinusSm />
                       </button>
                       <input
                         type="text"
@@ -662,29 +642,7 @@ export default function DetailProduct({ productId }: { productId: string }) {
                         className="py-3 px-4 "
                         onClick={() => setSelectQuantity(selectQuantity + 1)}
                       >
-                        <svg
-                          className="w-4 h-4"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <g id="SVGRepo_bgCarrier" strokeWidth={0} />
-                          <g
-                            id="SVGRepo_tracerCarrier"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <g id="SVGRepo_iconCarrier">
-                            {" "}
-                            <path
-                              d="M6 12H18M12 6V18"
-                              stroke="#000000"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />{" "}
-                          </g>
-                        </svg>
+                        <IoAddSharp />
                       </button>
                     </div>
                     <button
@@ -709,22 +667,20 @@ export default function DetailProduct({ productId }: { productId: string }) {
                 <button
                   type="button"
                   onClick={() => dispatch(setActiveTab("detail"))}
-                  className={`${
-                    activeTab === "detail"
-                      ? "text-white bg-blue-500"
-                      : "text-black"
-                  } py-2 px-4 inline-flex justify-center items-center gap-2 rounded-lg  border border-transparent font-semibold  focus:outline-none focus:ring-2 ring-offset-white focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm`}
+                  className={`${activeTab === "detail"
+                    ? "text-white bg-blue-500"
+                    : "text-black"
+                    } py-2 px-4 inline-flex justify-center items-center gap-2 rounded-lg  border border-transparent font-semibold  focus:outline-none focus:ring-2 ring-offset-white focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm`}
                 >
                   MÔ TẢ
                 </button>
                 <button
                   onClick={() => dispatch(setActiveTab("rating"))}
                   type="button"
-                  className={`${
-                    activeTab === "rating"
-                      ? "text-white bg-blue-500"
-                      : "text-black"
-                  } py-2 px-4 inline-flex justify-center items-center gap-2 rounded-lg  border border-transparent font-semibold  focus:outline-none focus:ring-2 ring-offset-white focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm`}
+                  className={`${activeTab === "rating"
+                    ? "text-white bg-blue-500"
+                    : "text-black"
+                    } py-2 px-4 inline-flex justify-center items-center gap-2 rounded-lg  border border-transparent font-semibold  focus:outline-none focus:ring-2 ring-offset-white focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm`}
                 >
                   ĐÁNH GIÁ
                 </button>
@@ -773,20 +729,22 @@ export default function DetailProduct({ productId }: { productId: string }) {
                         </div>
                       </div>
                       <div>
-                        <div className="flex gap-2 p-5 border border-b-gray-200 border-r-0 border-l-0 justify-between items-center cursor-pointer" onClick={() => setShowDetail({isInfo: !showDetail.isInfo,
-                        isPolicy: showDetail.isPolicy,
-                        isQuestion: showDetail.isQuestion})}>
+                        <div className="flex gap-2 p-5 border border-b-gray-200 border-r-0 border-l-0 justify-between items-center cursor-pointer" onClick={() => setShowDetail({
+                          isInfo: !showDetail.isInfo,
+                          isPolicy: showDetail.isPolicy,
+                          isQuestion: showDetail.isQuestion
+                        })}>
                           <div className="flex gap-2">
                             <AiOutlineInfoCircle className="w-6 h-6" />
                             <p className="font-semibold">Thông tin sản phẩm</p>
                           </div>
                           {showDetail.isInfo ? (
-                            <IoIosArrowUp className="w-5 h-5" /> 
-                            ) : (
+                            <IoIosArrowUp className="w-5 h-5" />
+                          ) : (
                             <IoIosArrowDown className="w-5 h-5" />
                           )}
                         </div>
-                        <div className={`p-5 flex-col gap-3 ${showDetail.isInfo ? "flex": "hidden"}`}>
+                        <div className={`p-5 flex-col gap-3 ${showDetail.isInfo ? "flex" : "hidden"}`}>
                           <div className="flex items-start gap-3">
                             <BsDashCircleDotted className="w-5 h-5" />
                             <p className="flex-1">
@@ -821,20 +779,22 @@ export default function DetailProduct({ productId }: { productId: string }) {
                         </div>
                       </div>
                       <div>
-                        <div className="flex gap-2 p-5 border border-b-gray-200 border-r-0 border-l-0 justify-between items-center" onClick={() => setShowDetail({isInfo: showDetail.isInfo,
-                        isPolicy: !showDetail.isPolicy,
-                        isQuestion: showDetail.isQuestion})}>
+                        <div className="flex gap-2 p-5 border border-b-gray-200 border-r-0 border-l-0 justify-between items-center" onClick={() => setShowDetail({
+                          isInfo: showDetail.isInfo,
+                          isPolicy: !showDetail.isPolicy,
+                          isQuestion: showDetail.isQuestion
+                        })}>
                           <div className="flex gap-2" >
                             <MdOutlinePolicy className="w-6 h-6" />
                             <p className="font-semibold">Chính sách bảo hành</p>
                           </div>
                           {showDetail.isPolicy ? (
-                            <IoIosArrowUp className="w-5 h-5" /> 
-                            ) : (
+                            <IoIosArrowUp className="w-5 h-5" />
+                          ) : (
                             <IoIosArrowDown className="w-5 h-5" />
                           )}
                         </div>
-                        <div className={`p-5 flex-col gap-3 ${showDetail.isPolicy ? "flex": "hidden"}`}>
+                        <div className={`p-5 flex-col gap-3 ${showDetail.isPolicy ? "flex" : "hidden"}`}>
                           <div className="flex items-start gap-3">
                             <BsDashCircleDotted className="w-5 h-5" />
                             <p className="flex-1">
@@ -869,20 +829,22 @@ export default function DetailProduct({ productId }: { productId: string }) {
                         </div>
                       </div>
                       <div>
-                        <div className="flex gap-2 p-5 border border-b-gray-200 border-r-0 border-l-0 justify-between items-center" onClick={() => setShowDetail({isInfo: showDetail.isInfo,
-                        isPolicy: showDetail.isPolicy,
-                        isQuestion: !showDetail.isQuestion})}>
+                        <div className="flex gap-2 p-5 border border-b-gray-200 border-r-0 border-l-0 justify-between items-center" onClick={() => setShowDetail({
+                          isInfo: showDetail.isInfo,
+                          isPolicy: showDetail.isPolicy,
+                          isQuestion: !showDetail.isQuestion
+                        })}>
                           <div className="flex gap-2">
                             <BsPatchQuestion className="w-6 h-6" />
                             <p className="font-semibold">Câu hỏi thường gặp</p>
                           </div>
                           {showDetail.isQuestion ? (
-                            <IoIosArrowUp className="w-5 h-5" /> 
-                            ) : (
+                            <IoIosArrowUp className="w-5 h-5" />
+                          ) : (
                             <IoIosArrowDown className="w-5 h-5" />
                           )}
                         </div>
-                        <div className={`p-5 flex-col gap-3 ${showDetail.isQuestion ? "flex": "hidden"}`}>
+                        <div className={`p-5 flex-col gap-3 ${showDetail.isQuestion ? "flex" : "hidden"}`}>
                           <div className="flex items-start gap-3">
                             <BsDashCircleDotted className="w-5 h-5" />
                             <p className="flex-1">

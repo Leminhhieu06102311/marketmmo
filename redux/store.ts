@@ -4,7 +4,6 @@ import productSlice from "./productSlice"
 import userSlice from "./userSlice"
 import modalSlice from "./modalSlice"
 import searchSlice from "./searchSlice"
-import { rootReducer } from "./hooks"
 
 export const store = configureStore({
     reducer: {
@@ -15,7 +14,6 @@ export const store = configureStore({
         rootReducer: userSlice
     }
 })
-export type RootState = ReturnType<typeof store.getState>
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

@@ -1,5 +1,3 @@
-
-'use client'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
@@ -9,6 +7,7 @@ import { ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import ProviderRedux from '@/redux/Provider'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,7 +27,7 @@ export default function RootLayout({
       <head>
       </head>
       <body className={inter.className}>
-        <Provider store={store}>
+        <ProviderRedux>
           <Header />
           <main>
             {children}
@@ -46,9 +45,10 @@ export default function RootLayout({
             pauseOnHover
             theme="light"
           />
-        </Provider>
+        </ProviderRedux>
       </body>
 
     </html>
+
   );
 }

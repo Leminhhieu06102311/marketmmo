@@ -2,11 +2,9 @@ import Product from "@/interfaces/product";
 import { useAppDispatch } from "@/redux/hooks";
 import { toggleModal } from "@/redux/modalSlice";
 import { PopupDetailProduct } from "@/redux/productSlice";
-// import { faFontAwesome } from "@fortawesome/free-solid-svg-icons";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 
-export default function ProductItem({product} : {product: Product}) {
+export default function ProductItem({ product }: { product: Product }) {
   const dispatch = useAppDispatch()
   const hanldeClickProduct = () => {
     dispatch(PopupDetailProduct(product.slug))
@@ -14,32 +12,34 @@ export default function ProductItem({product} : {product: Product}) {
   }
   return (
     <button
-      data-hs-overlay="#modal-detail-product"
       className="w-full"
       onClick={() => hanldeClickProduct()}
     >
       <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl box-shadow-product hover:-translate-y-3 hover:shadow-hover  duration-300 w-full">
-        <Image
-          src={product.pictures[0]}
-          alt=""
-          width={0}
-          height={0}
-          className="w-full h-[175px] object-cover rounded-t-2xl"
-          sizes="100vh"
-        ></Image>
+        {product.pictures.map((picture) => (
+          <Image
+            key={picture}
+            src={picture}
+            alt=""
+            width={0}
+            height={0}
+            className="w-full h-[175px] object-cover rounded-t-2xl"
+            sizes="100vh"
+          />
+        ))}
         <div className="p-3 w-full">
           <div className=" w-full line-clamp-1 overflow-hidden">
             <p className="w-full font-bold">
-             {product.name}
+              {product.name}
             </p>
           </div>
           <div className="w-full flex">
-          <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-            <span className="mr-1 text-gray-900">
-              {/* <FontAwesomeIcon icon={faFontAwesome} width={12} height={12} /> */}
-            </span>
-            <span>{product.code}</span>
-          </div>
+            <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+              <span className="mr-1 text-gray-900">
+                {/* <FontAwesomeIcon icon={faFontAwesome} width={12} height={12} /> */}
+              </span>
+              <span>{product.code}</span>
+            </div>
 
           </div>
           <div className="flex justify-between">
