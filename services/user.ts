@@ -6,7 +6,7 @@ export async function getUser(access_token: string) {
       Authorization: "Bearer " + access_token,
     },
   });
-  return res.data.data;
+  return res.data;
 }
 export async function loginUser(email: string, password: string) {
   const res = await api.post("/auth/login", {

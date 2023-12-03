@@ -1,4 +1,4 @@
-'use client'
+"use client"
 import { Suspense } from "react";
 import ProductLoader from "@/components/Skeleton/ProductLoader";
 import WrapResponsive from "@/components/WrapResponsive";

@@ -126,7 +126,7 @@ export default function Header() {
         <div className=" flex lg:flex gap-5">
           <div className=" lg:flex ">
             <div className="flex gap-2 md:gap-2 items-center">
-              {/* {!isLoggedIn ? (
+              {!isLoggedIn ? (
                 <div>
                   <Link href="/login"
                     className="bg-[#1212120a] hidden  rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:flex items-center gap-2"
@@ -141,7 +141,7 @@ export default function Header() {
                   <span  className="absolute top-0 right-0 bg-red-500 flex items-center justify-center rounded-full h-5 w-5 text-white font-semibold text-xs">3</span>
                   <LuBell className="w-5 h-5 text-black" />
                 </div>
-              )} */}
+              )}
               <div className=" group hidden md:block bg-[#1212120a] rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212] relative">
                 <HiOutlineUserCircle className="w-5 h-5" />
                 <ul className="group-hover:block absolute w-60 p-2 hidden bg-white right-0 z-10 top-14 rounded-lg shadow-modal before:absolute before:w-full before:h-6 before:bg-transparent before:right-0 before:-top-3  ">

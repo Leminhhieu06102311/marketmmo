@@ -1,11 +1,32 @@
 "use client"
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { FaGithub } from "react-icons/fa";
 import CartModal from "../Cart";
-
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import Cookies from 'js-cookie'
+import { fetchUser } from "@/redux/userSlice";
 export default function Footer() {
   // get name and status modal if name modal = cart and status = true mounted modal cart and opposite
   const { name, status } = useAppSelector((state) => state.modal)
+  const router = useRouter()
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    // Kiểm tra nếu cookie tồn tại
+    const loggedInUser = Cookies.get('token');
+    // check user logged
+    if (loggedInUser) {
+      const expirationDate = new Date(Cookies.get('token_expiration'));
+      
+      if (Date.now() > expirationDate.getTime()) {
+        Cookies.remove('token');
+        Cookies.remove('token_expiration');
+        router.push('/')
+      } else {
+        dispatch(fetchUser(loggedInUser))
+      }
+    }
+  }, []);
   return (
     <>
       <footer className="bg-white dark:bg-gray-900 pt-10 border-t-gray-100 border">

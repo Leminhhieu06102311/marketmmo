@@ -4,7 +4,6 @@ import Cookies from 'js-cookie'
 interface userState {
   name: string;
   id: string;
-  access_token: string,
   isLoggedIn: boolean,
   isAddToCart: boolean
 }
@@ -12,9 +11,8 @@ interface userState {
 export const  initialState: userState = {
   name: "",
   id: "",
-  access_token: '',
   isAddToCart: false,
-  isLoggedIn: Boolean(Cookies.get('access_token'))
+  isLoggedIn: false
 };
 
 export const userSlice = createSlice({
@@ -31,6 +29,7 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchUser.fulfilled, (state,action) => {
       state.id = action.payload._id
+      state.isLoggedIn = true
       state.name = action.payload.name
     })
   }

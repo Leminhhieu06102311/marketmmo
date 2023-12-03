@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ProviderRedux from '@/redux/Provider'
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {

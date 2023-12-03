@@ -2,14 +2,15 @@
 
 import { useAppDispatch } from "@/redux/hooks";
 import Link from "next/link";
-import { loginUser } from "@/services/user";
+import { getUser, loginUser } from "@/services/user";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import Cookies from 'js-cookie'
-import { setLoggedIn } from "@/redux/userSlice";
+import { fetchUser, setLoggedIn } from "@/redux/userSlice";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
+import { ENUM_ROLE_TYPE } from "@/enum/role_type";
 export default function Login() {
   const router = useRouter();
   const dispatch = useAppDispatch()
@@ -42,6 +43,10 @@ export default function Login() {
   const handleLogin = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
     setMessageErrorLogin('')
+    const expirationTimeInSeconds = 1; // 30 seconds
+    const currentDate = new Date();
+    currentDate.setTime(currentDate.getTime() + (expirationTimeInSeconds * 24 * 60 * 60 * 1000)); // Calculate expiration time in milliseconds
+
     toast.promise(loginUser(email, password), {
       pending: {
         render() {
@@ -49,11 +54,17 @@ export default function Login() {
         },
       },
       success: {
-        render({ data }) {
+        async render({ data }) {
           const { access_token } = data.data
-          Cookies.set('access_token', access_token, { expires: 10 })
-          dispatch(setLoggedIn(true))
-          router.push("/");
+          dispatch(fetchUser(access_token))
+          const dataUser = await getUser(access_token)
+          if (dataUser.role === ENUM_ROLE_TYPE.CUSTOMER) {
+            // Set the main cookie with value 'cookieValue' and expiration time of 30 seconds
+            Cookies.set('token', access_token, { expires: expirationTimeInSeconds });
+            // Set another cookie 'myCookieExpiration' to store the expiration time
+            Cookies.set('token_expiration', currentDate.toUTCString(), { expires: expirationTimeInSeconds });
+            router.push("/");
+          }
           return "Đăng nhập thành công"
 
         },
@@ -62,6 +73,7 @@ export default function Login() {
       },
       error: {
         render: ({ data }) => {
+          console.log(data)
           const error: any = data
           if (error.response && error.response.status === 401) {
             // Lỗi 401 có nghĩa là "Sai tài khoản hoặc mật khẩu"
@@ -85,14 +97,14 @@ export default function Login() {
       <div className="flex flex-row max-w-xxs mx-auto items-center h-full lg:m-0 lg:items-stretch truncate lg:h-screen lg:max-w-7xl md:max-w-3xl md:m-auto">
         <section className="hidden lg:w-[450px] lg:grow-0 lg:block  ">
           <div className="lg:h-full lg:flex lg:flex-col lg:justify-between">
-            <video
+            {/* <video
               playsInline
               className="lg:w-full lg:h-full lg:object-cover lg:overflow-clip"
               src="https://cdn.dribbble.com/uploads/48226/original/b8bd4e4273cceae2889d9d259b04f732.mp4?1689028949"
               autoPlay
               loop
               muted
-            ></video>
+            ></video> */}
           </div>
         </section>
         <section className="flex flex-col flex-1 overflow-auto w-full  ">

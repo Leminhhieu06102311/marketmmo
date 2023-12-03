@@ -1,3 +1,4 @@
+"use client"
 import WrapResponsive from "../WrapResponsive";
 import { SwiperSlide, Swiper } from "swiper/react";
 import Image from "next/image";

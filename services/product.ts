@@ -24,17 +24,20 @@ export async function getProducts() {
     
 }
 export async function getAccountTrending() {
-    const res = await api.get('/product?limit=6&page=1&categoryId=6544c5879d85a36c1ddbc646&sort=BEST_SELLER_DESC')
+    const res = await api.get('/product?limit=6&page=1&sort=BEST_SELLER_DESC')
+
+    console.log(res)
     const { result } = res.data.data
     return result
 }
 export async function getSoftwareTrending() {
-    const res = await api.get('/product?limit=6&page=1&categoryId=6544c5879d85a36c1ddbc645&sort=BEST_SELLER_DESC')
+    const res = await api.get('/product?limit=6&page=1&sort=BEST_SELLER_DESC')
     const { result } = res.data.data
     return result
 }
-export async function   getProductFromCategory(categoryId : string) {
-    const res = await api.get(`/product?limit=15&page=1&categoryId=${categoryId}&sort=RATING_DESC`)
+export async function  getProductFromCategory(categoryId : string, page : number) {
+    console.log(categoryId)
+    const res = await api.get(`/product?limit=18&page=${page}&categoryId=${categoryId}&sort=RATING_DESC`)
     const { result } = res.data.data
     return result
 }
