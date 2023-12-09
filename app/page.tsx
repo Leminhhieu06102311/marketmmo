@@ -9,20 +9,20 @@ import HomeSlide from "@/components/Home/Slide";
 export default async function Home() {
 
   return (
-      <>
-        <HomeSlide />
-        <WrapResponsive>
-          <Suspense fallback={<ProductLoader quantityProduct={6} />}>
-            <SellingProduct />
-          </Suspense>
-        </WrapResponsive>
-        <WrapResponsive>
-          <Suspense fallback={<ProductLoader quantityProduct={6} />}>
-            <AccountTrending />
-          </Suspense>
-        </WrapResponsive>
-        
-      </>
+    <>
+      <HomeSlide />
+      <WrapResponsive>
+        <Suspense fallback={<ProductLoader quantityProduct={6} />}>
+          {/* <SellingProduct /> */}
+        </Suspense>
+      </WrapResponsive>
+      <WrapResponsive>
+        <Suspense fallback={<ProductLoader quantityProduct={6} />}>
+          {/* <AccountTrending /> */}
+        </Suspense>
+      </WrapResponsive>
+
+    </>
   )
 }
 

@@ -55,7 +55,7 @@ const links: Links[] = [
 ];
 export default function Header() {
   const { isLoggedIn } = useAppSelector((state) => state.user)
-  const {productId} = useAppSelector((state) => state.product)
+  const { productId } = useAppSelector((state) => state.product)
   const { isModalSearch } = useAppSelector((state) => state.search)
   const [searchTerm, setSearchTerm] = useState('')
   const [showModal, setShowModal] = useState(false);
@@ -69,7 +69,7 @@ export default function Header() {
 
   const dispatch = useAppDispatch();
   const hanldeLogout = () => {
-    Cookies.remove('access_token')
+    Cookies.remove('token')
     dispatch(setLoggedIn(false))
     toast.success('Đăng suất thành công', { icon: '🟢' })
   };
@@ -138,7 +138,7 @@ export default function Header() {
                 <div
                   className="bg-[#1212120a] hidden md:block relative rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212]"
                 >
-                  <span  className="absolute top-0 right-0 bg-red-500 flex items-center justify-center rounded-full h-5 w-5 text-white font-semibold text-xs">3</span>
+                  <span className="absolute top-0 right-0 bg-red-500 flex items-center justify-center rounded-full h-5 w-5 text-white font-semibold text-xs">3</span>
                   <LuBell className="w-5 h-5 text-black" />
                 </div>
               )}
@@ -148,7 +148,7 @@ export default function Header() {
                   <li className="">
                     <Link
                       className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer"
-                      href="/history-transaction"
+                      href="/profile"
                     >
                       <HiOutlineUserCircle className="w-5 h-5" />
                       <span className="font-medium block">Trang cá nhân</span>
@@ -157,7 +157,7 @@ export default function Header() {
                   <li className="">
                     <Link
                       className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer"
-                      href="/history-transaction"
+                      href="/transaction-history"
                     >
                       <IoPaperPlaneOutline className="w-5 h-5" />
                       <span className="font-medium block">Đơn hàng đã mua</span>
@@ -178,7 +178,7 @@ export default function Header() {
                     onClick={() => hanldeLogout()}
                   >
                     <IoIosLogOut className="w-5 h-5" />
-                    <span className="font-medium block">Đăng suất</span>
+                    <span className="font-medium block">Đăng xuất</span>
                   </li>
                 </ul>
               </div>

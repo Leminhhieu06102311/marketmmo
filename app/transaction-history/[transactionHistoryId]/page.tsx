@@ -17,6 +17,9 @@ import WrapResponsive from "@/components/WrapResponsive";
 import { toast } from "react-toastify";
 import { ratingProduct } from "@/services/rating";
 import { IoCloseOutline } from "react-icons/io5";
+import { PopupDetailProduct, setActiveTab } from "@/redux/productSlice";
+import { toggleModal } from "@/redux/modalSlice";
+import product from "@/interfaces/product";
 
 export default function TransactionHistoryProduct({
   params,
@@ -31,13 +34,16 @@ export default function TransactionHistoryProduct({
   const transId = params.transactionHistoryId;
   const [TransacId, setTransacId] = useState<Histories[]>([]);
   const [rating, setRating] = useState(0);
-  const [showMore1, setShowMore1] = useState(false);
+  // const [showMore1, setShowMore1] = useState(false);
 
-  const [notification, setNotification] = useState(false)
-  const [messenges, setMessenges] = useState('')
+  // const [notification, setNotification] = useState(false)
+  // const [messenges, setMessenges] = useState('')
 
   const [filteredTransacId, setFilteredTransacId] = useState<Histories[]>([]);
-  const access_token = Cookies.get("access_token");
+  const access_token = Cookies.get("token");
+
+  const dispatch = useAppDispatch();
+
 
   useEffect(() => {
     if (!access_token) {
@@ -62,49 +68,62 @@ export default function TransactionHistoryProduct({
     filterProducts();
   }, [TransacId, transId]);
 
-  const handleShowMore1 = () => {
-    setShowMore1(true);
-  };
+  // const handleShowMore1 = () => {
+  //   setShowMore1(true);
+  // };
+
+  const hanldeClickProduct = () => {
+    dispatch(PopupDetailProduct(filteredTransacId[0].product.slug))
+    dispatch(toggleModal('product'))
+    dispatch(setActiveTab("detail"))
+  }
+
+  const hanldeClickProductRating = () => {
+    dispatch(PopupDetailProduct(filteredTransacId[0].product.slug))
+    dispatch(toggleModal('product'))
+    dispatch(setActiveTab("rating"))
+
+  }
 
   const handleRatingClick = (value: any) => {
     setRating(value);
   };
 
-  const handleSendRating = (productId: string) => {
+  // const handleSendRating = (productId: string) => {
 
-    setMessenges('')
-    toast.promise(ratingProduct(access_token, rating, productId), {
-      pending: {
-        render() {
-          return "Vui lòng đợi"
-        },
-      }, success: {
-        render() {
-          setShowMore1(false)
-          return "Xin cảm ơn, bạn đã đánh giá sản phẩm thành công!"
-        },
-        // other options
-        icon: "🟢",
-      },
-      error: {
-        render: ({ data }) => {
-          const error: any = data
-          if (error.response && error.response.status === 401) {
-            // Lỗi 401 có nghĩa là "Sai tài khoản hoặc mật khẩu"
-            setMessenges(error.response.data.message)
-            setNotification(true);
-            console.log(error);
-          } else {
-            setMessenges(error.response.data.message)
-            setNotification(true);
+  //   setMessenges('')
+  //   toast.promise(ratingProduct(access_token, rating, productId), {
+  //     pending: {
+  //       render() {
+  //         return "Vui lòng đợi"
+  //       },
+  //     }, success: {
+  //       render() {
+  //         setShowMore1(false)
+  //         return "Xin cảm ơn, bạn đã đánh giá sản phẩm thành công!"
+  //       },
+  //       // other options
+  //       icon: "🟢",
+  //     },
+  //     error: {
+  //       render: ({ data }) => {
+  //         const error: any = data
+  //         if (error.response && error.response.status === 401) {
+  //           // Lỗi 401 có nghĩa là "Sai tài khoản hoặc mật khẩu"
+  //           setMessenges(error.response.data.message)
+  //           setNotification(true);
+  //           console.log(error);
+  //         } else {
+  //           setMessenges(error.response.data.message)
+  //           setNotification(true);
 
-            console.error("Lỗi, Vui lòng thử lại", error);
-          }
-          return <div>{error.response.data.message}</div>
-        }
-      }
-    })
-  }
+  //           console.error("Lỗi, Vui lòng thử lại", error);
+  //         }
+  //         return <div>{error.response.data.message}</div>
+  //       }
+  //     }
+  //   })
+  // }
 
   return (
     <>
@@ -198,12 +217,16 @@ export default function TransactionHistoryProduct({
                       <button
                         type="button"
                         className="py-2 mr-2 px-4 inline-flex justify-center items-center gap-2 rounded-lg bg-white border border-blue-500 font-semibold text-blue-500 hover:text-white hover:bg-blue-500 focus:outline-none focus:ring-2 ring-offset-white focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm"
+                        onClick={() => dispatch(hanldeClickProduct)}
+
                       >
-                        Xem sản phẩm{" "}
+                        Xem sản phẩm
                       </button>
                       <button
                         type="button"
-                        onClick={handleShowMore1}
+                        // onClick={handleShowMore1}
+                        onClick={() => dispatch(hanldeClickProductRating)}
+
                         className="py-2 px-4 inline-flex cursor-pointer justify-center items-center gap-2 rounded-lg bg-blue-500 border border-transparent font-semibold text-white hover:text-white hover:bg-blue-500 focus:outline-none focus:ring-2 ring-offset-white focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm"
                       >
                         Đánh giá
@@ -308,7 +331,7 @@ export default function TransactionHistoryProduct({
                   </div>
                 </div>
                 <div>
-                  <div>
+                  {/* <div>
                     {showMore1 === true ? (
                       <>
                         <div className="">
@@ -946,7 +969,7 @@ export default function TransactionHistoryProduct({
                     ) : (
                       <></>
                     )}
-                  </div>
+                  </div> */}
                 </div>
               </>
             ))}

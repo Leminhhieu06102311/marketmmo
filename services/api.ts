@@ -8,6 +8,7 @@ const api = axios.create({
     'Access-Control-Allow-Origin': "*",
     'content-type': 'application/x-www-form-urlencoded',
     'Access-Control-Allow-Credentials': 'true',
+    'ngrok-skip-browser-warning': 'true'
   },
 });
 
