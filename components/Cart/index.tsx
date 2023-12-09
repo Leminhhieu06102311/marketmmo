@@ -18,17 +18,20 @@ export default function CartModal() {
   const { isLoggedIn } = useAppSelector((state) => state.user)
   const { isAddToCart } = useAppSelector((state) => state.user)
   const { id } = useAppSelector((state) => state.user)
-  const access_token = Cookies.get('access_token')
+  const access_token = Cookies.get('token')
+
   const hanldeRemoveCart = () => {
     localStorage.clear()
     dispatch(setIsAddToCart())
   }
+
   const submitOrder = async () => {
     if (!isLoggedIn) {
       router.push('/login')
       dispatch(toggleModal('cart'))
     } else {
       const data = localStorage?.getItem("product")
+
       if (data) {
         const { product, type, quantity } = JSON.parse(data)
         const productId = product._id
@@ -69,7 +72,7 @@ export default function CartModal() {
   return (
     <>
       <ContentModal nameModal="cart">
-        <div className="fixed top-5 bottom-5 right-5 " >
+        <div className="fixed top-5 bottom-5 right-5 overflow-y-scroll" >
           <div className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700">
             <div className="flex justify-between items-center py-3 px-4 border-b dark:border-gray-700">
               <h3 className="font-bold text-xl text-gray-800 dark:text-gray-200">

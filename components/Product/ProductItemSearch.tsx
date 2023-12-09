@@ -1,8 +1,6 @@
 import Product from "@/interfaces/product";
 import { useAppDispatch } from "@/redux/hooks";
 import { PopupDetailProduct } from "@/redux/productSlice";
-import { faFontAwesome } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 
 export default function ProductItemSearch({ product }: { product: Product }) {

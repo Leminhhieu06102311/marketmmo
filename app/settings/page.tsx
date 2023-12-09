@@ -123,6 +123,7 @@ export default function UserProfile() {
         closeModal('modal1')
         if (selectedImage !== null) {
             try {
+                toast.info('Đang cập nhật...');
                 // Upload image to Firebase Storage
                 const randomString = generateRandomString(8);
                 const timestamp = getCurrentTimestamp();
@@ -253,7 +254,8 @@ export default function UserProfile() {
 
 
     useEffect(() => {
-        const token = Cookies.get('access_token');
+        const token = Cookies.get('token');
+        console.log(token);
 
         if (token) {
             setAccessToken(token)
@@ -263,7 +265,7 @@ export default function UserProfile() {
         const fetchDataUser = async () => {
             try {
                 let dataUser = await getUser(token);
-                console.log(dataUser);
+                console.log('data user', dataUser);
                 setDisplayName(dataUser.name)
                 setUsername(dataUser.username)
                 setDescription(dataUser.bio)
@@ -393,7 +395,7 @@ export default function UserProfile() {
                                         onChange={handleDisplayNameChange}
                                     />
                                     <span className='absolute top-4 right-2 font-normal text-gray-400'>
-                                        {displayName.length}/20
+                                        {displayName?.length}/20
                                     </span>
                                 </div>
                             </div>
@@ -410,7 +412,7 @@ export default function UserProfile() {
                                             onChange={handleUsernameChange}
                                         />
                                         <span className='absolute top-4 right-2 font-normal text-gray-400'>
-                                            {username.length}/20
+                                            {username?.length}/20
                                         </span>
                                     </div>
                                 </div>
@@ -441,7 +443,7 @@ export default function UserProfile() {
                                         onChange={handleDescriptionChange}
                                     ></textarea>
                                     <span className='absolute top-24 right-2 font-normal text-gray-400'>
-                                        {description ? `${description.length}/500` : '0/500'}
+                                        {description ? `${description?.length}/500` : '0/500'}
                                     </span>
                                 </div>
                             </div>

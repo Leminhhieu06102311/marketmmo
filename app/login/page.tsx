@@ -46,7 +46,6 @@ export default function Login() {
     const expirationTimeInSeconds = 1; // 30 seconds
     const currentDate = new Date();
     currentDate.setTime(currentDate.getTime() + (expirationTimeInSeconds * 24 * 60 * 60 * 1000)); // Calculate expiration time in milliseconds
-
     toast.promise(loginUser(email, password), {
       pending: {
         render() {
@@ -58,6 +57,8 @@ export default function Login() {
           const { access_token } = data.data
           dispatch(fetchUser(access_token))
           const dataUser = await getUser(access_token)
+          console.log(dataUser);
+
           if (dataUser.role === ENUM_ROLE_TYPE.CUSTOMER) {
             // Set the main cookie with value 'cookieValue' and expiration time of 30 seconds
             Cookies.set('token', access_token, { expires: expirationTimeInSeconds });

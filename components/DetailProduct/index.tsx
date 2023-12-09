@@ -63,18 +63,23 @@ export default function DetailProduct({ productId }: { productId: string }) {
       localStorage.setItem("product", JSON.stringify(cart));
     }
   };
+
+  const getDataProduct = async () => {
+    try {
+      const dataDetailProduct: Product = await getDetailProduct(productId);
+      setDataProduct(dataDetailProduct);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    console.log(productId);
-    const getDataProduct = async () => {
-      try {
-        const dataDetailProduct: Product = await getDetailProduct(productId);
-        setDataProduct(dataDetailProduct);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+
     getDataProduct();
   }, [productId]);
+
+  console.log(dataProduct);
+
   return (
     <ContentModal nameModal="product">
       <div className=" w-full flex justify-end fixed z-50 top-0 items-center">
@@ -564,7 +569,7 @@ export default function DetailProduct({ productId }: { productId: string }) {
                             </g>
                           </svg>
                         </div>
-                        <p>{dataProduct.rating.count} lượt đánh giá</p>
+                        <p>{dataProduct.rating.count / 2} lượt đánh giá</p>
                       </div>
                       <div className="flex items-center">
                         <span className="h-5 w-[1px] bg-gray-300 mx-2"></span>
@@ -881,7 +886,7 @@ export default function DetailProduct({ productId }: { productId: string }) {
                     </div>
                   </>
                 ) : (
-                  <Comments productId={productId} />
+                  <Comments productId={productId} _id={dataProduct._id} reviews={dataProduct.rating} />
                 )}
               </div>
             </div>

@@ -58,7 +58,7 @@ export default function Profile() {
 
     //  
     const handleChangePassword = async () => {
-        const access_token = Cookies.get('access_token')
+        const access_token = Cookies.get('token')
         const passwordRegex =
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,60}$/;
         if (!passwordRegex.test(password)) {

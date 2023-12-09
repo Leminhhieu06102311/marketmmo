@@ -15,6 +15,9 @@ import { ratingProduct } from "@/services/rating";
 import { IoCloseOutline } from "react-icons/io5";
 
 import product from "@/interfaces/product";
+import { useAppDispatch } from "@/redux/hooks";
+import { PopupDetailProduct } from "@/redux/productSlice";
+import { toggleModal } from "@/redux/modalSlice";
 
 const PurchaseHistory = () => {
   const [isClient, setIsClient] = useState(false)
@@ -31,7 +34,7 @@ const PurchaseHistory = () => {
     Histories[]
   >([]);
   const [visibleProducts, setVisibleProducts] = useState(4);
-  const access_token = Cookies.get("access_token");
+  const access_token = Cookies.get("token");
   const [rating, setRating] = useState(0);
   const [showMore1, setShowMore1] = useState(false);
 
@@ -50,7 +53,7 @@ const PurchaseHistory = () => {
       }
     };
     fetchHistories();
-  }, []);
+  }, [access_token]);
 
   let sub: string | null = null;
   if (access_token) {
@@ -157,6 +160,15 @@ const PurchaseHistory = () => {
       setVisibleProducts(4);
     }
   };
+
+  const dispatch = useAppDispatch()
+  const hanldeClickProduct = (slug: string) => {
+    dispatch(PopupDetailProduct(slug))
+    dispatch(toggleModal('product'))
+  }
+
+
+
   return (
     <>
 
@@ -198,7 +210,7 @@ const PurchaseHistory = () => {
                               {filteredProductsSearch.map((item: Histories) => (
                                 <Link href={`/transaction-history/${item._id}`} key={item._id}>
                                   <div className="transition ease-in-out delay-150 m-2 border-b border-[#ececec] hover:bg-gray-50 duration-100 ">
-                                    <div className="p-3">
+                                    <div className="p-3 ">
                                       <div className="justify-between px-4 items-center md:flex lg:flex">
                                         <div className="flex gap-x-4 item-center">
                                           <div className="h-auto w-[81px] md:h-[71px] lg:w-[50px] lg:h-auto">
@@ -280,7 +292,7 @@ const PurchaseHistory = () => {
                     {histories.map((item) => (
                       <div key={item._id}>
                         <a>
-                          <div className="transition ease-in-out delay-150 rounded-2xl shadow-md hover:bg-gray-50 duration-100 ">
+                          <div className="transition ease-in-out delay-150 rounded-2xl shadow-md hover:bg-gray-50 duration-100 mb-3">
                             <div className="p-3">
                               <div className="flex justify-between border-b border-solid border-[#EFF2F5] py-2">
                                 <div className="flex items-center gap-x-4">
@@ -298,7 +310,7 @@ const PurchaseHistory = () => {
                                   </div>
                                   <div>
                                     <button
-                                      className="hidden px-3 py-2 rounded-[10px] bg-[#3861FB] text-white  font-medium leading-normal md:block lg:block delay-150 hover:bg-[#3862fbdf] delay-150 hover:bg-[#3862fbdf]" onClick={() => setShowMore1(!showMore1)}
+                                      className="hidden px-3 py-2 rounded-[10px] bg-[#3861FB] text-white  font-medium leading-normal md:block lg:block delay-150 hover:bg-[#3862fbdf] delay-150 hover:bg-[#3862fbdf]" onClick={() => hanldeClickProduct(item.product.slug)}
                                     >
                                       Đánh giá
                                     </button>
@@ -378,7 +390,7 @@ const PurchaseHistory = () => {
                           </div>
                         </a>
                         <div>
-                          <div>
+                          {/* <div>
                             {showMore1 === true ? (
                               <>
                                 <div className="">
@@ -1016,7 +1028,7 @@ const PurchaseHistory = () => {
                             ) : (
                               <></>
                             )}
-                          </div>
+                          </div> */}
                         </div>
                       </div>
 

@@ -89,27 +89,29 @@ export default function profile_user() {
         });
     }
 
-    useEffect(() => {
-        const token = Cookies.get('access_token');
+    const token = Cookies.get('token');
 
+    const fetchDataUser = async () => {
+        try {
+            let dataUser = await getUser(token);
+            console.log(dataUser);
+            setDisplayName(dataUser.name);
+            setUsername(dataUser.username);
+            setDescription(dataUser.bio);
+            setAvatar(dataUser.avatar);
+            setCreatAt(new Date(dataUser.createdAt).toISOString().split('T')[0])
+        } catch (error) {
+            console.error("Error fetching data", error);
+        }
+    };
+
+    useEffect(() => {
         if (token) {
             setAccessToken(token)
         } else {
             console.log('Access Token not found in cookie');
         }
-        const fetchDataUser = async () => {
-            try {
-                let dataUser = await getUser(token);
-                console.log(dataUser);
-                setDisplayName(dataUser.name);
-                setUsername(dataUser.username);
-                setDescription(dataUser.bio);
-                setAvatar(dataUser.avatar);
-                setCreatAt(new Date(dataUser.createdAt).toISOString().split('T')[0])
-            } catch (error) {
-                console.error("Error fetching data", error);
-            }
-        };
+
         fetchDataUser();
     }, [access_token]);
 
