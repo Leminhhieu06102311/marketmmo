@@ -33,8 +33,17 @@ export default function UserProfile() {
     const [fileName, setFileName] = useState('');
 
     const [imageUrl, setImageUrl] = useState('')
-    const defaultAvatar = '/images/security/noavatar.png';
+    // const defaultAvatar = '/images/security/noavatar.png';
 
+    useEffect(() => {
+        if (token) {
+            setAccessToken(token)
+            fetchDataUser();
+        } else {
+            console.log('Access Token not found in cookie');
+        }
+
+    }, [access_token]);
 
     // Modal
     const openModal = (modalId: string) => {
@@ -250,35 +259,24 @@ export default function UserProfile() {
         }
 
     }
+    const token = Cookies.get('token');
 
+    const fetchDataUser = async () => {
+        try {
+            let dataUser = await getUser(token);
+            setDisplayName(dataUser.name)
+            setUsername(dataUser.username)
+            setDescription(dataUser.bio)
+            setBirthDay(new Date(dataUser.birthday).toISOString().split('T')[0])
+            setWebsite(dataUser.website)
+            setAvatar(dataUser.avatar);
 
-
-    useEffect(() => {
-        const token = Cookies.get('token');
-        console.log(token);
-
-        if (token) {
-            setAccessToken(token)
-        } else {
-            console.log('Access Token not found in cookie');
+        } catch (error) {
+            console.error("Error fetching data", error);
         }
-        const fetchDataUser = async () => {
-            try {
-                let dataUser = await getUser(token);
-                console.log('data user', dataUser);
-                setDisplayName(dataUser.name)
-                setUsername(dataUser.username)
-                setDescription(dataUser.bio)
-                setBirthDay(new Date(dataUser.birthday).toISOString().split('T')[0])
-                setWebsite(dataUser.website)
-                setAvatar(dataUser.avatar);
+    };
 
-            } catch (error) {
-                console.error("Error fetching data", error);
-            }
-        };
-        fetchDataUser();
-    }, [access_token]);
+
 
     return (
         <>
@@ -297,7 +295,7 @@ export default function UserProfile() {
                                         {selectedImage ? (
                                             <Image alt={''} src={URL.createObjectURL(selectedImage)} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]' ></Image>
                                         ) : (
-                                            <Image alt={''} src={avatar || defaultAvatar} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]'></Image>
+                                            <Image alt={''} src={avatar} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]'></Image>
                                         )}</div>
                                     <button onClick={() => openModal('modal1')} className='w-28 h-10 text-white text-xs font-bold bg-primary rounded-lg hover:bg-[#3459e7]'>Chỉnh sửa</button>
                                     {modals.includes('modal1') && (
@@ -317,7 +315,7 @@ export default function UserProfile() {
                                                             <div className=''>
                                                                 <div className="flex justify-between items-center mb-5">
                                                                     {selectedImage ? (<Image alt={''} src={URL.createObjectURL(selectedImage)} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]' ></Image>) :
-                                                                        (<Image alt={''} src={avatar || defaultAvatar} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]'></Image>)}
+                                                                        (<Image alt={''} src={avatar} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]'></Image>)}
                                                                     <div className='flex items-center'>
                                                                         <input
                                                                             type="file"

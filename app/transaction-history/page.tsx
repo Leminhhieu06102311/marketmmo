@@ -41,8 +41,8 @@ const BuyerHistory = () => {
                 >
                   <button
                     className={`${activeTab === 1
-                        ? "text-black bg-[#1212120a]"
-                        : "text-gray-700 bg-none"
+                      ? "text-black bg-[#1212120a]"
+                      : "text-gray-700 bg-none"
                       } leading-16 font-semibold  px-4 py-3 rounded-[10px]`}
                     onClick={() => handleTabClick(1)}
                   >
@@ -52,7 +52,7 @@ const BuyerHistory = () => {
 
                   </button>
                 </div>
-                <div
+                {/* <div
                   className="text-center"
                   onClick={() => handleTabClick(2)}
                 >
@@ -69,12 +69,12 @@ const BuyerHistory = () => {
 
 
                   </button>
-                </div>
+                </div> */}
                 <div className="text-center">
                   <button
                     className={`${activeTab === 3
-                        ? "text-black bg-[#1212120a]"
-                        : "text-gray-700 bg-none"
+                      ? "text-black bg-[#1212120a]"
+                      : "text-gray-700 bg-none"
                       } leading-16 font-semibold  px-4 py-3 rounded-[10px]`}
                     onClick={() => handleTabClick(3)}
                   >
