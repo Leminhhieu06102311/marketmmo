@@ -13,14 +13,21 @@ import { GoRss } from "react-icons/go";
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { getUser } from "@/services/user";
+import { setLoggedIn } from "@/redux/userSlice";
+import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 
 export default function profile_user() {
-    const [showPicker, setShowPicker] = useState(false);
-    const [showButtonSearch, setShowButtonSearch] = useState(false);
+
+    const dispatch = useAppDispatch();
+
+    // const [showPicker, setShowPicker] = useState(false);
+    // const [showButtonSearch, setShowButtonSearch] = useState(false);
     const [selectedEmojis, setSelectedEmojis] = useState<string[]>([]);
     const [textareaValue, setTextareaValue] = useState('');
     const [activeTab, setActiveTab] = useState("post");
+
 
     const [access_token, setAccessToken] = useState('');
     const [displayName, setDisplayName] = useState('');
@@ -28,9 +35,22 @@ export default function profile_user() {
     const [description, setDescription] = useState('');
     const [avatar, setAvatar] = useState('');
     const [creatAt, setCreatAt] = useState('');
-    const [fileName, setFileName] = useState('');
+    // const [fileName, setFileName] = useState('');
+    const [loading, setLoading] = useState(true);
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const router = useRouter();
+
+    useEffect(() => {
+        const access_token = Cookies.get("token");
+        if (!access_token) {
+            dispatch(setLoggedIn(true));
+            router.replace("/login");
+            setLoading(false);
+        }
+    }, []);
+
     // const [isContentOpen, setIscontentOpen] = useState(true);
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -54,17 +74,17 @@ export default function profile_user() {
         setActiveTab(tab);
     };
 
-    const handleEmojiSelect = (emoji: any) => {
-        const newEmojis = [...selectedEmojis, emoji];
-        setSelectedEmojis(newEmojis);
+    // const handleEmojiSelect = (emoji: any) => {
+    //     const newEmojis = [...selectedEmojis, emoji];
+    //     setSelectedEmojis(newEmojis);
 
-        const newTextareaValue = newEmojis.join(' ');
-        setTextareaValue(newTextareaValue);
-    };
+    //     const newTextareaValue = newEmojis.join(' ');
+    //     setTextareaValue(newTextareaValue);
+    // };
 
-    const handleInputFocus = () => {
-        setShowButtonSearch(true);
-    };
+    // const handleInputFocus = () => {
+    //     setShowButtonSearch(true);
+    // };
 
 
 
@@ -108,16 +128,16 @@ export default function profile_user() {
     useEffect(() => {
         if (token) {
             setAccessToken(token)
+            fetchDataUser();
         } else {
             console.log('Access Token not found in cookie');
         }
 
-        fetchDataUser();
     }, [access_token]);
 
 
     return (<div className=" mx-auto max-w-xxs  md:max-w-3xl lg:max-w-7xl flex relative min-h-[calc-108px] z-1 pointer-events-auto">
-        <div className="flex relative max-w-[1280px] min-h-[calc(100vh-108px)] m-auto">
+        <div className="flex relative max-w-[1280px] min-h-[calc(100vh-108px)] m-auto ">
             <div className=" mt-6 z-10 pl-4 flex-grow-0 flex-shrink-0 basis-[260px] hidden lg:flex">
                 <aside className="sticky top-5 self-start">
                     <ul className="w-52 mt-7 mb-7">
@@ -322,9 +342,9 @@ export default function profile_user() {
                                 </div>
                             </div>
                         ) : (
-                            <div className="fixed inset-0 bg-[rgba(10,30,66,0.4)] flex justify-center items-center transition-all duration-300 ease-in-out top-0 left-0 translate-x-[-100%] shadow-lg z-1010">
+                            <div className="fixed inset-0 bg-[rgba(10,30,66,0.4)] flex justify-center items-center transition-all duration-300 ease-in-out top-0 left-0 translate-x-[-100%] shadow-lg z-[90]">
                                 <div className="h-screen w-screen max-h-screen max-h-[100vh] flex flex-col transition-height duration-300 ease-in-out max-w-screen bg-white rounded-lg overflow-hidden">
-                                    <div className="p-4 text-center text-base leading-6 font-semibold relative flex-shrink-0 z-1010 shadow-sm">
+                                    <div className="p-4 text-center text-base leading-6 font-semibold relative flex-shrink-0 z-[60] shadow-sm">
                                         Community
                                         {/* <FontAwesomeIcon
                                                 icon={faXmark}
@@ -1106,4 +1126,8 @@ export default function profile_user() {
     </div >
 
     );
+}
+
+function dispatch(arg0: any) {
+    throw new Error("Function not implemented.");
 }

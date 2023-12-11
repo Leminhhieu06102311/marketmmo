@@ -92,7 +92,7 @@ export default function Header() {
             <ul className="flex md:gap-x-4 gap-x-7">
               <li className="font-semibold text-base relative group">
                 Sản phẩm
-                <ul className="absolute w-60 p-2  bg-white  z-10 top-10 rounded-lg shadow-modal after:content-[''] after:w-full after:absolute after:h-[50px] after:bg-transparent after:top-[-30px] hidden group-hover:block ">
+                <ul className="absolute w-60 p-2  bg-white  z-[1010] top-10 rounded-lg shadow-modal after:content-[''] after:w-full after:absolute after:h-[50px] after:bg-transparent after:top-[-30px] hidden group-hover:block ">
                   <li className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">
                     <span className="font-medium block">Tài khoản</span>
                   </li>
@@ -144,7 +144,7 @@ export default function Header() {
               )}
               <div className=" group hidden md:block bg-[#1212120a] rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212] relative">
                 <HiOutlineUserCircle className="w-5 h-5" />
-                <ul className="group-hover:block absolute w-60 p-2 hidden bg-white right-0 z-10 top-14 rounded-lg shadow-modal before:absolute before:w-full before:h-6 before:bg-transparent before:right-0 before:-top-3  ">
+                <ul className="group-hover:block absolute w-60 p-2 hidden bg-white right-0 z-[99] top-14 rounded-lg shadow-modal before:absolute before:w-full before:h-6 before:bg-transparent before:right-0 before:-top-3  ">
                   <li className="">
                     <Link
                       className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer"
