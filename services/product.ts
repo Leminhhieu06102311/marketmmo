@@ -23,12 +23,11 @@ export async function getProducts() {
     return data
     
 }
-export async function getAccountTrending() {
-    const res = await api.get('/product?limit=6&page=1&sort=BEST_SELLER_DESC')
+export async function getProductByCate() {
+    const res = await api.get('/categories/with-products')
 
-    console.log(res)
-    const { result } = res.data.data
-    return result
+    const { data } = res.data
+    return data
 }
 export async function getSoftwareTrending() {
     const res = await api.get('/product?limit=6&page=1&sort=BEST_SELLER_DESC')

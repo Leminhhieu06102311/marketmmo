@@ -30,9 +30,7 @@ export default function DetailCategory({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(categoryId)
         let data = await getProductFromCategory(categoryId, 1); // Link to JSON Server
-        console.log(data)
         setProducts(data);
         setFilteredProducts(data);
       } catch (error) {
@@ -48,7 +46,6 @@ export default function DetailCategory({
     if (products) {
       setProducts([...products, ...newProduct]);
       setFilteredProducts([...products, ...newProduct]);
-
     }
   }
 
@@ -88,7 +85,7 @@ export default function DetailCategory({
           <h3 className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
             Gian hàng{" "}
             <mark className="px-2 text-white bg-blue-600 rounded dark:bg-blue-500">
-              gmail
+              {categoryId}
             </mark>{" "}
             dành cho bạn
           </h3>

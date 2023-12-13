@@ -1,4 +1,6 @@
-export default function Heading({ heading }: { heading: string }) {
+import Link from "next/link";
+
+export default function Heading({ heading, path }: { heading: string, path: string }) {
     return (
         <div className="my-3 top-0">
             <div className="flex justify-between items-center">
@@ -6,7 +8,7 @@ export default function Heading({ heading }: { heading: string }) {
                     <h2 className="font-bold text-2xl text-[#121212]">
                         {heading}
                     </h2>
-                    <button className="py-2 px-3 bg-slate-100 border border-primary text-primary rounded-lg font-semibold">Xem thêm</button>
+                    <Link href={`/${path}`} className="py-2 px-3 bg-slate-100 border border-primary text-primary rounded-lg font-semibold">Xem thêm</Link>
                 </div>
             </div>
         </div>

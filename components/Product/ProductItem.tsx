@@ -16,10 +16,10 @@ export default function ProductItem({ product }: { product: Product }) {
       onClick={() => hanldeClickProduct()}
     >
       <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl box-shadow-product hover:-translate-y-3 hover:shadow-hover  duration-300 w-full">
-        {product.pictures.map((picture) => (
+      {product.pictures.map((picture) => (
           <Image
             key={picture}
-            src={picture}
+            src={picture ?? 'https://firebasestorage.googleapis.com/v0/b/marketmmo.appspot.com/o/product%2Fo1wyAdBM_1700853752491_download.jpg?alt=media&token=b88fa506-2e44-4ccf-bdac-3062b8360b7c'}
             alt=""
             width={0}
             height={0}
