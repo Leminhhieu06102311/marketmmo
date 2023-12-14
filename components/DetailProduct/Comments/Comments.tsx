@@ -95,11 +95,13 @@ export default function Comments({ productId, _id, reviews }: { productId: strin
         //     (childReplyComment !== "" ? childReplyComment :
         //         (child2ReplyComment !== "" ? child2ReplyComment : replyComment))
         //     : comment;
-        if (comment === "") {
-            toast.warn("Vui lòng viết nhận xét của bạn!")
+        if (comment === "" || rating === null) {
+            toast.warn("Bạn phải đánh giá đi kèm nội dung")
             return;
         }
+
         try {
+            // Send comment
             const response = await api.post(
                 `/comment?content=${comment}&parent=${parent}&productSlug=${productId}`, {},
                 {
@@ -108,17 +110,84 @@ export default function Comments({ productId, _id, reviews }: { productId: strin
                     },
                 }
             );
+
+            // Reset comment-related states
             setComment('');
-            setReplyComment('')
-            setChildReplyComment('')
-            setChild2ReplyComment('')
+            setReplyComment('');
+            setChildReplyComment('');
+            setChild2ReplyComment('');
+
             closeVisibleDivs(productId);
             setReloadData(prev => !prev);
-            handleRatingClick();
+
+            // Send rating and handle both promises with toast.promise
+            const ratingToSend = rating ?? 0;
+            toast.promise(
+                Promise.all([
+                    response,
+                    ratingProduct(token, ratingToSend, _id)
+                ]),
+                {
+                    pending: {
+                        render() {
+                            return "Vui lòng đợi";
+                        },
+                    },
+                    success: {
+                        render() {
+                            return "Xin cảm ơn, bạn đã đánh giá sản phẩm thành công!";
+                        },
+                        icon: "🟢",
+                    },
+                    error: {
+                        render: ({ data }) => {
+                            const error: any = data;
+
+                            if (error.response && error.response.status === 401) {
+                                console.log(error);
+                            } else {
+                                console.error("Lỗi, Vui lòng thử lại", error);
+                            }
+
+                            return <div>Đã có lỗi xin vui lòng thử lại</div>;
+                        },
+                    },
+                }
+            );
         } catch (error) {
             console.error('Lỗi khi đăng Đánh giá:', error);
         }
     };
+
+    // const handleRatingClick = () => {
+    //     const ratingToSend = rating ?? 0;
+
+    //     toast.promise(ratingProduct(token, ratingToSend, _id), {
+    //         pending: {
+    //             render() {
+    //                 return "Vui lòng đợi"
+    //             },
+    //         }, success: {
+    //             render() {
+    //                 return "Xin cảm ơn, bạn đã đánh giá sản phẩm thành công!"
+    //             },
+    //             // other options
+    //             icon: "🟢",
+    //         },
+    //         error: {
+    //             render: ({ data }) => {
+    //                 const error: any = data
+    //                 if (error.response && error.response.status === 401) {
+    //                     console.log(error);
+    //                 } else {
+    //                     console.error("Lỗi, Vui lòng thử lại", error);
+    //                 }
+    //                 return <div>{error.response.data.message}</div>
+    //             }
+    //         }
+    //     })
+    // }
+
 
     const deleteComment = async (commentId: any) => {
         try {
@@ -175,34 +244,6 @@ export default function Comments({ productId, _id, reviews }: { productId: strin
         });
     };
 
-    const handleRatingClick = () => {
-        const ratingToSend = rating ?? 0;
-
-        toast.promise(ratingProduct(token, ratingToSend, _id), {
-            pending: {
-                render() {
-                    return "Vui lòng đợi"
-                },
-            }, success: {
-                render() {
-                    return "Xin cảm ơn, bạn đã đánh giá sản phẩm thành công!"
-                },
-                // other options
-                icon: "🟢",
-            },
-            error: {
-                render: ({ data }) => {
-                    const error: any = data
-                    if (error.response && error.response.status === 401) {
-                        console.log(error);
-                    } else {
-                        console.error("Lỗi, Vui lòng thử lại", error);
-                    }
-                    return <div>{error.response.data.message}</div>
-                }
-            }
-        })
-    }
 
     const closeVisibleDivs = (commentId: string) => {
         setVisibleDivs((prevVisibleDivs) => ({
@@ -332,7 +373,7 @@ export default function Comments({ productId, _id, reviews }: { productId: strin
                                                 <div>
                                                     {isEditing !== comment._id && (
                                                         <><p className="text-base">{comment.content}</p>
-                                                            <span className='text-xs mr-5'>27 thg 11, 2021</span>
+                                                            <span className='text-xs mr-5'>{new Date(comment.createdAt).toISOString().split('T')[0]}</span>
                                                             <button
                                                                 className='text-primary font-semibold text-sm mb-2'
                                                                 onClick={() => handleButtonClick(comment._id)}
@@ -636,7 +677,5 @@ export default function Comments({ productId, _id, reviews }: { productId: strin
     )
 }
 
-function fetchData() {
-    throw new Error('Function not implemented.');
-}
+
 
