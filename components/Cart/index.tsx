@@ -43,11 +43,13 @@ export default function CartModal() {
             }
           },
           success: {
-            render: () => {
-              hanldeRemoveCart()
-              dispatch(toggleModal('cart'))
-              router.replace('/transaction-history')
-              return "Giao dịch thành công"
+            render: ({data}) => {
+              const {_id, orderPrice} = data.data
+              router.push(`https://ultimate-implicitly-hound.ngrok-free.app/payment/initiate-payment-order?orderID=${_id}&amount=${orderPrice}`)
+              // hanldeRemoveCart()
+              // dispatch(toggleModal('cart'))
+              // router.replace('/transaction-history')
+              return "Bắt đầu thanh toán"
             },
             icon: '🟢'
           }
@@ -58,7 +60,6 @@ export default function CartModal() {
 
   }
   useEffect(() => {
-    dispatch(fetchUser(Cookies.get('access_token')))
     const getCart = () => {
       const data = localStorage?.getItem("product");
       if (data) {
@@ -141,7 +142,7 @@ export default function CartModal() {
                       <p>Tổng tiền</p>
                       <p>{((cart.product.price) * (cart.quantity)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
                     </div>
-                    <div>
+                    {/* <div>
                       <p className="mt-5 mb-3 font-semibold text-base">Phương thức thanh toán</p>
                       <div className="flex gap-4">
                         <div className="border border-gray-200 rounded-md py-2 px-3 flex items-center">
@@ -165,14 +166,14 @@ export default function CartModal() {
                           <Image className="" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example" width={200} height={200} alt="momo" />
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                   <button
                     onClick={() => submitOrder()}
                     type="button"
-                    className="py-4 px-6 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm"
+                    className="py-3 mt-4 px-6 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm"
                   >
-                    Hoàn tất mua hàng
+                     Bắt đầu thanh toán
                   </button>
                 </>
               )}
