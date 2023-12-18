@@ -181,106 +181,110 @@ const PurchaseHistory = () => {
           <WrapResponsive>
             <div className="mt-[30px]">
               <div className="block md:block lg:flex items-center gap-x-4">
-                <div className="w-[12px] h-[12px] bg-green-500 rounded-[50%]"></div>
-                <p className="mb-4 line-clamp-1 w-[118px] justify-center text-black font-semibold text-[14px] leading-20 md:m-0 lg:m-0">
-                  {histories.length} kết quả
-                </p>
-                <div className="flex relative mt-0 transition ease-in-out  mb-4 rounded-[9px] border border-[#ececec] px-3 py-1 md:mt-2 md:w-[100%] md:m-0 lg:mt-0 lg:m-0  lg:w-[69%] hover:border-[#c8c8c8bb]">
-                  <button className="items-center ">
-                    < IoSearchOutline className="text-[25px]" />
+                <div className="flex flex-shrink-0 items-center gap-2 mb-4 lg:mb-0 ">
+                  <div className="w-[12px] h-[12px] bg-green-500 rounded-[50%]"></div>
+                  <div className="line-clamp-1 justify-center text-black font-semibold text-[14px] leading-20 md:m-0 lg:m-0">
+                    {histories.length} kết quả
+                  </div>
+                </div>
+                <div className="flex gap-2 w-full flex-col md:flex-row lg:flex-row">
+                  <div className="flex relative mt-0 transition ease-in-out  mb-4 rounded-[9px] border border-[#ececec] px-3 py-1 md:mt-2 md:w-full md:m-0 lg:mt-0 lg:m-0  lg:w-[69%] hover:border-[#c8c8c8bb]">
+                    <button className="items-center ">
+                      < IoSearchOutline className="text-[20px]" />
 
-                  </button>
-                  <input
-                    className="w-full delay-150 h-[36px] outline-none text-[#58667E] font-medium leading-20 px-3"
-                    type="text"
-                    placeholder="Tìm kiếm lịch sử mua hàng"
-                    value={searchTerm}
-                    onInput={handleSearch}
-                  />
-                  {searchDropDown && (
-                    <div className="absolute mt-12 bg-white p-2 z-20 w-[97%] rounded-[7px] shadow-md">
-                      <div className="">
-                        <div className="flex font-semibold justify-between text-[14px] border-b border-[#ececec] p-3">
-                          <p>Thông tin sản phẩm</p>
-                          <p>...</p>
-                        </div>
-                        {filteredProductsSearch.length ? (
-                          <>
-                            <div className="min-h-[100px] max-h-[320px] overflow-y-auto">
-                              {filteredProductsSearch.map((item: Histories) => (
-                                <Link href={`/transaction-history/${item._id}`} key={item._id}>
-                                  <div className="transition ease-in-out delay-150 m-2 border-b border-[#ececec] hover:bg-gray-50 duration-100 ">
-                                    <div className="p-3 ">
-                                      <div className="justify-between px-4 items-center md:flex lg:flex">
-                                        <div className="flex gap-x-4 item-center">
-                                          <div className="h-auto w-[81px] md:h-[71px] lg:w-[50px] lg:h-auto">
-                                            {" "}
-                                            <img
-                                              src={`${item.product.pictures}`}
-                                              alt="Err"
-                                              className="w-full h-full rounded-[10px]"
-                                            />
-                                          </div>
-                                          <p className="text-[#3861FB] font-bold text-[15px] line-clamp-1 lg:w-[420px]">
-                                            {item.product.name}
-                                          </p>
-                                        </div>
-                                        <div className="gap-x-4">
-                                          <div className="flex justify-end items-center gap-x-2">
-                                            <div className="w-[31px] h-auto">
+                    </button>
+                    <input
+                      className="w-full delay-150 h-[36px] outline-none text-[#58667E] font-medium leading-20 px-3"
+                      type="text"
+                      placeholder="Tìm kiếm lịch sử"
+                      value={searchTerm}
+                      onInput={handleSearch}
+                    />
+                    {searchDropDown && (
+                      <div className="absolute mt-12 bg-white p-2 z-20 w-[97%] rounded-[7px] shadow-md">
+                        <div className="">
+                          <div className="flex font-semibold justify-between text-[14px] border-b border-[#ececec] p-3">
+                            <p>Thông tin sản phẩm</p>
+                            <p>...</p>
+                          </div>
+                          {filteredProductsSearch.length ? (
+                            <>
+                              <div className="min-h-[100px] max-h-[320px] overflow-y-auto">
+                                {filteredProductsSearch.map((item: Histories) => (
+                                  <Link href={`/transaction-history/${item._id}`} key={item._id}>
+                                    <div className="transition ease-in-out delay-150 m-2 border-b border-[#ececec] hover:bg-gray-50 duration-100 ">
+                                      <div className="p-3 ">
+                                        <div className="justify-between px-4 items-center md:flex lg:flex">
+                                          <div className="flex gap-x-4 item-center">
+                                            <div className="h-auto w-[81px] md:h-[71px] lg:w-[50px] lg:h-auto">
+                                              {" "}
                                               <img
-                                                src={`${item.product.creator.avatar}`}
+                                                src={`${item.product.pictures}`}
                                                 alt="Err"
-                                                className="w-full rounded-[50%]"
+                                                className="w-full h-full rounded-[10px]"
                                               />
                                             </div>
-                                            <p className="font-inter  leading-normal">
-                                              {item.product.creator.name}
+                                            <p className="text-[#3861FB] font-bold text-[15px] line-clamp-1 lg:w-[420px]">
+                                              {item.product.name}
                                             </p>
                                           </div>
-                                          <div className="flex gap-x-1 items-center justify-end my-1">
-                                            <p className="text-[#3D3D4E] font-normal text-[13px]">
-                                              Thể loại:{" "}
-                                            </p>
-                                            <div className="flex w-auto items-center px-3 py-1 gap-x-2 rounded-[30px] bg-[#EFF2F5] text-[#616E85] text-[13px] font-normal">
-                                              {/* <div className="w-[13px] h-auto">
-                                                    <img
-                                                      src="https://hotmail.best/wp-content/uploads/2020/01/gmail-login-768x580.png"
-                                                      alt="Err"
-                                                      className="w-full"
-                                                    />
-                                                  </div> */}
-                                              <p>
-                                                {item.product.categories.name}
+                                          <div className="gap-x-4">
+                                            <div className="flex justify-end items-center gap-x-2">
+                                              <div className="w-[31px] h-auto">
+                                                <img
+                                                  src={`${item.product.creator.avatar}`}
+                                                  alt="Err"
+                                                  className="w-full rounded-[50%]"
+                                                />
+                                              </div>
+                                              <p className="font-inter  leading-normal">
+                                                {item.product.creator.name}
                                               </p>
                                             </div>
+                                            <div className="flex gap-x-1 items-center justify-end my-1">
+                                              <p className="text-[#3D3D4E] font-normal text-[13px]">
+                                                Thể loại:{" "}
+                                              </p>
+                                              <div className="flex w-auto items-center px-3 py-1 gap-x-2 rounded-[30px] bg-[#EFF2F5] text-[#616E85] text-[13px] font-normal">
+                                                {/* <div className="w-[13px] h-auto">
+                                                      <img
+                                                        src="https://hotmail.best/wp-content/uploads/2020/01/gmail-login-768x580.png"
+                                                        alt="Err"
+                                                        className="w-full"
+                                                      />
+                                                    </div> */}
+                                                <p>
+                                                  {item.product.categories.name}
+                                                </p>
+                                              </div>
+                                            </div>
+                                            <div></div>
                                           </div>
-                                          <div></div>
                                         </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </Link>
-                              ))}{" "}
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <div className="text-center">
-                              <p className="my-[40px] text-gray-600 font-medium">
-                                Không tìm thấy lịch sử mua hàng nào
-                              </p>
-                            </div>
-                          </>
-                        )}
+                                  </Link>
+                                ))}{" "}
+                              </div>
+                            </>
+                          ) : (
+                            <>
+                              <div className="text-center">
+                                <p className="my-[40px] text-gray-600 font-medium">
+                                  Không tìm thấy lịch sử mua hàng nào
+                                </p>
+                              </div>
+                            </>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-                <div className="flex justify-start gap-4 mt-0 items-center md:mt-3 lg:mt-0 md:justify-end">
-                  <button className="h-[40px] delay-150 px-5 items-center rounded-[9px] bg-[#3861FB] text-white hover:bg-[#3862fbdf]">
-                    Lọc
-                  </button>
+                    )}
+                  </div>
+                  <div className="flex-shrink-0 flex justify-start gap-4 mt-0 items-center md:mt-3 lg:mt-0 md:justify-end">
+                    <button className="h-[40px] delay-150 px-5 items-center rounded-[9px] bg-[#3861FB] text-white hover:bg-[#3862fbdf]">
+                      Tìm kiếm
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

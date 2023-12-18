@@ -44,7 +44,7 @@ export default function Register() {
           </div>
         </section>
         <section className="flex flex-col flex-1 overflow-auto w-full ">
-          <div className=" flex justify-center items-center grow m-0 p-0 m-0 pt-8 lg:pl-10">
+          <div className=" flex justify-center items-center grow m-0 p-0  pt-8 lg:pl-10">
             <div className="lg:ml-28  w-full max-w-[440px] ">
               <h2 className="font-bold md:text-2xl mb-10 text-2xl lg:text-3xl">
                 Đăng ký Market MMO
