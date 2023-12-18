@@ -23,8 +23,8 @@ export default function Payment({ params }: { params: { slug: string } }) {
     } else {
         toast.error('Thanh toán thất bại')
         toast.error('Vui lòng thanh toán lại')
-        router.push("/")    
-        const idTimeout = setTimeout(() => {
+        router.push("/")  
+        setTimeout(() => {
             dispatch(toggleModal('cart'))
         },1000)
     }

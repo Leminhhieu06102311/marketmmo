@@ -2,15 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
-import Modal from "./registerForm";
+import Modal from "./components/FormRegister";
 import Link from "next/link";
 
 export default function Register() {
   const [show, setShow] = useState(false);
-
-  function handleShow() {
-    setShow(!show);
-  }
 
   useEffect(() => {
     if (show) {
@@ -64,9 +60,7 @@ export default function Register() {
                 <div className="flex m-0 w-full justify-center text-sm md:text-base">
                   <button
                     className="inline-flex items-center justify-center border bg-primary text-white rounded-full w-full  pl-2 pr-2 h-14 font-medium cursor-pointer  hover:bg-blue-500"
-                    onClick={() => {
-                      handleShow();
-                    }}
+                    onClick={() => setShow(!show)}
                   >
                     Tiếp tục với Email
                   </button>
