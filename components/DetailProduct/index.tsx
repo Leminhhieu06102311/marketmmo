@@ -75,11 +75,10 @@ export default function DetailProduct({ productId }: { productId: string }) {
   };
 
   useEffect(() => {
-
+    setDataProduct(undefined);
     getDataProduct();
   }, [productId]);
 
-  console.log(dataProduct);
 
   return (
     <ContentModal nameModal="product">
@@ -88,7 +87,7 @@ export default function DetailProduct({ productId }: { productId: string }) {
           <IoCloseOutline className="w-5 h-5" />
         </button>
       </div>
-      {dataProduct && (
+      {dataProduct ? (
         <>
           <div className="bg-white rounded-l-lg w-full top-9   absolute bottom-0 left-0 right-0  pb-52 overflow-y-scroll">
             <div className="w-full h-10  mt-10 mb-5 mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl flex justify-around">
@@ -884,95 +883,98 @@ export default function DetailProduct({ productId }: { productId: string }) {
                 )}
               </div>
             </div>
-            {/* Skeleton */}
-            <div>
-              <div className="w-full h-10  mt-10 mb-5 mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl animate-pulse flex gap-4 justify-center">
-                <div className="flex-shrink-0">
-                  <span className="w-12 h-12 block bg-gray-200 rounded-full dark:bg-gray-700" />
-                </div>
-                <ul className="space-y-3 w-[55%]">
-                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
-                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
-                </ul>
+
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="bg-white rounded-l-lg w-full top-9   absolute bottom-0 left-0 right-0  pb-52 overflow-y-scroll">
+            <div className="w-full h-10  mt-10 mb-5 mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl animate-pulse flex gap-4 justify-center">
+              <div className="flex-shrink-0">
+                <span className="w-12 h-12 block bg-gray-200 rounded-full dark:bg-gray-700" />
               </div>
-              <div className="w-full bg-white  lg:bg-[#F9F3EF] rounded-3xl mt-10 mb-5 mx-auto flex-wrap max-w-xxs md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl p-3 lg:p-10 gap-5 flex lg:flex-nowrap">
-                <div className="w-full lg:w-1/2 flex gap-5 flex-col ">
-                  <div className="block bg-gray-200 rounded-2xl w-full  h-[250px] md:h-[500px] lg:h-[500px] animate-pulse">
+              <ul className="space-y-3 w-[55%]">
+                <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+              </ul>
+            </div>
+            <div className="w-full bg-white  lg:bg-[#F9F3EF] rounded-3xl mt-10 mb-5 mx-auto flex-wrap max-w-xxs md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl p-3 lg:p-10 gap-5 flex lg:flex-nowrap">
+              <div className="w-full lg:w-1/2 flex gap-5 flex-col ">
+                <div className="block bg-gray-200 rounded-2xl w-full  h-[250px] md:h-[500px] lg:h-[500px] animate-pulse">
+                </div>
+                <div className="bg-white rounded-2xl w-full p-4 hidden lg:flex gap-3">
+                  <div className="w-8/12 animate-pulse">
+                    <ul className="mt-5 space-y-3">
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                    </ul>
                   </div>
-                  <div className="bg-white rounded-2xl w-full p-4 hidden lg:flex gap-3">
-                    <div className="w-8/12 animate-pulse">
-                      <ul className="mt-5 space-y-3">
-                        <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
-                        <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
-                        <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
-                        <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
-                      </ul>
-                    </div>
-                    <div className="flex flex-col justify-center items-center flex-1 gap-2 animate-pulse
+                  <div className="flex flex-col justify-center items-center flex-1 gap-2 animate-pulse
                     ">
-                      <span className="w-2/5 h-5 bg-gray-200 rounded-full dark:bg-gray-700"></span>
-                      <div className="flex gap-2">
-                        <span className="w-7 h-7 block bg-gray-200 rounded-full dark:bg-gray-700" > </span>
-                        <span className="w-7 h-7 block bg-gray-200 rounded-full dark:bg-gray-700" > </span>
-                        <span className="w-7 h-7 block bg-gray-200 rounded-full dark:bg-gray-700" > </span>
-                        <span className="w-7 h-7 block bg-gray-200 rounded-full dark:bg-gray-700" > </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="w-full lg:w-1/2 flex gap-5 flex-col">
-                  <div className="bg-white  rounded-2xl w-full lg:p-4">
-                    <div className="px-4 w-full">
-                      <ul className="mt-2 space-y-3">
-                        <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
-                        <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
-                        <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
-                      </ul>
-                    </div>
-                    <br />
-                    <div className="pt-2 py-5 inline-flex flex-col border border-b-gray-300 border-l-0 border-r-0 border-t-0 w-full ">
-                      <ul className="mt-2 space-y-3 w-2/5 px-4">
-                        <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
-                        <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
-                        <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
-                        <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
-                        <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="bg-white  rounded-2xl w-full lg:p-4">
-                    <h3 className="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-[40%]" />
-                    <div className=" py-3 flex gap-2 flex-col">
-                      <ul className="mt-2 space-y-3">
-                        <li className="w-full h-6 bg-gray-200 rounded-full dark:bg-gray-700" />
-                        <li className="w-full h-6 bg-gray-200 rounded-full dark:bg-gray-700" />
-                        <li className="w-full h-6 bg-gray-200 rounded-full dark:bg-gray-700" />
-                      </ul>
+                    <span className="w-2/5 h-5 bg-gray-200 rounded-full dark:bg-gray-700"></span>
+                    <div className="flex gap-2">
+                      <span className="w-7 h-7 block bg-gray-200 rounded-full dark:bg-gray-700" > </span>
+                      <span className="w-7 h-7 block bg-gray-200 rounded-full dark:bg-gray-700" > </span>
+                      <span className="w-7 h-7 block bg-gray-200 rounded-full dark:bg-gray-700" > </span>
+                      <span className="w-7 h-7 block bg-gray-200 rounded-full dark:bg-gray-700" > </span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="mx-auto max-w-xxs md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl ">
-                <div className="flex justify-center gap-5 my-8">
-                  <h3 className="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-10"></h3>
-                  <h3 className="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-10"></h3>
+              <div className="w-full lg:w-1/2 flex gap-5 flex-col">
+                <div className="bg-white  rounded-2xl w-full lg:p-4">
+                  <div className="px-4 w-full">
+                    <ul className="mt-2 space-y-3">
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                    </ul>
+                  </div>
+                  <br />
+                  <div className="pt-2 py-5 inline-flex flex-col border border-b-gray-300 border-l-0 border-r-0 border-t-0 w-full ">
+                    <ul className="mt-2 space-y-3 w-2/5 px-4">
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                    </ul>
+                  </div>
                 </div>
-                <div className="w-full rounded-3xl border border-gray-200 py-4 px-3 lg:p-10">
-                  <ul className=" space-y-3">
-                    <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
-                    <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
-                    <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
-                    <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
-                    <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
-                    <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
-                    <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
-                    <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
-                    <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
-                    <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
-                    <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
-                    <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
-                  </ul>
+                <div className="bg-white  rounded-2xl w-full lg:p-4">
+                  <h3 className="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-[40%]" />
+                  <div className=" py-3 flex gap-2 flex-col">
+                    <ul className="mt-2 space-y-3">
+                      <li className="w-full h-6 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-6 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-6 bg-gray-200 rounded-full dark:bg-gray-700" />
+                    </ul>
+                  </div>
                 </div>
+              </div>
+            </div>
+            <div className="mx-auto max-w-xxs md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl ">
+              <div className="flex justify-center gap-5 my-8">
+                <h3 className="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-10"></h3>
+                <h3 className="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-10"></h3>
+              </div>
+              <div className="w-full rounded-3xl border border-gray-200 py-4 px-3 lg:p-10">
+                <ul className=" space-y-3">
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                </ul>
               </div>
             </div>
           </div>
