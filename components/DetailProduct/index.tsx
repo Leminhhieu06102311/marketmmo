@@ -642,6 +642,7 @@ export default function DetailProduct({ productId }: { productId: string }) {
                         type="text"
                         className=" inline px-3 w-full text-center text-base outline-none  focus:border-blue-500 focus:ring-blue-500 "
                         value={selectQuantity}
+                        onChange={(e) => setSelectQuantity(+e.target.value)}
                       />
                       <button
                         className="py-3 px-4 "
@@ -667,7 +668,7 @@ export default function DetailProduct({ productId }: { productId: string }) {
                 </div>
               </div>
             </div>
-            <div className="mx-auto max-w-xxs md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl ">
+            <div className="mx-auto max-w-xxs md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl " > 
               <div className="flex justify-center gap-5 my-8">
                 <button
                   type="button"

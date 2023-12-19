@@ -4,6 +4,7 @@ import productSlice from "./productSlice"
 import userSlice from "./userSlice"
 import modalSlice from "./modalSlice"
 import searchSlice from "./searchSlice"
+import ratingSlice from "./ratingSlice"
 
 export const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
         user: userSlice,
         modal: modalSlice,
         search: searchSlice,
-        rootReducer: userSlice
+        rootReducer: userSlice,
+        rating: ratingSlice
     }
 })
 
