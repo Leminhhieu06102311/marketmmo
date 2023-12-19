@@ -33,7 +33,7 @@ const BuyerHistory = () => {
         <div className="max-w-xxs mx-auto md:max-w-3xl lg:max-w-full  px-5">
           <div className="pt-10">
             <div className="lg:px-5">
-              <div className="flex gap-x-6 px-5 md:px-8 lg:px-0 md:justify-between lg:justify-start">
+              <div className="flex gap-x-6 px-5 md:px-8 lg:px-0 flex-col items-start md:flex-row md:justify-start lg:justify-start lg:flex-row">
                 {" "}
                 <div
                   className="text-center"
