@@ -2,7 +2,6 @@
 import Link from "next/link";
 import { MouseEvent, useState, useEffect } from "react";
 import { getAll, getTransactionHistory } from "@/services/transactionHistory";
-import { format } from "date-fns";
 import { useAppDispatch } from "@/redux/hooks";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
@@ -170,7 +169,7 @@ export default function TransactionHistoryProduct({
                           })}
                         </h2>
                         <div className="items-center flex gap-x-3">
-                          {product.discount !== 0 ? (
+                          {/* {product.discount !== 0 ? (
                             <>
                               {" "}
                               <h3
@@ -189,7 +188,7 @@ export default function TransactionHistoryProduct({
                             </>
                           ) : (
                             <></>
-                          )}{" "}
+                          )}{" "} */}
                         </div>
                       </div>
                     </div>
@@ -254,10 +253,10 @@ export default function TransactionHistoryProduct({
                               <span className="text-black font-normal">
                                 Thời gian:{" "}
                               </span>{" "}
-                              {format(
+                              {/* {format(
                                 new Date(product.createdAt),
                                 "dd/MM/yyyy HH:mm:ss"
-                              )}
+                              )} */}
                             </p>{" "}
                           </div>
                         </div>

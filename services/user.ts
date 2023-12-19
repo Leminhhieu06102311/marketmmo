@@ -38,12 +38,11 @@ export async function hanldeOrder(
   access_token: string
 ) {
   const res = await api.post(
-    "/order/order",
+    "/order",
     {
-      product: productId,
-      user: userId,
-      quantity: quantity,
-      orderPrice: price,
+      productID: productId, 
+      quantity: +quantity,
+      orderPrice: +price,
     },
     {
       headers: {
