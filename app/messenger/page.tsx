@@ -9,7 +9,9 @@ import { BiSolidImageAdd } from "react-icons/bi";
 import { FaPaperPlane } from "react-icons/fa";
 import { IoSearchOutline } from "react-icons/io5";
 import { useEffect, useRef } from "react";
-
+import { IoIosArrowBack } from "react-icons/io";
+import Link from "next/link";
+import { RiImageAddLine } from "react-icons/ri";
 export default function Messenger() {
   const scrollMessage = useRef();
   useEffect(() => {
@@ -19,7 +21,10 @@ export default function Messenger() {
     <div className="fixed top-0 right-0 left-0 bottom-0 bg-white z-50">
       <div className="flex w-full h-full">
         <div className="h-full border border-r-gray-300 border-l-0 border-b-0 border-t-0 w-full md:w-fit lg:w-[30%] ">
-          <div className="flex my-3 px-5 py-3 ">
+          <div className="flex my-3 px-5 py-3 items-center ">
+            <Link href="/" className="text-lg mr-3">
+              <IoIosArrowBack />
+            </Link>
             <h2 className="font-bold text-xl text-slate-900">Tin Nhắn</h2>
           </div>
           <div className="px-5 md:hidden lg:block">
@@ -221,8 +226,8 @@ export default function Messenger() {
           </div>
           <div className="absolute bottom-0 right-0 left-0 z-50">
             <div className="flex gap-2 items-center bg-white px-3">
-              <div className="flex items-center h-10 w-10 rounded-full hover:bg-gray-200 cursor-pointer justify-center">
-              <BiSolidImageAdd  className='text-[25px]'/>
+              <div className="flex items-center h-[40px] max-w-[40px] w-[45px] rounded-full hover:bg-gray-200 cursor-pointer justify-center">
+                <RiImageAddLine className="text-[25px]" />
               </div>
               <div className=" w-full">
                 <div className=" bg-slate-100 rounded-3xl px-3 my-2">

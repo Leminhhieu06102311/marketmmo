@@ -127,7 +127,7 @@ function Modal({ onClose }: ModalProps) {
           className="flex items-center justify-evenly  rounded-full md:text-base  h-8 font-normal text-xs gap-x-2 underline"
           onClick={() => onClose()}
         >
-          <IoIosArrowBack className="w-5 h-5 " /> Back
+          <IoIosArrowBack className="w-5 h-5 " /> Trở lại
         </button>
         <div className="">
           {showSuccessPopup && (
@@ -271,9 +271,7 @@ function Modal({ onClose }: ModalProps) {
                     className="absolute top-3 right-1 px-2 py-1 cursor-pointer"
                     onClick={toggleShowConfirmPassword}
                   >
-                    {/* <FontAwesomeIcon
-                      icon={showConfirmPassword ? faEyeSlash : faEye}
-                    /> */}
+                    {showPassword ? (<FaRegEyeSlash className="w-5 h-5" />) : (<FaRegEye className="w-5 h-5" />)}
                   </div>
                 )}
               </div>

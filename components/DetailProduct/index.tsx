@@ -13,7 +13,7 @@ import "swiper/css/pagination";
 import { getDetailProduct } from "@/services/product";
 import Product from "@/interfaces/product";
 import Cart from "@/interfaces/cart";
-import { AiOutlineHeart, AiOutlineInfoCircle } from "react-icons/ai";
+import { AiOutlineHeart, AiOutlineInfoCircle, AiOutlineMessage } from "react-icons/ai";
 import { HiOutlineDuplicate } from "react-icons/hi";
 import { FaRegComment } from "react-icons/fa";
 import ContentModal from "../Modal";
@@ -25,6 +25,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { MdOutlinePolicy } from "react-icons/md";
 import { IoCloseOutline } from "react-icons/io5";
 import { setIsAddToCart } from "@/redux/userSlice";
+import { LuMessagesSquare } from "react-icons/lu";
 import Comments from "./Comments/Comments";
 
 export default function DetailProduct({ productId }: { productId: string }) {
@@ -74,11 +75,10 @@ export default function DetailProduct({ productId }: { productId: string }) {
   };
 
   useEffect(() => {
-
+    setDataProduct(undefined);
     getDataProduct();
   }, [productId]);
 
-  console.log(dataProduct);
 
   return (
     <ContentModal nameModal="product">
@@ -87,7 +87,7 @@ export default function DetailProduct({ productId }: { productId: string }) {
           <IoCloseOutline className="w-5 h-5" />
         </button>
       </div>
-      {dataProduct && (
+      {dataProduct ? (
         <>
           <div className="bg-white rounded-l-lg w-full top-9   absolute bottom-0 left-0 right-0  pb-52 overflow-y-scroll">
             <div className="w-full h-10  mt-10 mb-5 mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl flex justify-around">
@@ -107,23 +107,16 @@ export default function DetailProduct({ productId }: { productId: string }) {
                 </div>
               </div>
               <div className="flex gap-3">
-                <div className="border cursor-pointer border-gray-300 rounded-full w-10 h-10 flex items-center justify-center hs-tooltip [--trigger:hover] [--placement:left] ">
-                  <div className="hs-tooltip-toggle block">
-                    <div
-                      style={{ margin: "3px" }}
-                      className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block  absolute invisible z-10 py-2 px-4 bg-slate-900 text-white text-xs rounded-xl"
-                    >
-                      Thích
-                    </div>
-                  </div>
-                  <AiOutlineHeart className="w-5 h-5" />
+                <div className="border relative cursor-pointer border-gray-300 rounded-full w-10 h-10 flex items-center justify-center hs-tooltip [--trigger:hover] [--placement:left] ">
+                  <span className="absolute top-[-5px] right-[-5px] bg-red-500 flex items-center justify-center rounded-full h-5 w-5 text-white font-semibold text-xs">3</span>
+                  <LuMessagesSquare className="w-5 h-5" />
                 </div>
-                <div className="border cursor-pointer border-gray-300 rounded-full w-10 h-10 flex items-center justify-center">
+                <div className="border relative cursor-pointer border-gray-300 rounded-full w-10 h-10 flex items-center justify-center">
                   <FaRegComment className="w-5 h-5" />
                 </div>
-                <div className="border cursor-pointer border-gray-300 rounded-full w-10 h-10 flex items-center justify-center">
+                {/* <div className="border cursor-pointer border-gray-300 rounded-full w-10 h-10 flex items-center justify-center">
                   <HiOutlineDuplicate className="w-5 h-5" />
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="w-full bg-white  lg:bg-[#F9F3EF] rounded-3xl mt-10 mb-5 mx-auto flex-wrap max-w-xxs md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl p-3 lg:p-10 gap-5 flex lg:flex-nowrap">
@@ -138,7 +131,7 @@ export default function DetailProduct({ productId }: { productId: string }) {
                   >
                     <SwiperSlide>
                       <Image
-                        className="rounded-2xl object-cover w-full h-[500px]"
+                        className="rounded-2xl object-cover w-full h-[250px] md:h-[500px] lg:h-[500px]"
                         src={dataProduct?.pictures[0]}
                         width={0}
                         height={0}
@@ -891,9 +884,104 @@ export default function DetailProduct({ productId }: { productId: string }) {
                 )}
               </div>
             </div>
+
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="bg-white rounded-l-lg w-full top-9   absolute bottom-0 left-0 right-0  pb-52 overflow-y-scroll">
+            <div className="w-full h-10  mt-10 mb-5 mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl animate-pulse flex gap-4 justify-center">
+              <div className="flex-shrink-0">
+                <span className="w-12 h-12 block bg-gray-200 rounded-full dark:bg-gray-700" />
+              </div>
+              <ul className="space-y-3 w-[55%]">
+                <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+              </ul>
+            </div>
+            <div className="w-full bg-white  lg:bg-[#F9F3EF] rounded-3xl mt-10 mb-5 mx-auto flex-wrap max-w-xxs md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl p-3 lg:p-10 gap-5 flex lg:flex-nowrap">
+              <div className="w-full lg:w-1/2 flex gap-5 flex-col ">
+                <div className="block bg-gray-200 rounded-2xl w-full  h-[250px] md:h-[500px] lg:h-[500px] animate-pulse">
+                </div>
+                <div className="bg-white rounded-2xl w-full p-4 hidden lg:flex gap-3">
+                  <div className="w-8/12 animate-pulse">
+                    <ul className="mt-5 space-y-3">
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                    </ul>
+                  </div>
+                  <div className="flex flex-col justify-center items-center flex-1 gap-2 animate-pulse
+                    ">
+                    <span className="w-2/5 h-5 bg-gray-200 rounded-full dark:bg-gray-700"></span>
+                    <div className="flex gap-2">
+                      <span className="w-7 h-7 block bg-gray-200 rounded-full dark:bg-gray-700" > </span>
+                      <span className="w-7 h-7 block bg-gray-200 rounded-full dark:bg-gray-700" > </span>
+                      <span className="w-7 h-7 block bg-gray-200 rounded-full dark:bg-gray-700" > </span>
+                      <span className="w-7 h-7 block bg-gray-200 rounded-full dark:bg-gray-700" > </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full lg:w-1/2 flex gap-5 flex-col">
+                <div className="bg-white  rounded-2xl w-full lg:p-4">
+                  <div className="px-4 w-full">
+                    <ul className="mt-2 space-y-3">
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                    </ul>
+                  </div>
+                  <br />
+                  <div className="pt-2 py-5 inline-flex flex-col border border-b-gray-300 border-l-0 border-r-0 border-t-0 w-full ">
+                    <ul className="mt-2 space-y-3 w-2/5 px-4">
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700" />
+                    </ul>
+                  </div>
+                </div>
+                <div className="bg-white  rounded-2xl w-full lg:p-4">
+                  <h3 className="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-[40%]" />
+                  <div className=" py-3 flex gap-2 flex-col">
+                    <ul className="mt-2 space-y-3">
+                      <li className="w-full h-6 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-6 bg-gray-200 rounded-full dark:bg-gray-700" />
+                      <li className="w-full h-6 bg-gray-200 rounded-full dark:bg-gray-700" />
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="mx-auto max-w-xxs md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl ">
+              <div className="flex justify-center gap-5 my-8">
+                <h3 className="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-10"></h3>
+                <h3 className="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-10"></h3>
+              </div>
+              <div className="w-full rounded-3xl border border-gray-200 py-4 px-3 lg:p-10">
+                <ul className=" space-y-3">
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                </ul>
+              </div>
+            </div>
           </div>
         </>
       )}
+
     </ContentModal>
   );
 }

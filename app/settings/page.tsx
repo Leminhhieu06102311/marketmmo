@@ -33,7 +33,8 @@ export default function UserProfile() {
     const [fileName, setFileName] = useState('');
 
     const [imageUrl, setImageUrl] = useState('')
-    // const defaultAvatar = '/images/security/noavatar.png';
+    const defaultAvt = "https://firebasestorage.googleapis.com/v0/b/marketmmo.appspot.com/o/users%2Fnoavatar.png?alt=media&token=9ce5370f-8405-4007-99ac-56c993cafc9f";
+
 
     useEffect(() => {
         if (token) {
@@ -295,7 +296,7 @@ export default function UserProfile() {
                                         {selectedImage ? (
                                             <Image alt={''} src={URL.createObjectURL(selectedImage)} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]' ></Image>
                                         ) : (
-                                            <Image alt={''} src={avatar} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]'></Image>
+                                            <Image alt={''} src={avatar || defaultAvt} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]'></Image>
                                         )}</div>
                                     <button onClick={() => openModal('modal1')} className='w-28 h-10 text-white text-xs font-bold bg-primary rounded-lg hover:bg-[#3459e7]'>Chỉnh sửa</button>
                                     {modals.includes('modal1') && (
@@ -315,7 +316,7 @@ export default function UserProfile() {
                                                             <div className=''>
                                                                 <div className="flex justify-between items-center mb-5">
                                                                     {selectedImage ? (<Image alt={''} src={URL.createObjectURL(selectedImage)} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]' ></Image>) :
-                                                                        (<Image alt={''} src={avatar} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]'></Image>)}
+                                                                        (<Image alt={''} src={avatar || defaultAvt} width={80} height={80} className='object-cover rounded-full w-[80px] h-[80px]'></Image>)}
                                                                     <div className='flex items-center'>
                                                                         <input
                                                                             type="file"
@@ -323,9 +324,7 @@ export default function UserProfile() {
                                                                             style={{ display: 'none' }}
                                                                             onChange={handleFileChange}
                                                                         />
-                                                                        <button onClick={handleFileSelect} className='bg-primary text-white px-4 py-3 rounded-lg text-sm font-semibold hover:bg-[#3459e7]'><span className='mr-2'>
-                                                                            {/* <FontAwesomeIcon icon={faUpload} /> */}
-                                                                        </span> Tải lên</button>
+                                                                        <button onClick={handleFileSelect} className='bg-primary text-white px-4 py-3 rounded-lg text-sm font-semibold hover:bg-[#3459e7]'>Tải lên</button>
                                                                     </div>
                                                                 </div>
                                                                 <div className='mb-5'>

@@ -5,7 +5,7 @@ import {
 } from "react-icons/ai";
 import { HiOutlineUserCircle } from "react-icons/hi";
 import { IoPaperPlaneOutline, IoSettingsOutline } from "react-icons/io5";
-import { IoIosLogOut } from "react-icons/io";
+import { IoIosLogOut, IoMdClose } from "react-icons/io";
 import { BsCart3 } from "react-icons/bs";
 import Link from "next/link";
 import { HiBars3 } from "react-icons/hi2";
@@ -19,11 +19,10 @@ import { setLoggedIn } from "@/redux/userSlice";
 import { LuBell } from "react-icons/lu";
 import { toast } from 'react-toastify'
 import Image from "next/image";
-import { FaAngleLeft, FaCircleCheck } from 'react-icons/fa6'
+import { FaAngleLeft, FaCircleCheck, FaRegClock } from 'react-icons/fa6'
 import SearchProduct from "./SearchProduct";
 import { filterProducts, showModalSearch } from "@/redux/searchSlice";
 import DetailProduct from "../DetailProduct";
-import 'animate.css'
 const links: Links[] = [
   {
     name: "Sản phẩm",
@@ -58,6 +57,7 @@ export default function Header() {
   const { isModalSearch } = useAppSelector((state) => state.search)
   const [searchTerm, setSearchTerm] = useState('')
   const [showModal, setShowModal] = useState(false);
+  const [notificationModallOpen, setNotificationModalOpen] = useState(false);
   const openModal = () => {
     setShowModal(true);
   };
@@ -65,7 +65,13 @@ export default function Header() {
   const closeModal = () => {
     setShowModal(false);
   };
+  const openNotification = () => {
+    setNotificationModalOpen(true);
+  };
 
+  const closeNotification = () => {
+    setNotificationModalOpen(false);
+  };
   const dispatch = useAppDispatch();
   const hanldeLogout = () => {
     Cookies.remove('token')

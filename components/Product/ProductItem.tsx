@@ -19,7 +19,7 @@ export default function ProductItem({ product }: { product: Product }) {
       {product.pictures.map((picture) => (
           <Image
             key={picture}
-            src={picture ?? 'https://firebasestorage.googleapis.com/v0/b/marketmmo.appspot.com/o/product%2Fo1wyAdBM_1700853752491_download.jpg?alt=media&token=b88fa506-2e44-4ccf-bdac-3062b8360b7c'}
+            src={picture === 'banner.jpg' ? '/images' : picture }
             alt=""
             width={0}
             height={0}
@@ -36,7 +36,6 @@ export default function ProductItem({ product }: { product: Product }) {
           <div className="w-full flex">
             <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
               <span className="mr-1 text-gray-900">
-                {/* <FontAwesomeIcon icon={faFontAwesome} width={12} height={12} /> */}
               </span>
               <span>{product.code}</span>
             </div>
