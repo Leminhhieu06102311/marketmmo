@@ -109,7 +109,7 @@ export default function forgotPassword() {
                   </svg>
                   <img
                     className="max-w-[204px] max-h-44 top-[-15px] left-12 absolute"
-                    src="./images/recover/sad1.png"
+                    src="./images/1.png"
                   />
                 </div>
               </div>
