@@ -158,7 +158,6 @@ export default function Comments({ productId, _id, reviews }: { productId: strin
             console.error('Lỗi khi đăng Đánh giá:', error);
         }
     };
-
     // const handleRatingClick = () => {
     //     const ratingToSend = rating ?? 0;
 
@@ -287,6 +286,16 @@ export default function Comments({ productId, _id, reviews }: { productId: strin
         setIsEditing(false);
     };
 
+    const getCommentTimestamp = (comment: any): number => {
+        return new Date(comment.createdAt).getTime() as number;
+    };
+
+    const compareComments = (a: any, b: any): number => {
+        const timestampA = getCommentTimestamp(a);
+        const timestampB = getCommentTimestamp(b);
+        return timestampB - timestampA;
+    };
+
     return (
         <div>
             <div>
@@ -350,194 +359,199 @@ export default function Comments({ productId, _id, reviews }: { productId: strin
             </div>
             <div>
                 <div>
-                    {dataComments.map((comment: any) => (
-
-                        <div key={comment._id}>
-                            {comment.parent === "" && (
-                                <div className='flex items-top w-full mb-2 bg-[#eff2ef] px-5 py-5 rounded-xl'>
-                                    <div className='w-[50px] h-[50px] rounded-full overflow-hidden  bg-cover flex-shrink-0 '><img width={50} height={50} className='w-full h-full bg-cover object-cover' src={comment.user.avatar} alt="NOAVT" /></div>
-                                    <div className='ml-3 w-full'>
-                                        <div className='flex group'>
-                                            <div className='mb-2 inline-block w-full'>
-                                                <div className='flex items-center'>
-                                                    <h3 className='font-semibold text-[13px] mr-3'>@{comment.user.username}</h3>
-                                                    {/* <div className='flex justify-center items-center text-[#fde047]'>
+                    {dataComments
+                        .slice()
+                        .sort(compareComments)
+                        .map((comment: any) => (
+                            <div key={comment._id}>
+                                {comment.parent === "" && (
+                                    <div className='flex items-top w-full mb-2 bg-[#eff2ef] px-5 py-5 rounded-xl'>
+                                        <div className='w-[50px] h-[50px] rounded-full overflow-hidden  bg-cover flex-shrink-0 '><img width={50} height={50} className='w-full h-full bg-cover object-cover' src={comment.user.avatar} alt="NOAVT" /></div>
+                                        <div className='ml-3 w-full'>
+                                            <div className='flex group'>
+                                                <div className='mb-2 inline-block w-full'>
+                                                    <div className='flex items-center'>
+                                                        <h3 className='font-semibold text-[13px] mr-3'>@{comment.user.username}</h3>
+                                                        {/* <div className='flex justify-center items-center text-[#fde047]'>
                                                         <FaStar />
                                                         <FaStar />
                                                         <FaStar />
                                                         <FaStar />
                                                         <FaStar className="text-gray-300 " />
                                                     </div> */}
-                                                    {/* <div className='text-[#6b7280] text-xs font-semibold '>{moment(comment.createdAt).fromNow()}</div> */}
-                                                </div>
-                                                <div>
-                                                    {isEditing !== comment._id && (
-                                                        <><p className="text-base">{comment.content}</p>
-                                                            <span className='text-xs mr-5'>{new Date(comment.createdAt).toISOString().split('T')[0]}</span>
-                                                            <button
-                                                                className='text-primary font-semibold text-sm mb-2'
-                                                                onClick={() => handleButtonClick(comment._id)}
-                                                            >
-                                                                Trả lời
-                                                            </button>
-                                                        </>
-                                                    )}
-                                                    {(isEditing === comment._id) && (
+                                                        {/* <div className='text-[#6b7280] text-xs font-semibold '>{moment(comment.createdAt).fromNow()}</div> */}
+                                                    </div>
+                                                    <div>
+                                                        {isEditing !== comment._id && (
+                                                            <><p className="text-base">{comment.content}</p>
+                                                                <span className='text-xs mr-5'>{new Date(comment.createdAt).toISOString().split('T')[0]}</span>
+                                                                {/* <button
+                                                                    className='text-primary font-semibold text-sm mb-2'
+                                                                    onClick={() => handleButtonClick(comment._id)}
+>
+                                                                    Trả lời
+                                                                </button> */}
+                                                            </>
+                                                        )}
+                                                        {(isEditing === comment._id) && (
 
-                                                        <><div className='relative w-full max-w-[245px] md:max-w-[655px] lg:max-w-[20rem] lg:w-[20rem] mb-3'>
-                                                            <div className='border rounded-lg '>
-                                                                <div
-                                                                    contentEditable
-                                                                    suppressContentEditableWarning={true}
-                                                                    onInput={handleCommentChange}
-                                                                    className='w-full focus:outline-none p-2 text-sm '>{comment.content}</div>
-                                                            </div>
-                                                            <div className='flex justify-end mt-2'>
-                                                                <button
-                                                                    onClick={() => handleCloseButtonClick(comment._id)}
-                                                                    className='mr-2  px-2 rounded-full hover:bg-gray-100 py-1 text-xs  font-semibold'
-                                                                >
-                                                                    Đóng
-                                                                </button>
-                                                                <button
-                                                                    onClick={() => { handleUpdateComment(comment._id, editCommentContent) }}
-                                                                    className='px-2 rounded-full py-1 text-xs bg-primary text-white font-semibold'
-                                                                >
-                                                                    Chỉnh sửa
-                                                                </button>
-                                                            </div>
-                                                        </div></>
-
-                                                    )}
-                                                </div>
-
-                                                {comment._id && visibleDivs[comment._id || ''] && (
-                                                    <div className='flex items-start mb-3 bg-white  px-6 py-6 rounded-xl'>
-                                                        <div className='w-[50px] h-[50px] rounded-full overflow-hidden bg-cover flex-shrink-0'>
-                                                            <img width={50} height={50} className='w-full h-full bg-cover object-cover' src="https://scontent.fsgn5-2.fna.fbcdn.net/v/t39.30808-6/294104815_151317574157525_7345912620490732756_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_ohc=2DJWjcOqYr8AX-GT2qz&_nc_ht=scontent.fsgn5-2.fna&oh=00_AfCpozWzI0ShPcGs3P1bn7B6zmgwjHe6Pv6TMAmnv27EVg&oe=656867BE" alt="" />
-                                                        </div>
-                                                        <div className='ml-3 w-full'>
-                                                            <div className='flex items-center mb-3'>
-                                                                <h3 className='text-base font-bold mr-2 '>Gia Kiệnn</h3>
-                                                                <h4 className='bg-blue-50 text-primary px-2 py-1  rounded-lg uppercase text-xs font-bold border border-primary'>Chủ shop</h4>
-                                                            </div>
-                                                            <div className=' relative flex'>
-
-                                                                <div className='w-full pr-[50px]'>
-                                                                    <textarea className='bg-gray-50 resize-none focus:outline-primary rounded-2xl  px-[14px] py-[14px] w-full' cols={30} rows={10} placeholder='Viết đánh giá của bạn'></textarea>
+                                                            <><div className='relative w-full max-w-[245px] md:max-w-[655px] lg:max-w-[20rem] lg:w-[20rem] mb-3'>
+                                                                <div className='border rounded-lg '>
+                                                                    <div
+                                                                        contentEditable
+                                                                        suppressContentEditableWarning={true}
+                                                                        onInput={handleCommentChange}
+                                                                        className='w-full focus:outline-none p-2 text-sm bg-white'>{comment.content}</div>
                                                                 </div>
-                                                                {/* <input
-                                                                    value={replyComment}
-                                                                    onChange={(e) => setReplyComment(e.target.value)}
-                                                                    type="text" className='focus:outline-none pl-1 py-2 pr-3 text-sm w-full'
-                                                                    placeholder='Nhập Đánh giá của bạn' /> */}
-                                                            </div>
-                                                            <div className='flex justify-end mt-2 px-12'>
-                                                                <button
-                                                                    className='mr-2  px-2 rounded-full hover:bg-gray-100 py-1 text-sm  font-semibold'
-                                                                    onClick={() => closeVisibleDivs(comment._id)}
-                                                                >
-                                                                    Đóng
-                                                                </button>
-                                                                <button onClick={() => handleSendButtonClick(comment._id)} className=' px-3 rounded-full  py-2 text-sm bg-primary text-white font-semibold'>
-                                                                    Phản hồi
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                            <div className='relative flex items-center'>
-                                                <span
-                                                    className='absolute right-0 top-3 cursor-pointer group-hover:block hidden'
-                                                    onClick={() => openModal(comment._id)}
-                                                    onBlur={() => handleBlur(comment._id)}
-                                                >
-                                                    <FaEllipsis />
-                                                </span>
-                                                {modals.includes(comment._id) && (
-                                                    <div ref={modalRef} className="absolute right-0 top-[0.5rem] mt-2 w-60 p-2 z-50 bg-white border rounded-md shadow-lg">
-                                                        <div className='flex flex-col items-center'>
-                                                            <button onClick={() => deleteComment(comment._id)} className='w-full p-2 text-start text-xs font-medium hover:bg-gray-200 rounded-lg'>Xoá Đánh giá</button>
-                                                            <button onClick={() => { setIsEditing(comment._id), closeModal(comment._id) }} className='w-full p-2 text-start text-xs font-medium hover:bg-gray-200 rounded-lg'>Sửa Đánh giá</button>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
+                                                                <div className='flex justify-end mt-2'>
+                                                                    <button
+                                                                        onClick={() => handleCloseButtonClick(comment._id)}
+                                                                        className='mr-2  px-2 rounded-full hover:bg-gray-100 py-1 text-xs  font-semibold'
+                                                                    >
+                                                                        Đóng
+                                                                    </button>
+                                                                    <button
+                                                                        onClick={() => { handleUpdateComment(comment._id, editCommentContent) }}
+                                                                        className='px-2 rounded-full py-1 text-xs bg-primary text-white font-semibold'
+                                                                    >
+                                                                        Chỉnh sửa
+                                                                    </button>
+                                                                </div>
+                                                            </div></>
 
-                                        {dataComments
-                                            .filter((childComment: any) => childComment.parent === comment._id)
-                                            .map((childComment: any) => (
-                                                <div key={childComment._id}>
-                                                    <div className='flex bg-white p-5 rounded-xl mb-5'>
-                                                        <div className='w-[50px] h-[50px] rounded-full overflow-hidden bg-cover flex-shrink-0 '>
-                                                            <img width={50} height={50} className='w-full h-full bg-cover object-cover' src={childComment.user.avatar} alt="" />
+                                                        )}
+                                                    </div>
+
+                                                    {/* {comment._id && visibleDivs[comment._id || ''] && (
+<div className='flex items-start mb-3 bg-white  px-6 py-6 rounded-xl'>
+                                                            <div className='w-[50px] h-[50px] rounded-full overflow-hidden bg-cover flex-shrink-0'>
+                                                                <img width={50} height={50} className='w-full h-full bg-cover object-cover' src="https://scontent.fsgn5-2.fna.fbcdn.net/v/t39.30808-6/294104815_151317574157525_7345912620490732756_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_ohc=2DJWjcOqYr8AX-GT2qz&_nc_ht=scontent.fsgn5-2.fna&oh=00_AfCpozWzI0ShPcGs3P1bn7B6zmgwjHe6Pv6TMAmnv27EVg&oe=656867BE" alt="" />
+                                                            </div>
+                                                            <div className='ml-3 w-full'>
+                                                                <div className='flex items-center mb-3'>
+                                                                    <h3 className='text-base font-bold mr-2 '>Gia Kiệnn</h3>
+                                                                    <h4 className='bg-blue-50 text-primary px-2 py-1  rounded-lg uppercase text-xs font-bold border border-primary'>Chủ shop</h4>
+                                                                </div>
+                                                                <div className=' relative flex'>
+
+                                                                    <div className='w-full pr-[50px]'>
+                                                                        <textarea className='bg-gray-50 resize-none focus:outline-primary rounded-2xl  px-[14px] py-[14px] w-full' cols={30} rows={10} placeholder='Viết đánh giá của bạn'></textarea>
+                                                                    </div>
+                                                                    <input
+                                                                        value={replyComment}
+                                                                        onChange={(e) => setReplyComment(e.target.value)}
+                                                                        type="text" className='focus:outline-none pl-1 py-2 pr-3 text-sm w-full'
+                                                                        placeholder='Nhập Đánh giá của bạn' />
+                                                                </div>
+                                                                <div className='flex justify-end mt-2 px-12'>
+                                                                    <button
+                                                                        className='mr-2  px-2 rounded-full hover:bg-gray-100 py-1 text-sm  font-semibold'
+                                                                        onClick={() => closeVisibleDivs(comment._id)}
+                                                                    >
+Đóng
+                                                                    </button>
+                                                                    <button onClick={() => handleSendButtonClick(comment._id)} className=' px-3 rounded-full  py-2 text-sm bg-primary text-white font-semibold'>
+                                                                        Phản hồi
+                                                                    </button>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div className='ml-3 w-full'>
-                                                            <div className='flex group'>
-                                                                <div className='inline-block w-full'>
-                                                                    <div className='flex items-center'>
+                                                    )} */}
+                                                </div>
+                                                {dataUser && comment.user._id === dataUser._id && (
+                                                    <div className='relative flex items-center'>
+                                                        <span
+                                                            className='absolute right-0 top-3 cursor-pointer group-hover:block hidden'
+                                                            onClick={() => openModal(comment._id)}
+                                                            onBlur={() => handleBlur(comment._id)}
+                                                        >
+                                                            <FaEllipsis />
+                                                        </span>
+                                                        {modals.includes(comment._id) && (
+
+                                                            <div ref={modalRef} className="absolute right-0 top-[0.5rem] mt-2 w-60 p-2 z-50 bg-white border rounded-md shadow-lg">
+                                                                <div className='flex flex-col items-center'>
+                                                                    <button onClick={() => deleteComment(comment._id)} className='w-full p-2 text-start text-xs font-medium hover:bg-gray-200 rounded-lg'>Xoá Đánh giá</button>
+                                                                    <button onClick={() => { setIsEditing(comment._id); closeModal(comment._id) }} className='w-full p-2 text-start text-xs font-medium hover:bg-gray-200 rounded-lg'>Sửa Đánh giá</button>
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            {dataComments
+                                                .filter((childComment: any) => childComment.parent === comment._id)
+                                                .map((childComment: any) => (
+                                                    <div key={childComment._id}>
+                                                        <div className='flex bg-white p-5 rounded-xl mb-5'>
+                                                            <div className='w-[50px] h-[50px] rounded-full overflow-hidden bg-cover flex-shrink-0 '>
+                                                                <img width={50} height={50} className='w-full h-full bg-cover object-cover' src={childComment.user.avatar} alt="" />
+                                                            </div>
+                                                            <div className='ml-3 w-full'>
+                                                                <div className='flex group'>
+                                                                    <div className='inline-block w-full'>
                                                                         <div className='flex items-center'>
-                                                                            <h3 className='font-semibold text-[13px] mr-2'>@{childComment.user.username}</h3>
-                                                                            <h4 className='bg-blue-50 text-primary px-2 py-1  rounded-lg uppercase text-xs font-bold border border-primary'>Chủ shop</h4>
+                                                                            <div className='flex items-center'>
+                                                                                <h3 className='font-semibold text-[13px] mr-2'>@{childComment.user.username}</h3>
+                                                                                <h4 className='bg-blue-50 text-primary px-2 py-1  rounded-lg uppercase text-xs font-bold border border-primary'>Chủ shop</h4>
+                                                                            </div>
+                                                                            <div>
+
+                                                                            </div>
+                                                                            {/* <div className='text-[#6b7280] text-xs font-semibold '>{moment(childComment.createdAt).fromNow()}</div> */}
                                                                         </div>
                                                                         <div>
-
-                                                                        </div>
-                                                                        {/* <div className='text-[#6b7280] text-xs font-semibold '>{moment(childComment.createdAt).fromNow()}</div> */}
-                                                                    </div>
-                                                                    <div>
-                                                                        {isEditing !== childComment._id && (
-                                                                            <div className='pr-4'>
-                                                                                <p className="mb-1 text-base">{childComment.content}</p>
-                                                                                {/* <button
+                                                                            {isEditing !== childComment._id && (
+                                                                                <div className='pr-4'>
+                                                                                    <p className="mb-1 text-base">{childComment.content}</p>
+                                                                                    {/* <button
                                                                                     className='text-primary font-semibold text-sm mb-2'
                                                                                     onClick={() => handleButtonClick(childComment._id)}
                                                                                 >
                                                                                     Trả lời
-                                                                                </button> */}
+</button> */}
+                                                                                </div>
+                                                                            )}
+                                                                            {(isEditing === childComment._id) && (
+
+                                                                                <><div className='relative w-full max-w-[245px] md:max-w-[655px] lg:max-w-[20rem] lg:w-[20rem] mb-3'>
+                                                                                    <div className='border rounded-lg '>
+                                                                                        <div
+                                                                                            contentEditable
+                                                                                            suppressContentEditableWarning={true}
+                                                                                            className='w-full focus:outline-none p-2 text-sm '>{childComment.content}</div>
+                                                                                    </div>
+                                                                                    <div className='flex justify-end mt-2'>
+                                                                                        <button
+
+                                                                                            onClick={() => handleCloseButtonClick(childComment._id)}
+                                                                                            className='mr-2  px-2 rounded-full hover:bg-gray-100 py-1 text-sm  font-semibold'
+                                                                                        >
+                                                                                            Đóng
+                                                                                        </button>
+                                                                                        <button className=' px-2 rounded-full  py-1 text-sm bg-primary text-white font-semibold'>
+                                                                                            Phản hồi
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </div></>
+
+                                                                            )}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className='relative flex items-center'>
+                                                                        <span className='absolute right-0 top-3 hidden group-hover:block group cursor-pointer' onClick={() => openModal(childComment._id)} onBlur={() => handleBlur(childComment._id)}> <FaEllipsis /> </span>
+                                                                        {modals.includes(childComment._id) && (
+                                                                            <div ref={modalRef} className="absolute right-0 top-10 mt-2 w-60 p-2 z-50 bg-white border rounded-md shadow-lg">
+                                                                                <div className='flex flex-col items-center'>
+                                                                                    <button onClick={() => deleteComment(childComment._id)} className='w-full p-2 text-start text-xs font-medium hover:bg-gray-200 rounded-lg'>Xoá Đánh giá</button>
+                                                                                    <button onClick={() => { setIsEditing(childComment._id), closeModal(childComment._id) }} className='w-full p-2 text-start text-xs font-medium hover:bg-gray-200 rounded-lg'>Sửa Đánh giá</button>
+                                                                                </div>
                                                                             </div>
-                                                                        )}
-                                                                        {(isEditing === childComment._id) && (
-
-                                                                            <><div className='relative w-full max-w-[245px] md:max-w-[655px] lg:max-w-[20rem] lg:w-[20rem] mb-3'>
-                                                                                <div className='border rounded-lg '>
-                                                                                    <div
-                                                                                        contentEditable
-                                                                                        suppressContentEditableWarning={true}
-                                                                                        className='w-full focus:outline-none p-2 text-sm '>{childComment.content}</div>
-                                                                                </div>
-                                                                                <div className='flex justify-end mt-2'>
-                                                                                    <button
-
-                                                                                        onClick={() => handleCloseButtonClick(childComment._id)}
-                                                                                        className='mr-2  px-2 rounded-full hover:bg-gray-100 py-1 text-sm  font-semibold'
-                                                                                    >
-                                                                                        Đóng
-                                                                                    </button>
-                                                                                    <button className=' px-2 rounded-full  py-1 text-sm bg-primary text-white font-semibold'>
-                                                                                        Phản hồi
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div></>
-
                                                                         )}
                                                                     </div>
                                                                 </div>
-                                                                <div className='relative flex items-center'>
-                                                                    <span className='absolute right-0 top-3 hidden group-hover:block group cursor-pointer' onClick={() => openModal(childComment._id)} onBlur={() => handleBlur(childComment._id)}> <FaEllipsis /> </span>
-                                                                    {modals.includes(childComment._id) && (
-                                                                        <div ref={modalRef} className="absolute right-0 top-10 mt-2 w-60 p-2 z-50 bg-white border rounded-md shadow-lg">
-                                                                            <div className='flex flex-col items-center'>
-                                                                                <button onClick={() => deleteComment(childComment._id)} className='w-full p-2 text-start text-xs font-medium hover:bg-gray-200 rounded-lg'>Xoá Đánh giá</button>
-                                                                                <button onClick={() => { setIsEditing(childComment._id), closeModal(childComment._id) }} className='w-full p-2 text-start text-xs font-medium hover:bg-gray-200 rounded-lg'>Sửa Đánh giá</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                            </div>
-                                                            {/* {childComment._id && visibleDivs[childComment._id || ''] && (
+                                                                {/* {childComment._id && visibleDivs[childComment._id || ''] && (
                                                                 <div className='flex items-start mb-3'>
                                                                     <div className='w-[35px] h-[35px] rounded-full overflow-hidden bg-cover flex-shrink-0'>
                                                                         <img width={35} height={35} className='w-full h-full bg-cover object-cover' src="/images/avt/1.jpg" alt="" />
@@ -548,7 +562,7 @@ export default function Comments({ productId, _id, reviews }: { productId: strin
                                                                                 value={childReplyComment}
                                                                                 onChange={(e) => setChildReplyComment(e.target.value)}
                                                                                 type="text" className='focus:outline-none pl-1 py-2 pr-3 text-sm w-full'
-                                                                                placeholder='Nhập Đánh giá của bạn' />
+placeholder='Nhập Đánh giá của bạn' />
 
                                                                         </div>
                                                                         <div className='flex justify-end mt-2'>
@@ -565,9 +579,9 @@ export default function Comments({ productId, _id, reviews }: { productId: strin
                                                                     </div>
                                                                 </div>
                                                             )} */}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    {/* {dataComments
+                                                        {/* {dataComments
                                                         .filter((nestedComment: any) => nestedComment.parent === childComment._id)
                                                         .map((nestedComment: any) => (
                                                             <div key={nestedComment._id}>
@@ -578,7 +592,7 @@ export default function Comments({ productId, _id, reviews }: { productId: strin
                                                                     <div className='ml-3 w-full'>
                                                                         <div className='flex'>
                                                                             <div className='mb-2 inline-block w-full'>
-                                                                                <div className='flex items-start'>
+<div className='flex items-start'>
                                                                                     <h3 className='font-semibold text-[13px] mr-3'>@{nestedComment.user.username}</h3>
                                                                                     <div className='text-[#6b7280] text-xs font-semibold '>{moment(nestedComment.createdAt).fromNow()}</div>
                                                                                 </div>
@@ -603,8 +617,7 @@ export default function Comments({ productId, _id, reviews }: { productId: strin
                                                                                             </div>
                                                                                             <div className='flex justify-end mt-2'>
                                                                                                 <button
-
-                                                                                                    onClick={() => handleCloseButtonClick(nestedComment._id)}
+onClick={() => handleCloseButtonClick(nestedComment._id)}
                                                                                                     className='mr-2  px-2 rounded-full hover:bg-gray-100 py-1 text-sm  font-semibold'
                                                                                                 >
                                                                                                     Đóng
@@ -627,7 +640,7 @@ export default function Comments({ productId, _id, reviews }: { productId: strin
                                                                                             <button onClick={() => { setIsEditing(nestedComment._id), closeModal(nestedComment._id) }} className='w-full p-2 text-start text-xs font-medium hover:bg-gray-200 rounded-lg'>Sửa Đánh giá</button>
                                                                                         </div>
                                                                                     </div>
-                                                                                )}
+)}
                                                                             </div>
                                                                         </div>
                                                                         {nestedComment._id && visibleDivs[nestedComment._id || ''] && (
@@ -652,7 +665,7 @@ export default function Comments({ productId, _id, reviews }: { productId: strin
                                                                                             Đóng
                                                                                         </button>
                                                                                         <button onClick={() => handleSendButtonClick(nestedComment._id)} className=' px-2 rounded-full  py-1 text-sm bg-primary text-white font-semibold'>
-                                                                                            Phản hồi
+Phản hồi
                                                                                         </button>
                                                                                     </div>
                                                                                 </div>
@@ -662,20 +675,17 @@ export default function Comments({ productId, _id, reviews }: { productId: strin
                                                                 </div>
                                                             </div>
                                                         ))} */}
-                                                </div>
-                                            ))}
+                                                    </div>
+                                                ))}
 
 
+                                        </div>
                                     </div>
-                                </div>
-                            )}
-                        </div>
-                    ))}
+                                )}
+                            </div>
+                        ))}
                 </div>
             </div >
         </div >
     )
 }
-
-
-

@@ -2,23 +2,27 @@
 
 import WrapResponsive from "@/components/WrapResponsive";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegUser } from "react-icons/fa";
 import { GrShieldSecurity } from "react-icons/gr";
 
 export default function LayoutSetting({ children }: { children: React.ReactNode }) {
     const [activeSection, setActiveSection] = useState("profile");
 
+    useEffect(() => {
+        const path = window.location.pathname;
+        const section = path === "/settings" ? "profile" : path === "/settings/account-security" ? "sercurity" : "profile";
+        if (activeSection !== section) {
+            setActiveSection(section);
+        }
+    }, []);
+
     const handleCheckSection = (section: any) => {
         setActiveSection(section);
     };
 
-
-
-
     return (
         <WrapResponsive>
-
             <div className='w-full m-auto  lg:max-w-8xl flex'>
                 <div className='w-64 hidden md:block lg:block'>
                     <ul className='w-52 sticky top-5 mt-7 mb-7'>
