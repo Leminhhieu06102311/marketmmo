@@ -300,13 +300,15 @@ export default function Comments({ productId, _id, reviews }: { productId: strin
     return (
         <div>
             <div>
-                <div className="flex items-center">
+                <div className="flex items-center mb-3">
                     <svg className="w-5 h-5 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                         <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                     </svg>
                     <p className="ms-2 text-xl font-bold text-gray-900 dark:text-white">{reviews.value !== null ? reviews.value.toFixed(2) : "0"}/5</p>
                     <span className="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400" />
                     <a href="#" className="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{reviews.count / 2} lượt đánh giá</a>
+                </div>
+                <div>
                 </div>
                 {dataUser && showRating && (
                     <div className='w-full p-6 bg-[#eff2ef] rounded-2xl mb-3 mt-4' >
@@ -391,23 +393,23 @@ export default function Comments({ productId, _id, reviews }: { productId: strin
                                                     {(isEditing === comment._id) && (
 
                                                         <><div className='relative w-full max-w-[245px] md:max-w-[655px] lg:max-w-[20rem] lg:w-[20rem] mb-3'>
-                                                            <div className='border rounded-lg '>
+                                                            <div className='border rounded-lg w-full'>
                                                                 <div
                                                                     contentEditable
                                                                     suppressContentEditableWarning={true}
                                                                     onInput={handleCommentChange}
-                                                                    className='w-full focus:outline-none p-2 text-sm '>{comment.content}</div>
+                                                                    className='w-full focus:outline-none p-2 text-sm bg-white rounded-md '>{comment.content}</div>
                                                             </div>
                                                             <div className='flex justify-end mt-2'>
                                                                 <button
                                                                     onClick={() => handleCloseButtonClick(comment._id)}
-                                                                    className='mr-2  px-2 rounded-full hover:bg-gray-100 py-1 text-xs  font-semibold'
+                                                                    className='mr-2  px-3 border rounded-full bg-white py-2 text-xs  font-semibold'
                                                                 >
                                                                     Đóng
                                                                 </button>
                                                                 <button
                                                                     onClick={() => { handleUpdateComment(comment._id, editCommentContent) }}
-                                                                    className='px-2 rounded-full py-1 text-xs bg-primary text-white font-semibold'
+                                                                    className='px-3 rounded-full py-2 text-xs bg-primary text-white font-semibold'
                                                                 >
                                                                     Chỉnh sửa
                                                                 </button>
