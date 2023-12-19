@@ -14,7 +14,6 @@ import Link from "next/link";
 import { BiMessageRoundedDetail } from "react-icons/bi";
 import { useState } from "react";
 import { RiImageAddLine } from "react-icons/ri";
-import "animate.css";
 export default function Messenger() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
