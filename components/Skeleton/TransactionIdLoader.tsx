@@ -4,7 +4,7 @@ export default function TransactionIdLoader() {
   return (
     <>
       <div>
-        <div className="w-full h-full fixed  bg-white right-0 left-0 ">
+        <div className="w-full h-full  bg-white right-0 left-0 ">
           <div className=" w-full flex justify-end top-0 items-center  ">
             <Link href="/transaction-history">
               {/* <FontAwesomeIcon
@@ -18,7 +18,7 @@ export default function TransactionIdLoader() {
               <div className="gap-y-3 lg:flex md:flex gap-3">
                 <div className="w-[81px] md:h-[71px] lg:h-[71px] mb-2 md:mb-0 lg:mb-0">
                   {" "}
-                  <div className="w-full h-full rounded-[10px] bg-gray-200 animate-pulse text-gray-200"></div>
+                  <div className="w-full h-full rounded-full max-w-[71px] max-h-[71px] bg-gray-200 animate-pulse text-gray-200"></div>
                 </div>{" "}
                 <div>
                   <p className="w-50px bg-gray-200 rounded-2xl animate-pulse text-gray-200 font-bold text-2xl leading-[142%] lg:line-clamp-1 md:line-clamp-1">
@@ -30,18 +30,6 @@ export default function TransactionIdLoader() {
                     <h2 className="text-xl mt-1 font-bold bg-gray-200 rounded-2xl animate-pulse text-gray-200">
                       Giá: 1.000VND
                     </h2>
-                    <div className="items-center mt-1 flex gap-x-3 bg-gray-200 rounded-2xl animate-pulse text-gray-200">
-                      {" "}
-                      <h3
-                        className="text-lg font-semibold text-gray-200 "
-                        style={{ textDecoration: "line-through" }}
-                      >
-                        2.000VND
-                      </h3>
-                      <div className="bg-gray-200 text-sm inline px-3 text-gray-200 rounded-lg">
-                        -50%
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -92,18 +80,10 @@ export default function TransactionIdLoader() {
                         </p>{" "}
                       </div>
                     </div>
-                    <div className="flex gap-x-3 items-center pt-2">
+                    <div className="flex gap-x-3 items-center pt-2 mb-2">
                       <p className="bg-gray-200 rounded-2xl animate-pulse text-gray-200">Thể loại: </p>
-                      <div className="flex w-auto items-center px-4 py-2 gap-x-2 rounded-[30px] bg-gray-200 animate-pulse text-gray-200 font-normal">
-                        {/* <div className="w-[18px] h-auto">
-                          <img
-                            src="https://hotmail.best/wp-content/uploads/2020/01/gmail-login-768x580.png"
-                            alt="Err"
-                            className="w-full"
-                          />
-                        </div> */}
-                        <p>Youtube</p>
-                      </div>
+                      <p className="bg-gray-200 rounded-2xl animate-pulse text-gray-200">Thể loại: </p>
+
                     </div>
                     <div className="pt-2 bg-gray-200 rounded-2xl animate-pulse text-gray-200 inline-flex flex-col">
                       <p>
@@ -130,7 +110,7 @@ export default function TransactionIdLoader() {
                     </div>
                     <div className="mt-10 ">
                       {" "}
-                      <div className="flex gap-3 bg-gray-200 rounded-2xl animate-pulse text-gray-200 justify-end items-center">
+                      <div className="flex gap-3 bg-gray-200 rounded-2xl animate-pulse text-gray-200 justify-end items-center mb-2">
                         {" "}
                         <h3
                           className="text-lg font-semibold "
@@ -138,7 +118,7 @@ export default function TransactionIdLoader() {
                         >
                           20.000 VND
                         </h3>
-                        <div className="text-sm inline px-3 text-white rounded-lg justify-end">
+                        <div className="text-sm inline px-3 text-gray-200 rounded-lg justify-end">
                           -50%
                         </div>
                       </div>
@@ -150,7 +130,7 @@ export default function TransactionIdLoader() {
                         >
                           20.000 VND
                         </h3>
-                        <div className="text-sm inline px-3 text-white rounded-lg justify-end">
+                        <div className="text-sm inline px-3 text-gray-200 rounded-lg justify-end">
                           -50%
                         </div>
                       </div>
@@ -159,7 +139,6 @@ export default function TransactionIdLoader() {
                 </div>
               </div>
             </div>
-            <div> </div>
           </div>
         </div>
       </div>

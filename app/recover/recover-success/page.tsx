@@ -56,7 +56,7 @@ export default function RecoverSuccess() {
 
                   <img
                     className="max-w-[204px] max-h-44 top-[50px] left-12 absolute"
-                    src="../images/recover/relaxed 1.png"
+                    src="./images/2.png"
                   />
                 </div>
               </div>

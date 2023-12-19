@@ -156,7 +156,7 @@ export default function changeForgot() {
 
                   <img
                     className="max-w-[204px] max-h-44 top-1 left-[70px] absolute"
-                    src="../images/recover/funny.png"
+                    src="../images/3.png"
                   />
                 </div>
               </div>

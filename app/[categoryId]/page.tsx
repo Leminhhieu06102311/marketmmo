@@ -8,7 +8,7 @@ import { getProductFromCategory } from "@/services/product";
 import { FaChevronDown } from "react-icons/fa6";
 import { RiArrowUpDownFill } from "react-icons/ri";
 import Link from "next/link";
-
+import CategoryDropdown from "@/components/CategoryDropdown/CategoryDropdown";
 import { useEffect, useState } from "react";
 
 export default function DetailCategory({
@@ -78,6 +78,12 @@ export default function DetailCategory({
       setActiveButton("price");
     }
   };
+
+  const options = [
+    { label: 'Tài Khoản Telegram', value: 'option1', imageUrl: './images/1.png' },
+    { label: 'Option 2', value: 'option2', imageUrl: './images/2.png' },
+    { label: 'Option 3', value: 'option3', imageUrl: './images/3.png' },
+  ];
   return (
     <>
       <WrapResponsive>
@@ -98,7 +104,7 @@ export default function DetailCategory({
           <div className="flex-1">
             {/* Category */}
             <div className="my-2 top-0">
-              <div className="text-xs font-semibold  justify-center md:flex md:justify-end  md:mx-auto lg:flex lg:justify-end lg:-w-full ">
+              <div className="text-xs font-semibold  justify-center md:flex md:justify-end  md:mx-auto lg:flex lg:justify-end lg:-w-full relative">
                 <div className="lg:justify-start md:justify-center my-2 flex items-center justify-between">
                   <span className="lg:mr-2 md:mr-2">Filter by</span>
                   <ul className="lg:mr-2 md:mr-2 inline-flex items-center bg-gray-100 rounded-lg">
@@ -148,9 +154,9 @@ export default function DetailCategory({
                     </li>
                   </ul>
                 </div>
-                <div className="w-full my-2 hover:bg-white text-gray-600 md:w-32 lg:w-32">
-                  <div className="w-full h-full  hs-dropdown relative inline-flex">
-                    <button
+                <div className="w-max my-2 hover:bg-white text-gray-600">
+                  <div className="w-max h-full  hs-dropdown relative">
+                    {/* <button
                       id="hs-dropdown-with-icons"
                       type="button"
                       className="w-full  px-4 py-2 bg-gray-100 hs-dropdown-toggle inline-flex justify-between items-center gap-2 rounded-md  outline-none text-xs font-semibold text-gray-500 align-middle focus:outline-none focus:ring-0 transition-all "
@@ -171,11 +177,9 @@ export default function DetailCategory({
                           strokeLinecap="round"
                         />
                       </svg>
-                    </button>
-                    <div
-                      className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[15rem] bg-white shadow-md rounded-lg p-2 mt-2 divide-y divide-gray-200 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700"
-                      aria-labelledby="hs-dropdown-with-icons"
-                    >
+                    </button> */}
+                    <CategoryDropdown options={options} />
+                    {/* <div>
                       <div className="py-2 first:pt-0 last:pb-0">
                         <a
                           className="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-gray-300 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
@@ -202,7 +206,7 @@ export default function DetailCategory({
                           Instagram
                         </a>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

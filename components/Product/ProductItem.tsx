@@ -15,8 +15,8 @@ export default function ProductItem({ product }: { product: Product }) {
       className="w-full"
       onClick={() => hanldeClickProduct()}
     >
-      <div className="transition ease-in-out delay-150 m-2 rounded-2xl shadow-xl box-shadow-product hover:-translate-y-3 hover:shadow-hover  duration-300 w-full">
-      {product.pictures.map((picture) => (
+      <div className="transition ease-in-out delay-150 rounded-2xl shadow-xl box-shadow-product hover:-translate-y-3 hover:shadow-hover  duration-300 w-full">
+        {product.pictures.map((picture) => (
           <Image
             key={picture}
             src={picture === 'banner.jpg' ? '/images' : picture }

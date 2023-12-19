@@ -10,7 +10,7 @@ import { IoIosLogOut, IoMdClose } from "react-icons/io";
 import { BsCart3 } from "react-icons/bs";
 import Link from "next/link";
 import { HiBars3 } from "react-icons/hi2";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import SideBarMenuMobile from "./SideBarMenuMobile";
 import Links from "@/interfaces/links";
@@ -58,7 +58,17 @@ export default function Header() {
   const { isModalSearch } = useAppSelector((state) => state.search)
   const [searchTerm, setSearchTerm] = useState('')
   const [showModal, setShowModal] = useState(false);
-  const [notificationModallOpen, setNotificationModalOpen] = useState(false);
+  const [isNotificationDropdownOpen, setNotificationDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const toggleNotificationDropdown = () => {
+    setNotificationDropdownOpen(!isNotificationDropdownOpen);
+  };
+
+  const closeNotificationDropdown = () => {
+    setNotificationDropdownOpen(false);
+  };
+
   const openModal = () => {
     setShowModal(true);
   };
@@ -66,13 +76,19 @@ export default function Header() {
   const closeModal = () => {
     setShowModal(false);
   };
-  const openNotification = () => {
-    setNotificationModalOpen(true);
-  };
 
-  const closeNotification = () => {
-    setNotificationModalOpen(false);
-  };
+  useEffect(() => {
+    const handleOutsideClick = (event: { target: any; }) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        closeNotificationDropdown();
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [dropdownRef]);
+
   const dispatch = useAppDispatch();
   const hanldeLogout = () => {
     Cookies.remove('token')
@@ -130,7 +146,7 @@ export default function Header() {
         </div>
         <div className=" flex lg:flex gap-5">
           <div className=" lg:flex ">
-            <div className="flex gap-2 md:gap-2 items-center">
+            <div ref={dropdownRef} className="flex gap-2 md:gap-2 items-center">
               {!isLoggedIn ? (
                 <div>
                   <Link href="/login"
