@@ -46,9 +46,7 @@ export default function CartModal() {
             render: ({data}) => {
               const {_id, orderPrice} = data.data
               router.push(`https://ultimate-implicitly-hound.ngrok-free.app/payment/initiate-payment-order?orderID=${_id}&amount=${orderPrice}`)
-              // hanldeRemoveCart()
-              // dispatch(toggleModal('cart'))
-              // router.replace('/transaction-history')
+              
               return "Bắt đầu thanh toán"
             },
             icon: '🟢'
@@ -142,31 +140,6 @@ export default function CartModal() {
                       <p>Tổng tiền</p>
                       <p>{((cart.product.price) * (cart.quantity)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
                     </div>
-                    {/* <div>
-                      <p className="mt-5 mb-3 font-semibold text-base">Phương thức thanh toán</p>
-                      <div className="flex gap-4">
-                        <div className="border border-gray-200 rounded-md py-2 px-3 flex items-center">
-                          <Image className="object-cover" src="https://firebasestorage.googleapis.com/v0/b/marketmmo.appspot.com/o/payment%2FLogo-VietinBank-CTG-Te.webp?alt=media&token=a0188d91-9a31-4b6b-b48e-9f7d4056e3a9&_gl=1*1hicunj*_ga*NTAzMzEwNjUwLjE2OTg5MTI2OTU.*_ga_CW55HF8NVT*MTY5ODkyMjU3NS4yLjEuMTY5ODkyNDQ3OS4zMi4wLjA." width={50} height={20} alt="vietinbank" />
-                        </div>
-                        <div className="border border-gray-200 rounded-md py-2 px-3 flex items-center">
-                          <Image className="object-cover" src="https://firebasestorage.googleapis.com/v0/b/marketmmo.appspot.com/o/payment%2FLogo-ZaloPay-Square.webp?alt=media&token=ad8086d3-eb66-4200-a667-86b830767c02&_gl=1*1pjnkld*_ga*NTAzMzEwNjUwLjE2OTg5MTI2OTU.*_ga_CW55HF8NVT*MTY5ODkyMjU3NS4yLjEuMTY5ODkyNDc4My42MC4wLjA." width={50} height={20} alt="zalopay" />
-                        </div>
-                        <div className="border border-gray-200 rounded-md py-2 px-3 flex items-center ">
-                          <Image className="" src="https://firebasestorage.googleapis.com/v0/b/marketmmo.appspot.com/o/payment%2Fmini-app_design-guideline_branding-guide-2-2.webp?alt=media&token=2ae2e642-33fd-4706-a2ee-e80175c2ee22&_gl=1*b5pmp9*_ga*NTAzMzEwNjUwLjE2OTg5MTI2OTU.*_ga_CW55HF8NVT*MTY5ODkyMjU3NS4yLjEuMTY5ODkyNDc5OS40NC4wLjA." width={50} height={20} alt="momo" />
-                        </div>
-                        <div className="border border-gray-200 rounded-md py-2 px-3 flex items-center ">
-                          <Image className="" src="https://firebasestorage.googleapis.com/v0/b/marketmmo.appspot.com/o/payment%2FLogo_MB_new.png?alt=media&token=8548478c-f185-41d5-82c5-e0f6cce51eea&_gl=1*yjp8do*_ga*NTAzMzEwNjUwLjE2OTg5MTI2OTU.*_ga_CW55HF8NVT*MTY5ODk5NjYyNS4zLjEuMTY5ODk5Njc2My4xNi4wLjA." width={50} height={20} alt="momo" />
-                        </div>
-                        <div className="border border-gray-200 rounded-md py-2 px-3 flex items-center ">
-                          <Image className="" src="https://firebasestorage.googleapis.com/v0/b/marketmmo.appspot.com/o/payment%2Fvietcombank-vector-logo.png?alt=media&token=04a9131b-4287-44c2-8418-8f821eff6fa1&_gl=1*1xjh6ou*_ga*NTAzMzEwNjUwLjE2OTg5MTI2OTU.*_ga_CW55HF8NVT*MTY5ODk5NjYyNS4zLjEuMTY5ODk5NjkyMC40OC4wLjA." width={50} height={20} alt="momo" />
-                        </div>
-                      </div>
-                      <div>
-                        <div className="flex justify-center my-4">
-                          <Image className="" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example" width={200} height={200} alt="momo" />
-                        </div>
-                      </div>
-                    </div> */}
                   </div>
                   <button
                     onClick={() => submitOrder()}
