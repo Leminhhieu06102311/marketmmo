@@ -5,11 +5,11 @@ import {
 } from "react-icons/ai";
 import { HiOutlineUserCircle } from "react-icons/hi";
 import { IoPaperPlaneOutline, IoSettingsOutline } from "react-icons/io5";
-import { IoIosLogOut } from "react-icons/io";
+import { IoIosLogOut, IoMdClose } from "react-icons/io";
 import { BsCart3 } from "react-icons/bs";
 import Link from "next/link";
 import { HiBars3 } from "react-icons/hi2";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import SideBarMenuMobile from "./SideBarMenuMobile";
 import Links from "@/interfaces/links";
@@ -19,7 +19,7 @@ import { setLoggedIn } from "@/redux/userSlice";
 import { LuBell } from "react-icons/lu";
 import { toast } from 'react-toastify'
 import Image from "next/image";
-import { FaAngleLeft, FaCircleCheck } from 'react-icons/fa6'
+import { FaAngleLeft, FaCircleCheck, FaRegClock } from 'react-icons/fa6'
 import SearchProduct from "./SearchProduct";
 import { filterProducts, showModalSearch } from "@/redux/searchSlice";
 import DetailProduct from "../DetailProduct";
@@ -59,6 +59,17 @@ export default function Header() {
   const { isModalSearch } = useAppSelector((state) => state.search)
   const [searchTerm, setSearchTerm] = useState('')
   const [showModal, setShowModal] = useState(false);
+  const [isNotificationDropdownOpen, setNotificationDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const toggleNotificationDropdown = () => {
+    setNotificationDropdownOpen(!isNotificationDropdownOpen);
+  };
+
+  const closeNotificationDropdown = () => {
+    setNotificationDropdownOpen(false);
+  };
+
   const openModal = () => {
     setShowModal(true);
   };
@@ -66,6 +77,18 @@ export default function Header() {
   const closeModal = () => {
     setShowModal(false);
   };
+
+  useEffect(() => {
+    const handleOutsideClick = (event: { target: any; }) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        closeNotificationDropdown();
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [dropdownRef]);
 
   const dispatch = useAppDispatch();
   const hanldeLogout = () => {
@@ -125,7 +148,7 @@ export default function Header() {
         </div>
         <div className=" flex lg:flex gap-5">
           <div className=" lg:flex ">
-            <div className="flex gap-2 md:gap-2 items-center">
+            <div ref={dropdownRef} className="flex gap-2 md:gap-2 items-center">
               {!isLoggedIn ? (
                 <div>
                   <Link href="/login"
@@ -135,13 +158,118 @@ export default function Header() {
                   </Link>
                 </div>
               ) : (
-                <div
-                  className="bg-[#1212120a] hidden md:block relative rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212]"
+                <div onClick={toggleNotificationDropdown}
+                  className="bg-[#1212120a] hidden md:block relative rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212"
                 >
                   <span className="absolute top-0 right-0 bg-red-500 flex items-center justify-center rounded-full h-5 w-5 text-white font-semibold text-xs">3</span>
                   <LuBell className="w-5 h-5 text-black" />
+                  {isNotificationDropdownOpen && (
+                    <div className="absolute right-[25px] top-[25px] mt-2 w-[380px] z-50 max-h-[80vh] overflow-y-auto bg-white rounded-lg shadow-lg border">
+                      <div className="">
+                        <div className='font-bold border-b pb-2 px-6 py-4 flex items-center justify-between'>
+                          <h2 className='text-xl'>Thông báo</h2>
+                          <button onClick={closeNotificationDropdown}><IoMdClose className='text-2xl text-gray-400' /></button>
+                        </div>
+                        <h3 className='text-sm py-1 mb-3 px-6 border-b font-semibold '>MỚI</h3>
+
+                        <div className='hover:bg-gray-50 bg-gray-100 px-6 py-4'>
+                          <div className='flex items-center '>
+                            <div className='w-10 h-10 bg-gray-50 p-2 rounded-full overflow-hidden mr-4'>
+                              <Image src="/images/promotion/businessman.png" alt="" width={40} height={40} />
+                            </div>
+                            <div className='text-sm'>
+                              <div className='mb-[2px]'>
+                                <span className='font-semibold mr-1'>Sản phẩm</span>
+                                <span className='text-gray-600'>của bạn đang được chờ duyệt</span>
+                              </div>
+                              <div className='font-medium text-xs flex items-center text-gray-400'><FaRegClock className='mr-1' /> 1 tiếng trước</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className='hover:bg-gray-50 bg-gray-100 px-6 py-4'>
+                          <div className='flex items-center '>
+                            <div className='w-10 h-10 bg-gray-50 p-2 rounded-full overflow-hidden mr-4'>
+                              <Image src="/images/promotion/businessman.png" alt="" width={40} height={40} />
+                            </div>
+                            <div className='text-sm'>
+                              <div className='mb-[2px]'>
+                                <span className='font-semibold mr-1'>Sản phẩm</span>
+                                <span className='text-gray-600'>của bạn đang được chờ duyệt</span>
+                              </div>
+                              <div className='font-medium text-xs flex items-center text-gray-400'><FaRegClock className='mr-1' /> 1 tiếng trước</div>
+                            </div>
+                          </div>
+                        </div>
+                        {/* End Sample Notification Items */}
+                        <h3 className='text-sm py-1 my-3 px-6 border-y font-semibold '>ĐÃ ĐỌC</h3>
+                        {/* Sample Read Notifications */}
+                        <div className='px-6 py-4 hover:bg-gray-50'>
+                          <div className='flex items-center '>
+                            <div className='w-10 h-10 bg-gray-50 p-2 rounded-full overflow-hidden mr-4'>
+                              <Image src="/images/promotion/businessman.png" alt="" width={40} height={40} />
+                            </div>
+                            <div className='text-sm'>
+                              <div className='mb-[2px]'>
+                                <span className='font-semibold mr-1'>Sản phẩm</span>
+                                <span className='text-gray-600'>của bạn đang được chờ duyệt</span>
+                              </div>
+                              <div className='font-medium text-xs flex items-center text-gray-400'><FaRegClock className='mr-1' /> 1 tiếng trước</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className='px-6 py-4 hover:bg-gray-50'>
+                          <div className='flex items-center '>
+                            <div className='w-10 h-10 bg-gray-50 p-2 rounded-full overflow-hidden mr-4'>
+                              <Image src="/images/promotion/businessman.png" alt="" width={40} height={40} />
+                            </div>
+                            <div className='text-sm'>
+                              <div className='mb-[2px]'>
+                                <span className='font-semibold mr-1'>Sản phẩm</span>
+                                <span className='text-gray-600'>của bạn đang được chờ duyệt</span>
+                              </div>
+                              <div className='font-medium text-xs flex items-center text-gray-400'><FaRegClock className='mr-1' /> 1 tiếng trước</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className='px-6 py-4 hover:bg-gray-50'>
+                          <div className='flex items-center '>
+                            <div className='w-10 h-10 bg-gray-50 p-2 rounded-full overflow-hidden mr-4'>
+                              <Image src="/images/promotion/businessman.png" alt="" width={40} height={40} />
+                            </div>
+                            <div className='text-sm'>
+                              <div className='mb-[2px]'>
+                                <span className='font-semibold mr-1'>Sản phẩm</span>
+                                <span className='text-gray-600'>của bạn đang được chờ duyệt</span>
+                              </div>
+                              <div className='font-medium text-xs flex items-center text-gray-400'><FaRegClock className='mr-1' /> 1 tiếng trước</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className='px-6 py-4 hover:bg-gray-50'>
+                          <div className='flex items-center '>
+                            <div className='w-10 h-10 bg-gray-50 p-2 rounded-full overflow-hidden mr-4'>
+                              <Image src="/images/promotion/businessman.png" alt="" width={40} height={40} />
+                            </div>
+                            <div className='text-sm'>
+                              <div className='mb-[2px]'>
+                                <span className='font-semibold mr-1'>Sản phẩm</span>
+                                <span className='text-gray-600'>của bạn đang được chờ duyệt</span>
+                              </div>
+                              <div className='font-medium text-xs flex items-center text-gray-400'><FaRegClock className='mr-1' /> 1 tiếng trước</div>
+                            </div>
+                          </div>
+                        </div>
+                        {/* End Sample Read Notifications */}
+                        <div className='w-full text-primary py-2 px-6 border-y text-center'>
+                          <h5 className='w-full py-1 rounded-lg hover:bg-blue-50'>Xem thêm</h5>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
+
               )}
+
               <div className=" group hidden md:block bg-[#1212120a] rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212] relative">
                 <HiOutlineUserCircle className="w-5 h-5" />
                 <ul className="group-hover:block absolute w-60 p-2 hidden bg-white right-0 z-[99] top-14 rounded-lg shadow-modal before:absolute before:w-full before:h-6 before:bg-transparent before:right-0 before:-top-3  ">

@@ -421,16 +421,6 @@ export default function Profile() {
             <div className='w-full mb:w-full lg:w-10/12'>
                 <h1 className='mx-8 py-4 border-b border-gray-200 text-2xl font-semibold'>Bảo mật tài khoản</h1>
                 <div className='px-8 py-6'>
-                    <div className='pb-6 border-b border-gray-200 mb-3' >
-                        <h1 className='text-xl font-semibold mb-3'>Thông tin tài khoản</h1>
-                        <div>
-                            <h1 className='text-base font-semibold mb-2'>Địa chỉ Email</h1>
-                            <div className='flex flex-col md:flex-row lg:flex-row lg:items-center'>
-                                <div className='text-gray-400 font-semibold text-sm mr-2 mb-2' >Nếu bạn cần thay đổi địa chỉ email của mình vui lòng liên hệ với <Link href='' className='text-primary'>bộ phận dịch vụ</Link> </div>
-                                <div className='flex justify-start'><div className='p-2 text-sm font-semibold rounded-lg bg-[#EFF2F5]'>pg*****15@gmail.com</div></div>
-                            </div>
-                        </div>
-                    </div>
                     <div>
                         <h1 className='text-xl font-semibold mb-3'>Cài đặt hệ thống bảo vệ</h1>
                         <div className='pb-6 border-b border-gray-200 mb-3'>

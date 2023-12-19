@@ -33,7 +33,7 @@ const BuyerHistory = () => {
         <div className="max-w-xxs mx-auto md:max-w-3xl lg:max-w-full  px-5">
           <div className="pt-10">
             <div className="lg:px-5">
-              <div className="flex gap-x-6 justify-between md:justify-around lg:justify-start">
+              <div className="flex gap-x-6 px-5 md:px-8 lg:px-0 flex-col items-start md:flex-row md:justify-start lg:justify-start lg:flex-row">
                 {" "}
                 <div
                   className="text-center"
@@ -44,9 +44,8 @@ const BuyerHistory = () => {
                       ? "text-black bg-[#1212120a]"
                       : "text-gray-700 bg-none"
                       } leading-16 font-semibold  px-4 py-3 rounded-[10px]`}
-                    onClick={() => handleTabClick(1)}
-                  >
-                    <span className="hidden md:block lg:block">
+                    onClick={() => handleTabClick(1)}>
+                    <span className="">
                       Lịch sử mua hàng
                     </span>
 
@@ -78,7 +77,7 @@ const BuyerHistory = () => {
                       } leading-16 font-semibold  px-4 py-3 rounded-[10px]`}
                     onClick={() => handleTabClick(3)}
                   >
-                    <span className="hidden md:block lg:block">
+                    <span className="">
                       Lịch sử giao dịch trung gian
                     </span>
 
