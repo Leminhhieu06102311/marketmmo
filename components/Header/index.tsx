@@ -3,6 +3,7 @@ import { BiSearch } from "react-icons/bi";
 import {
   AiOutlineLogin,
 } from "react-icons/ai";
+import { PiMessengerLogo } from "react-icons/pi";
 import { HiOutlineUserCircle } from "react-icons/hi";
 import { IoPaperPlaneOutline, IoSettingsOutline } from "react-icons/io5";
 import { IoIosLogOut, IoMdClose } from "react-icons/io";
@@ -140,13 +141,13 @@ export default function Header() {
                 </div>
               ) : (
                 <>
-                <div
-                  className="bg-[#1212120a] hidden md:block relative rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212]"
+                <Link href={'/messenger'}
+                  className="bg-[#1212120a] cursor-pointer hidden md:block relative rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212]"
                 >
                   <span className="absolute top-0 right-0 bg-red-500 flex items-center justify-center rounded-full h-5 w-5 text-white font-semibold text-xs">3</span>
-                  <LuBell className="w-5 h-5 text-black" />
-                </div>
-              <div className=" group hidden md:block bg-[#1212120a] rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212] relative">
+                  <PiMessengerLogo className="w-5 h-5 text-black" />
+                </Link>
+              <div className=" cursor-pointer group hidden md:block bg-[#1212120a] rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212] relative">
                 <HiOutlineUserCircle className="w-5 h-5" />
                 <ul className="group-hover:block absolute w-60 p-2 hidden bg-white right-0 z-[99] top-14 rounded-lg shadow-modal before:absolute before:w-full before:h-6 before:bg-transparent before:right-0 before:-top-3  ">
                   <li className="">
@@ -407,7 +408,7 @@ export default function Header() {
               </div>
               {/* end  responsive mobile */}
               <div
-                className="bg-[#1212120a] hidden md:block rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212]"
+                className="bg-[#1212120a] cursor-pointer hidden md:block rounded-xl px-4 hover:bg-[#12121214] transition-all py-3 text-[#121212]"
                 onClick={() => dispatch(toggleModal('cart'))}
               >
                 <BsCart3 className="w-5 h-5 text-black" />
