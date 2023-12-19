@@ -23,7 +23,6 @@ import { FaAngleLeft, FaCircleCheck, FaRegClock } from 'react-icons/fa6'
 import SearchProduct from "./SearchProduct";
 import { filterProducts, showModalSearch } from "@/redux/searchSlice";
 import DetailProduct from "../DetailProduct";
-import 'animate.css'
 const links: Links[] = [
   {
     name: "Sản phẩm",
