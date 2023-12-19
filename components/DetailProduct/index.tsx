@@ -27,8 +27,10 @@ import { IoCloseOutline } from "react-icons/io5";
 import { setIsAddToCart } from "@/redux/userSlice";
 import { LuMessagesSquare } from "react-icons/lu";
 import Comments from "./Comments/Comments";
+import { useRouter } from "next/navigation";
 
 export default function DetailProduct({ productId }: { productId: string }) {
+  const router = useRouter()
   const dispatch = useAppDispatch();
   const { activeTab } = useAppSelector((state) => state.product);
   const [dataProduct, setDataProduct] = useState<Product>();
@@ -78,7 +80,11 @@ export default function DetailProduct({ productId }: { productId: string }) {
     setDataProduct(undefined);
     getDataProduct();
   }, [productId]);
-
+  
+  const showSeller = (_id : string) => {
+    dispatch(toggleModal('product'))
+    router.push(`/seller/${_id}`)
+  }
 
   return (
     <ContentModal nameModal="product">
@@ -102,7 +108,12 @@ export default function DetailProduct({ productId }: { productId: string }) {
                   />
                 </div>
                 <div>
-                  <h4 className="font-medium"><a href={`/seller/${dataProduct.creator._id}`}>{dataProduct.creator.name}</a></h4>
+                  <h4 className="font-medium">
+                    <div
+                      className="cursor-pointer"
+                      onClick={() => showSeller(dataProduct.creator._id)}
+                     >{dataProduct.creator.name}</div>
+                    </h4>
                   <p className="text-sm">@{dataProduct.creator.username}</p>
                 </div>
               </div>
