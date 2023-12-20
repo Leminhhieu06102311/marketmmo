@@ -155,6 +155,7 @@ export default function UserProfile() {
                         username: username,
                         bio: description || "",
                         birthday: birthDay,
+                        phone: '0394553872',
                         website: website || "",
                     },
                     {

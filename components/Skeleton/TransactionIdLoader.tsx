@@ -56,10 +56,10 @@ export default function TransactionIdLoader() {
                 </div>
               </div>
             </div>
-            <div className="w-[70%] bg-[#F9F3EF] rounded-3xl mb-5 mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl py-10 gap-5 flex">
-              <div className="mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl ">
+            <div className="w-[70%] bg-[#F9F3EF] rounded-3xl p-3 mb-5 mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl py-10 gap-5 flex">
+              <div className="mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl w-full ">
                 <div className="mx-auto h-auto rounded-3xl">
-                  <div className="bg-white w-[350px] md:w-[700px] lg:w-[1000px] px-5 pb-10 py-10">
+                  <div className="bg-white w-full px-5 pb-10 py-10 rounded-2xl">
                     <div className="flex gap-2">
                       <div className="">
                         <p className="bg-gray-200 rounded-2xl animate-pulse text-gray-200 font-bold">

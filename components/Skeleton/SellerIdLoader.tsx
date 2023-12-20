@@ -5,9 +5,9 @@ export default function SellerIdLoader() {
     <>
       <div className="">
         <div className="max-w-xxs mx-auto md:max-w-3xl md:px-0 lg:max-w-full pt-12 lg:px-10">
-          <div className="mb-8 md:mb-0 lg:mb-0">
+          <div className="mb-3 md:mb-3 lg:mb-0">
             <div className="lg:flex lg:gap-x-5 ">
-              <div className="lg:items-center my-3 lg:w-[427px]">
+              <div className="lg:items-center my-3 lg:w-[427px] flex-shrink-0">
                 <div className="w-auto md:block md:w-auto my-3 mx-0 mb-8 lg:flex">
                   {" "}
                   <div className="flex justify-center md:flex lg:block">
@@ -23,54 +23,63 @@ export default function SellerIdLoader() {
                           <h1>chauhaongluan</h1>
                         </div>
                       </h1>
-                      <div className="flex items-center justify-center md:justify-center lg:justify-start gap-2 bg-gray-200 animate-pulse rounded-2xl text-gray-200 mt-1">
-                        <p className="text-[15px] font-medium">
-                          <div>Đang hoạt động</div>
+                      <div className="w-full flex h-5 mt-1 bg-gray-200 animate-pulse rounded-2xl text-gray-200 justify-center leading-16 gap-x-4 font-inter text-[15px] md:justify-center lg:justify-start">
+                        <p className="font-medium">
+                          <span className="font-semibold"></span>
+                        </p>
+                        <p className="font-medium">
+                          <span className="font-semibold"></span>
                         </p>
                       </div>
                     </div>
                     <div className="leading-10">
                       {" "}
-                      <div className="flex h-5 mt-1 bg-gray-200 animate-pulse rounded-2xl text-gray-200 justify-center leading-16 gap-x-4 font-inter text-[15px] md:justify-center lg:justify-start">
-                        <p className="font-medium">
-                          <span className="font-semibold"></span> 
-                        </p>
-                        <p className="font-medium">
-                          <span className="font-semibold"></span> 
-                        </p>
+                      <div className="flex justify-between gap-2">
+                        <div className="w-[50%] flex h-5 mt-1 bg-gray-200 animate-pulse rounded-2xl text-gray-200 justify-center leading-16 gap-x-4 font-inter text-[15px] md:justify-center lg:justify-start">
+                          <p className="font-medium">
+                            <span className="font-semibold"></span>
+                          </p>
+                          <p className="font-medium">
+                            <span className="font-semibold"></span>
+                          </p>
+                        </div>
+                        <div className="w-[50%] flex h-5 mt-1 bg-gray-200 animate-pulse rounded-2xl text-gray-200 justify-center leading-16 gap-x-4 font-inter text-[15px] md:justify-center lg:justify-start">
+                          <p className="font-medium">
+                            <span className="font-semibold"></span>
+                          </p>
+                          <p className="font-medium">
+                            <span className="font-semibold"></span>
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="md:gap-x-16 md:justify-center md:flex items-baseline my-3 mx-0 mb-8 lg:flex box-border m-0 lg:gap-0 ">
-                <div className="w-auto mb-5 md:w-auto lg:w-[225px] mr-[200px]">
-                  <p className="w-auto bg-gray-200 rounded-2xl animate-pulse text-gray-200 m-0 text-md font-semibold items-center">
-                    Số lượng sản phẩm
-                  </p>
-                  <span className="leading-10 bg-gray-200 rounded-2xl animate-pulse text-gray-200 text-[26px] text-3xl font-semibold">
-                    123 Sản phẩm
+              <div className="md:gap-x-16 flex justify-between w-full items-baseline my-3 mx-0 mb-8 lg:flex box-border m-0 lg:gap-14 space-y-2 ">
+                <div className="w-max md:mb-0 lg:mb-0 lg:w-full space-y-2">
+                  <p className="bg-gray-200 rounded-2xl animate-pulse text-gray-200 m-0 font-semibold ">Đánh giá tổng</p>
+                  <span className="flex lg:w-full h-8 lg:mt-1 bg-gray-200 rounded-2xl animate-pulse text-gray-200 items-center gap-x-2 leading-10 text-[26px] text-3xl font-semibold">
+
                   </span>
                 </div>
-                <div className="w-auto md:mb-0 lg:mb-0 lg:w-[225px] mr-[200px]">
+                <div className="w-max md:mb-0 lg:mb-0 lg:w-full space-y-2">
                   <p className="bg-gray-200 rounded-2xl animate-pulse text-gray-200 m-0 font-semibold ">Đánh giá tổng</p>
-                  <span className="flex lg:w-[175px] h-8 lg:mt-1 bg-gray-200 rounded-2xl animate-pulse text-gray-200 items-center gap-x-2 leading-10 text-[26px] text-3xl font-semibold">
-                      
+                  <span className="flex lg:w-full h-8 lg:mt-1 bg-gray-200 rounded-2xl animate-pulse text-gray-200 items-center gap-x-2 leading-10 text-[26px] text-3xl font-semibold">
+
                   </span>
-                  <div className="flex gap-x-1">
-                    <p className="leading-5 bg-gray-200 rounded-2xl animate-pulse text-gray-200 font-medium lg:mt-1 text-sm">
-                      Đã bán{" "}
-                      <span className="font-semibold">1234</span> sản
-                      phẩm
-                    </p>
-                  </div>
+                </div>
+                <div className="w-max md:mb-0 lg:mb-0 lg:w-full space-y-2">
+                  <p className="bg-gray-200 rounded-2xl animate-pulse text-gray-200 m-0 font-semibold ">Đánh giá tổng</p>
+                  <span className="flex lg:w-full h-8 lg:mt-1 bg-gray-200 rounded-2xl animate-pulse text-gray-200 items-center gap-x-2 leading-10 text-[26px] text-3xl font-semibold">
+                  </span>
                 </div>
               </div>
             </div>
-            <div className="flex">
-              <div className="block md:w-auto md:gap-x-5 md:mb-[30px] md:flex lg:flex">
+            <div className="">
+              <div className="flex w-full flex-col md:flex-rol lg:flex-row">
                 <div className="mb-8 w-auto md:mb-8 lg:flex-none lg:w-[327px] lg:mr-[100px]">
-                  <ul className="lg:flex flex-col flex-0.33 order-3 mb-7">
+                  <ul className="lg:flex flex-col flex-0.33 order-3 mb-7 space-y-2">
                     <li className="md:my-[4px] lg:my-1 flex items-center bg-gray-200 animate-pulse rounded-2xl text-gray-200">
                       <svg
                         className="mr-2"
@@ -134,24 +143,19 @@ export default function SellerIdLoader() {
                       </p>
                     </li>
                   </ul>
-                  <div className="w-[100%]">
+                  <div className="w-full">
                     <p className="lg:leading-1.5 font-medium text-light-neutral-6 mb-1 text-[14px] bg-gray-200 animate-pulse rounded-2xl text-gray-200 w-[200px]">
                       Bạn cần tìm sản phẩm?
                     </p>
-                    <button className="w-[350px] delay-150 md:w-auto items-center lg:items-center justify-center bg-[#3861FB] animate-pulse border-0 rounded-lg inline-flex text-[#3861FB] cursor-pointer font-semibold  h-[40px] text-base px-4 leading-6 hover:bg-[#3862fbdf]">
-                      <a
-                        className="flex md:flex lg:flex items-center text-inherit leading-inherit "
-                        href="/messenger"
-                        target="_blank"
-                      >
-                        Nhắn tin ngay
-                      </a>
-                    </button>
+                    <p className="lg:leading-1.5 font-medium text-light-neutral-6 mb-1 text-[14px] bg-gray-200 animate-pulse rounded-2xl text-gray-200 w-[200px]">
+                      Bạn cần tìm sản phẩm?
+                    </p>
+
                   </div>
                 </div>
-                <div className="text-justify md:mb-[12px] lg:flex-grow flex-shrink">
-                  <div>
-                    <h2 className="w-[350px] text-[18px] lg:text-[24px] leading-34 my-0 font-bold bg-gray-200 animate-pulse rounded-2xl text-gray-200">
+                <div className="flex w-full lg:pl-[20px]">
+                  <div className="w-full">
+                    <h2 className="w-full md:w-[350px] lg:w-[350px] text-[18px] lg:text-[24px] leading-34 my-0 font-bold bg-gray-200 animate-pulse rounded-2xl text-gray-200">
                       Giới thiệu về Market MMO
                     </h2>
                     <div>
@@ -162,110 +166,37 @@ export default function SellerIdLoader() {
                         >
                           Market MMO là gì?
                         </h2>
-                        <p className="font-semibold text-sm bg-gray-200 animate-pulse rounded-2xl text-gray-200 leading-[1.8] break-words mb-2">
-                          Market MMO là một trang web mua bán tài khoản cộng
-                          đồng và giao dịch trung gian uy tín. Với quy mô lớn và
-                          uy tín trong lĩnh vực tiền điện tử, Market MMO là sàn
-                          giao dịch tiền điện tử hàng đầu trên thế giới.
-                        </p>{" "}
-                        <p className="font-semibold text-sm bg-gray-200 animate-pulse rounded-2xl text-gray-200 leading-[1.8] break-words mb-2">
-                          Với hàng ngày có khối lượng giao dịch lên đến 76 tỷ
-                          USD và hơn 90 triệu khách hàng trên toàn thế giới,
-                          Market MMO đã tự xây dựng độ tin cậy trong không gian
-                          tiền điện tử. Trang web cung cấp một nền tảng an toàn
-                          và đáng tin cậy cho người dùng mua, bán và lưu trữ tài
-                          sản kỹ thuật số của mình.
-                        </p>
+                        <ul className="mt-5 space-y-3">
+                          <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                          <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                          <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                          <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                        </ul>
                       </div>
                     </div>
                   </div>
-                  <button
-                    id="myBtn"
-                    className="bg-[#EFF2F5] delay-150 animate-pulse text-primary-black font-semibold leading-6 flex items-center justify-center outline-none cursor-pointer w-full h-12 rounded-lg border-transparent my-5 hover:bg-[#eff0f1]"
-                  >
-                  </button>
                 </div>
               </div>
             </div>
           </div>
           <div>
             <div className="">
-              <div className="lg: text-2xl font-bold text-var(--text-color) ">
-                Sản phẩm đang bán
+              <div className="block bg-gray-200 h-5 w-[200px] rounded-full">
+
               </div>
               <div className="mt-[30px]">
                 <div className="block md:block lg:flex items-center gap-x-4">
-                  <p className="mb-4 justify-center font-semibold text-[14px] leading-20 md:m-0 lg:m-0 bg-gray-200 animate-pulse rounded-2xl text-gray-200">
-                    123 sản phẩm
-                  </p>
-
-                  <div className="flex relative mt-0 transition ease-in-out  mb-4 rounded-[9px] border border-[#ececec] px-3 py-1 md:mt-2 md:w-[100%] md:m-0 lg:mt-0 lg:m-0  lg:w-[65%] hover:border-[#c8c8c8bb]">
-                    <button className="items-center">
-                      <svg
-                        width="17"
-                        height="16"
-                        viewBox="0 0 14 13"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M13.4088 11.6684L10.4685 8.72812C11.1764 7.78573 11.5585 6.63865 11.5572 5.46C11.5572 2.44938 9.10783 0 6.09721 0C3.08658 0 0.637207 2.44938 0.637207 5.46C0.637207 8.47062 3.08658 10.92 6.09721 10.92C7.27586 10.9213 8.42294 10.5391 9.36533 9.83125L12.3056 12.7716C12.4545 12.9046 12.6486 12.9756 12.8482 12.97C13.0477 12.9645 13.2376 12.8827 13.3787 12.7415C13.5199 12.6004 13.6017 12.4105 13.6073 12.211C13.6128 12.0114 13.5418 11.8173 13.4088 11.6684ZM2.19721 5.46C2.19721 4.68865 2.42594 3.93463 2.85448 3.29328C3.28301 2.65192 3.89211 2.15205 4.60474 1.85687C5.31737 1.56169 6.10153 1.48446 6.85806 1.63494C7.61459 1.78542 8.3095 2.15686 8.85492 2.70228C9.40035 3.24771 9.77179 3.94262 9.92227 4.69915C10.0728 5.45567 9.99552 6.23983 9.70034 6.95247C9.40516 7.6651 8.90528 8.27419 8.26393 8.70273C7.62258 9.13127 6.86855 9.36 6.09721 9.36C5.06324 9.35876 4.07198 8.94747 3.34086 8.21635C2.60974 7.48522 2.19845 6.49396 2.19721 5.46Z"
-                          fill="#807B7B"
-                        />
-                      </svg>
-                    </button>
-                    <input
-                      className="w-full delay-150 h-[36px] outline-none text-[#58667E] font-medium leading-20 px-3"
-                      type="text"
-                      placeholder="Tìm kiếm sản phẩm"
-                    />
+                  <div className="my-2 block bg-gray-200 animate-pulse h-6 w-[120px] rounded-full">
                   </div>
-
-                  <div className="flex justify-start gap-4 mt-0 items-center md:mt-3 lg:mt-0 md:justify-end">
-                    <div className="relative">
-                      <button className="flex px-2.5 py-2.5 items-center rounded-[9px] border border-[#ececec] gap-2 font-semibold hover:border-[#c8c8c8bb] lg:px-3">
-                        Sắp xếp theo
-                        <svg
-                          width="12"
-                          height="7"
-                          viewBox="0 0 12 7"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M5.32673 6.23594L0.804725 1.98594C0.492175 1.69219 0.492175 1.21719 0.804725 0.926562L1.55618 0.220313C1.86873 -0.0734375 2.37413 -0.0734375 2.68335 0.220313L5.88865 3.23281L9.09395 0.220313C9.4065 -0.0734375 9.9119 -0.0734375 10.2211 0.220313L10.9726 0.926562C11.2851 1.22031 11.2851 1.69531 10.9726 1.98594L6.45058 6.23594C6.14468 6.52969 5.63928 6.52969 5.32673 6.23594Z"
-                            fill="black"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-
-                    <div className="">
-                      <button className="flex px-2.5 py-2.5 items-center rounded-[9px] border border-[#ececec] gap-2 font-semibold hover:border-[#c8c8c8bb]">
-                        Khác
-                        <svg
-                          width="12"
-                          height="7"
-                          viewBox="0 0 12 7"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M5.32673 6.23594L0.804725 1.98594C0.492175 1.69219 0.492175 1.21719 0.804725 0.926562L1.55618 0.220313C1.86873 -0.0734375 2.37413 -0.0734375 2.68335 0.220313L5.88865 3.23281L9.09395 0.220313C9.4065 -0.0734375 9.9119 -0.0734375 10.2211 0.220313L10.9726 0.926562C11.2851 1.22031 11.2851 1.69531 10.9726 1.98594L6.45058 6.23594C6.14468 6.52969 5.63928 6.52969 5.32673 6.23594Z"
-                            fill="black"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                    <button className="h-[40px] delay-150 px-5 items-center rounded-[9px] bg-[#3861FB] text-white hover:bg-[#3862fbdf]">
-                      Xem tất cả
-                    </button>
+                  <div className="my-2 block bg-gray-200 animate-pulse h-6 w-full rounded-full">
+                  </div>
+                  <div className="my-2 block bg-gray-200 animate-pulse h-6 w-[120px] rounded-full">
                   </div>
                 </div>
                 <div>
                   <div>
-                    <div className="grid xl:grid-cols-5 md:grid-cols-3 gap-x-5 gap-y-2 mt-3">
-                      <ProductLoader quantityProduct={5} />
+                    <div className="">
+                      <ProductLoader quantityProduct={6} />
                     </div>
                     <div className="flex w-full justify-center my-4"></div>
                   </div>

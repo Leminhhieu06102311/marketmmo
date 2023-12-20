@@ -16,7 +16,7 @@ export default async function TransactionHistory() {
                 <button
                   className={`text-black bg-[#1212120a] leading-16 font-semibold  px-4 py-3 rounded-[10px]`}
                 >
-                  <span className="hidden md:block lg:block">
+                  <span className="">
                     Lịch sử mua hàng
                   </span>
 
@@ -26,7 +26,7 @@ export default async function TransactionHistory() {
           </div>
         </div>
       </WrapResponsive>
-        <PurchaseHistory />
+      <PurchaseHistory />
     </>
   );
 };

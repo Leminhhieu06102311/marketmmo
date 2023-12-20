@@ -456,29 +456,29 @@ export default function profile_user() {
                                                 <div className="cursor-pointer relative">
                                                     <a href="" className="md:w-32 md:h-32 w-[74px] h-[74px] p-2 rounded-full shadow-md bg-white overflow-hidden flex items-center justify-center">
                                                         <div className="w-[110px] h-[110px] rounded-full bg-[#f8fafd] transition-border duration-200 ease-out overflow-hidden">
-                                                            <img className="w-full h-full object-cover" src={avatar} alt="Image" />
+                                                            <img className="w-full h-full object-cover" src={avatar} alt="" />
                                                         </div>
                                                     </a>
                                                 </div>
 
 
                                             </div>
-                                            <div className="flex flex-row box-border m-0 justify-between grow-[2]">
+                                            <div className="flex flex-col md:flex-row lg:flex-row box-border m-0 justify-between grow-[2]">
                                                 <div className="ml-6 mt-10 border-box">
                                                     <p className="truncate text-[18px] leading-6 m-0 text-gray-700 font-semibold">{displayName}</p>
                                                     <p className="truncate md:text-[14px] text-[12px] leading-6 m-0 text-gray-500">{username}</p>
-                                                    <div className="border-box mt-2">
-                                                        <span className="cursor-pointer border-box m-0">
+                                                    <div className="border-box mt-2 flex flex-col md:flex-row lg:flex-row gap-2">
+                                                        <div className="cursor-pointer border-box m-0">
                                                             <span className="leading-6 m-0 text-gray-700 font-bold text-base">0</span>
                                                             <span className="leading-6 ml-2 text-gray-700 text-base">Đang theo dõi</span>
-                                                        </span>
-                                                        <span className="ml-6 cursor-pointer border-box">
+                                                        </div>
+                                                        <div className="cursor-pointer border-box">
                                                             <span className="leading-6 m-0 text-gray-700 font-bold text-base">0</span>
                                                             <span className="leading-6 ml-2 text-gray-700 text-base">Người theo dõi</span>
-                                                        </span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div className="flex mt-[74px] flex-row border-box">
+                                                <div className="flex mt-3 md:mt-[74px] lg:mt-[74px] flex-row border-box">
                                                     <div className="flex items-center h-10 px-4 border border-[#cfd6e4] rounded cursor-pointer ml-2">
                                                         <FiEdit className="object-cover" />
                                                         <span className="leading-6 ml-2 text-gray-700 text-base">Sửa</span>

@@ -166,9 +166,9 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
     <>
       {seller ? (
         <div className="max-w-xxs mx-auto md:max-w-3xl md:px-0 lg:max-w-full pt-12 lg:px-10">
-          <div className="mb-8 md:mb-0 lg:mb-0">
+          <div className="mb-3 md:mb-3 lg:mb-0">
             <div className="lg:flex lg:gap-x-5 ">
-              <div className="lg:items-center my-3 lg:w-[427px]">
+              <div className="lg:items-center my-3 lg:w-[427px] flex-shrink-0">
                 <div className="w-auto md:block md:w-auto my-3 mx-0 mb-8 lg:flex">
                   {" "}
                   <div className="flex justify-center md:flex lg:block">
@@ -236,8 +236,8 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                   </div>
                 </div>
               </div>
-              <div className="md:gap-x-16 md:justify-center md:flex items-baseline my-3 mx-0 mb-8 lg:flex box-border m-0 lg:gap-0 ">
-                <div className="w-auto mb-5 md:w-auto lg:w-[425px]">
+              <div className="md:gap-x-16 md:justify-center md:flex w-full items-baseline my-3 mx-0 mb-8 lg:flex box-border m-0 lg:gap-0 lg:justify-between ">
+                <div className="w-auto mb-5 md:w-auto">
                   <p className="lg:m-0 text-md font-semibold items-center">
                     Số lượng sản phẩm
                   </p>
@@ -245,7 +245,7 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                     {products.length} Sản phẩm
                   </span>
                 </div>
-                <div className="w-auto md:mb-0 lg:mb-0 lg:w-[425px]">
+                <div className="w-auto md:mb-0 lg:mb-0">
                   <p className="lg:m-0 font-semibold ">Đánh giá tổng</p>
                   <span className="flex items-center gap-x-2 leading-10 text-[26px] lg:m-0 text-gray-800 text-3xl font-semibold">
                     {seller.totalRatingsOfSeller}
@@ -262,7 +262,7 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
             <div className="flex">
               <div className="block md:w-auto md:gap-x-5 md:mb-[30px] md:flex lg:flex">
                 <div className="mb-8 w-auto md:mb-8 lg:flex-none lg:w-[427px]">
-                  <ul className="lg:flex flex-col flex-0.33 order-3 mb-7">
+                  {/* <ul className="lg:flex flex-col flex-0.33 order-3 mb-7">
                     <li className="md:my-[4px] lg:my-1 flex items-center gap-2">
                       <MdEmail className="w-5 h-5" />
                       <p className="py-1 font-medium line-clamp-1 w-[80%]">
@@ -281,7 +281,7 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                         {seller.address}
                       </p>
                     </li>
-                  </ul>
+                  </ul> */}
                   <div className="w-[100%]">
                     <p className="lg:leading-1.5 font-medium text-light-neutral-6 mb-1 text-[14px]">
                       Bạn cần tìm sản phẩm?
@@ -366,11 +366,11 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
           <div className="mt-[30px]">
             <h2 className="text-xl text-black font-semibold m-4">Sản phẩm đang bán</h2>
             <div className="block md:block lg:flex items-center gap-x-4 mb-2">
-              <div className="flex px-2 py-2.5 items-center rounded-[9px] border border-[#ececec] gap-2 font-semibold hover:border-[#c8c8c8bb] lg:px-5">
+              <div className="flex px-2 py-2.5 items-center rounded-[9px] border border-[#ececec] gap-2 font-semibold hover:border-[#c8c8c8bb] lg:px-5 mb-2 md:mb-0 lg:mb-0">
                 <p className="text-[15px]  rounded-2xl   font-semibold ">
                   Tổng :
                 </p>
-                <p className="mb-4 rounded-2xl   line-clamp-1 w-[118px] justify-center font-semibold text-[14px] leading-20 md:m-0 lg:m-0">
+                <p className="rounded-2xl   line-clamp-1 w-[118px] justify-center font-semibold text-[14px] leading-20 md:m-0 lg:m-0">
                   {products.length} kết quả
                 </p>
               </div>
@@ -385,7 +385,7 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                   placeholder="Tìm kiếm lịch sử mua hàng"
                 />
               </div>
-              <div className="flex justify-start gap-4 mt-0 items-center md:mt-3 lg:mt-0 md:justify-end">
+              {/* <div className="flex justify-start gap-4 mt-0 items-center md:mt-3 lg:mt-0 md:justify-end">
                 <div className="relative">
                   <button className="flex px-2 py-2.5 items-center rounded-[9px] border border-[#ececec] gap-2 font-semibold hover:border-[#c8c8c8bb] lg:px-5">
                     Sắp xếp theo
@@ -393,9 +393,9 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                   </button>
                 </div>
 
-              </div>
+              </div> */}
             </div>
-            <div className="grid grid-cols-6 gap-5">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-6">
               {products.map((item) => (
                 <ProductItem product={item} />
               ))}
@@ -405,64 +405,6 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
       ) : (
         <SellerIdLoader />
       )}
-
-      {/* {sortDropDown && (
-        <div className="block md:hidden lg:hidden">
-          <div className="w-[100%] bg-zinc-50 fixed bottom-0 left-0">
-            <div className="bg-zinc-50 rounded-lg shadow-xl z-20">
-              <div className="grid grid-cols-1 pt-5">
-                <button className="py-4 px-5 text-sm font-bold hover:bg-slate-100 rounded-lg text-center">
-                  Mới nhất
-                </button>
-                <button className="py-4 px-5 text-sm font-bold hover:bg-slate-100 rounded-lg">
-                  Từ thấp tới cao
-                </button>
-                <button className="py-4 px-5 text-sm font-bold hover:bg-slate-100 rounded-lg">
-                  Từ cao tới thấp
-                </button>
-              </div>
-              <div className="p-3">
-                <button
-                  onClick={handleSort}
-                  className="py-4 px-5 text-sm font-bold w-full bg-[#EFF2F5] rounded-md"
-                >
-                  Đóng
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      {genreDropDown && (
-        <div className="block md:hidden lg:hidden">
-          <div className="w-[100%] bg-zinc-50 fixed bottom-0 left-0">
-            <div className="bg-zinc-50 rounded-lg shadow-xl z-20">
-              <div className="grid grid-cols-1 pt-5">
-                <button className="py-4 px-5 text-sm font-bold hover:bg-slate-100 rounded-lg">
-                  FaceBook
-                </button>
-                <button className="py-4 px-5 text-sm font-bold hover:bg-slate-100 rounded-lg">
-                  Gmail{" "}
-                </button>
-                <button className="py-4 px-5 text-sm font-bold hover:bg-slate-100 rounded-lg">
-                  Twitter{" "}
-                </button>
-                <button className="py-4 px-5 text-sm font-bold hover:bg-slate-100 rounded-lg">
-                  Telegram{" "}
-                </button>
-              </div>
-              <div className="p-3">
-                <button
-                  onClick={handleGenre}
-                  className="py-4 px-5 text-sm font-bold w-full bg-[#EFF2F5] rounded-md"
-                >
-                  Đóng
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )} */}
     </>
   );
 };

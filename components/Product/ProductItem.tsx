@@ -19,7 +19,7 @@ export default function ProductItem({ product }: { product: Product }) {
         {product.pictures.map((picture) => (
           <Image
             key={picture}
-            src={picture === 'banner.jpg' ? '/images' : picture }
+            src={picture === 'banner.jpg' ? '/images' : picture}
             alt=""
             width={0}
             height={0}
