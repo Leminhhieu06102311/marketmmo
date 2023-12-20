@@ -75,12 +75,12 @@ export default function TransactionHistoryProduct({
                 <div key={product._id} className="w-full items-center pb-7 px-3 md:px-0 lg:px-0 mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl lg:flex justify-around">
 
                   <div className="gap-y-3 lg:flex md:flex gap-3">
-                    <div className="w-full md:h-[71px] lg:h-[71px] mb-2 md:mb-0 lg:mb-0">
+                    <div className="w-full md:w-[125px] lg:w-[125px] md:h-[71px] lg:h-[71px] mb-2 md:mb-0 lg:mb-0">
                       {" "}
                       <img
                         src={`${product.product.pictures}`}
                         alt="Err"
-                        className="w-full h-full rounded-[10px]"
+                        className="w-full h-full rounded-[10px] object-cover"
                       />
                     </div>{" "}
                     <div>
@@ -163,7 +163,7 @@ export default function TransactionHistoryProduct({
                   </div>
                 </div>
                 <div className="p-3">
-                  <div className="w-[70%] bg-[#F9F3EF] rounded-3xl mb-5 mx-auto md:max-w-screen-md lg:max-w-screen-lg  xl:max-w-screen-xl 2xl:max-w-screen-2xl py-10 px-10 gap-5 flex">
+                  <div className="w-full lg:w-[70%] bg-[#F9F3EF] rounded-3xl mb-5 mx-auto md:max-w-screen-md lg:max-w-screen-lg  xl:max-w-screen-xl 2xl:max-w-screen-2xl py-10 px-10 gap-5 flex">
                     <div className="mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl w-full ">
                       <div className="w-full h-auto rounded-3xl">
                         <div className="bg-white w-full px-5 pb-10 py-10">

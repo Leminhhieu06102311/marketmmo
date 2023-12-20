@@ -56,7 +56,7 @@ const PurchaseHistory = () => {
                 </p>
               </div>
 
-              <div className="flex relative mt-0 transition ease-in-out  mb-4 rounded-[9px] border border-[#ececec] px-3 py-1 md:mt-2 md:w-[100%] md:m-0 lg:mt-0 lg:m-0  lg:w-[69%] flex-1 hover:border-[#c8c8c8bb]">
+              <div className="flex relative mt-0 w-full transition ease-in-out  mb-4 rounded-[9px] border border-[#ececec] px-3 py-1 md:mt-2 md:m-0 lg:mt-0 lg:m-0 lg:w-[50%] hover:border-[#c8c8c8bb]">
                 <button className="items-center ">
                   <FiSearch />
                 </button>
@@ -66,7 +66,7 @@ const PurchaseHistory = () => {
                   placeholder="Tìm kiếm lịch sử mua hàng"
                 />
               </div>
-              <div className="flex justify-start gap-4 mt-0 items-center md:mt-3 lg:mt-0 md:justify-end">
+              {/* <div className="flex justify-start gap-4 mt-0 items-center md:mt-3 lg:mt-0 md:justify-end">
                 <div className="relative">
                   <button className="flex px-2 py-2.5 items-center rounded-[9px] border border-[#ececec] gap-2 font-semibold hover:border-[#c8c8c8bb] lg:px-5">
                     Sắp xếp theo
@@ -74,7 +74,7 @@ const PurchaseHistory = () => {
                   </button>
                 </div>
 
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="mt-5 grid grid-cols-1">
