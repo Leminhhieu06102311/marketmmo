@@ -105,8 +105,8 @@ export default function DetailCategory({
             {/* Category */}
             <div className="my-2 top-0">
               <div className="text-xs font-semibold  justify-center md:flex md:justify-end  md:mx-auto lg:flex lg:justify-end lg:-w-full relative">
-                <div className="lg:justify-start md:justify-center my-2 flex items-center justify-between">
-                  <span className="lg:mr-2 md:mr-2">Filter by</span>
+                <div className="lg:justify-start md:justify-center my-2 flex items-center justify-center">
+                  <span className="hidden md:block lg:block lg:mr-2 md:mr-2">Filter by</span>
                   <ul className="lg:mr-2 md:mr-2 inline-flex items-center bg-gray-100 rounded-lg">
                     <li className="">
                       <button
@@ -154,7 +154,7 @@ export default function DetailCategory({
                     </li>
                   </ul>
                 </div>
-                <div className="w-max my-2 hover:bg-white text-gray-600">
+                <div className="w-max my-2 hover:bg-white text-gray-600 mx-auto md:mx-0 lg:mx-0">
                   <div className="w-max h-full  hs-dropdown relative">
                     {/* <button
                       id="hs-dropdown-with-icons"

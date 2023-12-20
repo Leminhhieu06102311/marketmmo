@@ -318,7 +318,7 @@ export default function Comments({ productId, _id, reviews }: { productId: strin
                             </div>
                             <div className='ml-3 w-full'>
                                 <div>
-                                    <h1 className='text-base font-bold'>{dataUser.name}</h1>
+                                    <h1 className='text-base font-bold mb-2'>{dataUser.name}</h1>
                                 </div>
                                 <div className='relative flex'>
                                     <div className='w-full pr-[50px]'>

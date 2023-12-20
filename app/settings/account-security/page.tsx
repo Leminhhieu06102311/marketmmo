@@ -9,6 +9,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie'
 import { changePassword } from "@/services/user";
 import { toast } from "react-toastify";
+import { IoCloseSharp } from "react-icons/io5";
 export default function Profile() {
     const [modals, setModals] = useState<string[]>([]);
     const [currentStep, setCurrentStep] = useState(1);
@@ -490,7 +491,8 @@ export default function Profile() {
                                                             <div className="bg-white p-4 z-50 w-full h-full md:w-[400px] md:h-auto md:rounded-xl lg:w-[500px] lg:h-auto lg:rounded-xl">
                                                                 <div className="flex justify-between items-center mb-3">
                                                                     <h1 className='font-semibold text-xl'>Đặt lại mật khẩu</h1>
-                                                                    <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal2')}>  </button>
+
+                                                                    <button className='text-2xl pr-1 text-gray-400' onClick={() => closeModal('modal2')}><IoCloseSharp /> </button>
                                                                 </div>
                                                                 <div className="mb-5">
 
