@@ -17,7 +17,6 @@ import { IoIosArrowDown } from "react-icons/io";
 import WrapResponsive from "@/components/WrapResponsive";
 
 const Seller = ({ params }: { params: { sellerId: string } }) => {
-
   const creatorId = params.sellerId;
   const [loading, setLoading] = useState(true);
   const [seller, setSeller] = useState<SellerId | null>(null);
@@ -34,10 +33,11 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [showAll, setShowAll] = useState(false);
   const [count, setCount] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
   const [searchDropDown, setSearchDropDown] = useState(false);
-  const [selectedItem, setSelectedItem] = useState('');
-
+  const [selectedItem, setSelectedItem] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [totalResults, setTotalResults] = useState(0);
+  const [searchResults, setSearchResults] = useState<Product[] | undefined>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -162,6 +162,27 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
   //   setSortDropDown(false);
   //   setGenreDropDown(false);
   // };
+
+  const handleSearch = (event: any) => {
+    const inputValue = event.target.value.toLowerCase(); // Chuyển đổi thành chữ thường
+
+    if (inputValue.length > 0) {
+      const results = products?.filter((userData) => {
+        // Handle cases where fields are null
+        const name = userData.name.toLowerCase(); // Chuyển đổi thành chữ thường
+
+        return name.includes(inputValue);
+      });
+
+      setSearchResults(results);
+      setSearchTerm(inputValue);
+      setTotalResults(results?.length ?? 0); // Set the total number of results
+    } else {
+      setSearchResults(undefined);
+      setSearchTerm("");
+      setTotalResults(0); // Reset the total number of results
+    }
+  };
   return (
     <>
       {seller ? (
@@ -312,66 +333,82 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                         </h2>
                         <p className="font-semibold text-sm text-[#58667E] leading-[1.8] break-words mb-2">
                           Market MMO là một trang web mua bán tài khoản cộng
-                          đồng và giao dịch trung gian uy tín. Với quy mô lớn
-                          và uy tín trong lĩnh vực tiền điện tử, Market MMO là
-                          sàn giao dịch tiền điện tử hàng đầu trên thế giới.
+                          đồng và giao dịch trung gian uy tín. Với quy mô lớn và
+                          uy tín trong lĩnh vực tiền điện tử, Market MMO là sàn
+                          giao dịch tiền điện tử hàng đầu trên thế giới.
                         </p>{" "}
                         <p className="font-semibold text-sm text-[#58667E] leading-[1.8] break-words mb-2">
                           Với hàng ngày có khối lượng giao dịch lên đến 76 tỷ
                           USD và hơn 90 triệu khách hàng trên toàn thế giới,
-                          Market MMO đã tự xây dựng độ tin cậy trong không
-                          gian tiền điện tử. Trang web cung cấp một nền tảng
-                          an toàn và đáng tin cậy cho người dùng mua, bán và
-                          lưu trữ tài sản kỹ thuật số của mình.
+                          Market MMO đã tự xây dựng độ tin cậy trong không gian
+                          tiền điện tử. Trang web cung cấp một nền tảng an toàn
+                          và đáng tin cậy cho người dùng mua, bán và lưu trữ tài
+                          sản kỹ thuật số của mình.
                         </p>
                         {showMore && (
                           <>
                             {" "}
                             <p className="font-semibold text-sm text-[#58667E] leading-[1.8] break-words mb-2">
-                              Market MMO cung cấp truy cập vào hơn 350 loại
-                              tiền điện tử được liệt kê và hàng ngàn cặp giao
-                              dịch. Bạn có thể tìm thấy một loạt các tài khoản
-                              cộng đồng có sẵn để mua, bao gồm cả các tài
-                              khoản có khối lượng người theo dõi lớn, tài
-                              khoản chuyên nghiệp và tài khoản có nội dung độc
-                              đáo.
+                              Market MMO cung cấp truy cập vào hơn 350 loại tiền
+                              điện tử được liệt kê và hàng ngàn cặp giao dịch.
+                              Bạn có thể tìm thấy một loạt các tài khoản cộng
+                              đồng có sẵn để mua, bao gồm cả các tài khoản có
+                              khối lượng người theo dõi lớn, tài khoản chuyên
+                              nghiệp và tài khoản có nội dung độc đáo.
                             </p>
                             <p className="font-semibold text-sm text-[#58667E] leading-[1.8] break-words mb-2">
                               Market MMO không chỉ là một sàn giao dịch tiền
                               điện tử, mà còn là một hệ sinh thái đa dạng bao
                               gồm các dịch vụ như Labs, Launchpad, Thông tin,
-                              Học viện, Nghiên cứu, Ví Trust, Từ thiện, và
-                              NFT. Điều này tạo ra một môi trường đầy đủ và
-                              phong phú cho các người dùng tham gia vào thế
-                              giới tiền điện tử và tạo ra các cơ hội giao dịch
-                              và tương tác đa dạng.
+                              Học viện, Nghiên cứu, Ví Trust, Từ thiện, và NFT.
+                              Điều này tạo ra một môi trường đầy đủ và phong phú
+                              cho các người dùng tham gia vào thế giới tiền điện
+                              tử và tạo ra các cơ hội giao dịch và tương tác đa
+                              dạng.
                             </p>
                             <p className="font-semibold text-sm text-[#58667E] leading-[1.8] break-words mb-2">
-                              Với Market MMO, bạn có thể an tâm mua, bán và
-                              giao dịch các tài khoản cộng đồng một cách tiện
-                              lợi và đáng tin cậy, trong một môi trường được
-                              đảm bảo bởi sự quản lý chất lượng và uy tín của
-                              sàn giao dịch.
+                              Với Market MMO, bạn có thể an tâm mua, bán và giao
+                              dịch các tài khoản cộng đồng một cách tiện lợi và
+                              đáng tin cậy, trong một môi trường được đảm bảo
+                              bởi sự quản lý chất lượng và uy tín của sàn giao
+                              dịch.
                             </p>
                           </>
                         )}
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
           </div>
           <div className="mt-[30px]">
-            <h2 className="text-xl text-black font-semibold m-4">Sản phẩm đang bán</h2>
+            <h2 className="text-xl text-black font-semibold m-4">
+              Sản phẩm đang bán
+            </h2>
             <div className="block md:block lg:flex items-center gap-x-4 mb-2">
               <div className="flex px-2 py-2.5 items-center rounded-[9px] border border-[#ececec] gap-2 font-semibold hover:border-[#c8c8c8bb] lg:px-5">
                 <p className="text-[15px]  rounded-2xl   font-semibold ">
-                  Tổng :
+                  {searchTerm.length > 0 ? (
+                    (searchResults ?? []).length > 0 ? (
+                      <>Tìm thấy: </>
+                    ) : (
+                      <>Tìm thấy: </>
+                    )
+                  ) : (
+                    <>Tổng: </>
+                  )}
                 </p>
                 <p className="mb-4 rounded-2xl   line-clamp-1 w-[118px] justify-center font-semibold text-[14px] leading-20 md:m-0 lg:m-0">
-                  {products.length} kết quả
+                  {searchTerm.length > 0 ? (
+                    (searchResults ?? []).length > 0 ? (
+                      <>{totalResults} kết quả</>
+                    ) : (
+                      <>{totalResults} Kết quả</>
+                    )
+                  ) : (
+                    <>{products.length} kết quả </>
+                  )}
                 </p>
               </div>
 
@@ -382,7 +419,9 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                 <input
                   className="w-full delay-150 h-[36px] outline-none text-[#58667E] font-medium leading-20 px-3"
                   type="text"
-                  placeholder="Tìm kiếm lịch sử mua hàng"
+                  value={searchTerm}
+                  onInput={handleSearch}
+                  placeholder="Tìm kiếm sản phẩm "
                 />
               </div>
               <div className="flex justify-start gap-4 mt-0 items-center md:mt-3 lg:mt-0 md:justify-end">
@@ -392,77 +431,54 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                     <IoIosArrowDown />
                   </button>
                 </div>
-
               </div>
             </div>
-            <div className="grid grid-cols-6 gap-5">
-              {products.map((item) => (
-                <ProductItem product={item} />
-              ))}
-            </div>
+            {searchResults && searchTerm.length > 0 ? (
+              (searchResults ?? []).length > 0 ? (
+                searchResults.map((item) => (
+                  <>
+                    {" "}
+                    <div className="grid grid-cols-6 gap-5">
+                      <ProductItem product={item} />
+                    </div>{" "}
+                  </>
+                ))
+              ) : (
+                // Code to display "No data found" message
+                <>
+                  <div className="h-[200px] text-center">
+                    <p className="mt-[160px] text-gray-600 font-medium">
+                      Không tìm thấy sản phẩm
+                    </p>
+                  </div>
+                </>
+              )
+            ) : (
+              <>
+                {products.length > 0 ? (
+                  <>
+                    {products.map((item) => (
+                      <div className="grid grid-cols-6 gap-5">
+                        <ProductItem product={item} />
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    <div className="h-[400px] text-center">
+                      <p className="mt-[160px] text-gray-600 font-medium">
+                        Chưa có lịch sử mua hàng nào
+                      </p>
+                    </div>
+                  </>
+                )}
+              </>
+            )}
           </div>
         </div>
       ) : (
         <SellerIdLoader />
       )}
-
-      {/* {sortDropDown && (
-        <div className="block md:hidden lg:hidden">
-          <div className="w-[100%] bg-zinc-50 fixed bottom-0 left-0">
-            <div className="bg-zinc-50 rounded-lg shadow-xl z-20">
-              <div className="grid grid-cols-1 pt-5">
-                <button className="py-4 px-5 text-sm font-bold hover:bg-slate-100 rounded-lg text-center">
-                  Mới nhất
-                </button>
-                <button className="py-4 px-5 text-sm font-bold hover:bg-slate-100 rounded-lg">
-                  Từ thấp tới cao
-                </button>
-                <button className="py-4 px-5 text-sm font-bold hover:bg-slate-100 rounded-lg">
-                  Từ cao tới thấp
-                </button>
-              </div>
-              <div className="p-3">
-                <button
-                  onClick={handleSort}
-                  className="py-4 px-5 text-sm font-bold w-full bg-[#EFF2F5] rounded-md"
-                >
-                  Đóng
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      {genreDropDown && (
-        <div className="block md:hidden lg:hidden">
-          <div className="w-[100%] bg-zinc-50 fixed bottom-0 left-0">
-            <div className="bg-zinc-50 rounded-lg shadow-xl z-20">
-              <div className="grid grid-cols-1 pt-5">
-                <button className="py-4 px-5 text-sm font-bold hover:bg-slate-100 rounded-lg">
-                  FaceBook
-                </button>
-                <button className="py-4 px-5 text-sm font-bold hover:bg-slate-100 rounded-lg">
-                  Gmail{" "}
-                </button>
-                <button className="py-4 px-5 text-sm font-bold hover:bg-slate-100 rounded-lg">
-                  Twitter{" "}
-                </button>
-                <button className="py-4 px-5 text-sm font-bold hover:bg-slate-100 rounded-lg">
-                  Telegram{" "}
-                </button>
-              </div>
-              <div className="p-3">
-                <button
-                  onClick={handleGenre}
-                  className="py-4 px-5 text-sm font-bold w-full bg-[#EFF2F5] rounded-md"
-                >
-                  Đóng
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )} */}
     </>
   );
 };
