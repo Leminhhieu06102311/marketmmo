@@ -262,7 +262,7 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
             <div className="flex">
               <div className="block md:w-auto md:gap-x-5 md:mb-[30px] md:flex lg:flex">
                 <div className="mb-8 w-auto md:mb-8 lg:flex-none lg:w-[427px]">
-                  <ul className="lg:flex flex-col flex-0.33 order-3 mb-7">
+                  {/* <ul className="lg:flex flex-col flex-0.33 order-3 mb-7">
                     <li className="md:my-[4px] lg:my-1 flex items-center gap-2">
                       <MdEmail className="w-5 h-5" />
                       <p className="py-1 font-medium line-clamp-1 w-[80%]">
@@ -281,7 +281,7 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                         {seller.address}
                       </p>
                     </li>
-                  </ul>
+                  </ul> */}
                   <div className="w-[100%]">
                     <p className="lg:leading-1.5 font-medium text-light-neutral-6 mb-1 text-[14px]">
                       Bạn cần tìm sản phẩm?
@@ -366,11 +366,11 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
           <div className="mt-[30px]">
             <h2 className="text-xl text-black font-semibold m-4">Sản phẩm đang bán</h2>
             <div className="block md:block lg:flex items-center gap-x-4 mb-2">
-              <div className="flex px-2 py-2.5 items-center rounded-[9px] border border-[#ececec] gap-2 font-semibold hover:border-[#c8c8c8bb] lg:px-5">
+              <div className="flex px-2 py-2.5 items-center rounded-[9px] border border-[#ececec] gap-2 font-semibold hover:border-[#c8c8c8bb] lg:px-5 mb-2 md:mb-0 lg:mb-0">
                 <p className="text-[15px]  rounded-2xl   font-semibold ">
                   Tổng :
                 </p>
-                <p className="mb-4 rounded-2xl   line-clamp-1 w-[118px] justify-center font-semibold text-[14px] leading-20 md:m-0 lg:m-0">
+                <p className="rounded-2xl   line-clamp-1 w-[118px] justify-center font-semibold text-[14px] leading-20 md:m-0 lg:m-0">
                   {products.length} kết quả
                 </p>
               </div>
@@ -385,7 +385,7 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                   placeholder="Tìm kiếm lịch sử mua hàng"
                 />
               </div>
-              <div className="flex justify-start gap-4 mt-0 items-center md:mt-3 lg:mt-0 md:justify-end">
+              {/* <div className="flex justify-start gap-4 mt-0 items-center md:mt-3 lg:mt-0 md:justify-end">
                 <div className="relative">
                   <button className="flex px-2 py-2.5 items-center rounded-[9px] border border-[#ececec] gap-2 font-semibold hover:border-[#c8c8c8bb] lg:px-5">
                     Sắp xếp theo
@@ -393,7 +393,7 @@ const Seller = ({ params }: { params: { sellerId: string } }) => {
                   </button>
                 </div>
 
-              </div>
+              </div> */}
             </div>
             <div className="grid grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-6">
               {products.map((item) => (
