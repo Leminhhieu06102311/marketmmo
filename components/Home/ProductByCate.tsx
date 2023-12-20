@@ -7,13 +7,8 @@ import Product from "@/interfaces/product";
 import 'swiper/css';
 import { useEffect, useState } from "react";
 import ProductLoader from "../Skeleton/ProductLoader";
-interface ProductByCate {
-    _id: string,
-    name: string,
-    description: string,
-    slug: string,
-    products: Product[]
-}
+import ProductByCate from "@/interfaces/ProductByCate";
+
 export default function ProductByCate() {
     const [productByCate, setProductByCate] = useState<ProductByCate[]>()
     useEffect(() => {

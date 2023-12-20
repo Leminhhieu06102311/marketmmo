@@ -107,11 +107,12 @@ export default function DetailProduct({ productId }: { productId: string }) {
                     className="w-full h-full object-contain"
                   />
                 </div>
-                <div>
+                <div
+                      onClick={() => showSeller(dataProduct.creator._id)}
+                >
                   <h4 className="font-medium">
                     <div
                       className="cursor-pointer"
-                      onClick={() => showSeller(dataProduct.creator._id)}
                      >{dataProduct.creator.name}</div>
                     </h4>
                   <p className="text-sm">@{dataProduct.creator.username}</p>
@@ -708,15 +709,7 @@ export default function DetailProduct({ productId }: { productId: string }) {
                           <div className="flex items-start gap-3">
                             <BsDashCircleDotted className="w-5 h-5" />
                             <p className="flex-1">
-                              ChatGPT là một mô hình ngôn ngữ được huấn luyện
-                              bằng công nghệ transformer và được phát triển bởi
-                              OpenAI. Nó có khả năng học từ dữ liệu văn bản lớn
-                              và tự động sinh các câu trả lời liên quan đến các
-                              câu hỏi được đặt ra. ChatGPT có thể được sử dụng
-                              trong các ứng dụng chatbot, trò chuyện tự động và
-                              các hệ thống tư vấn khác. Nó cũng có khả năng tự
-                              động hoá các tác vụ như dịch văn bản, tự động điền
-                              vào mẫu và các tác vụ khác liên quan đến ngôn ngữ.
+                              {dataProduct.description}
                             </p>
                           </div>
                           <div className="flex items-start gap-3">

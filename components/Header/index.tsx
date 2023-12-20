@@ -24,18 +24,22 @@ import { FaAngleLeft, FaCircleCheck, FaRegClock } from 'react-icons/fa6'
 import SearchProduct from "./SearchProduct";
 import { filterProducts, showModalSearch } from "@/redux/searchSlice";
 import DetailProduct from "../DetailProduct";
+import { getProductByCate } from "@/services/product";
+import ProductByCate from "@/interfaces/ProductByCate";
 const links: Links[] = [
   {
     name: "Sản phẩm",
     sub_category: [
       {
-        name: "Tài khoản",
+        name: "Facebook",
       },
       {
-        name: "Phần mềm",
+        name: "Gmail",
       },
       {
-        name: "Blockchain",
+        name: "Youtube",
+      }, {
+        name: "Tiktok",
       },
     ],
   },
@@ -88,7 +92,15 @@ export default function Header() {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, [dropdownRef]);
-
+  const [productByCate, setProductByCate] = useState<ProductByCate[]>()
+  useEffect(() => {
+      const getAllProduct = async () => {
+          const data: ProductByCate[] = await getProductByCate()
+          setProductByCate(data)
+      }
+      getAllProduct()
+  }, [])
+  
   const dispatch = useAppDispatch();
   const hanldeLogout = () => {
     Cookies.remove('token')
@@ -115,15 +127,13 @@ export default function Header() {
               <li className="font-semibold text-base relative group">
                 Sản phẩm
                 <ul className="absolute w-60 p-2  bg-white  z-[1010] top-10 rounded-lg shadow-modal after:content-[''] after:w-full after:absolute after:h-[50px] after:bg-transparent after:top-[-30px] hidden group-hover:block ">
-                  <li className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">
-                    <span className="font-medium block">Tài khoản</span>
-                  </li>
-                  <li className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">
-                    <span className="font-medium block">Phầm mềm</span>
-                  </li>
-                  <li className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">
-                    <span className="font-medium block">Blockchain</span>
-                  </li>
+                  {productByCate?.map((item) => (
+                    <li>
+                      <Link href={`/${item.slug}`} className="flex gap-4 px-4 py-3 items-center  hover:bg-[#1212120a] rounded-md transition-all cursor-pointer">
+                      <span className="font-medium block">{item.name}</span>
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </li>
               <li className="font-semibold text-base">Dịch vụ</li>
@@ -418,7 +428,7 @@ export default function Header() {
               </div>
               <div
                 className="bg-[#1212120a]  rounded-xl px-4 hover:bg-[#12121214] transition-all py-2 md:py-3 text-[#121212] md:hidden items-center gap-2 flex"
-                data-hs-overlay="#sidebar-menu-mobile"
+                onClick={() => dispatch(toggleModal('sideBarMenuMobile'))}
               >
                 <HiBars3 className="h-5 w-5" />
               </div>

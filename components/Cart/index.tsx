@@ -19,7 +19,6 @@ export default function CartModal() {
   const { isAddToCart } = useAppSelector((state) => state.user)
   const { id } = useAppSelector((state) => state.user)
   const access_token = Cookies.get('token')
-
   const hanldeRemoveCart = () => {
     localStorage.clear()
     dispatch(setIsAddToCart())
@@ -48,7 +47,7 @@ export default function CartModal() {
               router.push(`https://ultimate-implicitly-hound.ngrok-free.app/payment/initiate-payment-order?orderID=${_id}&amount=${totalPrice}`)
               // hanldeRemoveCart()
               // dispatch(toggleModal('cart'))
-              // router.replace('/transaction-history')
+              // router.replace('/transaction-history') 
               return "Bắt đầu thanh toán"
             },
             icon: '🟢'

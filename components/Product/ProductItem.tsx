@@ -37,13 +37,13 @@ export default function ProductItem({ product }: { product: Product }) {
             <div className="my-2 inline-flex items-center text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
               <span className="mr-1 text-gray-900">
               </span>
-              <span>{product.code}</span>
+              <span>{product.categories.name}</span>
             </div>
 
           </div>
           <div className="flex justify-between">
             <div className="my-1">
-              <h4 className="text-xs font-bold text-gray-500">Đánh giá</h4>
+              <h4 className="text-xs font-bold text-gray-500">Đã bán</h4>
               <span className="my-2 text-base font-bold">{product.numberHasSeller}</span>
             </div>
             <div className="my-1">

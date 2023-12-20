@@ -9,31 +9,24 @@ import { IoPaperPlaneOutline, IoSettingsOutline } from "react-icons/io5";
 import { TbArrowsExchange } from "react-icons/tb";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Links from "@/interfaces/links";
+import ContentModal from "../Modal";
+import { toggleModal } from "@/redux/modalSlice";
 
 
 export default function SideBarMenuMobile({ links }: { links: Links[] }) {
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const [subMenu, setSubMenu] = useState({
     status: false,
     name: "",
   });
-  // const hanldeLogout = () => {
-  //   dispatch(logout());
-  //   dispatch(show());
-  //   setTimeout(() => {
-  //     dispatch(hide());
-  //   }, 3000);
-  // };
   const Icons = [GoPackage, AiOutlineBlock, BiWorld];
   return (
-    <div
-      id="sidebar-menu-mobile"
-      className="hs-overlay hs-overlay-open:translate-x-0 hidden translate-x-full fixed top-0 end-0 transition-all duration-300 transform h-full max-w-xs w-full z-[60] bg-white border-s dark:bg-gray-800 dark:border-gray-700 "
-      tabIndex={-1}
-    >
+    <ContentModal nameModal="sideBarMenuMobile">
+      <div className="bg-white w-full h-full">
       <div className="flex justify-between items-center py-3 px-4 border-b dark:border-gray-700">
         <h3 className="font-bold text-gray-800 dark:text-white">Danh mục</h3>
         <button
+          onClick={() => dispatch(toggleModal('sideBarMenuMobile'))}
           type="button"
           className="flex justify-center items-center w-7 h-7 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
           data-hs-overlay="#sidebar-menu-mobile"
@@ -147,6 +140,7 @@ export default function SideBarMenuMobile({ links }: { links: Links[] }) {
           </ul>
         </div>
       </div>
-    </div>
+      </div>
+    </ContentModal>
   );
 }

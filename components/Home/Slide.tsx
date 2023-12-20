@@ -63,7 +63,7 @@ export default function HomeSlide() {
            
           >
             {imageSlides.map((item: any, index: string) => (
-              <SwiperSlide key={index} className="!w-5/6 md:!w-full">
+              <SwiperSlide key={index} className="!w-full md:!w-full">
                 <div className="w-full  relative">
                   <div className={`w-full h-full  bg-cover bg-center transition-all`} style={{ 'background': `url(${item.image})` }}>
                     <div className="w-full h-full pt-20 backdrop-blur-2xl"

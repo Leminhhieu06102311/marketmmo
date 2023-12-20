@@ -8,7 +8,7 @@ export default function Heading({ heading, path }: { heading: string, path: stri
                     <h2 className="font-bold text-2xl text-[#121212]">
                         {heading}
                     </h2>
-                    <Link href={`/${path}`} className="py-2 px-3 bg-slate-100 border border-primary text-primary rounded-lg font-semibold">Xem thêm</Link>
+                    {path && <Link href={`/${path}`} className="py-2 px-3 bg-slate-100 border border-primary text-primary rounded-lg font-semibold">Xem thêm</Link>}
                 </div>
             </div>
         </div>
