@@ -3,11 +3,13 @@ import Spinner from '@/components/Spinner';
 import { useAppDispatch } from '@/redux/hooks';
 import { toggleModal } from '@/redux/modalSlice';
 import { setIsAddToCart } from '@/redux/userSlice';
+import { hanldeStatusOrder } from '@/services/user';
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
-export default function Payment({ params }: { params: { slug: string } }) {
-    
+import Cookies from 'js-cookie'
+export default function Payment() {
+    const token = Cookies.get('token')
     const router = useRouter()
     const dispatch = useAppDispatch()
     const hanldeRemoveCart = () => {
@@ -16,6 +18,9 @@ export default function Payment({ params }: { params: { slug: string } }) {
       }
     const searchParams = useSearchParams()
     const vnp_ResponseCode = searchParams.get('vnp_ResponseCode');
+    const vnp_OrderInfo : string = searchParams.get('vnp_OrderInfo') as string
+    const parts = vnp_OrderInfo.split(':');
+    const value = parts[1].trim()
     if (vnp_ResponseCode === '00') {
         toast.success('Thanh toán thành công')
         hanldeRemoveCart()

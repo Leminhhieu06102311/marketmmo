@@ -44,8 +44,8 @@ export default function CartModal() {
           },
           success: {
             render: ({data}) => {
-              const {_id, orderPrice} = data.data
-              router.push(`https://ultimate-implicitly-hound.ngrok-free.app/payment/initiate-payment-order?orderID=${_id}&amount=${orderPrice}`)
+              const {_id, totalPrice} = data.data
+              router.push(`https://ultimate-implicitly-hound.ngrok-free.app/payment/initiate-payment-order?orderID=${_id}&amount=${totalPrice}`)
               // hanldeRemoveCart()
               // dispatch(toggleModal('cart'))
               // router.replace('/transaction-history')

@@ -52,6 +52,27 @@ export async function hanldeOrder(
   );
   return res.data;
 }
+export async function hanldeStatusOrder(
+  productId: string,
+  access_token: string
+) {
+  const methodSuccess = 'Giao dịch thành công'
+  const res = await api.patch(  
+    "/order",
+    {
+      orderID: productId, 
+      status: methodSuccess,
+    },
+    {
+      headers: {
+        Authorization: "Bearer " + access_token,
+      },
+    }
+  );
+  return res.data;
+}
+
+
 
 export async function changePassword(
   access_token: string,

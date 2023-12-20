@@ -6,16 +6,31 @@ import { Autoplay, EffectCreative, Navigation } from "swiper/modules";
 import { ref, listAll, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebase";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 // todos : 
 // + Cần có api get lấy cả image từ slide kèm với nội dung sau đó render ra
 export default function HomeSlide() {
   const imageListRef = ref(storage, 'slides/')
   const [imageSlides, setImageSlides] = useState<any>([
-    'https://firebasestorage.googleapis.com/v0/b/marketmmo.appspot.com/o/slides%2F0bc8399d16bc43e5a7f953530a7a0b89.jpeg?alt=media&token=7264f5cb-e6af-4f75-a136-04f41d634931',
-    'https://firebasestorage.googleapis.com/v0/b/marketmmo.appspot.com/o/slides%2F6cd7d73f13094af0b3c7e37dc4ff1054.jpeg?alt=media&token=2137e968-37fb-47a6-9a50-518129c94b0b',
-    'https://firebasestorage.googleapis.com/v0/b/marketmmo.appspot.com/o/slides%2F77e8f066839d496f83806409d3b6fe89.png?alt=media&token=98e41092-3309-4e22-804c-863a880354d9'
-    
+    {
+      name: 'Hỗ trợ bật kiếm tiền Twitter ( X )',
+      transaction: 24213,
+      image: 'https://firebasestorage.googleapis.com/v0/b/marketmmo.appspot.com/o/slides%2F0bc8399d16bc43e5a7f953530a7a0b89.jpeg?alt=media&token=7264f5cb-e6af-4f75-a136-04f41d634931',
+      path: 'https://batkiemtienx.com/'
+    },
+    {
+      name: 'Tăng tương tác mạng xã hội',
+      transaction: 52432,
+      image: 'https://firebasestorage.googleapis.com/v0/b/marketmmo.appspot.com/o/slides%2F6cd7d73f13094af0b3c7e37dc4ff1054.jpeg?alt=media&token=2137e968-37fb-47a6-9a50-518129c94b0b',
+      path: 'https://dichvu.baostar.pro/dang-nhap'
+    },
+    {
+      name: 'Giao dịch trung gian',
+      transaction: 313423,
+      image: 'https://firebasestorage.googleapis.com/v0/b/marketmmo.appspot.com/o/slides%2F77e8f066839d496f83806409d3b6fe89.png?alt=media&token=98e41092-3309-4e22-804c-863a880354d9',
+      path: ''
+    }
   ])
   // useEffect(() => {
   //   listAll(imageListRef).then((response) => {
@@ -50,7 +65,7 @@ export default function HomeSlide() {
             {imageSlides.map((item: any, index: string) => (
               <SwiperSlide key={index} className="!w-5/6 md:!w-full">
                 <div className="w-full  relative">
-                  <div className={`w-full h-full  bg-cover bg-center transition-all`} style={{ 'background': `url(${item})` }}>
+                  <div className={`w-full h-full  bg-cover bg-center transition-all`} style={{ 'background': `url(${item.image})` }}>
                     <div className="w-full h-full pt-20 backdrop-blur-2xl"
                       style={{
                         background:
@@ -59,7 +74,7 @@ export default function HomeSlide() {
                       <WrapResponsive>
                         <div className="w-full relative group rounded-lg overflow-hidden">
                           <Image
-                            src={item}
+                            src={item.image}
                             width={0}
                             height={0}
                             priority
@@ -78,17 +93,17 @@ export default function HomeSlide() {
                                 className="rounded-md border border-white mb-5 w-14 h-14 md:w-16 md:h-16"
                               /> */}
                               <p className=" text-2xl md:text-4xl font-semibold text-white">
-                                Giao dịch trung gian
+                                {item.name}
                               </p>
                               <p className="text-white font-bold">By MarketMMO</p>
                               <p className="text-white font-bold">
-                                Số lượng giao dịch : 14,035 giao dịch
+                                Số lượng giao dịch : {item.transaction} giao dịch
                               </p>
                             </div>
                             <div className="hidden md:flex p-10 flex-col">
-                              <button className="backdrop-blur-md rounded-xl px-5 bg-[rgba(255,255,255,0.4)] group-hover:bg-white  group-hover:text-[#121212] transition-all py-4 text-white flex items-center gap-2 font-bold">
-                                Xem danh mục
-                              </button>
+                              <Link href={item.path} target="_blank" className="backdrop-blur-md rounded-xl px-5 bg-[rgba(255,255,255,0.4)] group-hover:bg-white  group-hover:text-[#121212] transition-all py-4 text-white flex items-center gap-2 font-bold">
+                                Xem dịch vụ
+                              </Link>
                             </div>
                           </div>
                         </div>

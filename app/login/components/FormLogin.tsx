@@ -56,8 +56,6 @@ export default function FormLogin () {
           const { access_token } = data.data
           dispatch(fetchUser(access_token))
           const dataUser = await getUser(access_token)
-          console.log(dataUser);
-
           if (dataUser.role === ENUM_ROLE_TYPE.CUSTOMER) {
             // Set the main cookie with value 'cookieValue' and expiration time of 30 seconds
             Cookies.set('token', access_token, { expires: expirationTimeInSeconds });

@@ -3,7 +3,7 @@ import WrapResponsive from "@/components/WrapResponsive";
 import HomeSlide from "@/components/Home/Slide";
 import ProductByCate from "@/components/Home/ProductByCate";
 export default async function Home() {
-
+  
   return (
     <>
       <HomeSlide />
