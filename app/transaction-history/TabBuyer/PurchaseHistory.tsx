@@ -56,7 +56,7 @@ const PurchaseHistory = () => {
                 </p>
               </div>
 
-              <div className="flex relative mt-0 w-full transition ease-in-out  mb-4 rounded-[9px] border border-[#ececec] px-3 py-1 md:mt-2 md:m-0 lg:mt-0 lg:m-0 lg:w-[50%] hover:border-[#c8c8c8bb]">
+              <div className="flex relative mt-0 w-full flex-1 transition ease-in-out  mb-4 rounded-[9px] border border-[#ececec] px-3 py-1 md:mt-2 md:m-0 lg:mt-0 lg:m-0 lg:w-[100%] hover:border-[#c8c8c8bb]">
                 <button className="items-center ">
                   <FiSearch />
                 </button>

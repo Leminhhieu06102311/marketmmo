@@ -123,9 +123,9 @@ export default function DetailProduct({ productId }: { productId: string }) {
                   <span className="absolute top-[-5px] right-[-5px] bg-red-500 flex items-center justify-center rounded-full h-5 w-5 text-white font-semibold text-xs">3</span>
                   <LuMessagesSquare className="w-5 h-5" />
                 </div>
-                <div className="border relative cursor-pointer border-gray-300 rounded-full w-10 h-10 flex items-center justify-center">
+                <Link href={'/messenger'} className="border relative cursor-pointer border-gray-300 rounded-full w-10 h-10 flex items-center justify-center">
                   <FaRegComment className="w-5 h-5" />
-                </div>
+                </Link>
                 {/* <div className="border cursor-pointer border-gray-300 rounded-full w-10 h-10 flex items-center justify-center">
                   <HiOutlineDuplicate className="w-5 h-5" />
                 </div> */}
@@ -663,12 +663,12 @@ export default function DetailProduct({ productId }: { productId: string }) {
                     >
                       Mua hàng
                     </button>
-                    <button
-                      type="button"
+                    <Link
+                      href={'/messenger'}
                       className="py-3 px-4 flex-1 inline-flex justify-center items-center gap-2 rounded-md border border-primary font-semibold bg-white  text-primary hover:text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                     >
                       Nhắn tin cho người bán
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -710,23 +710,6 @@ export default function DetailProduct({ productId }: { productId: string }) {
                             <BsDashCircleDotted className="w-5 h-5" />
                             <p className="flex-1">
                               {dataProduct.description}
-                            </p>
-                          </div>
-                          <div className="flex items-start gap-3">
-                            <BsDashCircleDotted className="w-5 h-5" />
-                            <p className="flex-1">
-                              ChatGPT có khả năng trả lời nhiều loại câu hỏi
-                              khác nhau, bao gồm cả câu hỏi có liên quan đến
-                              lĩnh vực tri thức, văn hóa, xã hội và các lĩnh vực
-                              khác. Nó cũng có thể trả lời các câu hỏi có tính
-                              chất hỏi đáp và câu hỏi yêu cầu phân tích sâu hơn.
-                              Tuy nhiên, ChatGPT không phải là một người hoặc hệ
-                              thống chuyên gia và không thể cung cấp các lời
-                              khuyên hoặc đưa ra các quyết định chuyên sâu trong
-                              các lĩnh vực cụ thể. Nó chỉ có thể trả lời các câu
-                              hỏi dựa trên dữ liệu văn bản mà nó được huấn luyện
-                              và không thể đưa ra các lời khuyên hoặc đưa ra các
-                              quyết định chuyên sâu.
                             </p>
                           </div>
                         </div>
